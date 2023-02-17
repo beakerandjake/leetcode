@@ -3,7 +3,7 @@ import {
   insert,
   min,
   max,
-  includes,
+  find,
   inOrder,
   preOrder,
   postOrder,
@@ -88,15 +88,17 @@ describe('max()', () => {
   });
 });
 
-describe('includes()', () => {
-  test('returns false if value is not contained in tree', () => {
-    const result = includes(exampleTree, 66);
-    expect(result).toBe(false);
+describe('find()', () => {
+  test('returns null if value is not contained in tree', () => {
+    const result = find(exampleTree, 66);
+    expect(result).toBe(null);
   });
 
-  test('returns true if value is contained in tree', () => {
-    const result = includes(exampleTree, 7);
-    expect(result).toBe(true);
+  test('returns node if key is contained in tree', () => {
+    const key = 7;
+    const expected = node(key);
+    const result = find(exampleTree, key);
+    expect(result).toStrictEqual(expected);
   });
 });
 

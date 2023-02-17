@@ -5,7 +5,7 @@
 export class Node {
   left;
   right;
-  parent; 
+  parent;
 
   constructor(key, left, right) {
     this.key = key;
@@ -84,10 +84,17 @@ export const includes = (node, key) => {
   return key <= node.key ? includes(node.left, key) : includes(node.right, key);
 };
 
-// export const successor = (node, key) => {
+export const find = (node, key) => {
+  if (!node || node.key === key) {
+    return node || null;
+  }
+  return key <= node.key ? find(node.left, key) : find(node.right, key);
+};
+
+// export const successor = (node) => {
 //   if (node.right) {
 //     return min(node.right);
-//   } 
+//   }
 
 //   // walk backwards up the
 
