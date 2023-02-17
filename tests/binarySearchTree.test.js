@@ -9,6 +9,7 @@ import {
   postOrder,
   successor,
   predecessor,
+  remove,
 } from '../src/binarySearchTree.js';
 
 /**
@@ -168,5 +169,17 @@ describe('predecessor()', () => {
   test('returns null if node does not have a predecessor', () => {
     const result = predecessor(node(2));
     expect(result).toEqual(null);
+  });
+});
+
+describe('remove()', () => {
+  test('removes leaf node', () => {
+    // manually delete leaf node 20
+    const expected = structuredClone(exampleTree);
+    expected.right.right = null;
+
+    const result = structuredClone(exampleTree);
+    remove(result, result.right.right);
+    expect(result).toStrictEqual(expected);
   });
 });

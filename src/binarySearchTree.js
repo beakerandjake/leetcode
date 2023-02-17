@@ -115,6 +115,17 @@ export const predecessor = (node) => {
   return current || null;
 };
 
+export const remove = (tree, node) => {
+  // delete leaf node.
+  if (!node.left && !node.right) {
+    if (node.parent.left === tree) {
+      node.parent.left = null;
+    } else {
+      node.parent.right = null;
+    }
+  }
+};
+
 export const printTree = (node) => {
   const doPrint = (prefix, node) => {
     if (!node) {
