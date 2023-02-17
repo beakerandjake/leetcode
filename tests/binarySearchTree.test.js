@@ -7,6 +7,8 @@ import {
   inOrder,
   preOrder,
   postOrder,
+  successor,
+  predecessor,
 } from '../src/binarySearchTree.js';
 
 /**
@@ -75,16 +77,18 @@ describe('insert()', () => {
 });
 
 describe('min()', () => {
-  test('returns minimum value in tree', () => {
+  test('returns node with minimum key in tree', () => {
+    const expected = node(2);
     const result = min(exampleTree);
-    expect(result).toBe(2);
+    expect(result).toStrictEqual(expected);
   });
 });
 
 describe('max()', () => {
-  test('returns maximum value in tree', () => {
+  test('returns node with maximum value in tree', () => {
+    const expected = node(20);
     const result = max(exampleTree);
-    expect(result).toBe(20);
+    expect(result).toStrictEqual(expected);
   });
 });
 
@@ -120,11 +124,49 @@ describe('preOrder()', () => {
   });
 });
 
-describe('postOrder7()', () => {
+describe('postOrder()', () => {
   test('nodes are visited in correct order', () => {
     const expected = [2, 4, 3, 9, 13, 7, 6, 17, 20, 18, 15];
     const result = [];
     postOrder(exampleTree, (x) => result.push(x));
     expect(result).toEqual(expected);
+  });
+});
+
+describe('successor()', () => {
+  test('returns successor if node has right subtree', () => {
+    const expected = node(9);
+    const result = successor(node(7));
+    expect(result).toStrictEqual(expected);
+  });
+
+  test('returns successor if node does not have a right subtree', () => {
+    const expected = node(15);
+    const result = successor(node(13));
+    expect(result).toStrictEqual(expected);
+  });
+
+  test('returns null if node does not have a successor', () => {
+    const result = successor(node(20));
+    expect(result).toEqual(null);
+  });
+});
+
+describe('predecessor()', () => {
+  test('returns predecessor if node has left subtree', () => {
+    const expected = node(4);
+    const result = predecessor(node(6));
+    expect(result).toStrictEqual(expected);
+  });
+
+  test('returns predecessor if node does not have a left subtree', () => {
+    const expected = node(15);
+    const result = predecessor(node(17));
+    expect(result).toStrictEqual(expected);
+  });
+
+  test('returns null if node does not have a predecessor', () => {
+    const result = predecessor(node(2));
+    expect(result).toEqual(null);
   });
 });

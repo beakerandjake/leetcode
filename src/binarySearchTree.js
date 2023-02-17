@@ -62,12 +62,12 @@ export const max = (node) => {
   while (current.right) {
     current = current.right;
   }
-  return current?.key;
+  return current;
 };
 
 export const min = (node, parent) => {
   if (!node) {
-    return parent?.key;
+    return parent;
   }
   return min(node.left, node);
 };
@@ -91,16 +91,29 @@ export const find = (node, key) => {
   return key <= node.key ? find(node.left, key) : find(node.right, key);
 };
 
-// export const successor = (node) => {
-//   if (node.right) {
-//     return min(node.right);
-//   }
+export const successor = (node) => {
+  if (node.right) {
+    return min(node.right);
+  }
+  let current = node.parent;
+  while (current && node === current.right) {
+    node = current;
+    current = current.parent;
+  }
+  return current || null;
+};
 
-//   // walk backwards up the
-
-//   let current = node.
-
-// };
+export const predecessor = (node) => {
+  if (node.left) {
+    return max(node.left);
+  }
+  let current = node.parent;
+  while (current && node === current.left) {
+    node = current;
+    current = current.parent;
+  }
+  return current || null;
+};
 
 export const printTree = (node) => {
   const doPrint = (prefix, node) => {
