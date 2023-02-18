@@ -3,14 +3,12 @@
  */
 
 export class Node {
-  left;
-  right;
-  parent;
+  left = null;
+  right = null;
+  parent = null;
 
-  constructor(key, left, right) {
+  constructor(key) {
     this.key = key;
-    this.left = left;
-    this.right = right;
   }
 }
 
@@ -65,11 +63,12 @@ export const max = (node) => {
   return current;
 };
 
-export const min = (node, parent) => {
-  if (!node) {
-    return parent;
+export const min = (node) => {
+  let current = node;
+  while (current.left) {
+    current = current.left;
   }
-  return min(node.left, node);
+  return current;
 };
 
 export const includes = (node, key) => {
@@ -100,7 +99,7 @@ export const successor = (node) => {
     node = current;
     current = current.parent;
   }
-  return current || null;
+  return current;
 };
 
 export const predecessor = (node) => {
@@ -112,17 +111,40 @@ export const predecessor = (node) => {
     node = current;
     current = current.parent;
   }
-  return current || null;
+  return current;
 };
 
-export const remove = (tree, node) => {
-  // delete leaf node.
-  if (!node.left && !node.right) {
-    if (node.parent.left === tree) {
-      node.parent.left = null;
-    } else {
-      node.parent.right = null;
+const transplant = (node, replacement) => {
+  if (!node.parent) {
+    return;
+  }
+
+  if (node === node.parent.left) {
+    node.parent.left = replacement;
+  } else if (node === node.parent.right) {
+    node.parent.right = replacement;
+  }
+
+  if (replacement) {
+    replacement.parent = node.parent;
+  }
+};
+
+export const remove = (node) => {
+  if (!node.left) {
+    transplant(node, node.right);
+  } else if (!node.right) {
+    transplant(node, node.left);
+  } else {
+    let replacement = successor(node);
+    if (replacement.parent != node) {
+      transplant(replacement, replacement.right);
+      replacement.right = node.right;
+      replacement.right.parent = replacement;
     }
+    transplant(node, replacement);
+    replacement.left = node.left;
+    replacement.left.parent = replacement;
   }
 };
 
