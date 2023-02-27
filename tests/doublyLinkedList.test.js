@@ -1,4 +1,13 @@
-import { Node, DoublyLinkedList, find, insertBefore } from '../src/doublyLinkedList.js';
+import {
+  Node,
+  DoublyLinkedList,
+  find,
+  insertAfter,
+  insertBefore,
+  remove,
+  insertStart,
+  insertEnd,
+} from '../src/doublyLinkedList.js';
 
 const createLinkedList = (keys) => {
   const head = new Node(keys[0]);
@@ -13,6 +22,7 @@ const createLinkedList = (keys) => {
     currentNode.previous = previousNode;
     previousNode = currentNode;
   }
+  list.tail = nodes[nodes.length - 1];
   return { list, nodes };
 };
 
@@ -51,25 +61,21 @@ describe('find()', () => {
   });
 });
 
-// describe('insertAfter()', () => {
-//   test('inserts node in the middle of list', () => {
-//     const { linkedList, nodes } = createLinkedList(['A', 'Q', 'Z', 'C']);
-//     // Insert B after Q.
-//     insertAfter(nodes[1], new Node('B'));
-//     expect(linkedList).toStrictEqual(
-//       createLinkedList(['A', 'Q', 'B', 'Z', 'C']).linkedList
-//     );
-//   });
+describe('insertAfter()', () => {
+  test('inserts node in the middle of list', () => {
+    const { list, nodes } = createLinkedList(['A', 'Q', 'Z', 'C']);
+    // Insert B after Q.
+    insertAfter(list, nodes[1], new Node('B'));
+    expect(list).toStrictEqual(createLinkedList(['A', 'Q', 'B', 'Z', 'C']).list);
+  });
 
-//   //   test('inserts node at the end of list', () => {
-//   //     const { linkedList, nodes } = createLinkedList(['A', 'Q', 'Z', 'C']);
-//   //     // Insert B after C.
-//   //     insertAfter(nodes[3], new Node('B'));
-//   //     expect(linkedList).toStrictEqual(
-//   //       createLinkedList(['A', 'Q', 'Z', 'C', 'B']).linkedList
-//   //     );
-//   //   });
-// });
+  test('inserts node after tail', () => {
+    const { list, nodes } = createLinkedList(['A', 'Q', 'Z', 'C']);
+    // Insert B after C.
+    insertAfter(list, nodes[3], new Node('B'));
+    expect(list).toStrictEqual(createLinkedList(['A', 'Q', 'Z', 'C', 'B']).list);
+  });
+});
 
 describe('insertBefore()', () => {
   test('inserts node in the middle of list', () => {
@@ -79,7 +85,7 @@ describe('insertBefore()', () => {
     expect(list).toStrictEqual(createLinkedList(['A', 'Q', 'B', 'Z', 'C']).list);
   });
 
-  test('inserts node at the start of list', () => {
+  test('inserts node before head', () => {
     const { list, nodes } = createLinkedList(['A', 'Q', 'Z', 'C']);
     // Insert B before A.
     insertBefore(list, nodes[0], new Node('B'));
@@ -87,4 +93,57 @@ describe('insertBefore()', () => {
   });
 });
 
-// describe('remove()', () => {});
+describe('insertStart()', () => {
+  test('inserts on empty list', () => {
+    const list = new DoublyLinkedList();
+    const node = new Node('Q');
+    insertStart(list, node);
+    expect(list).toStrictEqual(createLinkedList(['Q']).list);
+    expect(list.head).toStrictEqual(node);
+  });
+
+  test('inserts head on non empty list', () => {
+    const { list } = createLinkedList(['A', 'Q', 'Z', 'C']);
+    const node = new Node('L');
+    insertStart(list, node);
+    expect(list).toStrictEqual(createLinkedList(['L', 'A', 'Q', 'Z', 'C']).list);
+    expect(list.head).toStrictEqual(node);
+  });
+});
+
+describe('insertEnd()', () => {
+  test('inserts on empty list', () => {
+    const list = new DoublyLinkedList();
+    const node = new Node('Q');
+    insertEnd(list, node);
+    expect(list).toStrictEqual(createLinkedList(['Q']).list);
+    expect(list.head).toStrictEqual(node);
+  });
+
+  test('inserts tail on non empty list', () => {
+    const { list } = createLinkedList(['A', 'Q', 'Z', 'C']);
+    insertEnd(list, new Node('L'));
+    expect(list).toStrictEqual(createLinkedList(['A', 'Q', 'Z', 'C', 'L']).list);
+  });
+});
+
+describe('remove()', () => {
+  test('removes node if node is head', () => {
+    const { list, nodes } = createLinkedList(['A', 'Q', 'Z', 'C']);
+    remove(list, nodes[0]);
+    expect(list).toStrictEqual(createLinkedList(['Q', 'Z', 'C']).list);
+  });
+
+  test('removes node in the middle of list', () => {
+    const { list, nodes } = createLinkedList(['A', 'Q', 'Z', 'C']);
+    // remove Z
+    remove(list, nodes[2]);
+    expect(list).toStrictEqual(createLinkedList(['A', 'Q', 'C']).list);
+  });
+
+  test('removes node if node is tail', () => {
+    const { list, nodes } = createLinkedList(['A', 'Q', 'Z', 'C']);
+    remove(list, nodes[3]);
+    expect(list).toStrictEqual(createLinkedList(['A', 'Q', 'Z']).list);
+  });
+});
