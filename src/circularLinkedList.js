@@ -27,6 +27,17 @@ export class CircularLinkedList {
   }
 }
 
+const getTail = (list) => {
+  if (!list.head) {
+    return null;
+  }
+  let current = list.head;
+  while (current.next !== list.head) {
+    current = current.next;
+  }
+  return current;
+};
+
 export const find = (list, key) => {
   let current = list.head;
   do {
@@ -40,10 +51,7 @@ export const find = (list, key) => {
 
 export const insertAfter = (list, after, node) => {
   if (list.head === after) {
-    let tail = list.head;
-    while (tail.next != list.head) {
-      tail = tail.next;
-    }
+    let tail = getTail(list);
     tail.next = node;
     list.head = node;
   }
@@ -52,10 +60,50 @@ export const insertAfter = (list, after, node) => {
   after.next = node;
 };
 
-export const insertBefore = (list, before, node) => {};
+export const insertBefore = (list, before, node) => {
+  if (list.head === before) {
+    let tail = getTail(list);
+    tail.next = node;
+    list.head = node;
+  } else {
+    let previous = list.head;
+    while (previous.next != before) {
+      previous = previous.next;
+    }
+    previous.next = node;
+  }
 
-export const insertStart = (list, node) => {};
+  node.next = before;
+};
 
-export const insertEnd = (list, node) => {};
+export const insertStart = (list, node) => {
+  if (!list.head) {
+    list.head = node;
+    node.next = node;
+  } else {
+    insertBefore(list, list.head, node);
+  }
+};
 
-export const remove = (list, node) => {};
+export const insertEnd = (list, node) => {
+  if (!list.head) {
+    list.head = node;
+    node.next = node;
+  } else {
+    insertAfter(list, getTail(list), node);
+  }
+};
+
+export const remove = (list, node) => {
+  if (list.head === node) {
+    let tail = getTail(list);
+    tail.next = node.next;
+    list.head = node.next;
+  } else {
+    let previous = list.head;
+    while (previous.next !== node && previous.next != list.head) {
+      previous = previous.next;
+    }
+    previous.next = node.next;
+  }
+};
