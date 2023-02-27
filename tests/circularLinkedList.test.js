@@ -94,6 +94,12 @@ describe('insertStart()', () => {
     expect(list.head).toStrictEqual(node);
   });
 
+  test('inserts in list with one element', () => {
+    const { list } = createLinkedList(['Q']);
+    insertStart(list, new Node('P'));
+    expect(list).toStrictEqual(createLinkedList(['P', 'Q']).list);
+  });
+
   test('inserts head on non empty list', () => {
     const { list } = createLinkedList(['A', 'Q', 'Z', 'C']);
     const node = new Node('L');
@@ -105,11 +111,17 @@ describe('insertStart()', () => {
 
 describe('insertEnd()', () => {
   test('inserts on empty list', () => {
-    const list = new CircularLinkedList();
+    const { list } = createLinkedList();
     const node = new Node('Q');
     insertEnd(list, node);
     expect(list).toStrictEqual(createLinkedList(['Q']).list);
     expect(list.head).toStrictEqual(node);
+  });
+
+  test('inserts in list with one element', () => {
+    const { list } = createLinkedList(['Q']);
+    insertEnd(list, new Node('P'));
+    expect(list).toStrictEqual(createLinkedList(['Q', 'P']).list);
   });
 
   test('inserts tail on non empty list', () => {

@@ -50,12 +50,6 @@ export const find = (list, key) => {
 };
 
 export const insertAfter = (list, after, node) => {
-  if (list.head === after) {
-    let tail = getTail(list);
-    tail.next = node;
-    list.head = node;
-  }
-
   node.next = after.next;
   after.next = node;
 };
