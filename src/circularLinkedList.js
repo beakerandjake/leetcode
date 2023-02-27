@@ -38,7 +38,19 @@ export const find = (list, key) => {
   return null;
 };
 
-export const insertAfter = (list, after, node) => {};
+export const insertAfter = (list, after, node) => {
+  if (list.head === after) {
+    let tail = list.head;
+    while (tail.next != list.head) {
+      tail = tail.next;
+    }
+    tail.next = node;
+    list.head = node;
+  }
+
+  node.next = after.next;
+  after.next = node;
+};
 
 export const insertBefore = (list, before, node) => {};
 

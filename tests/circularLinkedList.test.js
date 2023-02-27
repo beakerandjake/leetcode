@@ -15,12 +15,10 @@ const createLinkedList = (keys) => {
   const nodes = [head];
   let previousNode = head;
   for (let index = 1; index < keys.length; index++) {
-    const currentNode = new Node(keys[index]);
-    nodes.push(currentNode);
-
-    previousNode.next = currentNode;
-    currentNode.previous = previousNode;
-    previousNode = currentNode;
+    const current = new Node(keys[index]);
+    nodes.push(current);
+    previousNode.next = current;
+    previousNode = current;
   }
   nodes[nodes.length - 1].next = head;
   return { list, nodes };
@@ -61,21 +59,21 @@ describe('find()', () => {
   });
 });
 
-// describe('insertAfter()', () => {
-//   test('inserts node in the middle of list', () => {
-//     const { list, nodes } = createLinkedList(['A', 'Q', 'Z', 'C']);
-//     // Insert B after Q.
-//     insertAfter(list, nodes[1], new Node('B'));
-//     expect(list).toStrictEqual(createLinkedList(['A', 'Q', 'B', 'Z', 'C']).list);
-//   });
+describe('insertAfter()', () => {
+  test('inserts node in the middle of list', () => {
+    const { list, nodes } = createLinkedList(['A', 'Q', 'Z', 'C']);
+    // Insert B after Q.
+    insertAfter(list, nodes[1], new Node('B'));
+    expect(list).toStrictEqual(createLinkedList(['A', 'Q', 'B', 'Z', 'C']).list);
+  });
 
-//   test('inserts node after tail', () => {
-//     const { list, nodes } = createLinkedList(['A', 'Q', 'Z', 'C']);
-//     // Insert B after C.
-//     insertAfter(list, nodes[3], new Node('B'));
-//     expect(list).toStrictEqual(createLinkedList(['A', 'Q', 'Z', 'C', 'B']).list);
-//   });
-// });
+  test('inserts node after tail', () => {
+    const { list, nodes } = createLinkedList(['A', 'Q', 'Z', 'C']);
+    // Insert B after C.
+    insertAfter(list, nodes[3], new Node('B'));
+    expect(list).toStrictEqual(createLinkedList(['A', 'Q', 'Z', 'C', 'B']).list);
+  });
+});
 
 // describe('insertBefore()', () => {
 //   test('inserts node in the middle of list', () => {
