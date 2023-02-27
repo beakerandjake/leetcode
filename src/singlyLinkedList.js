@@ -31,12 +31,60 @@ export const find = (list, key) => {
   return current;
 };
 
-export const insertAfter = (list, after, node) => {};
+export const insertAfter = (list, after, node) => {
+  node.next = after.next;
+  after.next = node;
+};
 
-export const insertBefore = (list, before, node) => {};
+export const insertBefore = (list, before, node) => {
+  if (list.head === before) {
+    list.head = node;
+    node.next = before;
+    return;
+  }
 
-export const insertStart = (list, node) => {};
+  let current = list.head;
 
-export const insertEnd = (list, node) => {};
+  while (current.next !== before) {
+    current = current.next;
+  }
 
-export const remove = (list, node) => {};
+  current.next = node;
+  node.next = before;
+};
+
+export const insertStart = (list, node) => {
+  if (!list.head) {
+    list.head = node;
+  } else {
+    insertBefore(list, list.head, node);
+  }
+};
+
+export const insertEnd = (list, node) => {
+  if (!list.head) {
+    list.head = node;
+    return;
+  }
+
+  let tail = list.head;
+  while (tail.next) {
+    tail = tail.next;
+  }
+
+  insertAfter(list, tail, node);
+};
+
+export const remove = (list, node) => {
+  if (list.head === node) {
+    list.head = node.next;
+    return;
+  }
+
+  let current = list.head;
+  while (current.next !== node) {
+    current = current.next;
+  }
+
+  current.next = node.next;
+};
