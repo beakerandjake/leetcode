@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/beakerandjake/interview-prep#readme",
   "devDependencies": {
+    "@types/jest": "^29.4.0",
     "eslint": "^8.34.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "jest": "^29.4.3",
