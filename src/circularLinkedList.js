@@ -21,9 +21,9 @@ export class CircularLinkedList {
       toReturn.push(`[${index}]=${current.key}`);
       current = current.next;
       index++;
-    } while (current !== head);
+    } while (current !== this.head);
 
-    return `head=${this.head}, items=[${toReturn.join(',')}]`;
+    return `head=${this.head.key}, items=[${toReturn.join(',')}]`;
   }
 }
 
@@ -88,7 +88,7 @@ export const insertStart = (list, node) => {
 export const insertEnd = (list, node) => {
   if (!list.head) {
     list.head = node;
-    node.next = node;
+    list.head.next = node;
   } else {
     insertAfter(list, getTail(list), node);
   }
