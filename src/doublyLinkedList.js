@@ -61,18 +61,6 @@ export const insertBefore = (list, before, node) => {
   }
 
   before.previous = node;
-
-  // if (list.head === before) {
-  //   list.head = toInsert;
-  // }
-
-  // if (before.previous) {
-  //   before.previous.next = toInsert;
-  // }
-
-  // toInsert.previous = before.previous;
-  // toInsert.next = before;
-  // before.previous = toInsert;
 };
 
 export const insertStart = (list, node) => {
