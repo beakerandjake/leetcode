@@ -9,16 +9,11 @@ import {
   insertEnd,
 } from '../src/singlyLinkedList.js';
 
-const createLinkedList = (keys) => {
-  const head = new Node(keys[0]);
-  const list = new SinglyLinkedList(head);
-  const nodes = [head];
-  let previousNode = head;
-  for (let index = 1; index < keys.length; index++) {
-    const current = new Node(keys[index]);
-    nodes.push(current);
-    previousNode.next = current;
-    previousNode = current;
+const createLinkedList = (keys = []) => {
+  const nodes = keys.map((x) => new Node(x));
+  const list = new SinglyLinkedList(nodes[0]);
+  for (let index = 1; index < nodes.length; index++) {
+    nodes[index - 1].next = nodes[index];
   }
   return { list, nodes };
 };
@@ -92,7 +87,7 @@ describe('insertBefore()', () => {
 
 describe('insertStart()', () => {
   test('inserts on empty list', () => {
-    const list = new SinglyLinkedList();
+    const { list } = createLinkedList();
     const node = new Node('Q');
     insertStart(list, node);
     expect(list).toStrictEqual(createLinkedList(['Q']).list);
@@ -110,7 +105,7 @@ describe('insertStart()', () => {
 
 describe('insertEnd()', () => {
   test('inserts on empty list', () => {
-    const list = new SinglyLinkedList();
+    const { list } = createLinkedList();
     const node = new Node('Q');
     insertEnd(list, node);
     expect(list).toStrictEqual(createLinkedList(['Q']).list);

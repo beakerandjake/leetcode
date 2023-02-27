@@ -9,18 +9,12 @@ import {
   insertEnd,
 } from '../src/circularLinkedList.js';
 
-const createLinkedList = (keys) => {
-  const head = new Node(keys[0]);
-  const list = new CircularLinkedList(head);
-  const nodes = [head];
-  let previousNode = head;
-  for (let index = 1; index < keys.length; index++) {
-    const current = new Node(keys[index]);
-    nodes.push(current);
-    previousNode.next = current;
-    previousNode = current;
+const createLinkedList = (keys = []) => {
+  const nodes = keys.map((x) => new Node(x));
+  const list = new CircularLinkedList(nodes[0]);
+  for (let index = 0; index < nodes.length; index++) {
+    nodes[index].next = index === nodes.length - 1 ? nodes[0] : nodes[index + 1];
   }
-  nodes[nodes.length - 1].next = head;
   return { list, nodes };
 };
 

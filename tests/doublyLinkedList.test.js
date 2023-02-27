@@ -9,20 +9,14 @@ import {
   insertEnd,
 } from '../src/doublyLinkedList.js';
 
-const createLinkedList = (keys) => {
-  const head = new Node(keys[0]);
-  const list = new DoublyLinkedList(head);
-  const nodes = [head];
-  let previousNode = head;
-  for (let index = 1; index < keys.length; index++) {
-    const currentNode = new Node(keys[index]);
-    nodes.push(currentNode);
-
-    previousNode.next = currentNode;
-    currentNode.previous = previousNode;
-    previousNode = currentNode;
+const createLinkedList = (keys = []) => {
+  const nodes = keys.map((x) => new Node(x));
+  const list = new DoublyLinkedList(nodes[0]);
+  for (let index = 1; index < nodes.length; index++) {
+    nodes[index - 1].next = nodes[index];
+    nodes[index].previous = nodes[index - 1];
   }
-  list.tail = nodes[nodes.length - 1];
+  list.tail = nodes[nodes.length - 1] || null;
   return { list, nodes };
 };
 
