@@ -39,6 +39,10 @@ const getTail = (list) => {
 };
 
 export const find = (list, key) => {
+  if (!list.head) {
+    return null;
+  }
+
   let current = list.head;
   do {
     if (current.key === key) {
