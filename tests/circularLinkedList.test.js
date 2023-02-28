@@ -86,68 +86,171 @@ describe('insertBefore()', () => {
 });
 
 describe('insertStart()', () => {
-  test('inserts on empty list', () => {
-    const list = new CircularLinkedList();
-    const node = new Node('Q');
-    insertStart(list, node);
-    expect(list).toStrictEqual(createLinkedList(['Q']).list);
-    expect(list.head).toStrictEqual(node);
+  test('list is empty - inserts correctly', () => {
+    const { list } = createLinkedList();
+    insertStart(list, new Node('Q'));
+    expect(list).toEqual(createLinkedList(['Q']).list);
   });
 
-  test('inserts in list with one element', () => {
+  test('list is empty - sets head to node', () => {
+    const { list } = createLinkedList();
+    const node = new Node('Q');
+    insertStart(list, node);
+    expect(list.head).toEqual(node);
+  });
+
+  test('list is empty - sets head.next to node', () => {
+    const { list } = createLinkedList();
+    const node = new Node('Q');
+    insertStart(list, node);
+    expect(list.head.next).toEqual(node);
+  });
+
+  test('list with one node - inserts successfully', () => {
     const { list } = createLinkedList(['Q']);
     insertStart(list, new Node('P'));
     expect(list).toStrictEqual(createLinkedList(['P', 'Q']).list);
   });
 
-  test('inserts head on non empty list', () => {
+  test('list with one node - sets head to node', () => {
+    const { list } = createLinkedList(['Q']);
+    const node = new Node('P');
+    insertStart(list, node);
+    expect(list.head).toEqual(node);
+  });
+
+  test('list with one node - sets tail.next to node', () => {
+    const { list, nodes } = createLinkedList(['Q']);
+    const node = new Node('P');
+    insertStart(list, node);
+    expect(nodes[nodes.length - 1].next).toEqual(node);
+  });
+
+  test('list with multiple nodes - inserts correctly', () => {
+    const { list } = createLinkedList(['A', 'Q', 'Z', 'C']);
+    insertStart(list, new Node('L'));
+    expect(list).toStrictEqual(createLinkedList(['L', 'A', 'Q', 'Z', 'C']).list);
+  });
+
+  test('list with multiple nodes - sets head to node', () => {
     const { list } = createLinkedList(['A', 'Q', 'Z', 'C']);
     const node = new Node('L');
     insertStart(list, node);
-    expect(list).toStrictEqual(createLinkedList(['L', 'A', 'Q', 'Z', 'C']).list);
     expect(list.head).toStrictEqual(node);
+  });
+
+  test('list with multiple nodes - sets tail.next to node', () => {
+    const { list, nodes } = createLinkedList(['A', 'Q', 'Z', 'C']);
+    const node = new Node('L');
+    insertStart(list, node);
+    expect(nodes[nodes.length - 1].next).toStrictEqual(node);
   });
 });
 
 describe('insertEnd()', () => {
-  test('inserts on empty list', () => {
+  test('list is empty - inserts correctly', () => {
     const { list } = createLinkedList();
     const node = new Node('Q');
     insertEnd(list, node);
-    expect(list).toStrictEqual(createLinkedList(['Q']).list);
-    expect(list.head).toStrictEqual(node);
+    expect(list).toEqual(createLinkedList(['Q']).list);
   });
 
-  test('inserts in list with one element', () => {
+  test('list is empty - sets head to new node', () => {
+    const { list } = createLinkedList();
+    const node = new Node('Q');
+    insertEnd(list, node);
+    expect(list.head).toEqual(node);
+  });
+
+  test('list is empty - sets head.next to head', () => {
+    const { list } = createLinkedList();
+    const node = new Node('Q');
+    insertEnd(list, node);
+    expect(list.head.next).toEqual(node);
+  });
+
+  test('list with one node - inserts correctly', () => {
     const { list } = createLinkedList(['Q']);
     insertEnd(list, new Node('P'));
-    expect(list).toStrictEqual(createLinkedList(['Q', 'P']).list);
+    expect(list).toEqual(createLinkedList(['Q', 'P']).list);
   });
 
-  test('inserts tail on non empty list', () => {
+  test('list with one node - sets node.next to head', () => {
+    const { list } = createLinkedList(['Q']);
+    const node = new Node('P');
+    insertEnd(list, node);
+    expect(node.next).toEqual(list.head);
+  });
+
+  test('list with multiple nodes - inserts correctly', () => {
     const { list } = createLinkedList(['A', 'Q', 'Z', 'C']);
     insertEnd(list, new Node('L'));
-    expect(list).toStrictEqual(createLinkedList(['A', 'Q', 'Z', 'C', 'L']).list);
+    expect(list).toEqual(createLinkedList(['A', 'Q', 'Z', 'C', 'L']).list);
+  });
+
+  test('list with multiple nodes - sets tail.next to head', () => {
+    const { list } = createLinkedList(['A', 'Q', 'Z', 'C']);
+    const node = new Node('L');
+    insertEnd(list, node);
+    expect(node.next).toEqual(list.head);
   });
 });
 
 describe('remove()', () => {
-  test('removes node if node is head', () => {
+  test('list with multiple nodes, remove head - sets list to expected', () => {
     const { list, nodes } = createLinkedList(['A', 'Q', 'Z', 'C']);
     remove(list, nodes[0]);
-    expect(list).toStrictEqual(createLinkedList(['Q', 'Z', 'C']).list);
+    expect(list).toEqual(createLinkedList(['Q', 'Z', 'C']).list);
   });
 
-  test('removes node in the middle of list', () => {
+  test('list with multiple nodes, remove head - sets head to head.next', () => {
+    const { list, nodes } = createLinkedList(['A', 'Q', 'Z', 'C']);
+    remove(list, nodes[0]);
+    expect(list.head).toEqual(nodes[1]);
+  });
+
+  test('list with multiple nodes, remove head - sets tail.next to head.next', () => {
+    const { list, nodes } = createLinkedList(['A', 'Q', 'Z', 'C']);
+    remove(list, nodes[0]);
+    expect(nodes[nodes.length - 1].next).toEqual(nodes[1]);
+  });
+
+  test('list with multiple nodes, remove tail - sets list to expected', () => {
+    const { list, nodes } = createLinkedList(['A', 'Q', 'Z', 'C']);
+    // remove Z
+    remove(list, nodes[nodes.length - 1]);
+    expect(list).toEqual(createLinkedList(['A', 'Q', 'Z']).list);
+  });
+
+  test('list with multiple nodes, remove tail - sets new tails next to head', () => {
+    const { list, nodes } = createLinkedList(['A', 'Q', 'Z', 'C']);
+    // remove Z
+    remove(list, nodes[nodes.length - 1]);
+    expect(nodes[nodes.length - 2].next).toEqual(list.head);
+  });
+
+  test('list with multiple nodes, remove middle node - sets list to expected', () => {
     const { list, nodes } = createLinkedList(['A', 'Q', 'Z', 'C']);
     // remove Z
     remove(list, nodes[2]);
-    expect(list).toStrictEqual(createLinkedList(['A', 'Q', 'C']).list);
+    expect(list).toEqual(createLinkedList(['A', 'Q', 'C']).list);
   });
 
-  test('removes node if node is tail', () => {
-    const { list, nodes } = createLinkedList(['A', 'Q', 'Z', 'C']);
-    remove(list, nodes[3]);
-    expect(list).toStrictEqual(createLinkedList(['A', 'Q', 'Z']).list);
+  test('list with one node - sets list to expected', () => {
+    const { list, nodes } = createLinkedList(['Q']);
+    remove(list, nodes[0]);
+    expect(list).toEqual(createLinkedList().list);
+  });
+
+  test('list with one node - sets head to null', () => {
+    const { list, nodes } = createLinkedList(['Q']);
+    remove(list, nodes[0]);
+    expect(list.head).toEqual(null);
+  });
+
+  test('list does not contain node - list is not modified', () => {
+    const { list } = createLinkedList(['A', 'Q', 'Z', 'C']);
+    remove(list, new Node('P'));
+    expect(list).toStrictEqual(createLinkedList(['A', 'Q', 'Z', 'C']).list);
   });
 });
