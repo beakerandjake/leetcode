@@ -19,7 +19,11 @@ const createLinkedList = (keys = []) => {
 };
 
 describe('find()', () => {
-  test('returns node if list contains key', () => {
+  test('empty list - returns null', () => {
+    expect(true).toBe(false);
+  });
+
+  test('list with multiple nodes, key is in list - returns node with matching key', () => {
     const { list, nodes } = createLinkedList([
       'A',
       'B',
@@ -36,7 +40,7 @@ describe('find()', () => {
     expect(result).toEqual(expected);
   });
 
-  test('returns null if list does not contain key', () => {
+  test('list with multiple nodes, key is not in list - returns null', () => {
     const { list, nodes } = createLinkedList([
       'A',
       'B',
@@ -54,6 +58,38 @@ describe('find()', () => {
 });
 
 describe('insertAfter()', () => {
+  test('list is empty - inserts correctly', () => {
+    expect(false).toBe(true);
+  });
+
+  test('list is empty - sets head to node', () => {
+    expect(false).toBe(true);
+  });
+
+  test('list is empty - sets head.next to node', () => {
+    expect(false).toBe(true);
+  });
+
+  test('list with one node- inserts successfully', () => {
+    expect(false).toBe(true);
+  });
+
+  test('list with one node - sets node.next to head', () => {
+    expect(false).toBe(true);
+  });
+
+  test('list with multiple nodes, insert in middle - inserts successfully', () => {
+    expect(false).toBe(true);
+  });
+
+  test('list with multiple nodes, insert after tail - inserts successfully', () => {
+    expect(false).toBe(true);
+  });
+
+  test('list with multiple nodes, insert after tail - sets node.next to head', () => {
+    expect(false).toBe(true);
+  });
+
   test('inserts node in the middle of list', () => {
     const { list, nodes } = createLinkedList(['A', 'Q', 'Z', 'C']);
     // Insert B after Q.
@@ -70,6 +106,38 @@ describe('insertAfter()', () => {
 });
 
 describe('insertBefore()', () => {
+  test('list is empty - inserts correctly', () => {
+    expect(false).toBe(true);
+  });
+
+  test('list is empty - sets head to node', () => {
+    expect(false).toBe(true);
+  });
+
+  test('list is empty - sets head.next to node', () => {
+    expect(false).toBe(true);
+  });
+
+  test('list with one node- inserts successfully', () => {
+    expect(false).toBe(true);
+  });
+
+  test('list with one node - sets head to node', () => {
+    expect(false).toBe(true);
+  });
+
+  test('list with one node - sets tail.next to node', () => {
+    expect(false).toBe(true);
+  });
+
+  test('list with multiple nodes, insert in middle - inserts successfully', () => {
+    expect(false).toBe(true);
+  });
+
+  test('list with multiple nodes, insert before tail - inserts successfully', () => {
+    expect(false).toBe(true);
+  });
+
   test('inserts node in the middle of list', () => {
     const { list, nodes } = createLinkedList(['A', 'Q', 'Z', 'C']);
     // Insert B before Z.
