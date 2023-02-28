@@ -89,15 +89,34 @@ export const insertEnd = (list, node) => {
 };
 
 export const remove = (list, node) => {
+  // empty list
+  if (!list.head) {
+    return;
+  }
+  // handle delete head with only one node.
+  if (list.head === node && list.head.next === list.head) {
+    list.head = null;
+    return;
+  }
+
+  // handle delete head.
   if (list.head === node) {
     let tail = getTail(list);
     tail.next = node.next;
     list.head = node.next;
-  } else {
-    let previous = list.head;
-    while (previous.next !== node && previous.next != list.head) {
-      previous = previous.next;
-    }
-    previous.next = node.next;
+    return;
   }
+
+  // search list for node.
+  let previous = list.head;
+  while (previous.next != node && previous.next != list.head) {
+    previous = previous.next;
+  }
+
+  // node was not in list.
+  if (previous.next !== node) {
+    return;
+  }
+
+  previous.next = node.next;
 };
