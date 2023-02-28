@@ -3,8 +3,16 @@ import { josephusProblem } from '../src/josephusProblem.js';
 test.todo('josephus');
 
 describe('josephusProblem()', () => {
-  test('41 people and skip 3, returns 31', () => {
-    const result = josephusProblem(41, 3);
-    expect(result).toBe(31);
+  test.each([
+    [41, 3, 31],
+    [41, 2, 19],
+    [32, 9, 7],
+    [14, 12, 8],
+    [50, 31, 48],
+    [3, 2, 3],
+    [7, 7, 5],
+  ])('%s people and skip %s, returns %s', (people, skip, expected) => {
+    const result = josephusProblem(people, skip);
+    expect(result).toBe(expected);
   });
 });
