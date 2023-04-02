@@ -53,28 +53,21 @@ const compareToChild = (heap, index, childIndex, lastIndex) =>
  * Bubble the element down the heap until the heap property is satisfied.
  * This method modifies the heap.
  */
-const bubbleDown = (heap, index, lastIndex) => {
-  let swapIndex = index;
+const bubbleDown = (heap, index) => {
+  const lastIndex = maxIndex(heap);
+  let currentIndex = index;
+  while (currentIndex <= lastIndex) {
+    let swapIndex = currentIndex;
+    swapIndex = compareToChild(heap, swapIndex, leftChild(currentIndex), lastIndex);
+    swapIndex = compareToChild(heap, swapIndex, rightChild(currentIndex), lastIndex);
 
-  // compare node at index to its left and right child,
-  // choose the node which satisfies the heap property.
+    if (swapIndex === currentIndex) {
+      break;
+    }
 
-  const leftChildIndex = leftChild(index);
-  if (leftChildIndex <= lastIndex && heap[swapIndex] < heap[leftChildIndex]) {
-    swapIndex = leftChildIndex;
+    swap(heap, currentIndex, swapIndex);
+    currentIndex = swapIndex;
   }
-
-  const rightChildIndex = rightChild(index);
-  if (rightChildIndex <= lastIndex && heap[swapIndex] < heap[rightChildIndex]) {
-    swapIndex = rightChildIndex;
-  }
-
-  // if the current node isn't in the right spot swap it with whichever child satisfies the heap property.
-  if (swapIndex !== index) {
-    swap(heap, index, swapIndex);
-  }
-
-  return swapIndex;
 };
 
 /**
@@ -105,19 +98,7 @@ export const pop = (heap) => {
   // remove the head node and promote the last node to the head.
   const toReturn = [...heap];
   toReturn[1] = toReturn.pop();
-
-  const lastIndex = maxIndex(heap);
-  let currentIndex = 1;
-
-  // satisfy the heap property by bubbling the new head node down until its in the right spot.
-  while (currentIndex <= lastIndex) {
-    const swapIndex = bubbleDown(toReturn, currentIndex, lastIndex);
-    // if current node satisfies heap property its in the right place.
-    if (currentIndex === swapIndex) {
-      break;
-    }
-    currentIndex = swapIndex;
-  }
+  bubbleDown(toReturn, 1);
 
   return toReturn;
 };
@@ -133,15 +114,11 @@ export const update = (heap, index, priority) => {
   const oldValue = toReturn[index];
   toReturn[index] = priority;
 
-  console.log('toreturn before', toReturn);
-
   // move the node up or down the heap to satisfy the heap property.
   if (oldValue < priority) {
-    console.log('bubble up');
     bubbleUp(toReturn, index);
   } else {
-    console.log('bubbledown');
-    bubbleDown(toReturn, index, maxIndex(toReturn));
+    bubbleDown(toReturn, index);
   }
 
   return toReturn;
