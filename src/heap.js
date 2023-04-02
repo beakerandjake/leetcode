@@ -32,10 +32,10 @@ const swap = (heap, lhsIndex, rhsIndex) => {
  * Bubble the element up the heap until the heap property is satisfied.
  * This method modifies the heap.
  */
-const bubbleUp = (heap, index) => {
+const bubbleUp = (heap, index, comparisonFn) => {
   let currentIndex = index;
   let parentIndex = parent(currentIndex);
-  while (parentIndex >= 1 && heap[parentIndex] < heap[currentIndex]) {
+  while (parentIndex >= 1 && comparisonFn(heap[parentIndex], heap[currentIndex])) {
     swap(heap, parentIndex, currentIndex);
     currentIndex = parentIndex;
     parentIndex = parent(currentIndex);
@@ -46,20 +46,32 @@ const bubbleUp = (heap, index) => {
  * Compares a node to its child and returns the index of the node
  * which satisfies the heap property.
  */
-const compareToChild = (heap, index, childIndex, lastIndex) =>
-  childIndex <= lastIndex && heap[index] < heap[childIndex] ? childIndex : index;
+const compareToChild = (heap, maxIndex, index, childIndex, compareFn) =>
+  childIndex <= maxIndex && compareFn(heap[index], heap[childIndex]) ? childIndex : index;
 
 /**
  * Bubble the element down the heap until the heap property is satisfied.
  * This method modifies the heap.
  */
-const bubbleDown = (heap, index) => {
+const bubbleDown = (heap, index, compareFn) => {
   const lastIndex = maxIndex(heap);
   let currentIndex = index;
   while (currentIndex <= lastIndex) {
     let swapIndex = currentIndex;
-    swapIndex = compareToChild(heap, swapIndex, leftChild(currentIndex), lastIndex);
-    swapIndex = compareToChild(heap, swapIndex, rightChild(currentIndex), lastIndex);
+    swapIndex = compareToChild(
+      heap,
+      lastIndex,
+      swapIndex,
+      leftChild(currentIndex),
+      compareFn
+    );
+    swapIndex = compareToChild(
+      heap,
+      lastIndex,
+      swapIndex,
+      rightChild(currentIndex),
+      compareFn
+    );
 
     if (swapIndex === currentIndex) {
       break;
@@ -79,10 +91,10 @@ export const peek = (heap) => heap[1];
  * Adds a new element to the heap.
  * This method does not modify the heap but returns a new copy.
  */
-export const push = (heap, item) => {
+export const push = (heap, item, compareFn) => {
   // push item to end of heap
   const toReturn = heap.length ? [...heap, item] : [, item];
-  bubbleUp(toReturn, maxIndex(toReturn));
+  bubbleUp(toReturn, maxIndex(toReturn), compareFn);
   return toReturn;
 };
 
@@ -90,7 +102,7 @@ export const push = (heap, item) => {
  * Removes the head element of the heap.
  * This method does not modify the heap but returns a new copy.
  */
-export const pop = (heap) => {
+export const pop = (heap, compareFn) => {
   if (heap.length <= 2) {
     return [];
   }
@@ -98,7 +110,7 @@ export const pop = (heap) => {
   // remove the head node and promote the last node to the head.
   const toReturn = [...heap];
   toReturn[1] = toReturn.pop();
-  bubbleDown(toReturn, 1);
+  bubbleDown(toReturn, 1, compareFn);
 
   return toReturn;
 };
@@ -107,7 +119,7 @@ export const pop = (heap) => {
  * Updates the priority of the element at the specified index.
  * This method does not modify the heap but returns a new copy.
  */
-export const update = (heap, index, priority) => {
+export const update = (heap, index, priority, compareFn) => {
   const toReturn = [...heap];
 
   // update the priority of the node.
@@ -116,9 +128,9 @@ export const update = (heap, index, priority) => {
 
   // move the node up or down the heap to satisfy the heap property.
   if (oldValue < priority) {
-    bubbleUp(toReturn, index);
+    bubbleUp(toReturn, index, compareFn);
   } else {
-    bubbleDown(toReturn, index);
+    bubbleDown(toReturn, index, compareFn);
   }
 
   return toReturn;

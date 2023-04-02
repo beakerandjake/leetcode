@@ -1,4 +1,4 @@
-import { push, peek, pop, update } from '../src/heap.js';
+import { push, pop, peek, update } from '../src/maxHeap.js';
 
 describe('push()', () => {
   test.each([
