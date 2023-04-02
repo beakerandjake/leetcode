@@ -1,7 +1,5 @@
 import { josephusProblem } from '../src/josephusProblem.js';
 
-test.todo('josephus');
-
 describe('josephusProblem()', () => {
   test.each([
     [41, 3, 31],
