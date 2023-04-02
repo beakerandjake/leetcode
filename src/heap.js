@@ -43,6 +43,13 @@ const bubbleUp = (heap, index) => {
 };
 
 /**
+ * Compares a node to its child and returns the index of the node
+ * which satisfies the heap property.
+ */
+const compareToChild = (heap, index, childIndex, lastIndex) =>
+  childIndex <= lastIndex && heap[index] < heap[childIndex] ? childIndex : index;
+
+/**
  * Bubble the element down the heap until the heap property is satisfied.
  * This method modifies the heap.
  */
@@ -89,8 +96,6 @@ export const push = (heap, item) => {
 /**
  * Removes the head element of the heap.
  * This method does not modify the heap but returns a new copy.
- * @param {*} heap
- * @returns
  */
 export const pop = (heap) => {
   if (heap.length <= 2) {
@@ -117,4 +122,27 @@ export const pop = (heap) => {
   return toReturn;
 };
 
-// update
+/**
+ * Updates the priority of the element at the specified index.
+ * This method does not modify the heap but returns a new copy.
+ */
+export const update = (heap, index, priority) => {
+  const toReturn = [...heap];
+
+  // update the priority of the node.
+  const oldValue = toReturn[index];
+  toReturn[index] = priority;
+
+  console.log('toreturn before', toReturn);
+
+  // move the node up or down the heap to satisfy the heap property.
+  if (oldValue < priority) {
+    console.log('bubble up');
+    bubbleUp(toReturn, index);
+  } else {
+    console.log('bubbledown');
+    bubbleDown(toReturn, index, maxIndex(toReturn));
+  }
+
+  return toReturn;
+};
