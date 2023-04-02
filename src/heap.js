@@ -126,7 +126,7 @@ export const createHeapFunctions = (
     toReturn[index] = setPriorityFn(priority);
 
     // move the node up or down the heap to satisfy the heap property.
-    if (oldValue < priority) {
+    if (compareFn(oldValue, priority)) {
       bubbleUp(toReturn, index);
     } else {
       bubbleDown(toReturn, index);
