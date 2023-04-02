@@ -19,12 +19,55 @@ const parent = (index) => Math.floor(index / 2);
 const maxIndex = (heap) => heap.length - 1;
 
 /**
- * Swap elements in the heap, this operation modifies the heap.
+ * Swap elements in the heap.
+ * This method modifies the heap.
  */
 const swap = (heap, lhsIndex, rhsIndex) => {
   let temp = heap[lhsIndex];
   heap[lhsIndex] = heap[rhsIndex];
   heap[rhsIndex] = temp;
+};
+
+/**
+ * Bubble the element up the heap until the heap property is satisfied.
+ * This method modifies the heap.
+ */
+const bubbleUp = (heap, index) => {
+  let currentIndex = index;
+  let parentIndex = parent(currentIndex);
+  while (parentIndex >= 1 && heap[parentIndex] < heap[currentIndex]) {
+    swap(heap, parentIndex, currentIndex);
+    currentIndex = parentIndex;
+    parentIndex = parent(currentIndex);
+  }
+};
+
+/**
+ * Bubble the element down the heap until the heap property is satisfied.
+ * This method modifies the heap.
+ */
+const bubbleDown = (heap, index, lastIndex) => {
+  let swapIndex = index;
+
+  // compare node at index to its left and right child,
+  // choose the node which satisfies the heap property.
+
+  const leftChildIndex = leftChild(index);
+  if (leftChildIndex <= lastIndex && heap[swapIndex] < heap[leftChildIndex]) {
+    swapIndex = leftChildIndex;
+  }
+
+  const rightChildIndex = rightChild(index);
+  if (rightChildIndex <= lastIndex && heap[swapIndex] < heap[rightChildIndex]) {
+    swapIndex = rightChildIndex;
+  }
+
+  // if the current node isn't in the right spot swap it with whichever child satisfies the heap property.
+  if (swapIndex !== index) {
+    swap(heap, index, swapIndex);
+  }
+
+  return swapIndex;
 };
 
 /**
@@ -39,16 +82,7 @@ export const peek = (heap) => heap[1];
 export const push = (heap, item) => {
   // push item to end of heap
   const toReturn = heap.length ? [...heap, item] : [, item];
-
-  // bubble up item to correct spot
-  let currentIndex = toReturn.length - 1;
-  let parentIndex = parent(currentIndex);
-  while (parentIndex >= 1 && toReturn[parentIndex] < toReturn[currentIndex]) {
-    swap(toReturn, parentIndex, currentIndex);
-    currentIndex = parentIndex;
-    parentIndex = parent(currentIndex);
-  }
-
+  bubbleUp(toReturn, maxIndex(toReturn));
   return toReturn;
 };
 
@@ -72,27 +106,15 @@ export const pop = (heap) => {
 
   // satisfy the heap property by bubbling the new head node down until its in the right spot.
   while (currentIndex <= lastIndex) {
-    let swapIndex = currentIndex;
-
-    const leftChildIndex = leftChild(currentIndex);
-    if (leftChildIndex <= lastIndex && toReturn[swapIndex] < heap[leftChildIndex]) {
-      swapIndex = leftChildIndex;
-    }
-
-    const rightChildIndex = rightChild(currentIndex);
-    if (rightChildIndex <= lastIndex && toReturn[swapIndex] < heap[rightChildIndex]) {
-      swapIndex = rightChildIndex;
-    }
-
-    // if current node satisfies heap property it's in the right place.
+    const swapIndex = bubbleDown(toReturn, currentIndex, lastIndex);
+    // if current node satisfies heap property its in the right place.
     if (currentIndex === swapIndex) {
       break;
     }
-
-    // swap the current node with whichever child satisfied the heap property.
-    swap(toReturn, currentIndex, swapIndex);
     currentIndex = swapIndex;
   }
 
   return toReturn;
 };
+
+// update
