@@ -1,9 +1,13 @@
+/**
+ * Base class for a Min or a Max heap.
+ */
 export class Heap {
   _items = [];
   _maxIndex = 0;
 
-  constructor(compareFn) {
+  constructor(items, compareFn) {
     this._compareFn = compareFn;
+    items.forEach((item) => this.push(item));
   }
 
   /**
@@ -96,6 +100,9 @@ export class Heap {
     this._bubbleUp(this._maxIndex);
   }
 
+  /**
+   * Removes the head element from the heap and returns it.
+   */
   pop() {
     if (this._maxIndex === 0) {
       return undefined;
@@ -108,20 +115,34 @@ export class Heap {
 
     return popped;
   }
-}
 
-/**
- * Max heap comparison function.
- * @param  {any} a     First element
- * @param  {any} b     Second element
- * @return {Number}    0 if they're equal, positive if `a` goes up, negative if `b` goes up
- */
+  update = (item, newPriority) => {
+    const index = this._items.indexOf(item);
+
+    if (index < 1) {
+      return false;
+    }
+
+    // update the priority of the node.
+    const oldPriority = this._items[index];
+    this._items[index] = newPriority;
+
+    // move the node up or down the heap to satisfy the heap property.
+    if (this._compareFn(oldPriority, newPriority) < 0) {
+      this._bubbleUp(index);
+    } else {
+      this._bubbleDown(index);
+    }
+
+    return true;
+  };
+}
 
 /**
  * Comparison function which satisfies the max heap property.
  * @param {Number} lhs
  * @param {Number} rhs
- * @returns {Number} 0 if the values are equal, 1 if lhs should go "down", -1 if lhs should go "up"
+ * @returns {Number} 0 if the values are equal, 1 if lhs should go "up", -1 if rhs should go "up"
  */
 const maxHeapCompare = (lhs, rhs) => {
   if (lhs < rhs) {
@@ -135,8 +156,38 @@ const maxHeapCompare = (lhs, rhs) => {
   return 0;
 };
 
+/**
+ * Heap which keeps the max element at the top of the heap.
+ */
 export class MaxHeap extends Heap {
-  constructor() {
-    super(maxHeapCompare);
+  constructor(items = []) {
+    super(items, maxHeapCompare);
+  }
+}
+
+/**
+ * Comparison function which satisfies the min heap property.
+ * @param {Number} lhs
+ * @param {Number} rhs
+ * @returns {Number} 0 if the values are equal, 1 if lhs should go "up", -1 if rhs should go "up"
+ */
+const minHeapCompare = (lhs, rhs) => {
+  if (lhs < rhs) {
+    return 1;
+  }
+
+  if (lhs > rhs) {
+    return -1;
+  }
+
+  return 0;
+};
+
+/**
+ * Heap which keeps the min element at the top of the heap.
+ */
+export class MinHeap extends Heap {
+  constructor(items = []) {
+    super(items, minHeapCompare);
   }
 }

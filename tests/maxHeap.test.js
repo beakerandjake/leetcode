@@ -1,16 +1,4 @@
-import { push, pop, peek, update } from '../src/maxHeap.js';
 import { MaxHeap } from '../src/heap2.js';
-
-const buildHeap = (items) => {
-  const toReturn = new MaxHeap();
-  items.forEach((x) => {
-    if (x === undefined) {
-      return;
-    }
-    toReturn.push(x);
-  });
-  return toReturn;
-};
 
 describe('push()', () => {
   test.each([
@@ -26,7 +14,7 @@ describe('push()', () => {
     [[3, 5, 22, 28, 6, 44, 19, 57, 88], 17, 88],
     [[3, 5, 22, 28, 6, 44, 19, 57, 88, 17], 122, 122],
   ])('heap: %p, insert: %d, max is: %d', (items, newItem, max) => {
-    const heap = buildHeap(items);
+    const heap = new MaxHeap(items);
     heap.push(newItem);
     expect(heap.peek()).toEqual(max);
   });
@@ -44,8 +32,9 @@ describe('peek()', () => {
     [[3, 5, 22, 28, 6, 44, 19, 57], 57],
     [[3, 5, 22, 28, 6, 44, 19, 57, 88], 88],
     [[3, 5, 22, 28, 6, 44, 19, 57, 88, 17, 122], 122],
-  ])('heap: %p, returns: :%s', (items, max) => {
-    expect(buildHeap(items).peek()).toBe(max);
+  ])('heap: %p, returns: %s', (items, max) => {
+    const heap = new MaxHeap(items);
+    expect(heap.peek()).toBe(max);
   });
 });
 
@@ -62,32 +51,28 @@ describe('pop()', () => {
     [[3, 5, 22, 28, 6, 44, 19, 57], 57],
     [[3, 5, 22, 28, 6, 44, 19, 57, 88], 88],
     [[3, 5, 22, 28, 6, 44, 19, 57, 88, 17, 122], 122],
-  ])('heap: %p, returns: :%s', (items, max) => {
-    expect(buildHeap(items).pop()).toBe(max);
+  ])('heap: %p, returns: %s', (items, max) => {
+    const heap = new MaxHeap(items);
+    expect(heap.pop()).toBe(max);
   });
 });
 
-// describe('update()', () => {
-//   test.each([
-//     [[, 43, 36, 28, 22, 3, 15, 4, 5, 19], 1, 24, [, 36, 24, 28, 22, 3, 15, 4, 5, 19]],
-//     [[, 36, 24, 28, 22, 3, 15, 4, 5, 19], 2, 7, [, 36, 22, 28, 19, 3, 15, 4, 5, 7]],
-//     [[, 36, 22, 28, 19, 3, 15, 4, 5, 7], 3, 32, [, 36, 22, 32, 19, 3, 15, 4, 5, 7]],
-//     [[, 36, 22, 32, 19, 3, 15, 4, 5, 7], 4, 10, [, 36, 22, 32, 10, 3, 15, 4, 5, 7]],
-//     [[, 36, 22, 32, 10, 3, 15, 4, 5, 7], 5, 87, [, 87, 36, 32, 10, 22, 15, 4, 5, 7]],
-//     [[, 87, 36, 32, 10, 22, 15, 4, 5, 7], 6, 2, [, 87, 36, 32, 10, 22, 2, 4, 5, 7]],
-//     [[, 87, 36, 32, 10, 22, 2, 4, 5, 7], 7, 17, [, 87, 36, 32, 10, 22, 2, 17, 5, 7]],
-//     [[, 87, 36, 32, 10, 22, 2, 17, 5, 7], 8, 12, [, 87, 36, 32, 12, 22, 2, 17, 10, 7]],
-//     [
-//       [, 87, 36, 32, 12, 22, 2, 17, 10, 7],
-//       9,
-//       137,
-//       [, 137, 87, 32, 36, 22, 2, 17, 10, 12],
-//     ],
-//   ])(
-//     'heap: %p, update index: %d to priority: %d, returns: %p',
-//     (heap, index, priority, expected) => {
-//       const result = update(heap, index, priority);
-//       expect(result).toEqual(expected);
-//     }
-//   );
-// });
+describe('update()', () => {
+  test.each([
+    [[], 6, 7, undefined],
+    [[3], 3, 5, 5],
+    [[3, 5], 5, 1, 3],
+    [[3, 5, 6], 3, 96, 96],
+    [[3, 5, 6, 19], 6, 12, 19],
+    [[3, 5, 22, 6, 19], 22, 46, 46],
+    [[3, 5, 22, 28, 6, 19], 6, 3, 28],
+    [[3, 5, 22, 28, 6, 44, 19], 19, 45, 45],
+    [[3, 5, 22, 28, 6, 44, 19, 57], 3, 8, 57],
+    [[3, 5, 22, 28, 6, 44, 19, 57, 88], 44, 155, 155],
+    [[3, 5, 22, 28, 6, 44, 19, 57, 88, 17, 122], 88, 120, 122],
+  ])('heap: %p, update: %d to %d, max is: %s', (items, toUpdate, newValue, max) => {
+    const heap = new MaxHeap(items);
+    heap.update(toUpdate, newValue);
+    expect(heap.peek()).toBe(max);
+  });
+});
