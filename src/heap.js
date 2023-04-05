@@ -33,6 +33,7 @@ export const createHeapFunctions = (
   getPriorityFn = (x) => x,
   setPriorityFn = (x) => x
 ) => {
+  
   const compare = (heap, lhsIndex, rhsIndex) =>
     compareFn(getPriorityFn(heap[lhsIndex]), getPriorityFn(heap[rhsIndex]));
 
