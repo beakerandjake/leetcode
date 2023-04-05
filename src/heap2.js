@@ -157,13 +157,9 @@ const maxHeapCompare = (lhs, rhs) => {
 };
 
 /**
- * Heap which keeps the max element at the top of the heap.
+ * Returns a new max heap, which keeps the max element at the top of the heap.
  */
-export class MaxHeap extends Heap {
-  constructor(items = []) {
-    super(items, maxHeapCompare);
-  }
-}
+export const maxHeap = (items = []) => new Heap(items, maxHeapCompare);
 
 /**
  * Comparison function which satisfies the min heap property.
@@ -184,10 +180,6 @@ const minHeapCompare = (lhs, rhs) => {
 };
 
 /**
- * Heap which keeps the min element at the top of the heap.
+ * Returns a new min heap, which keeps the min element at the top of the heap.
  */
-export class MinHeap extends Heap {
-  constructor(items = []) {
-    super(items, minHeapCompare);
-  }
-}
+export const minHeap = (items = []) => new Heap(items, minHeapCompare);
