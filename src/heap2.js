@@ -63,12 +63,12 @@ export class Heap {
       let swapIndex = currentIndex;
 
       const left = Heap._leftChild(currentIndex);
-      if (left <= this._maxIndex && this._compare(swapIndex, left)) {
+      if (left <= this._maxIndex && this._compare(swapIndex, left) < 0) {
         swapIndex = left;
       }
 
       const right = Heap._rightChild(currentIndex);
-      if (right <= this._maxIndex && this._compare(swapIndex, right)) {
+      if (right <= this._maxIndex && this._compare(swapIndex, right) < 0) {
         swapIndex = right;
       }
 
@@ -119,7 +119,7 @@ export class Heap {
   update = (item, newPriority) => {
     const index = this._items.indexOf(item);
 
-    if (index < 1) {
+    if (index === -1) {
       return false;
     }
 
@@ -140,19 +140,15 @@ export class Heap {
 
 /**
  * Comparison function which satisfies the max heap property.
- * @param {Number} lhs
- * @param {Number} rhs
- * @returns {Number} 0 if the values are equal, 1 if lhs should go "up", -1 if rhs should go "up"
+ * @returns {Number} 1 if a should move towards the top of the heap, -1 if a should move towards the bottom, 0 if a and b are equal.
  */
-const maxHeapCompare = (lhs, rhs) => {
-  if (lhs < rhs) {
+const maxHeapCompare = (a, b) => {
+  if (a < b) {
     return -1;
   }
-
-  if (lhs > rhs) {
+  if (a > b) {
     return 1;
   }
-
   return 0;
 };
 
@@ -163,19 +159,15 @@ export const maxHeap = (items = []) => new Heap(items, maxHeapCompare);
 
 /**
  * Comparison function which satisfies the min heap property.
- * @param {Number} lhs
- * @param {Number} rhs
- * @returns {Number} 0 if the values are equal, 1 if lhs should go "up", -1 if rhs should go "up"
+ * @returns {Number} 1 if a should move towards the top of the heap, -1 if a should move towards the bottom, 0 if a and b are equal.
  */
-const minHeapCompare = (lhs, rhs) => {
-  if (lhs < rhs) {
-    return 1;
-  }
-
-  if (lhs > rhs) {
+const minHeapCompare = (a, b) => {
+  if (a > b) {
     return -1;
   }
-
+  if (a < b) {
+    return 1;
+  }
   return 0;
 };
 
