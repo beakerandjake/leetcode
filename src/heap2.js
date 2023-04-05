@@ -1,42 +1,3 @@
-/**
- * Returns the index which corresponds to the nodes left child.
- */
-const leftChild = (index) => index * 2;
-
-/**
- * Returns the index which corresponds to the nodes right child.
- */
-const rightChild = (index) => index * 2 + 1;
-
-/**
- * Returns the index of the nodes parent.
- */
-const parent = (index) => Math.floor(index / 2);
-
-/**
- * Swap elements in the heap.
- * This method modifies the heap.
- */
-const swap = (heap, lhsIndex, rhsIndex) => {
-  let temp = heap[lhsIndex];
-  heap[lhsIndex] = heap[rhsIndex];
-  heap[rhsIndex] = temp;
-};
-
-/**
- * Bubble the element up the heap until the heap property is satisfied.
- * This method modifies the heap.
- */
-const bubbleUp = (heap, index, compareFn) => {
-  let currentIndex = index;
-  let parentIndex = parent(currentIndex);
-  while (parentIndex >= 1 && compareFn(heap, parentIndex, currentIndex)) {
-    swap(heap, parentIndex, currentIndex);
-    currentIndex = parentIndex;
-    parentIndex = parent(currentIndex);
-  }
-};
-
 export class Heap {
   _items = [];
   _maxIndex = 0;
@@ -90,22 +51,31 @@ export class Heap {
   };
 
   /**
-   * Adds a new element to the heap.
+   * Bubble the element down the heap until the heap property is satisfied.
    */
-  push(item) {
-    this._maxIndex += 1;
-    this._items[this._maxIndex] = item;
-    this._bubbleUp(this._maxIndex);
-  }
+  _bubbleDown = (index) => {
+    let currentIndex = index;
+    while (currentIndex <= this._maxIndex) {
+      let swapIndex = currentIndex;
 
-  pop() {
-    if (this._maxIndex === 0) {
-      return null;
+      const left = Heap._leftChild(currentIndex);
+      if (left <= this._maxIndex && this._compare(swapIndex, left)) {
+        swapIndex = left;
+      }
+
+      const right = Heap._rightChild(currentIndex);
+      if (right <= this._maxIndex && this._compare(swapIndex, right)) {
+        swapIndex = right;
+      }
+
+      if (swapIndex === currentIndex) {
+        break;
+      }
+
+      this._swap(currentIndex, swapIndex);
+      currentIndex = swapIndex;
     }
-
-    this._items[1] = this._items.pop();
-    bubbleDown(toReturn, 1);
-  }
+  };
 
   /**
    * Returns the head element of the heap.
@@ -116,6 +86,28 @@ export class Heap {
     }
     return this._items[1];
   };
+
+  /**
+   * Adds a new element to the heap.
+   */
+  push(item) {
+    this._maxIndex += 1;
+    this._items[this._maxIndex] = item;
+    this._bubbleUp(this._maxIndex);
+  }
+
+  pop() {
+    if (this._maxIndex === 0) {
+      return undefined;
+    }
+    const popped = this._items[1];
+
+    this._maxIndex -= 1;
+    this._items[1] = popped;
+    this._bubbleDown(1);
+
+    return popped;
+  }
 }
 
 /**
