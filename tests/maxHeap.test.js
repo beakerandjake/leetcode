@@ -1,4 +1,4 @@
-import { maxHeap } from '../src/heap2.js';
+import { maxHeap } from '../src/heap.js';
 
 describe('push()', () => {
   test.each([

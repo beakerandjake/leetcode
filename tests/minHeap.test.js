@@ -1,4 +1,4 @@
-import { minHeap } from '../src/heap2.js';
+import { minHeap } from '../src/heap.js';
 
 describe('push()', () => {
   test.each([
