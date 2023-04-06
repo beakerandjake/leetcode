@@ -118,7 +118,6 @@ export class Heap {
 
   update = (element, newPriority) => {
     const index = this._items.findIndex((x) => x?.element === element);
-    console.log('index', index, 'element', element);
 
     if (index === -1) {
       return false;
