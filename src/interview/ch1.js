@@ -45,9 +45,41 @@ export const isUnique = (str) => {
   return hashTableSolution(str);
 };
 
+/**
+ * Given two strings, write a method to decide if one is a permutation of the other.
+ * @param {String} lhs
+ * @param {String} rhs
+ * @returns
+ */
 export const checkPermutation = (lhs, rhs) => {
   const sortAndCompare = (lhs, rhs) =>
     [...lhs].sort().join('') === [...rhs].sort().join('');
 
-  return lhs !== rhs && sortAndCompare(lhs, rhs);
+  const pickFromBucket = (lhs, rhs) => {
+    const characterBucket = [...lhs].reduce((acc, x) => {
+      acc[x] = acc[x] ? acc[x] + 1 : 1;
+      return acc;
+    }, {});
+
+    for (let index = 0; index < rhs.length; index++) {
+      const character = rhs[index];
+      const remaining = characterBucket[character];
+      if (!remaining) {
+        return false;
+      }
+      characterBucket[character] = remaining - 1;
+    }
+
+    return Object.values(characterBucket).every((x) => x === 0);
+  };
+
+  if (lhs === rhs) {
+    return false;
+  }
+
+  if (lhs.length !== rhs.length) {
+    return false;
+  }
+
+  return pickFromBucket(lhs, rhs);
 };
