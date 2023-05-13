@@ -5,10 +5,11 @@ const square = (number) => number * number;
 const dividesEvenly = (a, b) => a % b === 0;
 
 const findDivisor = (number, divisor) => {
-  if (square(divisor) > number) {
-    return number;
-  }
-  return dividesEvenly(number, divisor) ? divisor : findDivisor(number, divisor + 1);
+  return square(divisor) > number
+    ? number
+    : dividesEvenly(number, divisor)
+    ? divisor
+    : findDivisor(number, divisor + 1);
 };
 
 export const isPrime = (number) => {
