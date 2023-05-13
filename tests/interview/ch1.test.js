@@ -26,6 +26,7 @@ describe('checkPermutation()', () => {
     ['5ENpp5BXNT', 'TpNBp5EX5N', true],
     ['MHGbdSCszV', 'GHbzSCsMVd', true],
     ['7JkqV3V7NW', 'kW7J7VqNV3', true],
+    ['7JkqV3V7NW', 'kW7J7VqNV6', false],
   ])('isPermutation(%s, %s) return %s', (lhs, rhs, expected) => {
     const result = checkPermutation(lhs, rhs);
     expect(result).toBe(expected);
