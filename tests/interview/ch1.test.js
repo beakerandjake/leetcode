@@ -1,4 +1,4 @@
-import { checkPermutation, isUnique } from '../../src/interview/ch1.js';
+import { checkPermutation, isUnique, urlify } from '../../src/interview/ch1.js';
 
 describe('isUnique()', () => {
   test.each([
@@ -29,6 +29,16 @@ describe('checkPermutation()', () => {
     ['7JkqV3V7NW', 'kW7J7VqNV6', false],
   ])('isPermutation(%s, %s) return %s', (lhs, rhs, expected) => {
     const result = checkPermutation(lhs, rhs);
+    expect(result).toBe(expected);
+  });
+});
+
+describe('urlify()', () => {
+  test.each([
+    ['Mr John Smith    ', 13, 'Mr%20John%20Smith'],
+    ['Cool John Smith    ', 15, 'Cool%20John%20Smith'],
+  ])('urlify(%s, %s) return %s', (str, length, expected) => {
+    const result = urlify(str, length);
     expect(result).toBe(expected);
   });
 });

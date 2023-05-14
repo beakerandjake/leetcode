@@ -3,7 +3,7 @@
  * @param {String} str
  */
 export const isUnique = (str) => {
-  const bruteForceSolution = (str) => {
+  const bruteForceSolution = () => {
     for (let index = 0; index < str.length; index++) {
       const character = str[index];
       for (let y = 0; y < str.length; y++) {
@@ -18,7 +18,7 @@ export const isUnique = (str) => {
     return true;
   };
 
-  const hashTableSolution = (str) => {
+  const hashTableSolution = () => {
     const encountered = {};
     for (let index = 0; index < str.length; index++) {
       const character = str[index];
@@ -30,7 +30,7 @@ export const isUnique = (str) => {
     return true;
   };
 
-  const bitVectorSolution = (str) => {
+  const bitVectorSolution = () => {
     const encountered = Array(3000).fill(0);
     for (let index = 0; index < str.length; index++) {
       const charCode = str.charCodeAt(index);
@@ -42,7 +42,7 @@ export const isUnique = (str) => {
     return true;
   };
 
-  return hashTableSolution(str);
+  return hashTableSolution();
 };
 
 /**
@@ -52,10 +52,9 @@ export const isUnique = (str) => {
  * @returns
  */
 export const checkPermutation = (lhs, rhs) => {
-  const sortAndCompare = (lhs, rhs) =>
-    [...lhs].sort().join('') === [...rhs].sort().join('');
+  const sortAndCompare = () => [...lhs].sort().join('') === [...rhs].sort().join('');
 
-  const pickFromBucket = (lhs, rhs) => {
+  const pickFromBucket = () => {
     const characterBucket = [...lhs].reduce((acc, x) => {
       acc[x] = acc[x] ? acc[x] + 1 : 1;
       return acc;
@@ -81,5 +80,44 @@ export const checkPermutation = (lhs, rhs) => {
     return false;
   }
 
-  return pickFromBucket(lhs, rhs);
+  return pickFromBucket();
 };
+
+/**
+ * Write a method to replace all spaces in a string with %20
+ * @param {String} stfr
+ * @param {Number} length
+ */
+export const urlify = (str, length) => {
+  const arraySolution = () => {
+    let toReturn = [];
+    for (let index = 0; index < length; index++) {
+      const character = str[index];
+      toReturn.push(character === ' ' ? '%20' : character);
+    }
+    return toReturn.join('');
+  };
+
+  const inPlaceSolution = () => {
+    const toReturn = [...str];
+    let characterIndex = length - 1;
+    let outputIndex = toReturn.length - 1;
+    while (characterIndex > 0) {
+      const character = str[characterIndex--];
+      if (character === ' ') {
+        toReturn[outputIndex] = '0';
+        toReturn[--outputIndex] = '2';
+        toReturn[--outputIndex] = '%';
+        outputIndex--;
+      } else {
+        toReturn[outputIndex--] = character;
+      }
+    }
+
+    return toReturn.join('');
+  };
+
+  return inPlaceSolution();
+};
+
+console.log(urlify('Mr John Smith    ', 13));
