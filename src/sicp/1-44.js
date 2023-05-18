@@ -9,3 +9,12 @@ const repeated = (fn, times) => (times === 1 ? fn : compose(repeated(fn, times -
 export const n_fold_smooth = (fn, times) => {
   return repeated(smooth, times)(fn);
 };
+
+ const iterativeImprove = (isGoodEnoughFn, improveGuessFn) => {
+  const improve = (guess) => {
+    return isGoodEnoughFn(guess)
+      ? guess
+      : improve(improveGuessFn(guess));
+  }
+  return improve;
+ }
