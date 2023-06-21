@@ -2,6 +2,7 @@ module.exports = {
   env: {
     es2021: true,
     node: true,
+    "jest/globals": true,
   },
   extends: ["airbnb-base", "prettier"],
   overrides: [],
@@ -16,5 +17,7 @@ module.exports = {
     "no-continue": "off",
     "no-unused-vars": "off",
     "no-bitwise": "off",
+    'import/extensions': 'off',
+    'import/prefer-default-export': 'off',
   },
 };
