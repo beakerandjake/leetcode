@@ -10,14 +10,32 @@ const shiftIndex = (index, times, length) => {
   return toReturn;
 };
 
-const fast = (array, times) => {};
+const swap = (array, sourceIndex, destIndex) => {
+  const source = array[sourceIndex];
+  array[sourceIndex] = array[destIndex];
+  array[destIndex] = source;
+};
+
+const fast = (array, times) => {
+  let actualTimes = times % array.length;
+
+  while (actualTimes--) {
+    let current = 0;
+    let next = current;
+
+    while (++next < array.length) {
+      swap(array, current, next);
+      current = next;
+    }
+  }
+
+  return array;
+};
 
 const simple = (array, times) => {
   const copy = [...array];
-  const { length } = copy;
-  for (let index = 0; index < length; index++) {
-    const shifted = shiftIndex(index, times, length);
-    copy[shifted] = array[index];
+  for (let index = 0; index < array.length; index++) {
+    copy[shiftIndex(index, times, array.length)] = array[index];
   }
   return copy;
 };
@@ -27,4 +45,4 @@ const simple = (array, times) => {
  * For instance, with n = 8 and i = 3, the vector abcdefgh is rotated to defghabc.
  */
 
-export const rotateLeft = (array, times) => simple(array, times);
+export const rotateLeft = (array, times) => fast(array, times);
