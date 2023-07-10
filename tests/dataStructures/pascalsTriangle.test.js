@@ -1,4 +1,4 @@
-import { pascalsTriangle } from "../src/pascalsTriangle";
+import { pascalsTriangle } from '../../src/dataStructures/pascalsTriangle';
 
 describe('pacsalsTriangle()', () => {
   test.each([

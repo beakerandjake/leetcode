@@ -11,7 +11,7 @@ import {
   predecessor,
   remove,
   printTree,
-} from '../src/binarySearchTree.js';
+} from '../../src/dataStructures/binarySearchTree.js';
 
 /**
  * Returns the node with matching key.

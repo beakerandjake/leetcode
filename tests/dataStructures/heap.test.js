@@ -1,4 +1,4 @@
-import { maxHeap, minHeap } from '../src/heap.js';
+import { maxHeap, minHeap } from '../../src/dataStructures/heap.js';
 
 const populateHeap = (heap, priorities) => {
   priorities.forEach((priority, index) => heap.push(index, priority));

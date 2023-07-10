@@ -7,7 +7,7 @@ import {
   remove,
   insertStart,
   insertEnd,
-} from '../src/circularLinkedList.js';
+} from '../../src/dataStructures/circularLinkedList.js';
 
 const createLinkedList = (keys = []) => {
   const nodes = keys.map((x) => new Node(x));

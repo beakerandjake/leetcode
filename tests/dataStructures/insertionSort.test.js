@@ -1,4 +1,4 @@
-import { insertionSort } from '../src/insertionSort.js';
+import { insertionSort } from '../../src/dataStructures/insertionSort.js';
 
 test.each([
   [[], []],

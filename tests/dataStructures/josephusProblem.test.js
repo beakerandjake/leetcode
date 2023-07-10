@@ -1,4 +1,4 @@
-import { josephusProblem } from '../src/josephusProblem.js';
+import { josephusProblem } from '../../src/dataStructures/josephusProblem.js';
 
 describe('josephusProblem()', () => {
   test.each([

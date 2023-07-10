@@ -1,4 +1,4 @@
-import { isPrime } from '../src/isPrime.js';
+import { isPrime } from '../../src/dataStructures/isPrime.js';
 
 describe('isPrime()', () => {
   test.each([

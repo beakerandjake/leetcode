@@ -1,22 +1,20 @@
 import {
   Node,
-  DoublyLinkedList,
+  SinglyLinkedList,
   find,
   insertAfter,
   insertBefore,
   remove,
   insertStart,
   insertEnd,
-} from '../src/doublyLinkedList.js';
+} from '../../src/dataStructures/singlyLinkedList.js';
 
 const createLinkedList = (keys = []) => {
   const nodes = keys.map((x) => new Node(x));
-  const list = new DoublyLinkedList(nodes[0]);
+  const list = new SinglyLinkedList(nodes[0]);
   for (let index = 1; index < nodes.length; index++) {
     nodes[index - 1].next = nodes[index];
-    nodes[index].previous = nodes[index - 1];
   }
-  list.tail = nodes[nodes.length - 1] || null;
   return { list, nodes };
 };
 
@@ -89,7 +87,7 @@ describe('insertBefore()', () => {
 
 describe('insertStart()', () => {
   test('inserts on empty list', () => {
-    const list = new DoublyLinkedList();
+    const { list } = createLinkedList();
     const node = new Node('Q');
     insertStart(list, node);
     expect(list).toStrictEqual(createLinkedList(['Q']).list);
@@ -107,7 +105,7 @@ describe('insertStart()', () => {
 
 describe('insertEnd()', () => {
   test('inserts on empty list', () => {
-    const list = new DoublyLinkedList();
+    const { list } = createLinkedList();
     const node = new Node('Q');
     insertEnd(list, node);
     expect(list).toStrictEqual(createLinkedList(['Q']).list);
