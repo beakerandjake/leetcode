@@ -3,6 +3,8 @@ import { checkPermutation } from '../../../src/interview/ch01/checkPermutation.j
 describe('checkPermutation()', () => {
   test.each([
     ['a', 'a', false],
+    ['ab', 'ba', true],
+    ['dog', 'god', true],
     ['Wjk0eLRs8R', 'eRLWjks08R', true],
     ['2AwflJjazxf', 'Axa2Jzffwlj', true],
     ['5bBYStnnGRJ', 'GnbR5tBnJYS', true],
