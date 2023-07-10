@@ -4,10 +4,10 @@ const arr = (str) => [...str];
 
 describe('urlify()', () => {
   [
-    // [arr('   '), 1, arr('%20')],
+    ['   ', 1, '%20'],
     ['Mr John Smith    ', 13, 'Mr%20John%20Smith'],
-    // [arr('Cool John Smith    '), 15, arr('Cool%20John%20Smith')],
-    // [arr('CoolJohnSmith'), 15, arr('CoolJohnSmith')],
+    ['Cool John Smith    ', 15, 'Cool%20John%20Smith'],
+    ['CoolJohnSmith', 13, 'CoolJohnSmith'],
   ].forEach(([str, length, expected]) => {
     test(`urlify('${str}', ${length}) = '${expected}'`, () => {
       const result = urlify(arr(str), length);

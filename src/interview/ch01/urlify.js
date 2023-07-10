@@ -20,6 +20,19 @@ const simple = (arr, length) => {
   }
 };
 
+const better = (arr, length) => {
+  let destIndex = arr.length - 1;
+  let currIndex = length;
+  while (currIndex--) {
+    if (arr[currIndex] === ' ') {
+      arr[destIndex--] = '0';
+      arr[destIndex--] = '2';
+      arr[destIndex--] = '%';
+    } else {
+      arr[destIndex--] = arr[currIndex];
+    }
+  }
+};
 /**
  * Replace all spaces in a string with %20
  * Assume string has space at end to hold additional characters.
@@ -27,9 +40,9 @@ const simple = (arr, length) => {
  * Must perform in place.
  */
 export const urlify = (arr, length) => {
-  if (!arr || length <= 1 || arr.length === length) {
+  if (!arr || length < 1 || arr.length === length) {
     return arr;
   }
-  simple(arr, length);
+  better(arr, length);
   return arr;
 };
