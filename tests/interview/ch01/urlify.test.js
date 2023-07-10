@@ -1,12 +1,17 @@
 import { urlify } from '../../../src/interview/ch01/urlify.js';
 
+const arr = (str) => [...str];
+
 describe('urlify()', () => {
-  test.each([
+  [
+    // [arr('   '), 1, arr('%20')],
     ['Mr John Smith    ', 13, 'Mr%20John%20Smith'],
-    ['Cool John Smith    ', 15, 'Cool%20John%20Smith'],
-    ['CoolJohnSmith', 15, 'CoolJohnSmith'],
-  ])('urlify(%s, %s) return %s', (str, length, expected) => {
-    const result = urlify(str, length);
-    expect(result).toBe(expected);
+    // [arr('Cool John Smith    '), 15, arr('Cool%20John%20Smith')],
+    // [arr('CoolJohnSmith'), 15, arr('CoolJohnSmith')],
+  ].forEach(([str, length, expected]) => {
+    test(`urlify('${str}', ${length}) = '${expected}'`, () => {
+      const result = urlify(arr(str), length);
+      expect(result).toEqual(arr(expected));
+    });
   });
 });
