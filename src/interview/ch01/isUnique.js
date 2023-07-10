@@ -9,8 +9,6 @@ const hashTable = (str) => {
   });
 };
 
-const set = (str) => {
-  return new Set(str).size === str.length;
-};
+const set = (str) => new Set(str).size === str.length;
 
 export const isUnique = hashTable;
