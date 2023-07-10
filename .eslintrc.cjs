@@ -10,6 +10,7 @@ module.exports = {
     ecmaVersion: "latest",
     sourceType: "module",
   },
+  plugins: ["jest"],
   rules: {
     "no-console": "off",
     "no-restricted-syntax": "off",
