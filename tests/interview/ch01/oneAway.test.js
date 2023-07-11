@@ -11,6 +11,7 @@ describe('oneAway()', () => {
     ['pales', 'pale', true],
     ['pale', 'bale', true],
     ['pale', 'bake', false],
+    ['aaaa', 'abbbb', true],
   ])('oneAway(%s, %s) = %s', (a, b, expected) => {
     const result = oneAway(a, b);
     expect(result).toBe(expected);
