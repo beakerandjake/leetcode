@@ -1,34 +1,41 @@
-const getCharCounts = (str) =>
-  [...str].reduce((acc, char) => {
-    acc[char.charCodeAt()] += 1;
-    return acc;
-  }, Array(256).fill(0));
+const checkForEdit = (a, b) => {
+  let foundChange = false;
 
-const sum = (arr) => arr.reduce((total, x) => total + x, 0);
-
-const simple = (a, b) => {
-  const aCount = getCharCounts(a);
-  const bCount = getCharCounts(b);
-  const changes = [];
-  for (let index = 0; index < aCount.length; index++) {
-    const diff = aCount[index] - bCount[index];
-    if (diff === 0) {
+  for (let index = 0; index < a.length; index++) {
+    if (a[index] === b[index]) {
       continue;
     }
-    changes.push(diff);
+    if (foundChange) {
+      return false;
+    }
+    foundChange = true;
   }
 
-  if (changes.length > 2) {
-    return false;
-  }
-
-  if (changes.length === 0) {
-    return true;
-  }
-
-  const sumOfChanges = sum(changes);
-  return sumOfChanges === 0 || Math.abs(sumOfChanges) === 1;
+  return true;
 };
+
+const sortByLength = (a, b) => (a.length < b.length ? [a, b] : [b, a]);
+
+const checkForAddOrRemove = (a, b) => {
+  const [smaller, larger] = sortByLength(a, b);
+  let changeFound = false;
+  let lIndex = 0;
+  for (let sIndex = 0; sIndex < smaller.length; sIndex++) {
+    const sChar = smaller[sIndex];
+    if (sChar === larger[lIndex++]) {
+      continue;
+    }
+    if (changeFound || sChar !== larger[lIndex++]) {
+      return false;
+    }
+    changeFound = true;
+  }
+
+  return true;
+};
+
+const simpler = (a, b) =>
+  a.length === b.length ? checkForEdit(a, b) : checkForAddOrRemove(a, b);
 
 export const oneAway = (a, b) => {
   if (a == null || b == null) {
@@ -39,9 +46,5 @@ export const oneAway = (a, b) => {
     return false;
   }
 
-  if (a === b) {
-    return true;
-  }
-
-  return simple(a, b);
+  return simpler(a, b);
 };
