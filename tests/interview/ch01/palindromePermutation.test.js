@@ -1,4 +1,4 @@
-import { palindromePermutation } from '../../src/interview/ch01/palindromePermutation.js';
+import { palindromePermutation } from '../../../src/interview/ch01/palindromePermutation.js';
 
 describe('isUnique()', () => {
   test.each([
