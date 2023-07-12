@@ -1,6 +1,6 @@
 import { palindromePermutation } from '../../../src/interview/ch01/palindromePermutation.js';
 
-describe('isUnique()', () => {
+describe('palindromePermutation()', () => {
   test.each([
     ['a', true],
     ['aa', true],

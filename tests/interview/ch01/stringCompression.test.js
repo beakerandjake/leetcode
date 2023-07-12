@@ -1,6 +1,6 @@
 import { stringCompression } from '../../../src/interview/ch01/stringCompression.js';
 
-describe('oneAway()', () => {
+describe('stringCompression()', () => {
   test.each([
     [null, null],
     ['a', 'a'],
