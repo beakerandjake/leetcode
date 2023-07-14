@@ -2,6 +2,9 @@
 /* eslint-disable class-methods-use-this */
 /* eslint-disable max-classes-per-file */
 
+// export class Node {}
+// export class LinkedList {}
+
 export class Node {
   constructor(value, next) {
     this.next = next;
@@ -136,8 +139,3 @@ export class LinkedList {
     current.next = undefined;
   }
 }
-
-/**
- * Remove duplicates from an unsorted linked list.
- */
-export const removeDups = (linkedList) => {};

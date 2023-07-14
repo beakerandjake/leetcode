@@ -1,33 +1,4 @@
-import { LinkedList, Node } from '../../../src/interview/ch02/removeDups.js';
-
-const toNodes = (arr) => {
-  const nodes = arr.map((x) => new Node(x));
-  for (let index = 0; index < nodes.length - 1; index++) {
-    nodes[index].next = nodes[index + 1];
-  }
-  return nodes;
-};
-
-const toList = (nodes) => new LinkedList(nodes[0]);
-
-const str = (arr) => `[${arr.join(',')}]`;
-
-const expectListEqual = (a, b) => {
-  const getNodes = (list) => {
-    const toReturn = [];
-    let current = list.head;
-    while (current) {
-      toReturn.push(current);
-      current = current.next;
-    }
-    return toReturn;
-  };
-
-  expect(a.count).toBe(b.count);
-  expect(a.head).toEqual(b.head);
-  expect(a.tail).toEqual(b.tail);
-  expect(getNodes(a)).toEqual(getNodes(b));
-};
+import { expectListEqual, str, toList, toNodes } from './util.js';
 
 describe('head()', () => {
   [[], [1], [1, 2], [1, 2, 3], [1, 2, 3, 4], [1, 2, 3, 4, 5], [1, 2, 3, 4, 5, 6]].forEach(
