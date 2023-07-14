@@ -63,13 +63,12 @@ export class LinkedList {
   }
 
   addTail(value) {
-    const node = new Node(value);
-    const tail = this.tail();
-    if (!tail) {
+    if (!this.#head) {
       this.addHead(value);
-    } else {
-      tail.next = node;
+      return;
     }
+
+    this.tail.next = new Node(value);
   }
 
   addAfter(value, node) {
