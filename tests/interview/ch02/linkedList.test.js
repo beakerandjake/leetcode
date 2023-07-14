@@ -144,7 +144,7 @@ describe('find()', () => {
     const nodes = toNodes(values);
     const expected = nodes[index];
     const list = toList(nodes);
-    test(`${str(values)}.find(${search}) = ${expected ? 'node' : 'undefined'}`, () => {
+    test(`${str(values)}.find(${search}) = ${values[index]}`, () => {
       const result = list.find(search);
       expect(result).toBe(expected);
     });
@@ -207,3 +207,100 @@ describe('addAfter()', () => {
   });
 });
 
+describe('remove()', () => {
+  [
+    [[], 1, []],
+    [[1], 1, []],
+    [[1, 2], 2, [1]],
+    [[1, 2], 1, [2]],
+    [[1, 2, 3], 1, [2, 3]],
+    [[1, 2, 3], 2, [1, 3]],
+    [[1, 2, 3], 3, [1, 2]],
+    [[1, 2, 3, 4], 1, [2, 3, 4]],
+    [[1, 2, 3, 4], 2, [1, 3, 4]],
+    [[1, 2, 3, 4], 3, [1, 2, 4]],
+    [[1, 2, 3, 4], 4, [1, 2, 3]],
+    [[1, 2, 3, 4, 5], 1, [2, 3, 4, 5]],
+    [[1, 2, 3, 4, 5], 2, [1, 3, 4, 5]],
+    [[1, 2, 3, 4, 5], 3, [1, 2, 4, 5]],
+    [[1, 2, 3, 4, 5], 4, [1, 2, 3, 5]],
+    [[1, 2, 3, 4, 5], 5, [1, 2, 3, 4]],
+    [[1, 2, 3, 4, 5, 6], 1, [2, 3, 4, 5, 6]],
+    [[1, 2, 3, 4, 5, 6], 2, [1, 3, 4, 5, 6]],
+    [[1, 2, 3, 4, 5, 6], 3, [1, 2, 4, 5, 6]],
+    [[1, 2, 3, 4, 5, 6], 4, [1, 2, 3, 5, 6]],
+    [[1, 2, 3, 4, 5, 6], 5, [1, 2, 3, 4, 6]],
+    [[1, 2, 3, 4, 5, 6], 6, [1, 2, 3, 4, 5]],
+  ].forEach(([before, value, after]) => {
+    const list = toList(toNodes(before));
+    const expectedReturnValue = after.length < before.length;
+    const expectedList = toList(toNodes(after));
+    test(`${str(before)}.remove(${value}) = ${expectedReturnValue}`, () => {
+      const result = list.remove(value);
+      expect(result).toBe(expectedReturnValue);
+      expectListEqual(list, expectedList);
+    });
+  });
+});
+
+describe('removeFirst()', () => {
+  [
+    [[], []],
+    [[1], []],
+    [[1, 2], [2]],
+    [
+      [1, 2, 3],
+      [2, 3],
+    ],
+    [
+      [1, 2, 3, 4],
+      [2, 3, 4],
+    ],
+    [
+      [1, 2, 3, 4, 5],
+      [2, 3, 4, 5],
+    ],
+    [
+      [1, 2, 3, 4, 5, 6],
+      [2, 3, 4, 5, 6],
+    ],
+  ].forEach(([before, after]) => {
+    const list = toList(toNodes(before));
+    const expectedList = toList(toNodes(after));
+    test(`${str(before)}.removeFirst() = ${str(after)}`, () => {
+      list.removeFirst();
+      expectListEqual(list, expectedList);
+    });
+  });
+});
+
+describe('removeLast()', () => {
+  [
+    [[], []],
+    [[1], []],
+    [[1, 2], [1]],
+    [
+      [1, 2, 3],
+      [1, 2],
+    ],
+    [
+      [1, 2, 3, 4],
+      [1, 2, 3],
+    ],
+    [
+      [1, 2, 3, 4, 5],
+      [1, 2, 3, 4],
+    ],
+    [
+      [1, 2, 3, 4, 5, 6],
+      [1, 2, 3, 4, 5],
+    ],
+  ].forEach(([before, after]) => {
+    const list = toList(toNodes(before));
+    const expectedList = toList(toNodes(after));
+    test(`${str(before)}.removeLast() = ${str(after)}`, () => {
+      list.removeLast();
+      expectListEqual(list, expectedList);
+    });
+  });
+});

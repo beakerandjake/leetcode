@@ -88,16 +88,52 @@ export class LinkedList {
     predecessor.next = newNode;
   }
 
-  // remove - remove first node with value
-  // removeFirst - remove head
-  // removeLast - remove tail
+  remove(value) {
+    if (!this.#head) {
+      return false;
+    }
 
-  forEach(fn) {
-    let current = this.head;
-    while (current !== null) {
-      fn(current.value);
+    if (this.#head.value === value) {
+      this.removeFirst();
+      return true;
+    }
+
+    let predecessor = this.#head;
+    while (predecessor.next && predecessor.next.value !== value) {
+      predecessor = predecessor.next;
+    }
+
+    if (!predecessor) {
+      return false;
+    }
+
+    predecessor.next = predecessor.next.next;
+    return true;
+  }
+
+  removeFirst() {
+    if (!this.#head) {
+      return;
+    }
+
+    this.#head = this.#head.next;
+  }
+
+  removeLast() {
+    if (!this.#head) {
+      return;
+    }
+
+    if (!this.#head.next) {
+      this.#head = undefined;
+      return;
+    }
+
+    let current = this.#head;
+    while (current.next && current.next.next) {
       current = current.next;
     }
+    current.next = undefined;
   }
 }
 
