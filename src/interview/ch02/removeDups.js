@@ -38,14 +38,6 @@ export class LinkedList {
     return count;
   }
 
-  find(value) {
-    let current = this.#head;
-    while (current && current.value !== value) {
-      current = current.next;
-    }
-    return current;
-  }
-
   contains(value) {
     let current = this.#head;
     while (current) {
@@ -55,6 +47,14 @@ export class LinkedList {
       current = current.next;
     }
     return false;
+  }
+
+  find(value) {
+    let current = this.#head;
+    while (current && current.value !== value) {
+      current = current.next;
+    }
+    return current;
   }
 
   addHead(value) {
@@ -88,7 +88,6 @@ export class LinkedList {
     const newNode = new Node(value, node);
     predecessor.next = newNode;
   }
-
 
   // remove - remove first node with value
   // removeFirst - remove head
