@@ -19,19 +19,34 @@ const simple = (linkedList) => {
   }
 };
 
+const withLookup = (linkedList) => {
+  const encountered = new Set();
+  let previous;
+  let current = linkedList.head;
+
+  while (current) {
+    // first time we're seeing this value.
+    if (!encountered.has(current.value)) {
+      encountered.add(current.value);
+      previous = current;
+      current = current.next;
+    } else {
+      // it's a duplicate, remove it.
+      previous.next = current.next;
+      current = current.next;
+    }
+  }
+};
+
 /**
  * Remove duplicates from an unsorted linked list.
  */
 export const removeDuplicates = (linkedList) => {
-  if (!linkedList) {
+  if (!linkedList || linkedList.count <= 1) {
     return linkedList;
   }
 
-  if (linkedList.count <= 1) {
-    return linkedList;
-  }
-
-  simple(linkedList);
+  withLookup(linkedList);
 
   return linkedList;
 };
