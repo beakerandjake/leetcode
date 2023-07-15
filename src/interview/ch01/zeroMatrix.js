@@ -104,5 +104,5 @@ export const zeroMatrix = (matrix) => {
   if (!matrix || matrix.length === 0) {
     return matrix;
   }
-  return noExtraStorage(matrix);
+  return simple(matrix);
 };

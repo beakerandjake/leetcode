@@ -3,7 +3,21 @@
 /* eslint-disable max-classes-per-file */
 
 // export class Node {}
-// export class LinkedList {}
+// export class LinkedList {
+//   /**
+//    * head
+//    * tail
+//    * contains
+//    * find
+//    * addHead
+//    * addTail
+//    * addAfter
+//    * addBefore
+//    * remove
+//    * removeFirst
+//    * removeLast
+//    */
+// }
 
 export class Node {
   constructor(value, next) {

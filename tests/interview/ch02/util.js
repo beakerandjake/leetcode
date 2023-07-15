@@ -1,6 +1,10 @@
 import { LinkedList, Node } from '../../../src/interview/ch02/linkedList.js';
 
 export const toNodes = (arr) => {
+  if (!arr) {
+    return [];
+  }
+
   const nodes = arr.map((x) => new Node(x));
   for (let index = 0; index < nodes.length - 1; index++) {
     nodes[index].next = nodes[index + 1];
@@ -10,7 +14,7 @@ export const toNodes = (arr) => {
 
 export const toList = (nodes) => new LinkedList(nodes[0]);
 
-export const str = (arr) => `[${arr.join(',')}]`;
+export const str = (arr) => `[${arr?.join(',')}]`;
 
 export const expectListEqual = (a, b) => {
   const getNodes = (list) => {
