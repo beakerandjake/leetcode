@@ -18,7 +18,6 @@ export const knapsack = (items, capacity) => {
   }
 
   const matrix = buildMatrix(items.length + 1, capacity + 1);
-  console.log(matrix);
 
   for (let i = 1; i <= items.length; i++) {
     const item = items[i - 1];
@@ -33,8 +32,6 @@ export const knapsack = (items, capacity) => {
       }
     }
   }
-
-  console.log(matrix);
 
   return matrix[items.length][capacity];
 };
