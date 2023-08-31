@@ -19,5 +19,20 @@ export const knapsack = (items, capacity) => {
 
   const matrix = buildMatrix(items.length + 1, capacity + 1);
   console.log(matrix);
-  return 1234;
+
+  for (let i = 1; i <= items.length; i++) {
+    const item = items[i - 1];
+    for (let j = 1; j <= capacity; j++) {
+      if (item.weight > j) {
+        matrix[i][j] = matrix[i - 1][j];
+      } else {
+        matrix[i][j] = Math.max(
+          matrix[i - 1][j],
+          item.value + matrix[i - 1][j - item.weight]
+        );
+      }
+    }
+  }
+
+  return matrix[items.length][capacity];
 };
