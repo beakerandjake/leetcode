@@ -34,5 +34,7 @@ export const knapsack = (items, capacity) => {
     }
   }
 
+  console.log(matrix);
+
   return matrix[items.length][capacity];
 };
