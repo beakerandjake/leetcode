@@ -10,17 +10,16 @@
  * To accommodate this, nums1 has a length of m + n, where the first m elements denote the elements that should be merged,
  * and the last n elements are set to 0 and should be ignored. nums2 has a length of n.
  */
-export const merge = (nums1, num1Length, nums2, num2Length) => {
-  let num1Index = num1Length - 1;
-  let num2Index = num2Length - 1;
-  for (let i = num1Length + num2Length; i--; ) {
-    if (num1Index < 0) {
-      nums1[i] = nums2[num2Index--];
-    } else if (num2Index < 0) {
-      nums1[i] = nums1[num1Index--];
+export const merge = (a, aLength, b, bLength) => {
+  let aIndex = aLength - 1;
+  let bIndex = bLength - 1;
+  for (let index = aLength + bLength; index--; ) {
+    if (aIndex < 0) {
+      a[index] = b[bIndex--];
+    } else if (bIndex < 0) {
+      a[index] = a[aIndex--];
     } else {
-      nums1[i] =
-        nums1[num1Index] >= nums2[num2Index] ? nums1[num1Index--] : nums2[num2Index--];
+      a[index] = a[aIndex] >= b[bIndex] ? a[aIndex--] : b[bIndex--];
     }
   }
-};;
+};
