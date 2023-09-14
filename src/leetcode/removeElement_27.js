@@ -18,11 +18,16 @@
  * @return {number}
  */
 export const removeElement = (nums, val) => {
-  let slowIndex = 0;
-  for (let index = 0; index < nums.length; index++) {
-    if (nums[index] !== val) {
-      nums[slowIndex++] = nums[index];
+  let lhsIndex = 0;
+  let rhsIndex = nums.length;
+  let total = 0;
+  while (lhsIndex < rhsIndex) {
+    if (nums[lhsIndex] === val) {
+      nums[lhsIndex] = nums[--rhsIndex];
+    } else {
+      total++;
+      lhsIndex++;
     }
   }
-  return slowIndex;
+  return total;
 };
