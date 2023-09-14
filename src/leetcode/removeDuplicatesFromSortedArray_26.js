@@ -9,14 +9,15 @@ export const removeDuplicates = (array) => {
     return array.length;
   }
 
-  const encountered = new Set();
-  array.forEach((x) => {
-    encountered.add(x);
-  });
-  let i = 0;
-  encountered.forEach((x) => {
-    array[i++] = x;
-  });
+  let slowIndex = 0;
+  let fastIndex = 1;
+  while (fastIndex < array.length) {
+    if (array[slowIndex] === array[fastIndex]) {
+      fastIndex++;
+      continue;
+    }
+    array[++slowIndex] = array[fastIndex++];
+  }
 
-  return encountered.size;
+  return slowIndex + 1;
 };
