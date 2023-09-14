@@ -10,16 +10,12 @@ export const removeDuplicates = (array) => {
   }
 
   const encountered = new Set();
-  const unique = array.reduce((acc, x) => {
-    if (!encountered.has(x)) {
-      encountered.add(x);
-      acc.push(x);
-    }
-    return acc;
-  }, []);
-
-  unique.forEach((x, i) => {
-    array[i] = x;
+  array.forEach((x) => {
+    encountered.add(x);
+  });
+  let i = 0;
+  encountered.forEach((x) => {
+    array[i++] = x;
   });
 
   return encountered.size;
