@@ -50,29 +50,46 @@
 //   return toReturn;
 // };
 
-const recursiveMemoization = (prices) => {
+// const recursiveMemoization = (prices) => {
+//   if (prices.length <= 1) {
+//     return 0;
+//   }
+
+//   const memo = new Map();
+//   const maxSellPrice = (index) => {
+//     if (index >= prices.length) {
+//       return 0;
+//     }
+//     if (memo.has(index)) {
+//       return memo.get(index);
+//     }
+//     const value = Math.max(prices[index], maxSellPrice(index + 1));
+//     memo.set(index, value);
+//     return value;
+//   };
+
+//   let toReturn = 0;
+//   for (let buyIndex = prices.length - 1; buyIndex--; ) {
+//     const profit = maxSellPrice(buyIndex + 1) - prices[buyIndex];
+//     if (profit > toReturn) {
+//       toReturn = profit;
+//     }
+//   }
+//   return toReturn;
+// };
+
+const peaksAndValleys = (prices) => {
   if (prices.length <= 1) {
     return 0;
   }
 
-  const memo = new Map();
-  const maxSellPrice = (index) => {
-    if (index >= prices.length) {
-      return 0;
-    }
-    if (memo.has(index)) {
-      return memo.get(index);
-    }
-    const value = Math.max(prices[index], maxSellPrice(index + 1));
-    memo.set(index, value);
-    return value;
-  };
-
+  let minPrice = Number.MAX_SAFE_INTEGER;
   let toReturn = 0;
-  for (let buyIndex = prices.length - 1; buyIndex--; ) {
-    const profit = maxSellPrice(buyIndex + 1) - prices[buyIndex];
-    if (profit > toReturn) {
-      toReturn = profit;
+  for (let index = 0; index < prices.length; index++) {
+    if (prices[index] < minPrice) {
+      minPrice = prices[index];
+    } else if (prices[index] - minPrice > toReturn) {
+      toReturn = prices[index] - minPrice;
     }
   }
   return toReturn;
@@ -82,4 +99,4 @@ const recursiveMemoization = (prices) => {
  * @param {number[]} prices
  * @return {number}
  */
-export const maxProfit = recursiveMemoization;
+export const maxProfit = peaksAndValleys;
