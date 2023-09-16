@@ -50,11 +50,7 @@
 //   return toReturn;
 // };
 
-/**
- * @param {number[]} prices
- * @return {number}
- */
-export const maxProfit = (prices) => {
+const recursiveMemoization = (prices) => {
   if (prices.length <= 1) {
     return 0;
   }
@@ -64,11 +60,9 @@ export const maxProfit = (prices) => {
     if (index >= prices.length) {
       return 0;
     }
-
     if (memo.has(index)) {
       return memo.get(index);
     }
-
     const value = Math.max(prices[index], maxSellPrice(index + 1));
     memo.set(index, value);
     return value;
@@ -83,3 +77,9 @@ export const maxProfit = (prices) => {
   }
   return toReturn;
 };
+
+/**
+ * @param {number[]} prices
+ * @return {number}
+ */
+export const maxProfit = recursiveMemoization;
