@@ -4,54 +4,82 @@
  * Return the maximum profit you can achieve from this transaction. If you cannot achieve any profit, return 0.
  */
 
-const simple = (prices) => {
-  let max = 0;
-  const { length } = prices;
-  for (let buyIndex = 0; buyIndex < length; buyIndex++) {
-    for (let sellIndex = buyIndex + 1; sellIndex < length; sellIndex++) {
-      if (prices[sellIndex] - prices[buyIndex] > max) {
-        max = prices[sellIndex] - prices[buyIndex];
-      }
-    }
-  }
-  return max;
-};
+// const simple = (prices) => {
+//   let max = 0;
+//   const { length } = prices;
+//   for (let buyIndex = 0; buyIndex < length; buyIndex++) {
+//     for (let sellIndex = buyIndex + 1; sellIndex < length; sellIndex++) {
+//       if (prices[sellIndex] - prices[buyIndex] > max) {
+//         max = prices[sellIndex] - prices[buyIndex];
+//       }
+//     }
+//   }
+//   return max;
+// };
 
-const simpleWithCacheMax = (prices) => {
-  if (prices.length <= 1) {
-    return 0;
-  }
+// const simpleWithCacheMax = (prices) => {
+//   if (prices.length <= 1) {
+//     return 0;
+//   }
 
-  let toReturn = 0;
-  let maxSellValue = 0;
-  let maxSellIndex = 0;
+//   let toReturn = 0;
+//   let maxSellValue = 0;
+//   let maxSellIndex = 0;
 
-  for (let buyIndex = 0; buyIndex < prices.length - 1; buyIndex++) {
-    const buyPrice = prices[buyIndex];
+//   for (let buyIndex = 0; buyIndex < prices.length - 1; buyIndex++) {
+//     const buyPrice = prices[buyIndex];
 
-    if (!maxSellValue || maxSellIndex === buyIndex) {
-      maxSellIndex = 0;
-      maxSellValue = 0;
-      // scan forward and find max sell value
-      for (let j = buyIndex + 1; j < prices.length; j++) {
-        if (prices[j] > maxSellValue) {
-          maxSellIndex = j;
-          maxSellValue = prices[j];
-        }
-      }
-    }
+//     if (!maxSellValue || maxSellIndex === buyIndex) {
+//       maxSellIndex = 0;
+//       maxSellValue = 0;
+//       // scan forward and find max sell value
+//       for (let j = buyIndex + 1; j < prices.length; j++) {
+//         if (prices[j] > maxSellValue) {
+//           maxSellIndex = j;
+//           maxSellValue = prices[j];
+//         }
+//       }
+//     }
 
-    const bestProfit = maxSellValue - buyPrice;
-    if (bestProfit > toReturn) {
-      toReturn = bestProfit;
-    }
-  }
+//     const bestProfit = maxSellValue - buyPrice;
+//     if (bestProfit > toReturn) {
+//       toReturn = bestProfit;
+//     }
+//   }
 
-  return toReturn;
-};
+//   return toReturn;
+// };
 
 /**
  * @param {number[]} prices
  * @return {number}
  */
-export const maxProfit = (prices) => {};
+export const maxProfit = (prices) => {
+  if (prices.length <= 1) {
+    return 0;
+  }
+
+  const memo = new Map();
+  const maxSellPrice = (index) => {
+    if (index >= prices.length) {
+      return 0;
+    }
+
+    if (memo.has(index)) {
+      return memo.get(index);
+    }
+
+    const value = Math.max(prices[index], maxSellPrice(index + 1));
+    memo.set(index, value);
+    return value;
+  };
+
+  let toReturn = 0;
+  for (let buyIndex = prices.length - 1; buyIndex--; ) {
+    const profit = maxSellPrice(buyIndex + 1) - prices[buyIndex];
+    if (profit > toReturn) {
+      toReturn = profit;
+    }
+  }
+  return toReturn;
+};
