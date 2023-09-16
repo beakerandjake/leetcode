@@ -4,41 +4,37 @@
  * Return true if you can reach the last index, or false otherwise.
  */
 
-// const recursiveMemo = (nums) => {
-//   if (nums.length === 1) {
-//     return true;
-//   }
+const complexRecursion = (nums) => {
+  if (nums.length === 1) {
+    return true;
+  }
 
-//   const target = nums.length - 1;
-//   const memo = new Map();
-//   const test = (index) => {
-//     if (index === target) {
-//       return true;
-//     }
+  const target = nums.length - 1;
+  const memo = new Map();
+  const test = (index) => {
+    if (index === target) {
+      return true;
+    }
 
-//     if (memo.has(index)) {
-//       return memo.get(index);
-//     }
+    if (memo.has(index)) {
+      return memo.get(index);
+    }
 
-//     let value = nums[index];
-//     while (value) {
-//       if (test(index + value--)) {
-//         memo.set(index, true);
-//         return true;
-//       }
-//     }
-//     memo.set(index, false);
-//     return false;
-//   };
+    let value = nums[index];
+    while (value) {
+      if (test(index + value--)) {
+        memo.set(index, true);
+        return true;
+      }
+    }
+    memo.set(index, false);
+    return false;
+  };
 
-//   return test(0);
-// };
+  return test(0);
+};
 
-/**
- * @param {number[]} nums
- * @return {boolean}
- */
-export const canJump = (nums) => {
+const simpleIterative = (nums) => {
   if (nums.length === 1) {
     return true;
   }
@@ -59,4 +55,23 @@ export const canJump = (nums) => {
       currentIndex = targetIndex - 1;
     }
   }
+};
+
+/**
+ * @param {number[]} nums
+ * @return {boolean}
+ */
+export const canJump = (nums) => {
+  const recurse = (targetIndex, currentIndex) => {
+    if (targetIndex === 0) {
+      return true;
+    }
+    if (currentIndex === 0) {
+      return nums[currentIndex] >= targetIndex;
+    }
+    return nums[currentIndex] >= targetIndex - currentIndex
+      ? recurse(targetIndex - 1, targetIndex - 2)
+      : recurse(targetIndex, currentIndex - 1);
+  };
+  return recurse(nums.length - 1, nums.length - 2);
 };
