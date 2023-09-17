@@ -3,8 +3,10 @@ import { arrToStr } from '../util.js';
 
 describe('135. Candy', () => {
   [
-    [[1,0,2], 5],
-    [[1,2,2], 4],
+    [[1, 0, 2], 5],
+    [[1, 2, 2], 4],
+    [[6, 3, 2], 6],
+    [[10], 1],
   ].forEach(([ratings, expected]) => {
     test(`${arrToStr(ratings)} -> ${expected}`, () => {
       const result = candy(ratings);

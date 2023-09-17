@@ -11,5 +11,5 @@
  * @return {number}
  */
 export const candy = (ratings) => {
-  
+
 };
