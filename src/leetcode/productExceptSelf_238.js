@@ -4,45 +4,45 @@
  * You must write an algorithm that runs in O(n) time and without using the division operation.
  */
 
-// const simple = (array) => {
-//   const productExcept = (exceptIndex) =>
-//     array.reduce(
-//       (total, number, index) => (index !== exceptIndex ? number * total : total),
-//       1
-//     );
+const simple = (array) => {
+  const productExcept = (exceptIndex) =>
+    array.reduce(
+      (total, number, index) => (index !== exceptIndex ? number * total : total),
+      1
+    );
 
-//   return array.map((_, i) => productExcept(i));
-// };
+  return array.map((_, i) => productExcept(i));
+};
 
-// const recursive = (array) => {
-//   const beforeCache = [];
-//   const before = (index) => {
-//     if (index === 0) {
-//       return 1;
-//     }
-//     if (beforeCache[index] != null) {
-//       return beforeCache[index];
-//     }
-//     const result = array[index - 1] * before(index - 1);
-//     beforeCache[index] = result;
-//     return result;
-//   };
+const recursive = (array) => {
+  const beforeCache = [];
+  const before = (index) => {
+    if (index === 0) {
+      return 1;
+    }
+    if (beforeCache[index] != null) {
+      return beforeCache[index];
+    }
+    const result = array[index - 1] * before(index - 1);
+    beforeCache[index] = result;
+    return result;
+  };
 
-//   const afterCache = [];
-//   const after = (index) => {
-//     if (index === array.length - 1) {
-//       return 1;
-//     }
-//     if (afterCache[index] != null) {
-//       return afterCache[index];
-//     }
-//     const result = array[index + 1] * after(index + 1);
-//     afterCache[index] = result;
-//     return result;
-//   };
+  const afterCache = [];
+  const after = (index) => {
+    if (index === array.length - 1) {
+      return 1;
+    }
+    if (afterCache[index] != null) {
+      return afterCache[index];
+    }
+    const result = array[index + 1] * after(index + 1);
+    afterCache[index] = result;
+    return result;
+  };
 
-//   return array.map((_, i) => before(i) * after(i));
-// };
+  return array.map((_, i) => before(i) * after(i));
+};
 
 /**
  * @param {number[]} array
