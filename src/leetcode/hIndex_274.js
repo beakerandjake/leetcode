@@ -20,9 +20,16 @@ const simple = (citations) => {
   return toReturn;
 };
 
-
 /**
  * @param {number[]} citations
  * @return {number}
  */
-export const hIndex = simple;
+export const hIndex = (citations) => {
+  const sorted = [...citations].sort((a, b) => a - b);
+  for (let i = 0; i < sorted.length; i++) {
+    if (sorted[i] >= sorted.length - i) {
+      return sorted.length - i;
+    }
+  }
+  return 0;
+};
