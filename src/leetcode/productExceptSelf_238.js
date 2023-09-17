@@ -14,36 +14,50 @@
 //   return array.map((_, i) => productExcept(i));
 // };
 
+// const recursive = (array) => {
+//   const beforeCache = [];
+//   const before = (index) => {
+//     if (index === 0) {
+//       return 1;
+//     }
+//     if (beforeCache[index] != null) {
+//       return beforeCache[index];
+//     }
+//     const result = array[index - 1] * before(index - 1);
+//     beforeCache[index] = result;
+//     return result;
+//   };
+
+//   const afterCache = [];
+//   const after = (index) => {
+//     if (index === array.length - 1) {
+//       return 1;
+//     }
+//     if (afterCache[index] != null) {
+//       return afterCache[index];
+//     }
+//     const result = array[index + 1] * after(index + 1);
+//     afterCache[index] = result;
+//     return result;
+//   };
+
+//   return array.map((_, i) => before(i) * after(i));
+// };
+
 /**
  * @param {number[]} array
  * @return {number[]}
  */
 export const productExceptSelf = (array) => {
-  const beforeCache = [];
-  const before = (index) => {
-    if (index === 0) {
-      return 1;
-    }
-    if (beforeCache[index] != null) {
-      return beforeCache[index];
-    }
-    const result = array[index - 1] * before(index - 1);
-    beforeCache[index] = result;
-    return result;
-  };
+  const beforeCache = [1];
+  for (let i = 1; i < array.length; i++) {
+    beforeCache.push(array[i - 1] * beforeCache[i - 1]);
+  }
 
-  const afterCache = [];
-  const after = (index) => {
-    if (index === array.length - 1) {
-      return 1;
-    }
-    if (afterCache[index] != null) {
-      return afterCache[index];
-    }
-    const result = array[index + 1] * after(index + 1);
-    afterCache[index] = result;
-    return result;
-  };
+  const afterCache = Array(array.length).fill(1);
+  for (let i = array.length - 1; i--; ) {
+    afterCache[i] = array[i + 1] * afterCache[i + 1];
+  }
 
-  return array.map((_, i) => before(i) * after(i));
+  return array.map((_, i) => beforeCache[i] * afterCache[i]);
 };
