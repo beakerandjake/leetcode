@@ -42,35 +42,52 @@
 //   return children.reduce((total, child) => total + child.candy, 0);
 // };
 
-const simpleIterative = (ratings) => {
-  if (ratings.length === 1) {
-    return 1;
-  }
+// const simpleIterative = (ratings) => {
+//   if (ratings.length === 1) {
+//     return 1;
+//   }
 
-  let changeCount = 1;
-  const candies = Array(ratings.length).fill(1);
-  while (changeCount > 0) {
-    changeCount = 0;
-    for (let i = 0; i < candies.length; i++) {
-      if (i > 0 && ratings[i - 1] < ratings[i] && candies[i - 1] >= candies[i]) {
-        changeCount++;
-        candies[i] += 1;
-      }
-      if (
-        i < ratings.length - 1 &&
-        ratings[i + 1] < ratings[i] &&
-        candies[i + 1] >= candies[i]
-      ) {
-        changeCount++;
-        candies[i] += 1;
-      }
-    }
-  }
-  return candies.reduce((acc, x) => acc + x, 0);
-};
+//   let settled = false;
+//   const candies = Array(ratings.length).fill(1);
+//   while (!settled) {
+//     settled = true;
+//     for (let i = 0; i < candies.length; i++) {
+//       if (i > 0 && ratings[i - 1] < ratings[i] && candies[i - 1] >= candies[i]) {
+//         settled = false;
+//         candies[i] += 1;
+//       }
+//       if (
+//         i < ratings.length - 1 &&
+//         ratings[i + 1] < ratings[i] &&
+//         candies[i + 1] >= candies[i]
+//       ) {
+//         settled = false;
+//         candies[i] += 1;
+//       }
+//     }
+//   }
+//   return candies.reduce((acc, x) => acc + x, 0);
+// };
 
 /**
  * @param {number[]} ratings
  * @return {number}
  */
-export const candy = simpleIterative;
+export const candy = (ratings) => {
+  if (ratings.length === 1) {
+    return 1;
+  }
+  const lookRight = Array(ratings.length).fill(1);
+  for (let i = 1; i < lookRight.length; i++) {
+    if (ratings[i] > ratings[i - 1] && lookRight[i] <= lookRight[i - 1]) {
+      lookRight[i] = lookRight[i - 1] + 1;
+    }
+  }
+  const lookLeft = Array(ratings.length).fill(1);
+  for (let i = ratings.length - 1; i--; ) {
+    if (ratings[i] > ratings[i + 1] && lookLeft[i] <= lookLeft[i + 1]) {
+      lookLeft[i] = lookLeft[i + 1] + 1;
+    }
+  }
+  return ratings.reduce((acc, _, i) => acc + Math.max(lookRight[i], lookLeft[i]), 0);
+};
