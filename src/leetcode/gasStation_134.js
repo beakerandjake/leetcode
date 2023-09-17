@@ -12,29 +12,37 @@
  * @return {number}
  */
 export const canCompleteCircuit = (gas, cost) => {
-  const test = (start) => {
+  const travel = (start) => {
     let current = start;
     let tank = 0;
-    for (let i = 0; i < gas.length; i++) {
+    for (let i = gas.length; i--; ) {
       const newTank = tank + gas[current];
       const travelCost = cost[current];
       if (travelCost > newTank) {
-        return -1;
+        return current;
       }
       current = (current + 1) % gas.length;
       tank = newTank - travelCost;
     }
-    return start;
+    return current;
   };
 
-  for (let i = 0; i < gas.length; i++) {
+  let current = 0;
+  while (current <= gas.length) {
     // can't start at this gas station if travel cost is more than initial fill up
-    if (gas[i] < cost[i] || (gas[i] === 0 && cost[i] === 0)) {
+    if (gas[current] < cost[current]) {
+      current++;
       continue;
     }
-    if (test(i) === i) {
-      return i;
+    const furthest = travel(current);
+    if (furthest === current) {
+      return current;
     }
+    if (furthest < current) {
+      return -1;
+    }
+    current = furthest;
   }
+
   return -1;
 };
