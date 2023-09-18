@@ -20,18 +20,27 @@
 //   return -1;
 // };
 
+// const regex = (haystack, needle) => {
+//   if (needle.length > haystack.length) {
+//     return -1;
+//   }
+//   if (needle.length === haystack.length) {
+//     return needle === haystack ? 0 : -1;
+//   }
+//   const match = haystack.match(new RegExp(needle));
+//   return match ? match.index : -1;
+// };
+
+
 /**
  * @param {string} haystack
  * @param {string} needle
  * @return {number}
  */
 export const strStr = (haystack, needle) => {
-  if (needle.length > haystack.length) {
-    return -1;
-  }
-  if (needle.length === haystack.length) {
-    return needle === haystack ? 0 : -1;
-  }
-  const match = haystack.match(new RegExp(needle));
-  return match ? match.index : -1;
+  const startsWithNeedle = (index, needleChars) =>
+    needleChars.every((char, i) => haystack[i + index] === char);
+
+  const needleChars = [...needle];
+  return [...haystack].findIndex((_, index) => startsWithNeedle(index, needleChars));
 };
