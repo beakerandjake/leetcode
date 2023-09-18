@@ -9,9 +9,10 @@ describe('28. Find the Index of the First Occurrence in a String', () => {
     ['hello', 'll', 2],
     ['abc', 'c', 2],
     ['mississippi', 'issi', 1],
-  ].forEach(([needle, haystack, expected]) => {
-    test(`needle: ${needle}, haystack: ${haystack} -> ${expected}`, () => {
-      const result = strStr(needle, haystack);
+    ['mississippi', 'pi', 9],
+  ].forEach(([haystack, needle, expected]) => {
+    test(`haystack: ${haystack}, needle: ${needle} -> ${expected}`, () => {
+      const result = strStr(haystack, needle);
       expect(result).toBe(expected);
     });
   });
