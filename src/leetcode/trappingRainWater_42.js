@@ -3,17 +3,42 @@
  * compute how much water it can trap after raining.
  */
 
-/**
- * @param {number[]} heights
- * @return {number}
- */
-export const trap = (heights) => {
-  if (heights.length === 1) {
+const countVerticallyNoRegex = (heights) => {
+  if (heights.length <= 2) {
     return 0;
   }
 
-  // speed up no need to step every level down, can move y between unique heights descending.
-  // eliminates edge case of a few really tall heights
+  const countBuckets = (height) => {
+    let toReturn = 0;
+    let consuming = heights[0] >= height;
+    let potential = 0;
+    for (let x = 1; x < heights.length; x++) {
+      const occupied = heights[x] >= height;
+      if (consuming && occupied) {
+        toReturn += potential;
+        potential = 0;
+      } else if (consuming && !occupied) {
+        potential += 1;
+      } else if (!consuming && occupied) {
+        consuming = true;
+      }
+    }
+    return toReturn;
+  };
+
+  const maxHeight = Math.max(...heights);
+  let height = 0;
+  let toReturn = 0;
+  while (height++ < maxHeight) {
+    toReturn += countBuckets(heights, height);
+  }
+  return toReturn;
+};
+
+const countVerticallyRegex = (heights) => {
+  if (heights.length === 1) {
+    return 0;
+  }
 
   const rows = [];
   const maxHeight = Math.max(...heights);
@@ -31,8 +56,12 @@ export const trap = (heights) => {
       continue;
     }
     total += matches.reduce((acc, x) => acc + x.length, 0);
-    // console.log('row', row, 'matches', matches);
   }
   return total;
-
 };
+
+/**
+ * @param {number[]} heights
+ * @return {number}
+ */
+export const trap = (heights) => {};
