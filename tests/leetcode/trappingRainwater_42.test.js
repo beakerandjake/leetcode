@@ -16,6 +16,9 @@ describe('42. Trapping Rain Water', () => {
     [[3, 1, 1, 2], 2],
     [[5, 4, 1, 2], 1],
     [[5, 2, 2, 2, 2, 2], 0],
+    [[1, 0, 1], 1],
+    [[3, 1, 2, 0, 5, 0, 4, 1, 3], 12],
+    [[7, 1, 1, 1, 3, 1, 4], 13],
   ].forEach(([heights, expected]) => {
     test(`${arrToStr(heights)} -> ${expected}`, () => {
       const result = trap(heights);
