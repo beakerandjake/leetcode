@@ -64,7 +64,7 @@ const leftEmpty = (flowerbed, index) =>
 const rightEmpty = (flowerbed, index) =>
   index === flowerbed.length - 1 ? true : isEmpty(flowerbed[index + 1]);
 
-const countAvailable = (flowerbed, index, required) => {
+const countAvailable = (flowerbed, index) => {
   if (index >= flowerbed.length) {
     return 0;
   }
