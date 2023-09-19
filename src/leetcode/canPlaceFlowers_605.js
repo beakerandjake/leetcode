@@ -7,48 +7,82 @@
  * the no-adjacent-flowers rule and false otherwise.
  */
 
-const simpleFunctional = (() => {
-  const isEmpty = (plot) => plot === 0;
+// const simpleFunctional = (() => {
+//   const maxPlots = (flowerbed) =>
+//     flowerbed.length % 2 === 0 ? flowerbed.length / 2 : flowerbed.length + 1 / 2;
 
-  const hasNeighbors = (flowerbed, index) => {
-    if (index === 0) {
-      return !isEmpty(flowerbed[index + 1]);
-    }
-    if (index === flowerbed.length - 1) {
-      return !isEmpty(flowerbed[index - 1]);
-    }
-    return !isEmpty(flowerbed[index - 1]) || !isEmpty(flowerbed[index + 1]);
-  };
+//   const isEmpty = (plot) => plot !== 1;
 
-  const findAvailablePlotIndex = (flowerbed) =>
-    flowerbed.findIndex(
-      (plot, index) => isEmpty(plot) && !hasNeighbors(flowerbed, index)
-    );
+//   const hasNeighbors = (flowerbed, index) => {
+//     if (index === 0) {
+//       return !isEmpty(flowerbed[index + 1]);
+//     }
+//     if (index === flowerbed.length - 1) {
+//       return !isEmpty(flowerbed[index - 1]);
+//     }
+//     return !isEmpty(flowerbed[index - 1]) || !isEmpty(flowerbed[index + 1]);
+//   };
 
-  return (flowerbed, n) => {
-    if (n <= 0) {
-      return true;
-    }
+//   const findAvailablePlotIndex = (flowerbed) =>
+//     flowerbed.findIndex(
+//       (plot, index) => isEmpty(plot) && !hasNeighbors(flowerbed, index)
+//     );
 
-    if (flowerbed.length === 1) {
-      return n === 1 && !flowerbed[0];
-    }
+//   return (flowerbed, n) => {
+//     if (n <= 0) {
+//       return true;
+//     }
 
-    let currentFlowerbed = flowerbed;
-    let remaining = n;
-    while (remaining--) {
-      const openPlotIndex = findAvailablePlotIndex(currentFlowerbed);
-      if (openPlotIndex === -1) {
-        return false;
-      }
-      currentFlowerbed = currentFlowerbed.map((x, i) => (i === openPlotIndex ? 1 : x));
-    }
-    return true;
-  };
-})();
+//     if (maxPlots(flowerbed) < n) {
+//       return false;
+//     }
 
-const maxPlots = (flowerbed) =>
+//     let currentFlowerbed = flowerbed;
+//     let remaining = n;
+//     while (remaining--) {
+//       const openPlotIndex = findAvailablePlotIndex(currentFlowerbed);
+//       if (openPlotIndex === -1) {
+//         return false;
+//       }
+//       currentFlowerbed = currentFlowerbed.map((x, i) => (i === openPlotIndex ? 1 : x));
+//     }
+//     return true;
+//   };
+// })();
+
+const isEmpty = (plot) => plot !== 1;
+
+const maxCapacity = (flowerbed) =>
   flowerbed.length % 2 === 0 ? flowerbed.length / 2 : flowerbed.length + 1 / 2;
+
+const flowers = (flowerbed) =>
+  flowerbed.reduce((total, plot) => (isEmpty(plot) ? total : total + 1), 0);
+
+
+const hasLeftNeighbor = (flowerbed, index) =>
+  index === 0 ? false : !isEmpty(flowerbed[index - 1]);
+
+const hasRightNeighbor = (flowerbed, index) =>
+  index === flowerbed.length - 1 ? false : !isEmpty(flowerbed[index + 1]);
+
+const countAvailable = (flowerbed, index = 0) => {
+  if (index >= flowerbed.length) {
+    return 0;
+  }
+
+  if (!isEmpty(flowerbed[index])) {
+    return countAvailable(flowerbed, index + 2);
+  }
+
+  const left = hasLeftNeighbor(flowerbed, index);
+  const right = hasRightNeighbor(flowerbed, index);
+
+  if (!left && !right) {
+    return 1 + countAvailable(flowerbed, index + 2);
+  }
+
+  return countAvailable(flowerbed, left ? index + 1 : index + 2);
+};
 
 /**
  * @param {number[]} flowerbed
@@ -60,7 +94,10 @@ export const canPlaceFlowers = (flowerbed, n) => {
     return true;
   }
 
-  if (maxPlots(flowerbed) > n) {
+  // check if there isn't enough space to plant flowers
+  if (n > maxCapacity(flowerbed) || flowers(flowerbed) + n > maxCapacity(flowerbed)) {
     return false;
   }
+
+  return countAvailable(flowerbed, 0) >= n;
 };
