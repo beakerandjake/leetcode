@@ -1,7 +1,7 @@
 import { kidsWithCandies } from '../../src/leetcode/greatestNumberOfCandies_1431.js';
 import { arrToStr } from '../util.js';
 
-describe('1071. Greatest Common Divisor of Strings', () => {
+describe('1431. Kids With the Greatest Number of Candies', () => {
   [
     [[2, 3, 5, 1, 3], 3, [true, true, true, false, true]],
     [[4, 2, 1, 1, 2], 1, [true, false, false, false, false]],
