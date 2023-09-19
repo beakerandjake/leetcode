@@ -31,7 +31,7 @@ const simpleFunctional = (() => {
     }
 
     if (flowerbed.length === 1) {
-      return !flowerbed[0];
+      return n === 1 && !flowerbed[0];
     }
 
     let currentFlowerbed = flowerbed;
@@ -47,9 +47,20 @@ const simpleFunctional = (() => {
   };
 })();
 
+const maxPlots = (flowerbed) =>
+  flowerbed.length % 2 === 0 ? flowerbed.length / 2 : flowerbed.length + 1 / 2;
+
 /**
  * @param {number[]} flowerbed
  * @param {number} n
  * @return {boolean}
  */
-export const canPlaceFlowers = simpleFunctional;
+export const canPlaceFlowers = (flowerbed, n) => {
+  if (n === 0) {
+    return true;
+  }
+
+  if (maxPlots(flowerbed) > n) {
+    return false;
+  }
+};
