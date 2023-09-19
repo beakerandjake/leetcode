@@ -58,14 +58,13 @@ const maxCapacity = (flowerbed) =>
 const flowers = (flowerbed) =>
   flowerbed.reduce((total, plot) => (isEmpty(plot) ? total : total + 1), 0);
 
+const leftEmpty = (flowerbed, index) =>
+  index === 0 ? true : isEmpty(flowerbed[index - 1]);
 
-const hasLeftNeighbor = (flowerbed, index) =>
-  index === 0 ? false : !isEmpty(flowerbed[index - 1]);
+const rightEmpty = (flowerbed, index) =>
+  index === flowerbed.length - 1 ? true : isEmpty(flowerbed[index + 1]);
 
-const hasRightNeighbor = (flowerbed, index) =>
-  index === flowerbed.length - 1 ? false : !isEmpty(flowerbed[index + 1]);
-
-const countAvailable = (flowerbed, index = 0) => {
+const countAvailable = (flowerbed, index, required) => {
   if (index >= flowerbed.length) {
     return 0;
   }
@@ -74,14 +73,11 @@ const countAvailable = (flowerbed, index = 0) => {
     return countAvailable(flowerbed, index + 2);
   }
 
-  const left = hasLeftNeighbor(flowerbed, index);
-  const right = hasRightNeighbor(flowerbed, index);
-
-  if (!left && !right) {
+  if (leftEmpty(flowerbed, index) && rightEmpty(flowerbed, index)) {
     return 1 + countAvailable(flowerbed, index + 2);
   }
 
-  return countAvailable(flowerbed, left ? index + 1 : index + 2);
+  return countAvailable(flowerbed, rightEmpty(flowerbed, index) ? index + 1 : index + 2);
 };
 
 /**
