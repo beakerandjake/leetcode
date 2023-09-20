@@ -4,18 +4,20 @@
  * If no such indices exists, return false.
  */
 
-const smallest = (nums, index) => {
-  if (index === 0) {
-    return nums[0];
+const smallestSeen = (nums) => {
+  const toReturn = [nums[0]];
+  for (let i = 1; i < nums.length; i++) {
+    toReturn[i] = nums[i] < toReturn[i - 1] ? nums[i] : toReturn[i - 1];
   }
-  return Math.min(nums[index], smallest(nums, index - 1));
+  return toReturn;
 };
 
-const largest = (nums, index) => {
-  if (index === nums.length - 1) {
-    return nums[nums.length - 1];
+const largestSeen = (nums) => {
+  const toReturn = [...nums];
+  for (let i = nums.length - 2; i >= 0; i--) {
+    toReturn[i] = nums[i] > toReturn[i + 1] ? nums[i] : toReturn[i + 1];
   }
-  return Math.max(nums[index], largest(nums, index + 1));
+  return toReturn;
 };
 
 /**
@@ -26,8 +28,8 @@ export const increasingTriplet = (nums) => {
   if (nums.length < 3) {
     return false;
   }
-  const sm = nums.map((_, i) => smallest(nums, i));
-  const lg = nums.map((_, i) => largest(nums, i));
+  const sm = smallestSeen(nums);
+  const lg = largestSeen(nums);
   for (let i = 1; i < nums.length - 1; i++) {
     if (sm[i] < nums[i] && lg[i] > nums[i]) {
       return true;
