@@ -7,7 +7,13 @@
  * The returned string should only have a single space separating the words. Do not include any extra spaces.
  */
 
-// const simple = (str) => str.trim().replace(/\s+/g, ' ').split(' ').reverse().join(' ');
+// const simple = (str) =>
+//   str
+//     .trim()
+//     .replace(/\s{2,}/g, ' ')
+//     .split(' ')
+//     .reverse()
+//     .join(' ');
 
 const isWhitespace = (char) => char === ' ';
 
