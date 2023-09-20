@@ -9,6 +9,10 @@ describe('334. Increasing Triplet Subsequence', () => {
     [[10, 9, 5, 4, 3, 2, 6, 3, 2, 1, 7], true],
     [[9, 3, 20, 14, 9, 3], false],
     [[2, 3, 20, 14, 9, 3], true],
+    [[1, 2, 2, 1], false],
+    [[4, 5, 2147483647, 1, 2], true],
+    [[1, 5, 0, 4, 1, 3], true],
+    [[1, 2, 3], true],
   ].forEach(([array, expected]) => {
     test(`${arrToStr(array)} -> ${expected}`, () => {
       const result = increasingTriplet(array);
