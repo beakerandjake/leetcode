@@ -19,15 +19,14 @@ const sum = (nums, start, end) => {
  */
 export const findMaxAverage = (nums, k) => {
   let runningSum = sum(nums, 0, k);
-  let toReturn = runningSum / k;
+  let toReturn = runningSum;
   const end = nums.length - k;
   for (let i = 1; i <= end; i++) {
     runningSum -= nums[i - 1];
     runningSum += nums[i + k - 1];
-    const windowAverage = runningSum / k;
-    if (windowAverage > toReturn) {
-      toReturn = windowAverage;
+    if (runningSum > toReturn) {
+      toReturn = runningSum;
     }
   }
-  return toReturn;
+  return toReturn / k;
 };
