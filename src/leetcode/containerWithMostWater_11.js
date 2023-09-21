@@ -26,8 +26,28 @@
 //   };
 // })();
 
+const area = (heights, from, to) =>
+  to > from ? (to - from) * Math.min(heights[to], heights[from]) : 0;
+
 /**
  * @param {number[]} heights
  * @return {number}
  */
-export const maxArea = (heights) => {};
+export const maxArea = (heights) => {
+  let left = 0;
+  let right = heights.length - 1;
+  let max = 0;
+  while (left < right) {
+    const current = area(heights, left, right);
+    if (current > max) {
+      max = current;
+    }
+
+    if (heights[left] > heights[right]) {
+      right--;
+    } else {
+      left++;
+    }
+  }
+  return max;
+};
