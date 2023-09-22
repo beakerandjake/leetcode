@@ -19,17 +19,16 @@ const topDown = (costs) => {
   return Math.min(recurse(costs.length - 1), recurse(costs.length - 2));
 };
 
-// const bottomUp = (costs) => {
-//   const history = [costs[0], costs[1]];
-//   for (let i = 2; i < costs.length; i++) {
-//     history[i] = Math.min(history[i - 1], costs[i] + history[i - 2]);
-//   }
-//   console.log(history);
-//   return history[history.length - 1];
-// };
+const bottomUp = (costs) => {
+  const history = [costs[0], costs[1]];
+  for (let i = 2; i < costs.length; i++) {
+    history[i] = costs[i] + Math.min(history[i - 1], history[i - 2]);
+  }
+  return Math.min(history[history.length - 1], history[history.length - 2]);
+};
 
 /**
  * @param {number[]} cost
  * @return {number}
  */
-export const minCostClimbingStairs = topDown;
+export const minCostClimbingStairs = bottomUp;
