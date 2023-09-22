@@ -19,8 +19,16 @@ const topDown = (count) => {
   return recursive(count);
 };
 
+const bottomUp = (count) => {
+  const history = [1, 2];
+  for (let i = 2; i < count; i++) {
+    history[i] = history[i - 1] + history[i - 2];
+  }
+  return history[count - 1];
+};
+
 /**
  * @param {number} n
  * @return {number}
  */
-export const climbStairs = (n) => topDown(n);
+export const climbStairs = bottomUp;
