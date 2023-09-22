@@ -10,11 +10,11 @@
 const topDown = (nums) => {
   const memo = new Map();
   const recurse = (index) => {
-    if (index < 0) {
-      return 0;
-    }
     if (index === 0) {
       return nums[index];
+    }
+    if (index === 1) {
+      return Math.max(nums[0], nums[1]);
     }
     if (!memo.has(index)) {
       const robCurrent = nums[index] + recurse(index - 2);
