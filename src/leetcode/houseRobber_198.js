@@ -7,6 +7,25 @@
  * return the maximum amount of money you can rob tonight without alerting the police.
  */
 
+const topDown = (nums) => {
+  const memo = new Map();
+  const recurse = (index) => {
+    if (index < 0) {
+      return 0;
+    }
+    if (index === 0) {
+      return nums[index];
+    }
+    if (!memo.has(index)) {
+      const robCurrent = nums[index] + recurse(index - 2);
+      const robPrevious = recurse(index - 1);
+      memo.set(index, Math.max(robCurrent, robPrevious));
+    }
+    return memo.get(index);
+  };
+  return recurse(nums.length - 1);
+};
+
 const bottomUp = (nums) => {
   if (nums.length === 1) {
     return nums[0];
