@@ -11,9 +11,31 @@
  * Return the maximum score after performing m operations.
  */
 
+const topDown = (nums, multipliers) => {
+  const n = nums.length;
+  const m = multipliers.length;
+  const memo = new Map();
+  const recursive = (index, left) => {
+    if (index === m) {
+      return 0;
+    }
+    const hash = `${index}_${left}`;
+    if (!memo.has(hash)) {
+      const mCurrent = multipliers[index];
+      const right = n - 1 - (index - left);
+      const takeLeft = mCurrent * nums[left] + recursive(index + 1, left + 1);
+      const takeRight = mCurrent * nums[right] + recursive(index + 1, left);
+      memo.set(hash, Math.max(takeLeft, takeRight));
+    }
+    return memo.get(hash);
+  };
+  const result = recursive(0, 0, nums.length - 1);
+  return result;
+};
+
 /**
  * @param {number[]} nums
  * @param {number[]} multipliers
  * @return {number}
  */
-export const maximumScore = (nums, multipliers) => {};
+export const maximumScore = topDown;
