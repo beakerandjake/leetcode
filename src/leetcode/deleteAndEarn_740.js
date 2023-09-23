@@ -16,7 +16,8 @@ const getPointMap = (nums) =>
     return acc;
   }, new Map());
 
-const topDown = (pointMap, maxNum) => {
+const topDown = (nums) => {
+  const pointMap = getPointMap(nums);
   const memo = new Map();
   const recurse = (n) => {
     if (n === 0) {
@@ -32,13 +33,11 @@ const topDown = (pointMap, maxNum) => {
     }
     return memo.get(n);
   };
-  return recurse(maxNum);
+  return recurse(Math.max(...nums));
 };
 
 /**
  * @param {number[]} nums
  * @return {number}
  */
-export const deleteAndEarn = (nums) => {
-  return topDown(getPointMap(nums), Math.max(...nums));
-};
+export const deleteAndEarn = topDown;
