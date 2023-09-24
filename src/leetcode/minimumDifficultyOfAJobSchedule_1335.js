@@ -13,16 +13,6 @@
  * If you cannot find a schedule for the jobs return -1.
  */
 
-// const maxFrom = (jobs, index) => {
-//   let max = jobs[index];
-//   for (let i = index + 1; i < jobs.length; i++) {
-//     if (jobs[i] > max) {
-//       max = jobs[i];
-//     }
-//   }
-//   return max;
-// };
-
 const getMaxFrom = (jobs) => {
   const toReturn = [...jobs];
   for (let i = jobs.length - 2; i >= 0; i--) {
