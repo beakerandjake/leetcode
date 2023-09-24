@@ -29,9 +29,23 @@ const topDown = (coins, amount) => {
   return recursive(amount);
 };
 
+const bottomUp = (coins, amount) => {
+  const dp = [0, ...Array(amount).fill(Number.MAX_SAFE_INTEGER)];
+  for (let remaining = 1; remaining < dp.length; remaining++) {
+    for (let coin = 0; coin < coins.length; coin++) {
+      const diff = remaining - coins[coin];
+      if (diff < 0) {
+        continue;
+      }
+      dp[remaining] = Math.min(dp[remaining], dp[diff] + 1);
+    }
+  }
+  return dp[amount] === Number.MAX_SAFE_INTEGER ? -1 : dp[amount];
+};
+
 /**
  * @param {number[]} coins
  * @param {number} amount
  * @return {number}
  */
-export const coinChange = topDown;
+export const coinChange = bottomUp;
