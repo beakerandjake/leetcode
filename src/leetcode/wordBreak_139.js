@@ -4,37 +4,52 @@
  * Note that the same word in the dictionary may be reused multiple times in the segmentation.
  */
 
-const topDown = (str, words) => {
+// const topDown = (str, words) => {
+//   const wordLookup = new Set(words);
+//   const memo = new Map();
+
+//   const recursive = (strIndex) => {
+//     if (strIndex === str.length) {
+//       return false;
+//     }
+
+//     if (!memo.has(strIndex)) {
+//       let result = false;
+
+//       if (wordLookup.has(str.slice(strIndex))) {
+//         result = true;
+//       } else {
+//         for (let i = strIndex; i < str.length; i++) {
+//           const slice = str.slice(strIndex, i + 1);
+//           if (wordLookup.has(slice) && recursive(i + 1)) {
+//             result = true;
+//             break;
+//           }
+//         }
+//       }
+
+//       memo.set(strIndex, result);
+//     }
+
+//     return memo.get(strIndex);
+//   };
+
+//   return recursive(0);
+// };
+
+const bottomUp = (str, words) => {
   const wordLookup = new Set(words);
-  const memo = new Map();
-
-  const recursive = (strIndex) => {
-    if (strIndex === str.length) {
-      return false;
-    }
-
-    if (!memo.has(strIndex)) {
-      let result = false;
-
-      if (wordLookup.has(str.slice(strIndex))) {
-        result = true;
-      } else {
-        for (let i = strIndex; i < str.length; i++) {
-          const slice = str.slice(strIndex, i + 1);
-          if (wordLookup.has(slice) && recursive(i + 1)) {
-            result = true;
-            break;
-          }
-        }
+  const dp = [true, ...Array(str.length).fill(false)];
+  for (let end = 1; end <= str.length; end++) {
+    for (let start = 0; start < end; start++) {
+      const slice = str.slice(start, end);
+      if (dp[start] && wordLookup.has(slice)) {
+        dp[end] = true;
+        break;
       }
-
-      memo.set(strIndex, result);
     }
-
-    return memo.get(strIndex);
-  };
-
-  return recursive(0);
+  }
+  return dp[dp.length - 1];
 };
 
 /**
@@ -42,4 +57,4 @@ const topDown = (str, words) => {
  * @param {string[]} wordDict
  * @return {boolean}
  */
-export const wordBreak = topDown;
+export const wordBreak = bottomUp;
