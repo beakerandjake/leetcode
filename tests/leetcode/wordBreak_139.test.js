@@ -3,9 +3,10 @@ import { arrToStr } from '../util.js';
 
 describe('139. Word Break', () => {
   [
-    ['leetcode', ['leet', 'code'], true],
+    ['coolguy', ['cool', 'guy'], true],
     ['applepenapple', ['apple', 'pen'], true],
     ['catsandog', ['cats', 'dog', 'sand', 'and', 'cat'], false],
+    ['a', ['a'], true],
   ].forEach(([string, dict, expected]) => {
     test(`${string},${arrToStr(dict)} -> ${expected}`, () => {
       const result = wordBreak(string, dict);

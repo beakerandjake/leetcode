@@ -4,9 +4,42 @@
  * Note that the same word in the dictionary may be reused multiple times in the segmentation.
  */
 
+const topDown = (str, words) => {
+  const wordLookup = new Set(words);
+  const memo = new Map();
+
+  const recursive = (strIndex) => {
+    if (strIndex === str.length) {
+      return false;
+    }
+
+    if (!memo.has(strIndex)) {
+      let result = false;
+
+      if (wordLookup.has(str.slice(strIndex))) {
+        result = true;
+      } else {
+        for (let i = strIndex; i < str.length; i++) {
+          const slice = str.slice(strIndex, i + 1);
+          if (wordLookup.has(slice) && recursive(i + 1)) {
+            result = true;
+            break;
+          }
+        }
+      }
+
+      memo.set(strIndex, result);
+    }
+
+    return memo.get(strIndex);
+  };
+
+  return recursive(0);
+};
+
 /**
- * @param {string} s
+ * @param {string} str
  * @param {string[]} wordDict
  * @return {boolean}
  */
-export const wordBreak = (s, wordDict) => {};
+export const wordBreak = topDown;
