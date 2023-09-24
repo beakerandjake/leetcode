@@ -6,7 +6,7 @@
  */
 
 const topDown = (coins, amount) => {
-  const memo = new Map();
+  const memo = [...Array(amount)];
   const recursive = (remaining) => {
     if (remaining < 0) {
       return -1;
@@ -14,7 +14,7 @@ const topDown = (coins, amount) => {
     if (remaining === 0) {
       return 0;
     }
-    if (!memo.has(remaining)) {
+    if (memo[remaining] == null) {
       let best = Number.MAX_SAFE_INTEGER;
       for (let i = 0; i < coins.length; i++) {
         const result = recursive(remaining - coins[i]);
@@ -22,10 +22,9 @@ const topDown = (coins, amount) => {
           best = 1 + result;
         }
       }
-      memo.set(remaining, best === Number.MAX_SAFE_INTEGER ? -1 : best);
+      memo[remaining] = best === Number.MAX_SAFE_INTEGER ? -1 : best;
     }
-
-    return memo.get(remaining);
+    return memo[remaining];
   };
   return recursive(amount);
 };
