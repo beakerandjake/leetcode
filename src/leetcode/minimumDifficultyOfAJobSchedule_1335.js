@@ -13,18 +13,20 @@
  * If you cannot find a schedule for the jobs return -1.
  */
 
-const getMaxLeft = (jobs) => {
-  const toReturn = [jobs[0]];
-  for (let i = 1; i < jobs.length; i++) {
-    toReturn.push(jobs[i] > toReturn[i - 1] ? jobs[i] : toReturn[i - 1]);
-  }
-  return toReturn;
-};
+// const maxFrom = (jobs, index) => {
+//   let max = jobs[index];
+//   for (let i = index + 1; i < jobs.length; i++) {
+//     if (jobs[i] > max) {
+//       max = jobs[i];
+//     }
+//   }
+//   return max;
+// };
 
-const getMaxRight = (jobs) => {
+const getMaxFrom = (jobs) => {
   const toReturn = [...jobs];
   for (let i = jobs.length - 2; i >= 0; i--) {
-    toReturn[i] = jobs[i] > toReturn[i + 1] ? jobs[i] : toReturn[i + 1];
+    toReturn[i] = Math.max(toReturn[i], toReturn[i + 1]);
   }
   return toReturn;
 };
@@ -34,23 +36,26 @@ const topDown = (jobs, days) => {
     return -1;
   }
   const memo = new Map();
-  const maxLeft = getMaxLeft(jobs);
-  const maxRight = getMaxRight(jobs);
+  const maxFrom = getMaxFrom(jobs);
   const recursive = (day, jobIndex) => {
-    const hash = `${day}_${jobIndex}`;
-    if (memo.has(hash)) {
-      return memo.get(hash);
-    }
     if (day === days) {
-      memo.set(hash, Math.max(...jobs.slice(jobIndex)));
-    } else {
-      const jobLimit = jobs.length - (days - day);
-      let best = Number.MAX_SAFE_INTEGER;
-      for (let i = jobIndex; i < jobLimit; i++) {
-        const today = Math.max(...jobs.slice(jobIndex, i + 1));
-        best = Math.min(best, today + recursive(day + 1, i + 1));
+      return maxFrom[jobIndex];
+    }
+    const hash = `${day}_${jobIndex}`;
+    if (!memo.has(hash)) {
+      const maxJob = jobs.length - (days - day); // exclusive
+      let hardestJobSeen = 0;
+      let easiestSchedule = Number.MAX_SAFE_INTEGER;
+      for (let i = jobIndex; i < maxJob; i++) {
+        if (jobs[i] > hardestJobSeen) {
+          hardestJobSeen = jobs[i];
+        }
+        const schedule = hardestJobSeen + recursive(day + 1, i + 1);
+        if (schedule < easiestSchedule) {
+          easiestSchedule = schedule;
+        }
       }
-      memo.set(hash, best);
+      memo.set(hash, easiestSchedule);
     }
 
     return memo.get(hash);
