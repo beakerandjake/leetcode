@@ -15,7 +15,7 @@ const topDown = (k, prices) => {
     if (!memo.has(hash)) {
       const doNothing = recursive(day + 1, sold, holding);
       // buy or sell based on if currently holding a stock or not.
-      const action = holding
+      const action = !holding
         ? -prices[day] + recursive(day + 1, sold, 1) // buy todays stock
         : prices[day] + recursive(day + 1, sold + 1, 0); // sell todays stock
       memo.set(hash, Math.max(doNothing, action));
