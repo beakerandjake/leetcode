@@ -5,9 +5,29 @@
  * Note: You may not engage in multiple transactions simultaneously (i.e., you must sell the stock before you buy again).
  */
 
+const topDown = (k, prices) => {
+  const memo = new Map();
+  const recursive = (day, sold, holding) => {
+    if (day === prices.length || sold === k) {
+      return 0;
+    }
+    const hash = `${day}_${sold}_${holding}`;
+    if (!memo.has(hash)) {
+      const doNothing = recursive(day + 1, sold, holding);
+      // buy or sell based on if currently holding a stock or not.
+      const action = holding
+        ? -prices[day] + recursive(day + 1, sold, 1) // buy todays stock
+        : prices[day] + recursive(day + 1, sold + 1, 0); // sell todays stock
+      memo.set(hash, Math.max(doNothing, action));
+    }
+    return memo.get(hash);
+  };
+  return recursive(0, 0, 0);
+};
+
 /**
  * @param {number} k
  * @param {number[]} prices
  * @return {number}
  */
-export const maxProfit = (k, prices) => {};
+export const maxProfit = topDown;
