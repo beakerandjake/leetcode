@@ -6,21 +6,20 @@
  */
 
 const topDown = (k, prices) => {
-  const memo = new Map();
+  const memo = [...Array(prices.length)].map(() => [...Array(k)].map(() => Array(2)));
   const recursive = (day, sold, holding) => {
     if (day === prices.length || sold === k) {
       return 0;
     }
-    const hash = `${day}_${sold}_${holding}`;
-    if (!memo.has(hash)) {
+    if (memo[day][sold][holding] === undefined) {
       const doNothing = recursive(day + 1, sold, holding);
       // buy or sell based on if currently holding a stock or not.
       const action = !holding
         ? -prices[day] + recursive(day + 1, sold, 1) // buy todays stock
         : prices[day] + recursive(day + 1, sold + 1, 0); // sell todays stock
-      memo.set(hash, Math.max(doNothing, action));
+      memo[day][sold][holding] = Math.max(doNothing, action);
     }
-    return memo.get(hash);
+    return memo[day][sold][holding];
   };
   return recursive(0, 0, 0);
 };
