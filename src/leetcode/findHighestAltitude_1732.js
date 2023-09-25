@@ -8,14 +8,29 @@
  * Return the highest altitude of a point.
  */
 
+const functional = (gain) =>
+  Math.max(
+    ...gain.reduce((acc, x, i) => {
+      acc.push((acc[i - 1] || 0) + x);
+      return acc;
+    }, []),
+    0
+  );
+
+const iterative = (gain) => {
+  let highest = 0;
+  let current = 0;
+  for (let i = 0; i < gain.length; i++) {
+    current += gain[i];
+    if (current > highest) {
+      highest = current;
+    }
+  }
+  return highest;
+};
+
 /**
  * @param {number[]} gain
  * @return {number}
  */
-export const largestAltitude = (gain) => {
-  const result = gain.reduce((acc, x, i) => {
-    acc.push((acc[i - 1] || 0) + x);
-    return acc;
-  }, []);
-  return Math.max(...result, 0);
-};
+export const largestAltitude = iterative;
