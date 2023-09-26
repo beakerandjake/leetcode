@@ -1,4 +1,4 @@
-import { reverseVowels } from '../../src/leetcode/reverseVowelsOfString_345.js';
+import { reverseVowels } from '../../src/leetcode/345.js';
 
 describe('345. Reverse Vowels of a String', () => {
   [
