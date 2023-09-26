@@ -36,30 +36,41 @@
 //   return nums.findIndex((_, i) => sumLeft(i) === sumRight(i));
 // };
 
-const iterative = (nums) => {
-  const getSumsLeft = () => {
-    const toReturn = Array(nums.length);
-    for (let i = 0; i < nums.length; i++) {
-      toReturn[i] = (toReturn[i - 1] || 0) + nums[i];
-    }
-    return toReturn;
-  };
+// const iterative = (nums) => {
+//   const getSumsLeft = () => {
+//     const toReturn = Array(nums.length);
+//     for (let i = 0; i < nums.length; i++) {
+//       toReturn[i] = (toReturn[i - 1] || 0) + nums[i];
+//     }
+//     return toReturn;
+//   };
 
-  const getSumsRight = () => {
-    const toReturn = Array(nums.length);
-    for (let i = nums.length - 1; i >= 0; i--) {
-      toReturn[i] = (toReturn[i + 1] || 0) + nums[i];
-    }
-    return toReturn;
-  };
+//   const getSumsRight = () => {
+//     const toReturn = Array(nums.length);
+//     for (let i = nums.length - 1; i >= 0; i--) {
+//       toReturn[i] = (toReturn[i + 1] || 0) + nums[i];
+//     }
+//     return toReturn;
+//   };
 
-  const leftSums = getSumsLeft();
-  const rightSums = getSumsRight();
-  return leftSums.findIndex((leftSum, i) => leftSum === rightSums[i]);
-};
+//   const leftSums = getSumsLeft();
+//   const rightSums = getSumsRight();
+//   return leftSums.findIndex((leftSum, i) => leftSum === rightSums[i]);
+// };
 
 /**
  * @param {number[]} nums
  * @return {number}
  */
-export const pivotIndex = iterative;
+export const pivotIndex = (nums) => {
+  let totalSum = nums.reduce((acc, x) => acc + x, 0);
+  let runningSum = 0;
+  for (let i = 0; i < nums.length; i++) {
+    runningSum += nums[i];
+    if (runningSum === totalSum) {
+      return i;
+    }
+    totalSum -= nums[i];
+  }
+  return -1;
+};
