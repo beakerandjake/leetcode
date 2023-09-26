@@ -9,12 +9,35 @@
  * Return the leftmost pivot index. If no such index exists, return -1.
  */
 
-const recursive = (nums, index) => {
-  
+const recursive = (nums) => {
+  const leftMemo = Array(nums.length);
+  const rightMemo = Array(nums.length);
+
+  const sumRight = (index) => {
+    if (index >= nums.length) {
+      return 0;
+    }
+    if (rightMemo[index] == null) {
+      rightMemo[index] = nums[index] + sumRight(index + 1);
+    }
+    return rightMemo[index];
+  };
+
+  const sumLeft = (index) => {
+    if (index < 0) {
+      return 0;
+    }
+    if (leftMemo[index] == null) {
+      leftMemo[index] = nums[index] + sumLeft(index - 1);
+    }
+    return leftMemo[index];
+  };
+
+  return nums.findIndex((_, i) => sumLeft(i) === sumRight(i));
 };
 
 /**
  * @param {number[]} nums
  * @return {number}
  */
-export const pivotIndex = (nums) => recursive(nums, 0);
+export const pivotIndex = recursive;
