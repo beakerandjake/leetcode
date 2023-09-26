@@ -3,6 +3,7 @@
  * Vowel letters in English are 'a', 'e', 'i', 'o', and 'u'.
  */
 
+// map of normalized character index to the 'points' the char is worth, 1 for a vowel and 0 for a consonant.
 const charMap = [
   1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
 ];
@@ -25,6 +26,11 @@ const vowelCount = (str, start, end) => {
 export const maxVowels = (str, k) => {
   let rollingCount = vowelCount(str, 0, k);
   let max = rollingCount;
+
+  if (max === k) {
+    return max;
+  }
+  
   const sliceMax = str.length - k;
   for (let i = 1; i <= sliceMax; i++) {
     rollingCount += points(str, i + k - 1) - points(str, i - 1);
