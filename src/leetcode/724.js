@@ -9,54 +9,54 @@
  * Return the leftmost pivot index. If no such index exists, return -1.
  */
 
-// const recursive = (nums) => {
-//   const leftMemo = Array(nums.length);
-//   const rightMemo = Array(nums.length);
+const recursive = (nums) => {
+  const leftMemo = Array(nums.length);
+  const rightMemo = Array(nums.length);
 
-//   const sumRight = (index) => {
-//     if (index >= nums.length) {
-//       return 0;
-//     }
-//     if (rightMemo[index] == null) {
-//       rightMemo[index] = nums[index] + sumRight(index + 1);
-//     }
-//     return rightMemo[index];
-//   };
+  const sumRight = (index) => {
+    if (index >= nums.length) {
+      return 0;
+    }
+    if (rightMemo[index] == null) {
+      rightMemo[index] = nums[index] + sumRight(index + 1);
+    }
+    return rightMemo[index];
+  };
 
-//   const sumLeft = (index) => {
-//     if (index < 0) {
-//       return 0;
-//     }
-//     if (leftMemo[index] == null) {
-//       leftMemo[index] = nums[index] + sumLeft(index - 1);
-//     }
-//     return leftMemo[index];
-//   };
+  const sumLeft = (index) => {
+    if (index < 0) {
+      return 0;
+    }
+    if (leftMemo[index] == null) {
+      leftMemo[index] = nums[index] + sumLeft(index - 1);
+    }
+    return leftMemo[index];
+  };
 
-//   return nums.findIndex((_, i) => sumLeft(i) === sumRight(i));
-// };
+  return nums.findIndex((_, i) => sumLeft(i) === sumRight(i));
+};
 
-// const iterative = (nums) => {
-//   const getSumsLeft = () => {
-//     const toReturn = Array(nums.length);
-//     for (let i = 0; i < nums.length; i++) {
-//       toReturn[i] = (toReturn[i - 1] || 0) + nums[i];
-//     }
-//     return toReturn;
-//   };
+const iterative = (nums) => {
+  const getSumsLeft = () => {
+    const toReturn = Array(nums.length);
+    for (let i = 0; i < nums.length; i++) {
+      toReturn[i] = (toReturn[i - 1] || 0) + nums[i];
+    }
+    return toReturn;
+  };
 
-//   const getSumsRight = () => {
-//     const toReturn = Array(nums.length);
-//     for (let i = nums.length - 1; i >= 0; i--) {
-//       toReturn[i] = (toReturn[i + 1] || 0) + nums[i];
-//     }
-//     return toReturn;
-//   };
+  const getSumsRight = () => {
+    const toReturn = Array(nums.length);
+    for (let i = nums.length - 1; i >= 0; i--) {
+      toReturn[i] = (toReturn[i + 1] || 0) + nums[i];
+    }
+    return toReturn;
+  };
 
-//   const leftSums = getSumsLeft();
-//   const rightSums = getSumsRight();
-//   return leftSums.findIndex((leftSum, i) => leftSum === rightSums[i]);
-// };
+  const leftSums = getSumsLeft();
+  const rightSums = getSumsRight();
+  return leftSums.findIndex((leftSum, i) => leftSum === rightSums[i]);
+};
 
 /**
  * @param {number[]} nums
