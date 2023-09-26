@@ -3,23 +3,16 @@
  * Vowel letters in English are 'a', 'e', 'i', 'o', and 'u'.
  */
 
-const vowels = new Set(['a', 'e', 'i', 'o', 'u']);
+const charMap = [
+  1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
+];
+
+const points = (str, charIndex) => charMap[str.charCodeAt(charIndex) - 97];
 
 const vowelCount = (str, start, end) => {
   let toReturn = 0;
   for (let i = start; i < end; i++) {
-    if (vowels.has(str[i])) {
-      toReturn++;
-    }
-  }
-  return toReturn;
-};
-
-const getVowelCounts = (str, k) => {
-  const toReturn = [];
-  const maxStart = str.length - k;
-  for (let i = 0; i <= maxStart; i++) {
-    toReturn.push(vowelCount(str, i, i + k));
+    toReturn += points(str, i);
   }
   return toReturn;
 };
@@ -30,6 +23,14 @@ const getVowelCounts = (str, k) => {
  * @return {number}
  */
 export const maxVowels = (str, k) => {
-  const vowelCounts = getVowelCounts(str, k);
-  return Math.max(...vowelCounts, 0);
+  let rollingCount = vowelCount(str, 0, k);
+  let max = rollingCount;
+  const sliceMax = str.length - k;
+  for (let i = 1; i <= sliceMax; i++) {
+    rollingCount += points(str, i + k - 1) - points(str, i - 1);
+    if (rollingCount > max) {
+      max = rollingCount;
+    }
+  }
+  return max;
 };
