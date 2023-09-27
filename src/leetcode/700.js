@@ -13,14 +13,31 @@
  * }
  */
 
-const dfs = (root, val) => {
+const recursive = (root, val) => {
   if (!root) {
     return null;
   }
   if (root.val === val) {
     return root;
   }
-  return dfs(root.left, val) || dfs(root.right, val);
+  return recursive(root.left, val) || recursive(root.right, val);
+};
+
+const iterative = (root, val) => {
+  const queue = [root];
+  while (queue.length) {
+    const current = queue.pop();
+    if (current.val === val) {
+      return current;
+    }
+    if (current.left) {
+      queue.push(current.left);
+    }
+    if (current.right) {
+      queue.push(current.right);
+    }
+  }
+  return null;
 };
 
 /**
@@ -28,4 +45,4 @@ const dfs = (root, val) => {
  * @param {number} val
  * @return {TreeNode}
  */
-export const searchBST = dfs;
+export const searchBST = recursive;
