@@ -13,9 +13,35 @@
  *     this.right = (right===undefined ? null : right)
  * }
  */
+
+const isLeaf = (node) => !node.left && !node.right;
+
+const leafNodes = (root) => {
+  const toReturn = [];
+  const queue = [root];
+  while (queue.length) {
+    const current = queue.pop();
+    if (isLeaf(current)) {
+      toReturn.push(current.val);
+      continue;
+    }
+    if (current.right) {
+      queue.push(current.right);
+    }
+    if (current.left) {
+      queue.push(current.left);
+    }
+  }
+  return toReturn;
+};
+
+const arraysEqual = (lhs, rhs) =>
+  lhs.length === rhs.length ? lhs.every((x, i) => x === rhs[i]) : false;
+
 /**
  * @param {TreeNode} root1
  * @param {TreeNode} root2
  * @return {boolean}
  */
-export const leafSimilar = (root1, root2) => {};
+export const leafSimilar = (root1, root2) =>
+  arraysEqual(leafNodes(root1), leafNodes(root2));

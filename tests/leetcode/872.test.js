@@ -12,7 +12,7 @@ describe('872. Leaf-Similar Trees', () => {
     [[1, 2, 3], [1, 3, 2], false],
   ].forEach(([a, b, expected]) => {
     test(`${arrToStr(a)},${arrToStr(b)} -> ${expected}`, () => {
-      const result = leafSimilar(a, b);
+      const result = leafSimilar(arrayToBinaryTree(a), arrayToBinaryTree(b));
       expect(result).toBe(expected);
     });
   });
