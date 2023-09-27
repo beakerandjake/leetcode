@@ -20,7 +20,7 @@ const recursive = (root, val) => {
   if (root.val === val) {
     return root;
   }
-  return recursive(root.left, val) || recursive(root.right, val);
+  return root.val > val ? recursive(root.left, val) : recursive(root.right, val);
 };
 
 const iterative = (root, val) => {
@@ -30,10 +30,9 @@ const iterative = (root, val) => {
     if (current.val === val) {
       return current;
     }
-    if (current.left) {
+    if (val < current.val && current.left) {
       queue.push(current.left);
-    }
-    if (current.right) {
+    } else if (val > current.val && current.right) {
       queue.push(current.right);
     }
   }
