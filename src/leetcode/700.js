@@ -14,29 +14,18 @@
  */
 
 const recursive = (root, val) => {
-  if (!root) {
-    return null;
-  }
-  if (root.val === val) {
+  if (!root || root.val === val) {
     return root;
   }
   return root.val > val ? recursive(root.left, val) : recursive(root.right, val);
 };
 
 const iterative = (root, val) => {
-  const queue = [root];
-  while (queue.length) {
-    const current = queue.pop();
-    if (current.val === val) {
-      return current;
-    }
-    if (val < current.val && current.left) {
-      queue.push(current.left);
-    } else if (val > current.val && current.right) {
-      queue.push(current.right);
-    }
+  let current = root;
+  while (current && current.val !== val) {
+    current = val < current.val ? current.left : current.right;
   }
-  return null;
+  return current;
 };
 
 /**
@@ -44,4 +33,4 @@ const iterative = (root, val) => {
  * @param {number} val
  * @return {TreeNode}
  */
-export const searchBST = recursive;
+export const searchBST = iterative;
