@@ -9,7 +9,7 @@ describe('700. Search in a Binary Tree', () => {
   ].forEach(([nodes, search, expected]) => {
     test(`${arrToStr(nodes)},${search} -> ${expected}`, () => {
       const result = searchBST(arrayToBinaryTree(nodes), search);
-      expect(result).toBe(expected);
+      expect(result?.val || null).toBe(expected);
     });
   });
 });

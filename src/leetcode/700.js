@@ -12,9 +12,20 @@
  *     this.right = (right===undefined ? null : right)
  * }
  */
+
+const dfs = (root, val) => {
+  if (!root) {
+    return null;
+  }
+  if (root.val === val) {
+    return root;
+  }
+  return dfs(root.left, val) || dfs(root.right, val);
+};
+
 /**
  * @param {TreeNode} root
  * @param {number} val
  * @return {TreeNode}
  */
-export const searchBST = (root, val) => {};
+export const searchBST = dfs;
