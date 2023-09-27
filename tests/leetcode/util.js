@@ -18,7 +18,7 @@ export const linkedListToArray = (list) => {
   }
   const toReturn = [];
   let current = list;
-  while (current.next) {
+  while (current) {
     toReturn.push(current.val);
     current = current.next;
   }
