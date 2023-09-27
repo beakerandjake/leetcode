@@ -16,7 +16,7 @@
 
 const isLeaf = (node) => !node.left && !node.right;
 
-const leafNodes = (root) => {
+const leafNodesIterative = (root) => {
   const toReturn = [];
   const queue = [root];
   while (queue.length) {
@@ -35,6 +35,23 @@ const leafNodes = (root) => {
   return toReturn;
 };
 
+const leafNodesRecursive = (root) => {
+  const leaves = [];
+  const recursive = (node) => {
+    if (!node) {
+      return;
+    }
+    if (isLeaf(node)) {
+      leaves.push(node.val);
+      return;
+    }
+    recursive(node.right);
+    recursive(node.left);
+  };
+  recursive(root);
+  return leaves;
+};
+
 const arraysEqual = (lhs, rhs) =>
   lhs.length === rhs.length ? lhs.every((x, i) => x === rhs[i]) : false;
 
@@ -44,4 +61,4 @@ const arraysEqual = (lhs, rhs) =>
  * @return {boolean}
  */
 export const leafSimilar = (root1, root2) =>
-  arraysEqual(leafNodes(root1), leafNodes(root2));
+  arraysEqual(leafNodesRecursive(root1), leafNodesRecursive(root2));
