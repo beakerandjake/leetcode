@@ -24,3 +24,18 @@ export const linkedListToArray = (list) => {
   }
   return toReturn;
 };
+
+export const arrayToBinaryTree = (arr) => {
+  if (!arr?.length) {
+    return undefined;
+  }
+  const nodes = arr.map((x) => (x === null ? null : { val: x, left: null, right: null }));
+  for (let i = 0; i < nodes.length; i++) {
+    if (nodes[i] == null) {
+      continue;
+    }
+    nodes[i].left = nodes[2 * i + 1] || null;
+    nodes[i].right = nodes[2 * i + 2] || null;
+  }
+  return nodes[0];
+};
