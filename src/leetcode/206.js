@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+
 /**
  * Given the head of a singly linked list, reverse the list, and return the reversed list.
  */
@@ -45,8 +47,21 @@ const setToPreviousIterative = (head) => {
   return previous;
 };
 
+const setToPreviousRecursive = (head) => {
+  const recursive = (current) => {
+    if (!current?.next) {
+      return current;
+    }
+    const p = recursive(current.next);
+    current.next.next = current;
+    current.next = null;
+    return p;
+  };
+  return recursive(head);
+};
+
 /**
  * @param {ListNode} head
  * @return {ListNode}
  */
-export const reverseList = setToPreviousIterative;
+export const reverseList = setToPreviousRecursive;
