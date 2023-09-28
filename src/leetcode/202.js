@@ -19,38 +19,43 @@
  *  12 + 02 + 02 = 1
  */
 
-const digits = (number) => {
-  const toReturn = [];
-  let current = number;
-  while (current > 0) {
-    toReturn.push(current % 10);
-    current = Math.floor(current / 10);
+const simple = (n) => {
+  const digits = (number) => [...`${number}`].map((x) => +x);
+  const squared = (numbers) => numbers.map((x) => x * x);
+  const sum = (numbers) => numbers.reduce((total, x) => total + x, 0);
+
+  let sumOfSquares = n;
+  const encountered = new Set();
+  while (sumOfSquares !== 1 && !encountered.has(sumOfSquares)) {
+    encountered.add(sumOfSquares);
+    sumOfSquares = sum(squared(digits(sumOfSquares)));
   }
-  return toReturn;
+  return sumOfSquares === 1;
 };
 
-const squared = (numbers) => numbers.map((x) => x * x);
+const simple2 = (n) => {
+  const getSumOfSquares = (number) => {
+    let toReturn = 0;
+    let current = number;
+    while (current > 0) {
+      const digit = current % 10;
+      toReturn += digit * digit;
+      current = Math.floor(current / 10);
+    }
+    return toReturn;
+  };
 
-const sum = (numbers) => numbers.reduce((total, x) => total + x, 0);
+  let sumOfSquares = n;
+  const encountered = new Set();
+  while (sumOfSquares !== 1 && !encountered.has(sumOfSquares)) {
+    encountered.add(sumOfSquares);
+    sumOfSquares = getSumOfSquares(sumOfSquares);
+  }
+  return sumOfSquares === 1;
+};
 
 /**
  * @param {number} n
  * @return {boolean}
  */
-export const isHappy = (n) => {
-  if (n === 1) {
-    return true;
-  }
-  let sumOfSquares = n;
-  const encountered = new Set();
-  for (;;) {
-    sumOfSquares = sum(squared(digits(sumOfSquares)));
-    if (sumOfSquares === 1) {
-      return true;
-    }
-    if (encountered.has(sumOfSquares)) {
-      return false;
-    }
-    encountered.add(sumOfSquares);
-  }
-};
+export const isHappy = simple2;
