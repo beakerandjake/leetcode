@@ -33,4 +33,13 @@ const twoPassMap = (nums, target) => {
  * @param {number} target
  * @return {number[]}
  */
-export const twoSum = twoPassMap;
+export const twoSum = (nums, target) => {
+  const indexLookup = new Map();
+  for (let i = 0; i < nums.length; i++) {
+    const needed = target - nums[i];
+    if (indexLookup.has(needed)) {
+      return [indexLookup.get(needed), i];
+    }
+    indexLookup.set(nums[i], i);
+  }
+};
