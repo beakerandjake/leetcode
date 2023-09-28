@@ -1,13 +1,13 @@
-import { isAnagram } from "../../src/leetcode/242.js";
+import { isAnagram } from '../../src/leetcode/242.js';
 
 describe('242. Valid Anagram', () => {
   [
     ['anagram', 'nagaram', true],
     ['rat', 'car', false],
-  ].forEach(([input,expected]) => {
-    test(`${input} -> ${expected}`, () => {
-      const result = isAnagram(input);
-      expect(result).toBe(expected)
+  ].forEach(([s, t, expected]) => {
+    test(`${s},${t}-> ${expected}`, () => {
+      const result = isAnagram(s, t);
+      expect(result).toBe(expected);
     });
   });
 });
