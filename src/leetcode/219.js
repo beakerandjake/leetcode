@@ -15,15 +15,16 @@ const getIndexMap = (nums) => {
   return toReturn;
 };
 
-const getPartner = (indexes, index, k) =>
-  indexes.find((i) => i !== index && Math.abs(i - index) <= k);
+const simple = (nums, k) => {
+  const getPartner = (indexes, index) =>
+    indexes.find((i) => i !== index && Math.abs(i - index) <= k);
+  const indexMap = getIndexMap(nums);
+  return nums.some((x, i) => !!getPartner(indexMap.get(x), i, k));
+};
 
 /**
  * @param {number[]} nums
  * @param {number} k
  * @return {boolean}
  */
-export const containsNearbyDuplicate = (nums, k) => {
-  const indexMap = getIndexMap(nums);
-  return nums.some((x, i) => !!getPartner(indexMap.get(x), i, k));
-};
+export const containsNearbyDuplicate = simple;
