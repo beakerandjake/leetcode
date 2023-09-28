@@ -19,7 +19,17 @@
  *  12 + 02 + 02 = 1
  */
 
-const digits = (number) => [...`${number}`].map((x) => +x);
+// const digits = (number) => [...`${number}`].map((x) => +x);
+
+const digits = (number) => {
+  const toReturn = [];
+  let current = number;
+  while (current > 0) {
+    toReturn.push(current % 10);
+    current = Math.floor(current / 10);
+  }
+  return toReturn;
+};
 
 const squared = (numbers) => numbers.map((x) => x * x);
 
@@ -30,6 +40,9 @@ const sum = (numbers) => numbers.reduce((total, x) => total + x, 0);
  * @return {boolean}
  */
 export const isHappy = (n) => {
+  if (n === 1) {
+    return true;
+  }
   let sumOfSquares = n;
   const encountered = new Set();
   for (;;) {
