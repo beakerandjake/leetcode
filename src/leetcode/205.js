@@ -5,7 +5,7 @@
  * No two characters may map to the same character, but a character may map to itself.Given two strings s and t, determine if they are isomorphic.
  */
 
-const usingMap = (s, t) => {
+const charMap = (s, t) => {
   const sMap = new Map();
   const consumed = new Set();
   for (let i = 0; i < s.length; i++) {
@@ -24,9 +24,30 @@ const usingMap = (s, t) => {
   return true;
 };
 
+const indexMap = (s, t) => {
+  const getIndexMap = (str) => {
+    const toReturn = new Map();
+    for (let i = 0; i < str.length; i++) {
+      if (!toReturn.has(str[i])) {
+        toReturn.set(str[i], i);
+      }
+    }
+    return toReturn;
+  };
+
+  const sMap = getIndexMap(s);
+  const tMap = getIndexMap(t);
+  for (let i = 0; i < s.length; i++) {
+    if (sMap.get(s[i]) !== tMap.get(t[i])) {
+      return false;
+    }
+  }
+  return true;
+};
+
 /**
  * @param {string} s
  * @param {string} t
  * @return {boolean}
  */
-export const isIsomorphic = usingMap;
+export const isIsomorphic = indexMap;
