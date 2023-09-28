@@ -29,6 +29,6 @@ export const twoSum = (nums, target) => {
     if (!neededIndexes?.length || (needed === nums[i] && neededIndexes.length === 1)) {
       continue;
     }
-    return [i, neededIndexes.find((x) => x > i)];
+    return needed === nums[i] ? [i, neededIndexes[1]] : [i, neededIndexes[0]];
   }
 };
