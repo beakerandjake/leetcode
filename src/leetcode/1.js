@@ -4,25 +4,20 @@
  * You can return the answer in any order.
  */
 
-const indexMap = (nums) => {
-  const toReturn = new Map();
-  for (let i = 0; i < nums.length; i++) {
-    if (!toReturn.has(nums[i])) {
-      toReturn.set(nums[i], [i]);
-    } else {
-      toReturn.get(nums[i]).push(i);
+const twoPassMap = (nums, target) => {
+  const indexMap = () => {
+    const toReturn = new Map();
+    for (let i = 0; i < nums.length; i++) {
+      if (!toReturn.has(nums[i])) {
+        toReturn.set(nums[i], [i]);
+      } else {
+        toReturn.get(nums[i]).push(i);
+      }
     }
-  }
-  return toReturn;
-};
+    return toReturn;
+  };
 
-/**
- * @param {number[]} nums
- * @param {number} target
- * @return {number[]}
- */
-export const twoSum = (nums, target) => {
-  const frequencies = indexMap(nums);
+  const frequencies = indexMap();
   for (let i = 0; i < nums.length; i++) {
     const needed = target - nums[i];
     const neededIndexes = frequencies.get(needed);
@@ -32,3 +27,10 @@ export const twoSum = (nums, target) => {
     return needed === nums[i] ? [i, neededIndexes[1]] : [i, neededIndexes[0]];
   }
 };
+
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number[]}
+ */
+export const twoSum = twoPassMap;
