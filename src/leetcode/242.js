@@ -9,6 +9,28 @@ const sorting = (s, t) => {
   return s.length === t.length ? arraysEqual([...s].sort(), [...t].sort()) : false;
 };
 
+const map = (s, t) => {
+  const frequencyMap = (str) => {
+    const toReturn = new Map();
+    for (const char of str) {
+      toReturn.set(char, (toReturn.get(char) || 0) + 1);
+    }
+    return toReturn;
+  };
+
+  if (s.length !== t.length) {
+    return false;
+  }
+  const sMap = frequencyMap(s);
+  const tMap = frequencyMap(t);
+  for (const [key, value] of sMap) {
+    if (tMap.get(key) !== value) {
+      return false;
+    }
+  }
+  return true;
+};
+
 /**
  * @param {string} s
  * @param {string} t
