@@ -4,6 +4,10 @@
  */
 
 const frequencyMaps = (ransomNote, magazine) => {
+  if (ransomNote.length > magazine.length) {
+    return false;
+  }
+
   const frequencyMap = (str) => {
     const toReturn = new Map();
     for (const char of str) {
