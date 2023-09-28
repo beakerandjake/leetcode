@@ -19,8 +19,6 @@
  *  12 + 02 + 02 = 1
  */
 
-// const digits = (number) => [...`${number}`].map((x) => +x);
-
 const digits = (number) => {
   const toReturn = [];
   let current = number;
