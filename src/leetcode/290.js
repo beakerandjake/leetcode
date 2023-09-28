@@ -30,9 +30,35 @@ const charMap = (pattern, s) => {
   return true;
 };
 
+const indexMap = (pattern, s) => {
+  const getIndexMap = (items) => {
+    const toReturn = new Map();
+    for (let i = 0; i < items.length; i++) {
+      if (!toReturn.has(items[i])) {
+        toReturn.set(items[i], i);
+      }
+    }
+    return toReturn;
+  };
+
+  const words = s.split(' ');
+
+  if (words.length !== pattern.length) {
+    return false;
+  }
+  const patternMap = getIndexMap(pattern);
+  const wordMap = getIndexMap(words);
+  for (let i = 0; i < pattern.length; i++) {
+    if (patternMap.get(pattern[i]) !== wordMap.get(words[i])) {
+      return false;
+    }
+  }
+  return true;
+};
+
 /**
  * @param {string} pattern
  * @param {string} s
  * @return {boolean}
  */
-export const wordPattern = charMap;
+export const wordPattern = indexMap;
