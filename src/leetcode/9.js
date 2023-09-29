@@ -2,30 +2,16 @@
  * Given an integer x, return true if x is a palindrome, and false otherwise.
  */
 
-const digits = (num) => [...`${num}`];
-
-const arrIsSymmetrical = (arr) => {
-  const length = arr.length;
-  const m = Math.floor(length / 2);
-  for (let i = 0; i < m; i++) {
-    if (arr[i] !== arr[length - i - 1]) {
-      return false;
-    }
-  }
-  return true;
+const functional = (x) => {
+  const digits = (num) => [...`${num}`];
+  const reverse = (arr) => [...arr].reverse();
+  const equals = (a, b) => a.every((digit, i) => digit === b[i]);
+  return equals(digits(x), reverse(digits(x)));
 };
+
 
 /**
  * @param {number} x
  * @return {boolean}
  */
-export const isPalindrome = (x) => {
-  if (x < 0) {
-    return false;
-  }
-  if (x < 10) {
-    return true;
-  }
-
-  return arrIsSymmetrical(digits(x));
-};
+export const isPalindrome = functional;
