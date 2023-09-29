@@ -7,4 +7,4 @@ export const arrToStr = (arr) => `[${arr?.join(',')}]`;
 /**
  * Returns a binary string representation of the number.
  */
-export const binToStr = (bin) => bin.toString(2).padStart(32, '0');
+export const binToStr = (bin) => (bin >>> 0).toString(2).padStart(32, '0');
