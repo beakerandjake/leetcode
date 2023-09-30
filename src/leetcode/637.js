@@ -12,14 +12,10 @@
  * }
  */
 
-const average = (arr) =>
-  arr.length === 0 ? 0 : arr.reduce((acc, x) => acc + x, 0) / arr.length;
+const simple = (root) => {
+  const average = (arr) =>
+    arr.length === 0 ? 0 : arr.reduce((acc, x) => acc + x, 0) / arr.length;
 
-/**
- * @param {TreeNode} root
- * @return {number[]}
- */
-export const averageOfLevels = (root) => {
   const queue = [{ node: root, level: 0 }];
   const toReturn = [];
   while (queue.length) {
@@ -39,4 +35,30 @@ export const averageOfLevels = (root) => {
     }
   }
   return toReturn.map(average);
+};
+
+/**
+ * @param {TreeNode} root
+ * @return {number[]}
+ */
+export const averageOfLevels = (root) => {
+  const queue = [root];
+  const toReturn = [];
+  while (queue.length) {
+    const levelCount = queue.length;
+    let remaining = queue.length;
+    let levelSum = 0;
+    while (remaining--) {
+      const node = queue.shift();
+      levelSum += node.val;
+      if (node.left) {
+        queue.push(node.left);
+      }
+      if (node.right) {
+        queue.push(node.right);
+      }
+    }
+    toReturn.push(levelSum / levelCount);
+  }
+  return toReturn;
 };
