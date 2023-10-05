@@ -4,6 +4,10 @@
  * Return intervals after the insertion.
  */
 
+const isBefore = (a, b) => a[1] < b[0];
+
+const isAfter = (a, b) => a[0] > b[1];
+
 /**
  * @param {number[][]} intervals
  * @param {number[]} newInterval
@@ -14,24 +18,24 @@ export const insert = (intervals, newInterval) => {
     return [newInterval];
   }
   const toReturn = [];
-  const current = newInterval;
+  const toInsert = newInterval;
   let inserted = false;
-  for (const interval of intervals) {
-    if (interval[1] < current[0]) {
-      toReturn.push(interval);
-    } else if (current[1] < interval[0]) {
+  for (const current of intervals) {
+    if (isAfter(toInsert, current)) {
+      toReturn.push(current);
+    } else if (isBefore(toInsert, current)) {
       if (!inserted) {
-        toReturn.push(current);
+        toReturn.push(toInsert);
         inserted = true;
       }
-      toReturn.push(interval);
+      toReturn.push(current);
     } else {
-      current[0] = Math.min(current[0], interval[0]);
-      current[1] = Math.max(current[1], interval[1]);
+      toInsert[0] = Math.min(toInsert[0], current[0]);
+      toInsert[1] = Math.max(toInsert[1], current[1]);
     }
   }
   if (!inserted) {
-    toReturn.push(current);
+    toReturn.push(toInsert);
   }
 
   return toReturn;
