@@ -79,13 +79,11 @@ export const merge = (intervals) => {
   if (intervals.length < 2) {
     return intervals;
   }
-  const covers = ([s1, e1], [s2, e2]) => s1 <= e2 && e1 >= s2;
   const sorted = [...intervals].sort(([s1], [s2]) => s1 - s2);
   const toReturn = [sorted[0]];
   for (const interval of sorted) {
     const currentRange = toReturn.at(-1);
-    if (covers(currentRange, interval)) {
-      currentRange[0] = Math.min(currentRange[0], interval[0]);
+    if (interval[0] <= currentRange[1]) {
       currentRange[1] = Math.max(currentRange[1], interval[1]);
     } else {
       toReturn.push(interval);
