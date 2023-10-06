@@ -5,14 +5,18 @@
  * You must write an algorithm with O(log n) runtime complexity.
  */
 
-/**
- * @param {number[]} nums
- * @param {number} target
- * @return {number}
- */
-export const search = (nums, target) => {
-  let l = 0;
-  let u = nums.length - 1;
+const findPivot = (nums) => {
+  for (let i = 1; i < nums.length; i++) {
+    if (nums[i] < nums[i - 1]) {
+      return i;
+    }
+  }
+  return -1;
+};
+
+const binarySearch = (nums, target, lower, upper) => {
+  let l = lower;
+  let u = upper;
   while (l <= u) {
     const m = Math.floor(l + (u - l) / 2);
     if (nums[m] < target) {
@@ -24,4 +28,26 @@ export const search = (nums, target) => {
     }
   }
   return -1;
+};
+
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number}
+ */
+export const search = (nums, target) => {
+  if (nums.length === 1) {
+    return nums[0] === target ? 0 : -1;
+  }
+
+  // array is not pivoted.
+  if (nums[0] < nums.at(-1)) {
+    return binarySearch(nums, target, 0, nums.length - 1);
+  }
+
+  const pivot = findPivot(nums);
+  return Math.max(
+    binarySearch(nums, target, 0, pivot),
+    binarySearch(nums, target, pivot, nums.length - 1)
+  );
 };
