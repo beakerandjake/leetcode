@@ -10,16 +10,20 @@
  * @param {number} k
  * @return {number}
  */
-const getRow = (n) => {
-  if (n === 1) {
-    return '0';
-  }
-  const previous = getRow(n - 1);
-  const row = [];
-  for (let i = 0; i < previous.length; i++) {
-    row.push(previous[i] === '0' ? '01' : '10');
-  }
-  return row.join('');
+const getRowMemoized = () => {
+  const memo = new Map();
+  const getRow = (n) => {
+    if (n === 1) {
+      return '0';
+    }
+
+    if (!memo.has(n)) {
+      memo.set(n, [...getRow(n - 1)].map((x) => (x === '0' ? '01' : '10')).join(''));
+    }
+
+    return memo.get(n);
+  };
+  return getRow;
 };
 
 /**
@@ -27,4 +31,7 @@ const getRow = (n) => {
  * @param {number} k
  * @return {number}
  */
-export const kthGrammar = (n, k) => Number(getRow(n)[k - 1]);
+export const kthGrammar = (n, k) => {
+  const getRow = getRowMemoized();
+  return Number(getRow(n)[k - 1]);
+};
