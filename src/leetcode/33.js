@@ -8,26 +8,16 @@
 const findPivot = (nums) => {
   let l = 0;
   let u = nums.length - 1;
+  const end = nums.at(-1);
   while (l <= u) {
     const m = Math.floor(l + (u - l) / 2);
-    // m is pivot
-    if (nums[m - 1] > nums[m] && (m === nums.length - 1 || nums[m + 1] > nums[m])) {
-      return m;
-    }
-    // numbers from low to middle are in order, pivot must be to the right.
-    if (nums[l] > nums[m]) {
+    if (nums[m] > end) {
+      l = m + 1;
+    } else {
       u = m - 1;
     }
-    // numbers from middle to upper are in order, pivot must be to the right.
-    else if (nums[u] < nums[m]) {
-      l = m + 1;
-    }
-    // lower must be pivot
-    else {
-      return l;
-    }
   }
-  return -1;
+  return l;
 };
 
 const binarySearch = (nums, target, lower, upper) => {
@@ -56,7 +46,7 @@ export const search = (nums, target) => {
     return nums[0] === target ? 0 : -1;
   }
 
-  // array is not pivoted.
+  // // array is not pivoted.
   if (nums[0] < nums.at(-1)) {
     return binarySearch(nums, target, 0, nums.length - 1);
   }
