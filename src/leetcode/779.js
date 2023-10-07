@@ -5,25 +5,35 @@
  * Given two integer n and k, return the kth (1-indexed) symbol in the nth row of a table of n rows.
  */
 
-/**
- * @param {number} n
- * @param {number} k
- * @return {number}
- */
-const getRowMemoized = () => {
-  const memo = new Map();
-  const getRow = (n) => {
-    if (n === 1) {
-      return '0';
-    }
+// const getRowMemoized = () => {
+//   const memo = new Map();
+//   const getRow = (n) => {
+//     if (n === 1) {
+//       return '0';
+//     }
 
-    if (!memo.has(n)) {
-      memo.set(n, [...getRow(n - 1)].map((x) => (x === '0' ? '01' : '10')).join(''));
-    }
+//     if (!memo.has(n)) {
+//       memo.set(n, [...getRow(n - 1)].map((x) => (x === '0' ? '01' : '10')).join(''));
+//     }
 
-    return memo.get(n);
-  };
-  return getRow;
+//     return memo.get(n);
+//   };
+//   return getRow;
+// }
+
+const getBit = (k) => {
+  if (k === 1) {
+    return 0;
+  }
+  if (k === 2) {
+    return 1;
+  }
+  // k is even use right side of parents expansion.
+  if (k % 2 === 0) {
+    return getBit(Math.floor((k + 1) / 2)) === 1 ? 0 : 1;
+  }
+  // k is odd use left side of parent expansion.
+  return getBit(Math.floor((k + 1) / 2));
 };
 
 /**
@@ -31,7 +41,4 @@ const getRowMemoized = () => {
  * @param {number} k
  * @return {number}
  */
-export const kthGrammar = (n, k) => {
-  const getRow = getRowMemoized();
-  return Number(getRow(n)[k - 1]);
-};
+export const kthGrammar = (n, k) => getBit(k);
