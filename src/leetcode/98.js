@@ -18,31 +18,38 @@
  * }
  */
 
-const nodes = (root) => {
-  const valuesRecursive = (node, arr) => {
-    if (!node) {
-      return arr;
-    }
-    return [
-      ...arr,
-      node.val,
-      ...valuesRecursive(node.left, arr),
-      ...valuesRecursive(node.right, arr),
-    ];
-  };
-  return valuesRecursive(root, []);
-};
+// const nodes = (root) => {
+//   const valuesRecursive = (node, arr) => {
+//     if (!node) {
+//       return arr;
+//     }
+//     return [
+//       ...arr,
+//       node.val,
+//       ...valuesRecursive(node.left, arr),
+//       ...valuesRecursive(node.right, arr),
+//     ];
+//   };
+//   return valuesRecursive(root, []);
+// };
 
-const valid = (node) => {
-  if (!node) {
-    return true;
+// const valid = (node) => {
+//   if (!node) {
+//     return true;
+//   }
+//   return (
+//     nodes(node.left).every((x) => x < node.val) &&
+//     nodes(node.right).every((x) => x > node.val) &&
+//     valid(node.left) &&
+//     valid(node.right)
+//   );
+// };
+
+const inOrder = (root, arr) => {
+  if (!root) {
+    return arr;
   }
-  return (
-    nodes(node.left).every((x) => x < node.val) &&
-    nodes(node.right).every((x) => x > node.val) &&
-    valid(node.left) &&
-    valid(node.right)
-  );
+  return [...inOrder(root.left, arr), root.val, ...inOrder(root.right, arr)];
 };
 
 /**
@@ -50,5 +57,11 @@ const valid = (node) => {
  * @return {boolean}
  */
 export const isValidBST = (root) => {
-  return valid(root);
+  const sorted = inOrder(root, []);
+  for (let i = 1; i < sorted.length; i++) {
+    if (sorted[i] <= sorted[i - 1]) {
+      return false;
+    }
+  }
+  return true;
 };
