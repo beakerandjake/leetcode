@@ -17,8 +17,38 @@
  *     this.right = (right===undefined ? null : right)
  * }
  */
+
+const nodes = (root) => {
+  const valuesRecursive = (node, arr) => {
+    if (!node) {
+      return arr;
+    }
+    return [
+      ...arr,
+      node.val,
+      ...valuesRecursive(node.left, arr),
+      ...valuesRecursive(node.right, arr),
+    ];
+  };
+  return valuesRecursive(root, []);
+};
+
+const valid = (node) => {
+  if (!node) {
+    return true;
+  }
+  return (
+    nodes(node.left).every((x) => x < node.val) &&
+    nodes(node.right).every((x) => x > node.val) &&
+    valid(node.left) &&
+    valid(node.right)
+  );
+};
+
 /**
  * @param {TreeNode} root
  * @return {boolean}
  */
-export const isValidBST = (root) => {};
+export const isValidBST = (root) => {
+  return valid(root);
+};
