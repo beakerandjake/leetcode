@@ -39,3 +39,27 @@ export const arrayToBinaryTree = (arr) => {
   }
   return nodes[0];
 };
+
+export const binaryTreeToArray = (root) => {
+  if (!root) {
+    return [];
+  }
+
+  const toReturn = [root.val];
+  const queue = [root];
+
+  while (queue.length) {
+    const node = queue.shift();
+
+    toReturn.push(node.left?.val || null);
+    toReturn.push(node.right?.val || null);
+
+    if (node.left) {
+      queue.push(node.left);
+    }
+    if (node.right) {
+      queue.push(node.right);
+    }
+  }
+  return toReturn;
+};
