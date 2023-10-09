@@ -25,7 +25,7 @@ export const linkedListToArray = (list) => {
   return toReturn;
 };
 
-export const arrayToBinaryTree = (arr) => {
+export const arrToBst = (arr) => {
   if (!arr?.length) {
     return undefined;
   }
@@ -40,7 +40,7 @@ export const arrayToBinaryTree = (arr) => {
   return nodes[0];
 };
 
-export const binaryTreeToArray = (root) => {
+export const bstToArr = (root) => {
   if (!root) {
     return [];
   }

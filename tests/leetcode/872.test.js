@@ -1,6 +1,6 @@
 import { leafSimilar } from '../../src/leetcode/872.js';
 import { arrToStr } from '../util.js';
-import { arrayToBinaryTree } from './util.js';
+import { arrToBst } from './util.js';
 
 describe('872. Leaf-Similar Trees', () => {
   [
@@ -12,7 +12,7 @@ describe('872. Leaf-Similar Trees', () => {
     [[1, 2, 3], [1, 3, 2], false],
   ].forEach(([a, b, expected]) => {
     test(`${arrToStr(a)},${arrToStr(b)} -> ${expected}`, () => {
-      const result = leafSimilar(arrayToBinaryTree(a), arrayToBinaryTree(b));
+      const result = leafSimilar(arrToBst(a), arrToBst(b));
       expect(result).toBe(expected);
     });
   });

@@ -1,6 +1,6 @@
 import { averageOfLevels } from '../../src/leetcode/637.js';
 import { arrToStr } from '../util.js';
-import { arrayToBinaryTree } from './util.js';
+import { arrToBst } from './util.js';
 
 describe('637. Average of Levels in Binary Tree', () => {
   [
@@ -14,7 +14,7 @@ describe('637. Average of Levels in Binary Tree', () => {
     // ],
   ].forEach(([input, expected]) => {
     test(`${arrToStr(input)} -> ${expected}`, () => {
-      const result = averageOfLevels(arrayToBinaryTree(input));
+      const result = averageOfLevels(arrToBst(input));
       expect(result).toEqual(expected);
     });
   });

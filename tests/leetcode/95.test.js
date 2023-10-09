@@ -1,6 +1,6 @@
 import { generateTrees } from '../../src/leetcode/95.js';
 import { arrToStr } from '../util.js';
-import { binaryTreeToArray } from './util.js';
+import { bstToArr } from './util.js';
 
 describe('95. Unique Binary Search Trees II', () => {
   [
@@ -17,7 +17,7 @@ describe('95. Unique Binary Search Trees II', () => {
   ].forEach(([n, expected]) => {
     test(`${n} -> ${arrToStr(expected)}`, () => {
       const result = generateTrees(n);
-      expect(result?.map(binaryTreeToArray)).toEqual(expected);
+      expect(result?.map(bstToArr)).toEqual(expected);
     });
   });
 });

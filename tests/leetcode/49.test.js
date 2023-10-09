@@ -5,7 +5,7 @@ describe('49. Group Anagrams', () => {
   [
     [
       ['eat', 'tea', 'tan', 'ate', 'nat', 'bat'],
-      [['bat'], ['nat', 'tan'], ['ate', 'eat', 'tea']],
+      [['eat', 'tea', 'ate'], ['tan', 'nat'], ['bat']],
     ],
     [[''], [['']]],
     [['a'], [['a']]],
