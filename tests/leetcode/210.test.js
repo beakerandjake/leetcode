@@ -12,7 +12,7 @@ describe('210. Course Schedule II', () => {
         [3, 1],
         [3, 2],
       ],
-      [0, 2, 1, 3],
+      [0, 1, 2, 3],
     ],
   ].forEach(([numCourses, prerequisites, expected]) => {
     test(`${numCourses},${arrToStr(prerequisites)}-> ${arrToStr(expected)}`, () => {
