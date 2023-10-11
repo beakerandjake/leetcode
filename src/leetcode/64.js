@@ -6,11 +6,7 @@
 
 const getShape = (grid) => ({ height: grid.length, width: grid[0].length });
 
-/**
- * @param {number[][]} grid
- * @return {number}
- */
-export const minPathSum = (grid) => {
+const bottomUp = (grid) => {
   const { width, height } = getShape(grid);
   const dp = [...Array(height + 1)].map(() =>
     Array(width + 1).fill(Number.MAX_SAFE_INTEGER)
@@ -25,3 +21,29 @@ export const minPathSum = (grid) => {
   }
   return dp[height][width];
 };
+
+const topDown = (grid) => {
+  const shape = getShape(grid);
+  const memo = new Map();
+  const dp = (y, x) => {
+    if (y === 0 && x === 0) {
+      return grid[y][x];
+    }
+    if (y < 0 || x < 0) {
+      return Number.MAX_SAFE_INTEGER;
+    }
+    const hash = `${y}.${x}`;
+    if (!memo.has(hash)) {
+      const current = grid[y][x];
+      memo.set(hash, Math.min(current + dp(y - 1, x), current + dp(y, x - 1)));
+    }
+    return memo.get(hash);
+  };
+  return dp(shape.height - 1, shape.width - 1);
+};
+
+/**
+ * @param {number[][]} grid
+ * @return {number}
+ */
+export const minPathSum = bottomUp;
