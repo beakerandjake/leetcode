@@ -57,6 +57,30 @@ const convertToNumbers = (() => {
  * @param {ListNode} l2
  * @return {ListNode}
  */
-export const addTwoNumbers = (l1, l2) => {
-
+export const addTwoNumbers = (a, b) => {
+  let toReturn;
+  let current;
+  let carry = false;
+  let aCurrent = a;
+  let bCurrent = b;
+  while (aCurrent || bCurrent) {
+    const aVal = aCurrent?.val || 0;
+    const bVal = bCurrent?.val || 0;
+    const rawSum = aVal + bVal + (carry ? 1 : 0);
+    carry = rawSum >= 10;
+    const newNode = new ListNode(rawSum % 10);
+    if (!current) {
+      toReturn = newNode;
+      current = newNode;
+    } else {
+      current.next = newNode;
+      current = newNode;
+    }
+    aCurrent = aCurrent?.next;
+    bCurrent = bCurrent?.next;
+  }
+  if (carry) {
+    current.next = new ListNode(1);
+  }
+  return toReturn;
 };
