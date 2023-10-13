@@ -3,48 +3,47 @@
  * Return the linked list sorted as well.
  */
 
-/**
- * Definition for singly-linked list.
- * function ListNode(val, next) {
- *     this.val = (val===undefined ? 0 : val)
- *     this.next = (next===undefined ? null : next)
- * }
- */
+class ListNode {
+  constructor(val, next) {
+    this.val = val === undefined ? 0 : val;
+    this.next = next === undefined ? null : next;
+  }
+}
 
-// const usingMap = (() => {
-//   const getFrequencyMap = (head) => {
-//     const toReturn = new Map();
-//     let current = head;
-//     while (current) {
-//       toReturn.set(current.val, (toReturn.get(current.val) || 0) + 1);
-//       current = current.next;
-//     }
-//     return toReturn;
-//   };
+const usingMap = (() => {
+  const getFrequencyMap = (head) => {
+    const toReturn = new Map();
+    let current = head;
+    while (current) {
+      toReturn.set(current.val, (toReturn.get(current.val) || 0) + 1);
+      current = current.next;
+    }
+    return toReturn;
+  };
 
-//   return (head) => {
-//     const frequencyMap = getFrequencyMap(head);
-//     let finalHead;
-//     let currentTail;
-//     let current = head;
-//     while (current) {
-//       const frequency = frequencyMap.get(current.val);
-//       if (frequency === 1) {
-//         if (!finalHead) {
-//           finalHead = current;
-//           currentTail = finalHead;
-//         } else {
-//           currentTail.next = current;
-//           currentTail = current;
-//         }
-//       } else if (currentTail) {
-//         currentTail.next = null;
-//       }
-//       current = current.next;
-//     }
-//     return finalHead || null;
-//   };
-// })();
+  return (head) => {
+    const frequencyMap = getFrequencyMap(head);
+    let finalHead;
+    let currentTail;
+    let current = head;
+    while (current) {
+      const frequency = frequencyMap.get(current.val);
+      if (frequency === 1) {
+        if (!finalHead) {
+          finalHead = current;
+          currentTail = finalHead;
+        } else {
+          currentTail.next = current;
+          currentTail = current;
+        }
+      } else if (currentTail) {
+        currentTail.next = null;
+      }
+      current = current.next;
+    }
+    return finalHead || null;
+  };
+})();
 
 const withoutSentinel = (() => {
   const consumeDuplicates = (node) => {
@@ -88,8 +87,35 @@ const withoutSentinel = (() => {
   };
 })();
 
+const consumeDuplicates = (node) => {
+  let current = node;
+  let consumeCount = 0;
+  while (current && current.val === node.val) {
+    consumeCount++;
+    current = current.next;
+  }
+  return { node: current, consumeCount };
+};
+
 /**
  * @param {ListNode} head
  * @return {ListNode}
  */
-export const deleteDuplicates = withoutSentinel;
+export const deleteDuplicates = (head) => {
+  if (!head?.next) {
+    return head;
+  }
+
+  const sentinel = new ListNode(0);
+  let currentTail = sentinel;
+  let current = head;
+  while (current) {
+    const next = consumeDuplicates(current);
+    if (next.consumeCount === 1) {
+      currentTail.next = new ListNode(current.val);
+      currentTail = currentTail.next;
+    }
+    current = next.node;
+  }
+  return sentinel.next;
+};
