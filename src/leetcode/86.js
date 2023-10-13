@@ -3,14 +3,6 @@
  * You should preserve the original relative order of the nodes in each of the two partitions.
  */
 
-/**
- * Definition for singly-linked list.
- * function ListNode(val, next) {
- *     this.val = (val===undefined ? 0 : val)
- *     this.next = (next===undefined ? null : next)
- * }
- */
-
 class ListNode {
   constructor(val, next) {
     this.val = val === undefined ? 0 : val;
