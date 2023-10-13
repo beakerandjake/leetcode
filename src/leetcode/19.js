@@ -37,9 +37,37 @@ const twoPass = (() => {
   return (head, n) => deleteAtIndex(head, size(head) - n + 1);
 })();
 
+const onePass = (() => {
+  const nodeAt = (head, position) => {
+    let currentNode = head;
+    let currentPosition = 0;
+    while (currentPosition++ !== position) {
+      currentNode = currentNode.next;
+    }
+    return currentNode;
+  };
+
+  return (head, n) => {
+    let left = head;
+    let right = nodeAt(head, n);
+
+    if (!right) {
+      return head.next;
+    }
+
+    while (right.next !== null) {
+      right = right.next;
+      left = left.next;
+    }
+
+    left.next = left.next.next;
+    return head;
+  };
+})();
+
 /**
  * @param {ListNode} head
  * @param {number} n
  * @return {ListNode}
  */
-export const removeNthFromEnd = twoPass;
+export const removeNthFromEnd = onePass;
