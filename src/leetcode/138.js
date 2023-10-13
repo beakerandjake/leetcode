@@ -17,16 +17,67 @@
  */
 
 /**
- * // Definition for a Node.
+ * Definition for a Node.
  * function Node(val, next, random) {
  *    this.val = val;
  *    this.next = next;
  *    this.random = random;
  * };
  */
+class Node {
+  constructor(val, next, random) {
+    this.val = val;
+    this.next = next;
+    this.random = random;
+  }
+}
+
+const nodeAt = (head, index) => {
+  let currentNode = head;
+  let currentIndex = 0;
+  while (currentIndex !== index) {
+    currentIndex++;
+    currentNode = currentNode.next;
+  }
+  return currentNode;
+};
+
+const indexOf = (head, node) => {
+  let current = head;
+  let index = 0;
+  while (current !== node) {
+    index++;
+    current = current.next;
+  }
+  return index;
+};
+
+const copyList = (head) => {
+  const dest = new Node(0);
+  let srcCurrent = head;
+  let destCurrent = dest;
+  while (srcCurrent) {
+    destCurrent.next = new Node(srcCurrent.val, null, null);
+    srcCurrent = srcCurrent.next;
+    destCurrent = destCurrent.next;
+  }
+  return dest.next;
+};
 
 /**
  * @param {Node} head
  * @return {Node}
  */
-export const copyRandomList = (head) => {};
+export const copyRandomList = (head) => {
+  const copy = copyList(head);
+  let srcCurrent = head;
+  let destCurrent = copy;
+  while (srcCurrent) {
+    if (srcCurrent.random !== null) {
+      destCurrent.random = nodeAt(copy, indexOf(head, srcCurrent.random));
+    }
+    srcCurrent = srcCurrent.next;
+    destCurrent = destCurrent.next;
+  }
+  return copy;
+};

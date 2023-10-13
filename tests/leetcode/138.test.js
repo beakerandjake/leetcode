@@ -11,7 +11,7 @@ const arrToList = (arr) => {
 
   nodes.forEach((node, i) => {
     node.next = nodes[i + 1] || null;
-    node.random = nodes[node.random];
+    node.random = nodes[node.random] || null;
   });
 
   return nodes[0];
@@ -43,6 +43,28 @@ describe('138. Copy List with Random Pointer', () => {
         [11, 4],
         [10, 2],
         [1, 0],
+      ],
+    ],
+    [
+      [
+        [1, 1],
+        [2, 1],
+      ],
+      [
+        [1, 1],
+        [2, 1],
+      ],
+    ],
+    [
+      [
+        [3, null],
+        [3, 0],
+        [3, null],
+      ],
+      [
+        [3, null],
+        [3, 0],
+        [3, null],
       ],
     ],
   ].forEach(([input, expected]) => {
