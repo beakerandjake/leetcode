@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "test": "NODE_OPTIONS=--experimental-vm-modules jest",
-    "touch": "./touch_lc.sh"
+    "touch": "./touch_lc.sh",
+    "count": "ls ./src/leetcode -1 | wc -l"
   },
   "repository": {
     "type": "git",
