@@ -4,7 +4,8 @@
   "description": "Gotta remember all the crap",
   "type": "module",
   "scripts": {
-    "test": "NODE_OPTIONS=--experimental-vm-modules jest"
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest",
+    "touch": "./touch_lc.sh"
   },
   "repository": {
     "type": "git",
