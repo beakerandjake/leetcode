@@ -63,3 +63,18 @@ export const bstToArr = (root) => {
   }
   return toReturn;
 };
+
+export const trimEnd = (arr) => {
+  if (!arr?.length) {
+    return [];
+  }
+
+  let endIndex;
+  for (let i = arr.length - 1; i >= 0; i--) {
+    if (arr[i] !== null) {
+      endIndex = i + 1;
+      break;
+    }
+  }
+  return arr.slice(0, endIndex);
+};
