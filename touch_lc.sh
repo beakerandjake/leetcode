@@ -13,15 +13,15 @@ fi
 srcFile="./src/leetcode/$1.js"
 if [ -f $srcFile ]
     then 
-        echo "err: ${srcFile}.js already exists"
+        echo "err: ${srcFile} already exists"
         exit 1
 fi
 
 # ensure test file does not already exist.
-testFile="./tests/leetcode/$1.js"
+testFile="./tests/leetcode/$1.test.js"
 if [ -f $testFile ]
     then 
-        echo "err: ${testFile}.js already exists"
+        echo "err: ${testFile} already exists"
         exit 1
 fi
 
