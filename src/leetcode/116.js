@@ -14,31 +14,41 @@
  * Initially, all next pointers are set to NULL.
  */
 
-const levelOrder = (root) => {
-  const toReturn = [];
-  const queue = [{ node: root, level: 0 }];
-  while (queue.length) {
-    const { node, level } = queue.shift();
-    if (!toReturn[level]) {
-      toReturn[level] = [node];
-    } else {
-      toReturn[level].push(node);
+const simple = (() => {
+  const levelOrder = (root) => {
+    const toReturn = [];
+    const queue = [{ node: root, level: 0 }];
+    while (queue.length) {
+      const { node, level } = queue.shift();
+      if (!toReturn[level]) {
+        toReturn[level] = [node];
+      } else {
+        toReturn[level].push(node);
+      }
+      if (node.left) {
+        queue.push({ node: node.left, level: level + 1 });
+      }
+      if (node.right) {
+        queue.push({ node: node.right, level: level + 1 });
+      }
     }
-    if (node.left) {
-      queue.push({ node: node.left, level: level + 1 });
-    }
-    if (node.right) {
-      queue.push({ node: node.right, level: level + 1 });
-    }
-  }
-  return toReturn;
-};
+    return toReturn;
+  };
 
-const connectLevel = (level) =>
-  level.forEach((node, i) => {
-    // eslint-disable-next-line no-param-reassign
-    node.next = level[i + 1] || null;
-  });
+  const connectLevel = (level) =>
+    level.forEach((node, i) => {
+      // eslint-disable-next-line no-param-reassign
+      node.next = level[i + 1] || null;
+    });
+
+  return (root) => {
+    if (!root) {
+      return null;
+    }
+    levelOrder(root).forEach(connectLevel);
+    return root;
+  };
+})();
 
 /**
  * @param {Node} root
@@ -48,6 +58,24 @@ export const connect = (root) => {
   if (!root) {
     return null;
   }
-  levelOrder(root).forEach(connectLevel);
+  const queue = [{ node: root, level: 0 }];
+  let currentLevel = -1;
+  let previous;
+  while (queue.length) {
+    const { node, level } = queue.shift();
+    if (currentLevel !== level) {
+      previous = null;
+      currentLevel = level;
+    } else if (previous) {
+      previous.next = node;
+    }
+    if (node.left) {
+      queue.push({ node: node.left, level: level + 1 });
+    }
+    if (node.right) {
+      queue.push({ node: node.right, level: level + 1 });
+    }
+    previous = node;
+  }
   return root;
 };
