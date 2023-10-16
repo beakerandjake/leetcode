@@ -2,12 +2,7 @@
  * Given the root of a binary tree, imagine yourself standing on the right side of it, return the values of the nodes you can see ordered from top to bottom.
  */
 
-
-/**
- * @param {TreeNode} root
- * @return {number[]}
- */
-export const rightSideView = (root) => {
+const iterative = (root) => {
   if (!root) {
     return [];
   }
@@ -33,3 +28,23 @@ export const rightSideView = (root) => {
   }
   return toReturn;
 };
+
+const recursive = (root) => {
+  const toReturn = [];
+  const dfs = (node, index) => {
+    if (!node) {
+      return;
+    }
+    toReturn[index] = node.val;
+    dfs(node.left, index + 1);
+    dfs(node.right, index + 1);
+  };
+  dfs(root, 0);
+  return toReturn;
+};
+
+/**
+ * @param {TreeNode} root
+ * @return {number[]}
+ */
+export const rightSideView = iterative;
