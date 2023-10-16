@@ -6,7 +6,8 @@
   "scripts": {
     "test": "NODE_OPTIONS=--experimental-vm-modules jest",
     "touch": "./touch_lc.sh",
-    "count": "ls ./src/leetcode -1 | wc -l"
+    "count": "ls ./src/leetcode -1 | wc -l",
+    "count-today": "ls src/leetcode -lt | grep \"$(date '+%b %d')\" | wc -l"
   },
   "repository": {
     "type": "git",
