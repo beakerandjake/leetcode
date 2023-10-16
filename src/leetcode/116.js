@@ -14,7 +14,7 @@
  * Initially, all next pointers are set to NULL.
  */
 
-const simple = (() => {
+const levelOrderWithArr = (() => {
   const levelOrder = (root) => {
     const toReturn = [];
     const queue = [{ node: root, level: 0 }];
@@ -50,11 +50,7 @@ const simple = (() => {
   };
 })();
 
-/**
- * @param {Node} root
- * @return {Node}
- */
-export const connect = (root) => {
+const levelOrder = (root) => {
   if (!root) {
     return null;
   }
@@ -76,6 +72,29 @@ export const connect = (root) => {
       queue.push({ node: node.right, level: level + 1 });
     }
     previous = node;
+  }
+  return root;
+};
+
+/**
+ * @param {Node} root
+ * @return {Node}
+ */
+export const connect = (root) => {
+  if (!root) {
+    return null;
+  }
+  let left = root;
+  while (left.left) {
+    let head = left;
+    while (head) {
+      head.left.next = head.right;
+      if (head.next) {
+        head.right.next = head.next.left;
+      }
+      head = head.next;
+    }
+    left = left.left;
   }
   return root;
 };
