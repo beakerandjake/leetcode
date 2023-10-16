@@ -1,3 +1,5 @@
+/* eslint-disable max-classes-per-file */
+
 /**
  * Implement the BSTIterator class that represents an iterator over the in-order traversal of a binary search tree (BST):
  *
@@ -27,10 +29,7 @@ const getNodes = (root) => {
   return nodes;
 };
 
-/**
- * @param {TreeNode} root
- */
-export class BSTIterator {
+class FlattenIterator {
   constructor(root) {
     this.nodes = getNodes(root);
     this.index = 0;
@@ -50,3 +49,40 @@ export class BSTIterator {
     return this.index < this.nodes.length;
   }
 }
+
+class RecursiveIterator {
+  #stack = [];
+
+  constructor(root) {
+    this.#stack = [];
+    this.#leftMost(root);
+  }
+
+  #leftMost(root) {
+    let current = root;
+    while (current) {
+      this.#stack.push(current);
+      current = current.left;
+    }
+  }
+
+  /**
+   * @return {number}
+   */
+  next() {
+    const top = this.#stack.pop();
+    if (top.right) {
+      this.#leftMost(top.right);
+    }
+    return top.val;
+  }
+
+  /**
+   * @return {boolean}
+   */
+  hasNext() {
+    return this.#stack.length > 0;
+  }
+}
+
+export { RecursiveIterator as BSTIterator };
