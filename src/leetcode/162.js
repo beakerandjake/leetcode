@@ -29,10 +29,8 @@ export const findPeakElement = (nums) => {
       return m;
     }
     if (current < previous) {
-      // go left
       u = m - 1;
     } else {
-      // go right
       l = m + 1;
     }
   }
