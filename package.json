@@ -7,7 +7,7 @@
     "test": "NODE_OPTIONS=--experimental-vm-modules jest",
     "lc-count": "ls ./src/leetcode -1 | wc -l",
     "lc-test": "./bin/lcTest.sh",
-    "lc-today": "ls src/leetcode -lt | grep \"$(date '+%b %d')\" | wc -l",
+    "lc-today": "ls src/leetcode -lt --time=birth | grep \"$(date '+%b %d')\" | wc -l",
     "lc-touch": "./bin/lcTouch.sh",
     "lc-uglify":"./bin/lcUglify.sh"
   },
