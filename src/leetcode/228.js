@@ -15,7 +15,7 @@ const summary = (arr, start, end) =>
 const consume = (arr, start) => {
   let index = start + 1;
   while (index < arr.length) {
-    if (arr[index] - arr[index - 1] > 1) {
+    if (arr[index] !== arr[index - 1] + 1) {
       return index;
     }
     index++;
