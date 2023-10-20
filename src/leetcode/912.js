@@ -20,15 +20,17 @@ const mergeSort = (() => {
     return merged;
   };
 
-  return (nums) => {
+  const doMergeSort = (nums) => {
     if (nums.length === 1) {
       return nums;
     }
     const m = Math.floor(nums.length / 2);
-    const left = mergeSort(nums.slice(0, m));
-    const right = mergeSort(nums.slice(m));
+    const left = doMergeSort(nums.slice(0, m));
+    const right = doMergeSort(nums.slice(m));
     return merge(left, right);
   };
+
+  return doMergeSort;
 })();
 
 const quicksort = (arr) => {
