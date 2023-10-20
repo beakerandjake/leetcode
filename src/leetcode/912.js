@@ -3,34 +3,57 @@
  * You must solve the problem without using any built-in functions in O(nlog(n)) time complexity and with the smallest space complexity possible.
  */
 
-const merge = (a, b) => {
-  const merged = [];
-  let aIndex = 0;
-  let bIndex = 0;
-  while (aIndex < a.length && bIndex < b.length) {
-    merged.push(a[aIndex] < b[bIndex] ? a[aIndex++] : b[bIndex++]);
-  }
-  if (aIndex !== a.length) {
-    merged.push(...a.slice(aIndex));
-  }
-  if (bIndex !== b.length) {
-    merged.push(...b.slice(bIndex));
-  }
-  return merged;
-};
+const mergeSort = (() => {
+  const merge = (a, b) => {
+    const merged = [];
+    let aIndex = 0;
+    let bIndex = 0;
+    while (aIndex < a.length && bIndex < b.length) {
+      merged.push(a[aIndex] < b[bIndex] ? a[aIndex++] : b[bIndex++]);
+    }
+    if (aIndex !== a.length) {
+      merged.push(...a.slice(aIndex));
+    }
+    if (bIndex !== b.length) {
+      merged.push(...b.slice(bIndex));
+    }
+    return merged;
+  };
 
-const mergeSort = (nums) => {
-  if (nums.length === 1) {
-    return nums;
+  return (nums) => {
+    if (nums.length === 1) {
+      return nums;
+    }
+    const m = Math.floor(nums.length / 2);
+    const left = mergeSort(nums.slice(0, m));
+    const right = mergeSort(nums.slice(m));
+    return merge(left, right);
+  };
+})();
+
+const quicksort = (arr) => {
+  if (arr.length < 2) {
+    return arr;
   }
-  const m = Math.floor(nums.length / 2);
-  const left = mergeSort(nums.slice(0, m));
-  const right = mergeSort(nums.slice(m));
-  return merge(left, right);
+  const pivotIndex = Math.floor(Math.random() * arr.length);
+  const pivot = arr[pivotIndex];
+  const lessThan = [];
+  const greaterThan = [];
+  arr.forEach((item, index) => {
+    if (index === pivotIndex) {
+      return;
+    }
+    if (item < pivot) {
+      lessThan.push(item);
+    } else {
+      greaterThan.push(item);
+    }
+  });
+  return [...quicksort(lessThan), pivot, ...quicksort(greaterThan)];
 };
 
 /**
  * @param {number[]} nums
  * @return {number[]}
  */
-export const sortArray = mergeSort;
+export const sortArray = quicksort;
