@@ -83,8 +83,50 @@ const reduce = (() => {
   };
 })();
 
+const mergeSort = (() => {
+  const merge = (a, b) => {
+    const sentinel = { next: null };
+    let sentinelTail = sentinel;
+    let aCurrent = a;
+    let bCurrent = b;
+    while (aCurrent && bCurrent) {
+      if (aCurrent.val < bCurrent.val) {
+        const aNext = aCurrent.next;
+        aCurrent.next = null;
+        sentinelTail.next = aCurrent;
+        aCurrent = aNext;
+      } else {
+        const bNext = bCurrent.next;
+        bCurrent.next = null;
+        sentinelTail.next = bCurrent;
+        bCurrent = bNext;
+      }
+      sentinelTail = sentinelTail.next;
+    }
+
+    sentinelTail.next = aCurrent || bCurrent;
+
+    return sentinel.next;
+  };
+
+  const doMergeSort = (lists) => {
+    if (!lists.length) {
+      return null;
+    }
+    if (lists.length === 1) {
+      return lists[0];
+    }
+    const middle = Math.floor(lists.length / 2);
+    const left = doMergeSort(lists.slice(0, middle));
+    const right = doMergeSort(lists.slice(middle));
+    return merge(left, right);
+  };
+
+  return doMergeSort;
+})();
+
 /**
  * @param {ListNode[]} lists
  * @return {ListNode}
  */
-export const mergeKLists = reduce;
+export const mergeKLists = mergeSort;
