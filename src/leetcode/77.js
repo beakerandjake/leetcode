@@ -13,6 +13,7 @@ export const combine = (n, k) => {
   const backtrack = (current, firstNum) => {
     if (current.length === k) {
       toReturn.push([...current]);
+      return;
     }
     for (let num = firstNum; num <= n; num++) {
       current.push(num);
