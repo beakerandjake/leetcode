@@ -5,28 +5,12 @@
  * The test cases are generated such that the number of unique combinations that sum up to target is less than 150 combinations for the given input.
  */
 
-// const combinationHash = (combination) => {
-//   const toReturn = Array(40 - 2).fill(0);
-//   for (let i = 0; i < combination.length; i++) {
-//     const num = combination[i];
-//     toReturn[num - 2] += 1;
-//   }
-//   return toReturn.join('.');
-// };
-
-const combinationHash = (combination) => [...combination].sort((a, b) => a - b).join('.');
-
-/**
- * @param {number[]} candidates
- * @param {number} target
- * @return {number[][]}
- */
-export const combinationSum = (candidates, target) => {
+const simple = (candidates, target) => {
   const combinations = [];
   const encountered = new Set();
   const recurse = (combination, sum) => {
     if (sum === target) {
-      const hash = combinationHash(combination);
+      const hash = [...combination].sort((a, b) => a - b).join('.');
       if (!encountered.has(hash)) {
         combinations.push([...combination]);
         encountered.add(hash);
@@ -44,5 +28,29 @@ export const combinationSum = (candidates, target) => {
     }
   };
   recurse([], 0);
+  return combinations;
+};
+
+/**
+ * @param {number[]} candidates
+ * @param {number} target
+ * @return {number[][]}
+ */
+export const combinationSum = (candidates, target) => {
+  const combinations = [];
+  const recursive = (combination, currentSum, candidateStart) => {
+    if (currentSum === target) {
+      combinations.push([...combination]);
+      return;
+    }
+    for (let i = candidateStart; i < candidates.length; i++) {
+      if (candidates[i] + currentSum <= target) {
+        combination.push(candidates[i]);
+        recursive(combination, candidates[i] + currentSum, i);
+        combination.pop();
+      }
+    }
+  };
+  recursive([], 0, 0);
   return combinations;
 };
