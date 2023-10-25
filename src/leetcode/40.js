@@ -11,22 +11,21 @@
  */
 export const combinationSum2 = (candidates, target) => {
   const combinations = [];
-  const encountered = new Set();
+  const sortedCandidates = [...candidates].sort((a, b) => a - b);
   const recursive = (combination, sum, startIndex) => {
     if (sum === target) {
-      const copy = [...combination].sort((a, b) => a - b);
-      const hash = copy.join('.');
-      if (!encountered.has(hash)) {
-        encountered.add(hash);
-        combinations.push(copy);
-      }
+      combinations.push([...combination]);
       return;
     }
 
-    for (let i = startIndex; i < candidates.length; i++) {
-      const newSum = sum + candidates[i];
+    for (let i = startIndex; i < sortedCandidates.length; i++) {
+      // skip next if same as current 
+      if (i > startIndex && sortedCandidates[i] === sortedCandidates[i - 1]) {
+        continue;
+      }
+      const newSum = sum + sortedCandidates[i];
       if (newSum <= target) {
-        combination.push(candidates[i]);
+        combination.push(sortedCandidates[i]);
         recursive(combination, newSum, i + 1);
         combination.pop();
       }
