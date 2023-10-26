@@ -114,7 +114,6 @@ describe('min heap', () => {
       test(`heap: ${heapString}, update: ${updateElement} to: ${newPriority}, returns: ${expected}`, () => {
         const heap = populateHeap(minHeap(), priorities);
         heap.update(updateElement, newPriority);
-        console.log('after', heap);
         expect(heap.peek()?.priority).toBe(expected);
       });
     });

@@ -18,13 +18,10 @@ export const findMin = (nums) => {
   let u = nums.length - 1;
   while (l < u) {
     const m = Math.floor(l + (u - l) / 2);
-    console.log(`l:${l}=${nums[l]}, m:${m}=${nums[m]}, u:${u}=${nums[u]}`);
     if (nums[m] < nums[u]) {
       u = m;
-      console.log(`set u:${u}=${nums[u]}`);
     } else {
       l = m + 1;
-      console.log(`set l:${l}=${nums[l]}`);
     }
   }
   return nums[l];
