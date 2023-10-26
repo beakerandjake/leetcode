@@ -57,12 +57,11 @@ export const solveSudoku = (board) => {
     if (row > 8) {
       return true;
     }
-    // if already solved, skip to next cell.
+    // if cell already has value, skip to next cell.
     if (board[row][col] !== '.') {
       return col === 8 ? helper(row + 1, 0) : helper(row, col + 1);
     }
-
-    // attempt to put each digit in the cell, backtracking on failure.
+    // attempt to put each digit in this empty cell, backtracking on failure.
     for (const digit of digits) {
       if (!collision(board, row, col, digit)) {
         board[row][col] = digit;
