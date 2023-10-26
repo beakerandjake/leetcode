@@ -24,4 +24,3 @@ const loadFromDictionary = async () =>
 
 const words = await loadFromDictionary();
 const result = anagrams(words).sort((a, b) => b.length - a.length);
-console.log(result);

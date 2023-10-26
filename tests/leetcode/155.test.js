@@ -13,7 +13,6 @@ describe('155. Min Stack', () => {
     test(`${arrToStr(funcs)},${arrToStr(args)} -> ${arrToStr(expected)}`, () => {
       funcs.forEach((func, i) => {
         const result = stack[func](args[i]);
-        // console.log(`${func}(${args[i]}) -> ${result}, ${JSON.stringify(stack)}`);
         expect(result).toBe(expected[i]);
       });
     });

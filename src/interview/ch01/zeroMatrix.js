@@ -55,7 +55,6 @@ const noExtraStorage = (matrix) => {
     zeroOutCol(matrix, 0);
   }
 
-  console.log(matrix.map((row) => `[${row.join(', ')}]`, []).join('\n'));
   return matrix;
 };
 
