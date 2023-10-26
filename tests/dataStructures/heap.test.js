@@ -210,7 +210,6 @@ describe('max heap', () => {
       test(`heap: ${heapString}, update: ${updateElement} to: ${newPriority}, returns: ${expected}`, () => {
         const heap = populateHeap(maxHeap(), priorities);
         heap.update(updateElement, newPriority);
-        console.log('after', heap);
         expect(heap.peek()?.priority).toBe(expected);
       });
     });
