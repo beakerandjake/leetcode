@@ -1,12 +1,13 @@
 import { sortedArrayToBST } from '../../src/leetcode/108.js';
 import { arrToStr } from '../util.js';
-import { bstToArr, arrToBst, trimEnd } from './util.js';
+import { bstToArr, trimEnd } from './util.js';
 
 describe('108. Convert Sorted Array to Binary Search Tree', () => {
   [
     [
       [-10, -3, 0, 5, 9],
-      [0,-3,9,-10,null,5]    ],
+      [0, -3, 9, -10, null, 5],
+    ],
     [
       [1, 3],
       [3, 1],

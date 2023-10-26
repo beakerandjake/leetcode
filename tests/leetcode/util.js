@@ -51,8 +51,8 @@ export const bstToArr = (root) => {
   while (queue.length) {
     const node = queue.shift();
 
-    toReturn.push(node.left?.val || null);
-    toReturn.push(node.right?.val || null);
+    toReturn.push(node.left?.val === undefined ? null : node.left.val);
+    toReturn.push(node.right?.val === undefined ? null : node.right.val);
 
     if (node.left) {
       queue.push(node.left);
