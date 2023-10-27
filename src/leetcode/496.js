@@ -27,4 +27,14 @@ const simple = (() => {
  * @param {number[]} nums2
  * @return {number[]}
  */
-export const nextGreaterElement = simple;
+export const nextGreaterElement = (nums1, nums2) => {
+  const nextGreatest = new Map();
+  const stack = [];
+  for (const num of nums2) {
+    while (stack.length && num > stack.at(-1)) {
+      nextGreatest.set(stack.pop(), num);
+    }
+    stack.push(num);
+  }
+  return nums1.map((num) => (nextGreatest.has(num) ? nextGreatest.get(num) : -1));
+};
