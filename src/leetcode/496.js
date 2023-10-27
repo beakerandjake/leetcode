@@ -5,22 +5,26 @@
  * Return an array ans of length nums1.length such that ans[i] is the next greater element as described above.
  */
 
-const findGreater = (nums, index) => {
-  const orig = nums[index];
-  for (let i = index + 1; i < nums.length; i++) {
-    if (nums[i] > orig) {
-      return nums[i];
+const simple = (() => {
+  const findGreater = (nums, index) => {
+    const orig = nums[index];
+    for (let i = index + 1; i < nums.length; i++) {
+      if (nums[i] > orig) {
+        return nums[i];
+      }
     }
-  }
-  return -1;
-};
+    return -1;
+  };
+
+  return (nums1, nums2) => {
+    const indexMap = nums2.reduce((acc, x, index) => acc.set(x, index), new Map());
+    return nums1.map((num) => findGreater(nums2, indexMap.get(num)));
+  };
+})();
 
 /**
  * @param {number[]} nums1
  * @param {number[]} nums2
  * @return {number[]}
  */
-export const nextGreaterElement = (nums1, nums2) => {
-  const indexMap = nums2.reduce((acc, x, index) => acc.set(x, index), new Map());
-  return nums1.map((num) => findGreater(nums2, indexMap.get(num)));
-};
+export const nextGreaterElement = simple;
