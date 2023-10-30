@@ -59,9 +59,60 @@
  * https://leetcode.com/problems/open-the-lock
  */
 
+const forwardMap = {
+  0: '1',
+  1: '2',
+  2: '3',
+  3: '4',
+  4: '5',
+  5: '6',
+  6: '7',
+  7: '8',
+  8: '9',
+  9: '0',
+};
+
+const backwardMap = Object.entries(forwardMap).reduce((acc, [key, value]) => {
+  acc[value] = key;
+  return acc;
+}, {});
+
+const turnForward = (num) => forwardMap[num];
+
+const turnBackward = (num) => backwardMap[num];
+
+const replace = (lock, index, value) => {
+  return lock.substring(0, index) + value + lock.substring(index + 1);
+};
+
 /**
  * @param {string[]} deadends
  * @param {string} target
  * @return {number}
  */
-export const openLock = (deadends, target) => {};
+export const openLock = (deadends, target) => {
+  const invalid = new Set(deadends);
+  const queue = [{ lock: '0000', turns: 0 }];
+  const history = new Set();
+  while (queue.length) {
+    const { lock, turns } = queue.shift();
+    if (lock === target) {
+      return turns;
+    }
+    if (invalid.has(lock) || history.has(lock)) {
+      continue;
+    }
+    history.add(lock);
+    for (let w = 0; w < target.length; w++) {
+      const forward = replace(lock, w, turnForward(lock[w]));
+      if (!history.has(forward)) {
+        queue.push({ lock: forward, turns: turns + 1 });
+      }
+      const backward = replace(lock, w, turnBackward(lock[w]));
+      if (!history.has(backward)) {
+        queue.push({ lock: backward, turns: turns + 1 });
+      }
+    }
+  }
+  return -1;
+};
