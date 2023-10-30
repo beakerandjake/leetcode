@@ -20,5 +20,8 @@ module.exports = {
     "no-bitwise": "off",
     'import/extensions': 'off',
     'import/prefer-default-export': 'off',
+    'import/no-extraneous-dependencies': {
+      'devDependencies': true
+    }
   },
 };
