@@ -1,4 +1,5 @@
 import { argv, exit } from 'node:process';
+import { exec } from 'node:child_process';
 import { writeFile, stat } from 'node:fs/promises';
 import { LeetCode } from 'leetcode-query';
 import { convert } from 'html-to-text';
@@ -39,7 +40,7 @@ const getProblemId = ({ questionFrontendId }) => questionFrontendId;
 /**
  * Returns the path to the source file.
  */
-const srcFilePath = (problemId) => `./src/leetcode/${problemId}.js`;
+const srcFilePath = (problemId) => `src/leetcode/${problemId}.js`;
 
 /**
  * Returns true if a file has already been created for this problem.
@@ -87,15 +88,64 @@ const wrapInComment = (...lines) => {
 };
 
 /**
- * Save the solution file to the directory.
+ * Create the solution file.
  */
-const saveSolutionFile = async (problem) => {
+const createSolution = async (problem, problemId) => {
   const contents = [
     wrapInComment(parseContent(problem), '\n\n', getProblemUrl(getSlug())),
     convertToES6(getSnippet(problem)),
   ].join('\n\n\n');
   const formatted = format(contents, { parser: 'babel' });
-  await writeFile(`./src/leetcode/${getProblemId(problem)}.js`, formatted);
+  await writeFile(srcFilePath(problemId), formatted);
+};
+
+/**
+ * Returns the name of the function exported by the solution file.
+ */
+const getSolutionFunction = (problem) => /var ([\w]+)/.exec(getSnippet(problem))[1];
+
+/**
+ * Returns the title of the problem.
+ */
+const getTitle = ({ title }) => title;
+
+/**
+ * Returns the path to the test file.
+ */
+const testFilePath = (problemId) => `tests/leetcode/${problemId}.test.js`;
+
+/**
+ * Create the test file.
+ */
+const createTest = async (problem, problemId) => {
+  const fnName = getSolutionFunction(problem);
+  const contents = [
+    [
+      `import { ${fnName} } from '../../${srcFilePath(problemId)};'`,
+      "import { arrToStr } from '../util.js'",
+    ].join('\n'),
+    [
+      `describe('${problemId}. ${getTitle(problem)}', () => {`,
+      '\t[',
+      '\t\t[],',
+      '\t].forEach(([input,expected]) => {',
+      '\t\ttest(`${input} -> ${expected}`, () => {',
+      `\t\t\tconst result = ${fnName}(input);`,
+      '\t\t\texpect(result).toBe(expected);',
+      '\t\t});',
+      ' \t});',
+      '});',
+    ].join('\n'),
+  ].join('\n\n');
+  const formatted = format(contents, { parser: 'babel' });
+  await writeFile(testFilePath(problemId), formatted);
+};
+
+/**
+ * Open the newly created files in VS code.
+ */
+const openFiles = (...files) => {
+  exec(`code -r ${files.map((file) => `'${file}'`).join(' ')}`);
 };
 
 const problem = {
@@ -400,7 +450,10 @@ const main = async () => {
   if (await alreadyTouched(problem)) {
     throw new Error('problem already exists');
   }
-  await saveSolutionFile(problem);
+  const problemId = getProblemId(problem);
+  await Promise.all([createSolution(problem, problemId), createTest(problem, problemId)]);
+  openFiles(srcFilePath(problemId), testFilePath(problemId));
+  console.log(`created src: ${srcFilePath(problemId)}, test: ${testFilePath(problemId)}`);
 };
 
 try {
