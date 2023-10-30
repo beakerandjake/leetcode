@@ -4,3 +4,4 @@
 # Explicitly Include
 !/src
 !/tests
+!/bin
