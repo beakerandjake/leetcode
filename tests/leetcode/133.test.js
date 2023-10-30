@@ -1,14 +1,27 @@
-import { cloneGraph } from "../../src/leetcode/133.js";
-import { arrToStr } from "../util.js";
+import { cloneGraph } from '../../src/leetcode/133.js';
+import { arrToStr } from '../util.js';
+import { arrToGraph, graphToArr } from './util.js';
 
-describe("133. Clone Graph", () => {
+describe('133. Clone Graph', () => {
   [
-    // replace with real test data
-    [true, false],
+    [
+      [
+        [2, 4],
+        [1, 3],
+        [2, 4],
+        [1, 3],
+      ],
+      [
+        [2, 4],
+        [1, 3],
+        [2, 4],
+        [1, 3],
+      ],
+    ],
   ].forEach(([input, expected]) => {
-    test(`${input} -> ${expected}`, () => {
-      const result = cloneGraph(input);
-      expect(result).toBe(expected);
+    test(`${arrToStr(input)} -> ${arrToStr(expected)}`, () => {
+      const result = cloneGraph(arrToGraph(input));
+      expect(graphToArr(result)).toBe(expected);
     });
   });
 });

@@ -78,3 +78,32 @@ export const trimEnd = (arr) => {
   }
   return arr.slice(0, endIndex);
 };
+
+export const arrToGraph = (arr) => {
+  if (!arr?.length) {
+    return undefined;
+  }
+  const nodes = arr.map((_, i) => ({ val: i + 1, neighbors: [] }));
+  arr.forEach((adjacencyList, i) => {
+    nodes[i].neighbors = adjacencyList.map((val) => nodes[val - 1]);
+  });
+  return nodes[0];
+};
+
+export const graphToArr = (graph) => {
+  if (!graph) {
+    return [];
+  }
+  let nodes = [];
+  let queue = [graph];
+  while (queue.length) {
+    const node = queue.shift();
+    nodes[node.val - 1] = node.neighbors.map((x) => x.val);
+    for (const neighbor of node.neighbors) {
+      if (!nodes[neighbor.val - 1]) {
+        queue.push(neighbor);
+      }
+    }
+  }
+  return nodes;
+};
