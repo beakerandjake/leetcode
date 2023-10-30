@@ -81,44 +81,92 @@
  */
 
 // Definition for a Node.
-// class Node {
-//   constructor(val, neighbors) {
-//     this.val = val === undefined ? 0 : val;
-//     this.neighbors = neighbors === undefined ? [] : neighbors;
-//   }
-// }
-
-const graphToArr = (root) => {
-  if (!root) {
-    return [];
+class Node {
+  constructor(val, neighbors) {
+    this.val = val === undefined ? 0 : val;
+    this.neighbors = neighbors === undefined ? [] : neighbors;
   }
-  const toReturn = [];
-  const queue = [root];
+}
+
+const simple = (() => {
+  const graphToArr = (root) => {
+    if (!root) {
+      return [];
+    }
+    const toReturn = [];
+    const queue = [root];
+    while (queue.length) {
+      const node = queue.shift();
+      toReturn[node.val - 1] = node.neighbors.map((x) => x.val);
+      for (const neighbor of node.neighbors) {
+        if (!toReturn[neighbor.val - 1]) {
+          queue.push(neighbor);
+        }
+      }
+    }
+    return toReturn;
+  };
+
+  const arrToGraph = (arr) => {
+    if (!arr?.length) {
+      return undefined;
+    }
+    const nodes = arr.map((neighbors, i) => new Node(i + 1, neighbors));
+    nodes.forEach((node) => {
+      node.neighbors = node.neighbors.map((val) => nodes[val - 1]);
+    });
+    return nodes[0];
+  };
+
+  return (node) => arrToGraph(graphToArr(node));
+})();
+
+const bfs = (node) => {
+  if (!node) {
+    return undefined;
+  }
+  const nodes = [];
+  const queue = [node];
   while (queue.length) {
-    const node = queue.shift();
-    toReturn[node.val - 1] = node.neighbors.map((x) => x.val);
-    for (const neighbor of node.neighbors) {
-      if (!toReturn[neighbor.val - 1]) {
+    const current = queue.shift();
+    nodes[current.val - 1] = new Node(
+      current.val,
+      current.neighbors.map(({ val }) => val)
+    );
+    for (const neighbor of current.neighbors) {
+      if (!nodes[neighbor.val - 1]) {
         queue.push(neighbor);
       }
     }
   }
-  return toReturn;
-};
 
-const arrToGraph = (arr) => {
-  if (!arr?.length) {
-    return undefined;
-  }
-  const nodes = arr.map((neighbors, i) => new Node(i + 1, neighbors));
+  // replace the neighbors with actual pointers.
   nodes.forEach((node) => {
     node.neighbors = node.neighbors.map((val) => nodes[val - 1]);
   });
+
   return nodes[0];
 };
 
 /**
- * @param {Node} node
+ * @param {Node} root
  * @return {Node}
  */
-export const cloneGraph = (node) => arrToGraph(graphToArr(node));
+export const cloneGraph = (root) => {
+  if (!root) {
+    return null;
+  }
+
+  const visited = new Map();
+  const dfs = (node) => {
+    if (!visited.has(node.val)) {
+      const copy = new Node(node.val, []);
+      visited.set(node.val, copy);
+      for (const neighbor of node.neighbors) {
+        copy.neighbors.push(dfs(neighbor));
+      }
+    }
+    return visited.get(node.val);
+  };
+  return dfs(root);
+};
