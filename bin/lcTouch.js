@@ -1,7 +1,8 @@
 import { argv, exit } from 'node:process';
-import { writeFile } from 'node:fs/promises';
+import { writeFile, stat } from 'node:fs/promises';
 import { LeetCode } from 'leetcode-query';
 import { convert } from 'html-to-text';
+import { format } from 'prettier';
 
 /**
  * Parse the slug argument from the command line.
@@ -23,6 +24,28 @@ const getProblem = async (slug) => {
     throw new Error('problem not found');
   }
   return problem;
+};
+
+/**
+ * Does a file exist at the path?
+ */
+const fileExists = async (filePath) => !!(await stat(filePath).catch(() => false));
+
+/**
+ * Returns the id of the problem.
+ */
+const getProblemId = ({ questionFrontendId }) => questionFrontendId;
+
+/**
+ * Returns the path to the source file.
+ */
+const srcFilePath = (problemId) => `./src/leetcode/${problemId}.js`;
+
+/**
+ * Returns true if a file has already been created for this problem.
+ */
+const alreadyTouched = async (problem) => {
+  return fileExists(srcFilePath(getProblemId(problem)));
 };
 
 /**
@@ -48,11 +71,6 @@ const convertToES6 = (snippet) =>
   snippet.replace('var', 'export const').replace('function', '').replace(') {', ') => {');
 
 /**
- * Returns the id of the problem.
- */
-const getProblemId = ({ questionFrontendId }) => questionFrontendId;
-
-/**
  * Returns a url to the problem.
  */
 const getProblemUrl = (slug) => `https://leetcode.com/problems/${slug}`;
@@ -76,7 +94,8 @@ const saveSolutionFile = async (problem) => {
     wrapInComment(parseContent(problem), '\n\n', getProblemUrl(getSlug())),
     convertToES6(getSnippet(problem)),
   ].join('\n\n\n');
-  await writeFile(`./src/leetcode/${getProblemId(problem)}.js`, contents);
+  const formatted = format(contents, { parser: 'babel' });
+  await writeFile(`./src/leetcode/${getProblemId(problem)}.js`, formatted);
 };
 
 const problem = {
@@ -372,10 +391,15 @@ const problem = {
 };
 
 const main = async () => {
-  // const problem = await getProblem(getSlug());
-  // if (!problem) {
-  //   throw new Error('problem not found');
-  // }
+  const problem = await getProblem(getSlug());
+  // bail if invalid slug.
+  if (!problem) {
+    throw new Error('problem not found');
+  }
+  // bail if already created a file for this problem.
+  if (await alreadyTouched(problem)) {
+    throw new Error('problem already exists');
+  }
   await saveSolutionFile(problem);
 };
 
