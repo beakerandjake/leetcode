@@ -80,18 +80,45 @@
  * https://leetcode.com/problems/clone-graph
  */
 
-/**
- * // Definition for a Node.
- *  Node(val, neighbors) => {
- *    this.val = val === undefined ? 0 : val;
- *    this.neighbors = neighbors === undefined ? [] : neighbors;
- * };
- */
+// Definition for a Node.
+// class Node {
+//   constructor(val, neighbors) {
+//     this.val = val === undefined ? 0 : val;
+//     this.neighbors = neighbors === undefined ? [] : neighbors;
+//   }
+// }
+
+const graphToArr = (root) => {
+  if (!root) {
+    return [];
+  }
+  const toReturn = [];
+  const queue = [root];
+  while (queue.length) {
+    const node = queue.shift();
+    toReturn[node.val - 1] = node.neighbors.map((x) => x.val);
+    for (const neighbor of node.neighbors) {
+      if (!toReturn[neighbor.val - 1]) {
+        queue.push(neighbor);
+      }
+    }
+  }
+  return toReturn;
+};
+
+const arrToGraph = (arr) => {
+  if (!arr?.length) {
+    return undefined;
+  }
+  const nodes = arr.map((neighbors, i) => new Node(i + 1, neighbors));
+  nodes.forEach((node) => {
+    node.neighbors = node.neighbors.map((val) => nodes[val - 1]);
+  });
+  return nodes[0];
+};
 
 /**
  * @param {Node} node
  * @return {Node}
  */
-export const cloneGraph = function (node) {
-  
-};
+export const cloneGraph = (node) => arrToGraph(graphToArr(node));

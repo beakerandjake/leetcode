@@ -18,10 +18,12 @@ describe('133. Clone Graph', () => {
         [1, 3],
       ],
     ],
+    [[[]], [[]]],
+    [[], []],
   ].forEach(([input, expected]) => {
     test(`${arrToStr(input)} -> ${arrToStr(expected)}`, () => {
       const result = cloneGraph(arrToGraph(input));
-      expect(graphToArr(result)).toBe(expected);
+      expect(graphToArr(result)).toEqual(expected);
     });
   });
 });
