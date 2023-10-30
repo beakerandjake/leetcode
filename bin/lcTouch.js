@@ -127,7 +127,8 @@ const createTest = async (problem, problemId) => {
     [
       `describe('${problemId}. ${getTitle(problem)}', () => {`,
       '\t[',
-      '\t\t[],',
+      '\t\t// replace with real test data',
+      '\t\t[true,false],',
       '\t].forEach(([input,expected]) => {',
       '\t\ttest(`${input} -> ${expected}`, () => {',
       `\t\t\tconst result = ${fnName}(input);`,
