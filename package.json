@@ -8,7 +8,7 @@
     "lc-count": "ls ./src/leetcode -1 | wc -l",
     "lc-test": "./bin/lcTest.sh",
     "lc-today": "ls src/leetcode -lt --time=birth | grep \"$(date '+%b %d')\" | wc -l",
-    "lc-touch": "./bin/lcTouch.sh",
+    "lc-touch": "node ./bin/lcTouch.js",
     "lc-uglify": "./bin/lcUglify.sh"
   },
   "repository": {
