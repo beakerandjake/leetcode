@@ -121,7 +121,7 @@ const createTest = async (problem, problemId) => {
   const fnName = getSolutionFunction(problem);
   const contents = [
     [
-      `import { ${fnName} } from '../../${srcFilePath(problemId)};'`,
+      `import { ${fnName} } from '../../${srcFilePath(problemId)}'`,
       "import { arrToStr } from '../util.js'",
     ].join('\n'),
     [
@@ -144,8 +144,19 @@ const createTest = async (problem, problemId) => {
 /**
  * Open the newly created files in VS code.
  */
-const openFiles = (...files) => {
+const openFilesInVsCode = (...files) => {
   exec(`code -r ${files.map((file) => `'${file}'`).join(' ')}`);
+};
+
+/**
+ * Add the new files and commit them to the git repository.
+ */
+const commitFilesToGit = (problemId, ...files) => {
+  exec(
+    `git add ${files
+      .map((file) => `'${file}'`)
+      .join(' ')} && git commit -m 'touch lc ${problemId}'`
+  );
 };
 
 const main = async () => {
@@ -158,10 +169,14 @@ const main = async () => {
   if (await alreadyTouched(problem)) {
     throw new Error('problem already exists');
   }
+  // create the files.
   const problemId = getProblemId(problem);
+  const src = srcFilePath(problemId);
+  const test = testFilePath(problemId);
   await Promise.all([createSolution(problem, problemId), createTest(problem, problemId)]);
-  openFiles(srcFilePath(problemId), testFilePath(problemId));
-  console.log(`created src: ${srcFilePath(problemId)}, test: ${testFilePath(problemId)}`);
+  openFilesInVsCode(src, test);
+  commitFilesToGit(problemId, src, test);
+  console.log(`created src: ${src}, test: ${test}`);
 };
 
 try {
