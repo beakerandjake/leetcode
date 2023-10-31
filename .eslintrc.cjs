@@ -19,9 +19,6 @@ module.exports = {
     "no-unused-vars": "off",
     "no-bitwise": "off",
     'import/extensions': 'off',
-    'import/prefer-default-export': 'off',
-    'import/no-extraneous-dependencies': {
-      'devDependencies': true
-    }
+    'import/prefer-default-export': 'off'
   },
 };
