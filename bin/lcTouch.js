@@ -68,11 +68,11 @@ const getSnippet = ({ codeSnippets }) => {
 /**
  * Convert old school js function into es6 named export.
  */
-const convertToES6 = (snippet) =>
-  snippet
-    .replace('var', 'export const')
-    .replace('= function(', '= (')
-    .replace(') {', ') => {');
+const convertToES6 = (snippet = '') => {
+  const regex = /^var (\w+)+\s*=\s*function\s*\(([\w,\s]+)\)\s*{\s*};$/;
+  const [line, fn, args] = snippet.match(regex);
+  return snippet.replace(line, `export const ${fn} = (${args}) => {};`);
+};
 
 /**
  * Returns a url to the problem.
