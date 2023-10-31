@@ -52,6 +52,11 @@
  * @return {number}
  */
 export const findTargetSumWays = (nums, target) => {
+  // bail if not possible to reach target.
+  if (nums.reduce((acc, x) => acc + x, 0) < Math.abs(target)) {
+    return 0;
+  }
+
   const memo = new Map();
   const recurse = (sum, index) => {
     if (index === nums.length) {
