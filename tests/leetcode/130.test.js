@@ -1,14 +1,27 @@
-import { solve } from "../../src/leetcode/130.js";
-import { arrToStr } from "../util.js";
+import { solve } from '../../src/leetcode/130.js';
+import { arrToStr } from '../util.js';
 
-describe("130. Surrounded Regions", () => {
+describe('130. Surrounded Regions', () => {
   [
-    // replace with real test data
-    [true, false],
+    [
+      [
+        ['X', 'X', 'X', 'X'],
+        ['X', 'O', 'O', 'X'],
+        ['X', 'X', 'O', 'X'],
+        ['X', 'O', 'X', 'X'],
+      ],
+      [
+        ['X', 'X', 'X', 'X'],
+        ['X', 'X', 'X', 'X'],
+        ['X', 'X', 'X', 'X'],
+        ['X', 'O', 'X', 'X'],
+      ],
+    ],
+    [[['X']], [['X']]],
   ].forEach(([input, expected]) => {
-    test(`${input} -> ${expected}`, () => {
-      const result = solve(input);
-      expect(result).toBe(expected);
+    test(`${arrToStr(input)} -> ${arrToStr(expected)}`, () => {
+      solve(input);
+      expect(input).toEqual(expected);
     });
   });
 });
