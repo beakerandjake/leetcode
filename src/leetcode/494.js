@@ -51,4 +51,19 @@
  * @param {number} target
  * @return {number}
  */
-export const findTargetSumWays = (nums, target) => {};
+export const findTargetSumWays = (nums, target) => {
+  const memo = new Map();
+  const recurse = (sum, index) => {
+    if (index === nums.length) {
+      return sum === target ? 1 : 0;
+    }
+    const hash = `${index}.${sum}`;
+    if (!memo.has(hash)) {
+      const positive = recurse(nums[index] + sum, index + 1);
+      const negative = recurse(sum - nums[index], index + 1);
+      memo.set(hash, positive + negative);
+    }
+    return memo.get(hash);
+  };
+  return recurse(0, 0);
+};
