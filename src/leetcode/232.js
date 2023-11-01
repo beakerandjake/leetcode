@@ -58,29 +58,6 @@
  * https://leetcode.com/problems/implement-queue-using-stacks
  */
 
-var MyQueue = function () {};
-
-/**
- * @param {number} x
- * @return {void}
- */
-MyQueue.prototype.push = function (x) {};
-
-/**
- * @return {number}
- */
-MyQueue.prototype.pop = function () {};
-
-/**
- * @return {number}
- */
-MyQueue.prototype.peek = function () {};
-
-/**
- * @return {boolean}
- */
-MyQueue.prototype.empty = function () {};
-
 /**
  * Your MyQueue object will be instantiated and called as such:
  * var obj = new MyQueue()
@@ -89,3 +66,24 @@ MyQueue.prototype.empty = function () {};
  * var param_3 = obj.peek()
  * var param_4 = obj.empty()
  */
+
+export class MyQueue {
+  constructor() {}
+  /**
+   * @param {number} x
+   * @return {void}
+   */
+  push(x) {}
+  /**
+   * @return {number}
+   */
+  pop() {}
+  /**
+   * @return {number}
+   */
+  peek() {}
+  /**
+   * @return {boolean}
+   */
+  empty() {}
+}

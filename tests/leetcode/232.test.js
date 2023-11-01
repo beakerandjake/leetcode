@@ -1,14 +1,20 @@
-import { MyQueue } from "../../src/leetcode/232.js";
-import { arrToStr } from "../util.js";
+import { MyQueue } from '../../src/leetcode/232.js';
+import { arrToStr } from '../util.js';
 
-describe("232. Implement Queue using Stacks", () => {
+describe('232. Implement Queue using Stacks', () => {
   [
-    // replace with real test data
-    [true, false],
-  ].forEach(([input, expected]) => {
-    test(`${input} -> ${expected}`, () => {
-      const result = MyQueue(input);
-      expect(result).toBe(expected);
+    [
+      ['push', 'push', 'peek', 'pop', 'empty'],
+      [[1], [2], [], [], []],
+      [undefined, undefined, 1, 1, false],
+    ],
+  ].forEach(([fns, args, expected]) => {
+    test(`${arrToStr(fns)},${arrToStr(args)} -> ${arrToStr(expected)}`, () => {
+      const queue = new MyQueue();
+      fns.forEach((fn, i) => {
+        const result = queue[fn](args[i]);
+        expect(result).toBe(expected[i]);
+      });
     });
   });
 });
