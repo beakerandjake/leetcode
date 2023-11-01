@@ -70,7 +70,12 @@ const getSnippet = ({ codeSnippets }) => {
  */
 const convertToES6 = (snippet = '') => {
   const regex = /var\s*(\w+)+\s*=\s*function\s*\(([\w,\s]+)\)\s*{\s*};/;
-  const [line, fn, args] = snippet.match(regex);
+  const matches = snippet.match(regex);
+  if (!matches) {
+    console.error('could not format es6');
+    return snippet;
+  }
+  const [line, fn, args] = matches;
   return snippet.replace(line, `export const ${fn} = (${args}) => {};`);
 };
 
