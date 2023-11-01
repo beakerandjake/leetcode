@@ -68,22 +68,50 @@
  */
 
 export class MyQueue {
-  constructor() {}
+  constructor() {
+    this.pushStack = [];
+    this.popStack = [];
+  }
+
+  syncPopStack() {
+    this.popStack = [];
+    while (this.pushStack.length) {
+      this.popStack.push(this.pushStack.pop());
+    }
+  }
+
   /**
    * @param {number} x
    * @return {void}
    */
-  push(x) {}
+  push(x) {
+    this.pushStack.push(x);
+  }
+
   /**
    * @return {number}
    */
-  pop() {}
+  pop() {
+    if (!this.popStack.length) {
+      this.syncPopStack();
+    }
+    return this.popStack.pop();
+  }
+
   /**
    * @return {number}
    */
-  peek() {}
+  peek() {
+    if (!this.popStack.length) {
+      this.syncPopStack();
+    }
+    return this.popStack.at(-1);
+  }
+
   /**
    * @return {boolean}
    */
-  empty() {}
+  empty() {
+    return !this.popStack.length && !this.pushStack.length;
+  }
 }
