@@ -50,8 +50,63 @@
  * https://leetcode.com/problems/decode-string
  */
 
+const isStartOfEncoding = (char) => /[0-9]/.test(char);
+
+const repeat = (str, times) => {
+  const toReturn = Array(times);
+  for (let i = 0; i < times; i++) {
+    toReturn.push(str);
+  }
+  return toReturn.join('');
+};
+
+const getEncoded = (str, startIndex) => {
+  let i = startIndex;
+  // consume number characters until first bracket appears.
+  while (str[i] !== '[') {
+    i++;
+  }
+  const brackets = [str[i++]];
+  while (brackets.length) {
+    if (str[i] === '[') {
+      brackets.push(str[i]);
+    } else if (str[i] === ']') {
+      brackets.pop();
+    }
+    i++;
+  }
+  return str.slice(startIndex, i);
+};
+
+const evaluate = (str) => {
+  const toReturn = [];
+  let i = 0;
+  while (i < str.length) {
+    if (isStartOfEncoding(str[i])) {
+      const encoded = getEncoded(str, i);
+      i += encoded.length;
+      toReturn.push(apply(encoded));
+    } else {
+      toReturn.push(str[i]);
+      i++;
+    }
+  }
+  return toReturn.join('');
+};
+
+const apply = (encoded) => {
+  let start = 0;
+  // consume digits until opening bracket appears.
+  while (encoded[start] !== '[') {
+    start++;
+  }
+  const times = Number(encoded.slice(0, start));
+  const inner = encoded.slice(start + 1, -1);
+  return repeat(evaluate(inner), times);
+};
+
 /**
  * @param {string} s
  * @return {string}
  */
-export const decodeString = (s) => {};
+export const decodeString = (s) => evaluate(s);
