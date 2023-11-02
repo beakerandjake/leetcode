@@ -1,14 +1,36 @@
-import { updateMatrix } from "../../src/leetcode/542.js";
-import { arrToStr } from "../util.js";
+import { updateMatrix } from '../../src/leetcode/542.js';
+import { arrToStr } from '../util.js';
 
-describe("542. 01 Matrix", () => {
+describe('542. 01 Matrix', () => {
   [
-    // replace with real test data
-    [true, false],
+    [
+      [
+        [0, 0, 0],
+        [0, 1, 0],
+        [0, 0, 0],
+      ],
+      [
+        [0, 0, 0],
+        [0, 1, 0],
+        [0, 0, 0],
+      ],
+    ],
+    [
+      [
+        [0, 0, 0],
+        [0, 1, 0],
+        [1, 1, 1],
+      ],
+      [
+        [0, 0, 0],
+        [0, 1, 0],
+        [1, 2, 1],
+      ],
+    ],
   ].forEach(([input, expected]) => {
-    test(`${input} -> ${expected}`, () => {
+    test(`${arrToStr(input)} -> ${arrToStr(expected)}`, () => {
       const result = updateMatrix(input);
-      expect(result).toBe(expected);
+      expect(result).toEqual(expected);
     });
   });
 });
