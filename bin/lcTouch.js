@@ -178,6 +178,10 @@ const main = async () => {
   if (await alreadyTouched(problem)) {
     throw new Error('problem already exists');
   }
+  // bail if have to sign in to download.
+  if (problem.isPaidOnly) {
+    throw new Error('paid only problem');
+  }
   // create the files.
   const problemId = getProblemId(problem);
   const src = srcFilePath(problemId);
