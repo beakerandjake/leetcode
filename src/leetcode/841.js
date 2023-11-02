@@ -54,4 +54,15 @@
  * @param {number[][]} rooms
  * @return {boolean}
  */
-export const canVisitAllRooms = (rooms) => {};
+export const canVisitAllRooms = (rooms) => {
+  const visited = new Set([0]);
+  const queue = [...rooms[0]];
+  while (queue.length) {
+    const neighbor = queue.shift();
+    if (!visited.has(neighbor)) {
+      queue.push(...rooms[neighbor]);
+      visited.add(neighbor);
+    }
+  }
+  return visited.size === rooms.length;
+};
