@@ -44,18 +44,6 @@ const getShape = (matrix) => ({ height: matrix.length, width: matrix[0].length }
 
 const empty = ({ width, height }) => [...Array(height)].map(() => Array(width).fill(0));
 
-const getZeros = (matrix, { width, height }) => {
-  const zeros = [];
-  for (let y = 0; y < height; y++) {
-    for (let x = 0; x < width; x++) {
-      if (matrix[y][x] === 0) {
-        zeros.push({ y, x });
-      }
-    }
-  }
-  return zeros;
-};
-
 const outOfBounds = (y, x, { width, height }) =>
   y < 0 || y >= height || x < 0 || x >= width;
 
@@ -72,25 +60,31 @@ const neighbors = [
  */
 export const updateMatrix = (matrix) => {
   const shape = getShape(matrix);
-  const visited = empty(shape);
   const distances = empty(shape);
-  const queue = getZeros(matrix, shape);
-  while (queue.length) {
-    const { x, y, distance = 0 } = queue.shift();
+  const queue = [];
 
-    if (visited[y][x]) {
+  // scan the matrix, find the zeros and initialize the distances.
+  for (let y = 0; y < shape.height; y++) {
+    for (let x = 0; x < shape.width; x++) {
+      if (matrix[y][x] === 0) {
+        queue.push({ y, x, distance: 0 });
+      } else {
+        distances[y][x] = Number.MAX_SAFE_INTEGER;
+      }
+    }
+  }
+
+  // bfs to every 1 on the board, updating the distance along the way.
+  while (queue.length) {
+    const { x, y, distance } = queue.shift();
+    if (matrix[y][x] === 1 && distances[y][x] !== Number.MAX_SAFE_INTEGER) {
       continue;
     }
-
-    if (matrix[y][x] === 1) {
-      distances[y][x] = distance;
-    }
-
-    visited[y][x] = 1;
+    distances[y][x] = distance;
     for (const [dy, dx] of neighbors) {
       const ny = y + dy;
       const nx = x + dx;
-      if (!outOfBounds(ny, nx, shape) && matrix[ny][nx] !== 0) {
+      if (!outOfBounds(ny, nx, shape) && matrix[ny][nx] === 1) {
         queue.push({ x: nx, y: ny, distance: distance + 1 });
       }
     }
