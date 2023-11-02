@@ -1,14 +1,27 @@
-import { floodFill } from "../../src/leetcode/733.js";
-import { arrToStr } from "../util.js";
+import { floodFill } from '../../src/leetcode/733.js';
+import { arrToStr } from '../util.js';
 
-describe("733. Flood Fill", () => {
+describe('733. Flood Fill', () => {
   [
-    // replace with real test data
-    [true, false],
-  ].forEach(([input, expected]) => {
-    test(`${input} -> ${expected}`, () => {
-      const result = floodFill(input);
-      expect(result).toBe(expected);
+    [
+      [
+        [1, 1, 1],
+        [1, 1, 0],
+        [1, 0, 1],
+      ],
+      1,
+      1,
+      2,
+      [
+        [2, 2, 2],
+        [2, 2, 0],
+        [2, 0, 1],
+      ],
+    ],
+  ].forEach(([image, sr, sc, color, expected]) => {
+    test(`${arrToStr(image)},${sr},${sc},${color} -> ${arrToStr(expected)}`, () => {
+      const result = floodFill(image, sr, sc, color);
+      expect(result).toEqual(expected);
     });
   });
 });

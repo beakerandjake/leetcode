@@ -50,6 +50,13 @@
  * https://leetcode.com/problems/flood-fill
  */
 
+const getShape = (matrix) => ({ height: matrix.length, width: matrix[0].length });
+
+const copy = (matrix) => matrix.map((row) => [...row]);
+
+const outOfBounds = (row, col, { width, height }) =>
+  row < 0 || row >= height || col < 0 || col >= width;
+
 /**
  * @param {number[][]} image
  * @param {number} sr
@@ -57,4 +64,30 @@
  * @param {number} color
  * @return {number[][]}
  */
-export const floodFill = (image, sr, sc, color) => {};
+export const floodFill = (image, sr, sc, color) => {
+  const srcColor = image[sr][sc];
+
+  // nothing to do is src color is already target color.
+  if (color === srcColor) {
+    return image;
+  }
+
+  const shape = getShape(image);
+  const filled = copy(image);
+  const recurse = (row, col) => {
+    if (
+      outOfBounds(row, col, shape) ||
+      image[row][col] !== srcColor ||
+      image[row][col] !== filled[row][col]
+    ) {
+      return;
+    }
+    filled[row][col] = color;
+    recurse(row - 1, col);
+    recurse(row, col + 1);
+    recurse(row + 1, col);
+    recurse(row, col - 1);
+  };
+  recurse(sr, sc);
+  return filled;
+};
