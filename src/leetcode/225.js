@@ -55,28 +55,45 @@
  * https://leetcode.com/problems/implement-stack-using-queues
  */
 
-var MyStack = function () {};
+export class MyStack {
+  constructor() {
+    this.queue = [];
+  }
 
-/**
- * @param {number} x
- * @return {void}
- */
-MyStack.prototype.push = function (x) {};
+  /**
+   * @param {number} x
+   * @return {void}
+   */
+  push(x) {
+    this.queue.push(x);
+    let swaps = this.queue.length;
+    while (swaps > 1) {
+      this.queue.push(this.queue.shift());
+      swaps--;
+    }
+  }
 
-/**
- * @return {number}
- */
-MyStack.prototype.pop = function () {};
+  /**
+   * @return {number}
+   */
+  pop() {
+    return this.queue.shift();
+  }
 
-/**
- * @return {number}
- */
-MyStack.prototype.top = function () {};
+  /**
+   * @return {number}
+   */
+  top() {
+    return this.queue[0];
+  }
 
-/**
- * @return {boolean}
- */
-MyStack.prototype.empty = function () {};
+  /**
+   * @return {boolean}
+   */
+  empty() {
+    return !this.queue.length;
+  }
+}
 
 /**
  * Your MyStack object will be instantiated and called as such:
