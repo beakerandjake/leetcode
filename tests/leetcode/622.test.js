@@ -1,14 +1,31 @@
-import { MyCircularQueue } from "../../src/leetcode/622.js";
-import { arrToStr } from "../util.js";
+import { MyCircularQueue } from '../../src/leetcode/622.js';
+import { arrToStr } from '../util.js';
 
-describe("622. Design Circular Queue", () => {
+describe('622. Design Circular Queue', () => {
   [
-    // replace with real test data
-    [true, false],
-  ].forEach(([input, expected]) => {
-    test(`${input} -> ${expected}`, () => {
-      const result = MyCircularQueue(input);
-      expect(result).toBe(expected);
+    [
+      3,
+      [
+        'enQueue',
+        'enQueue',
+        'enQueue',
+        'enQueue',
+        'Rear',
+        'isFull',
+        'deQueue',
+        'enQueue',
+        'Rear',
+      ],
+      [[1], [2], [3], [4], [], [], [], [4], []],
+      [true, true, true, false, 3, true, true, true, 4],
+    ],
+  ].forEach(([size, fns, args, expected]) => {
+    test(`${size},${arrToStr(fns)},${arrToStr(args)} -> ${arrToStr(expected)}`, () => {
+      const queue = new MyCircularQueue(size);
+      fns.forEach((fn, i) => {
+        const result = queue[fn](...args[i]);
+        expect(result).toBe(expected[i]);
+      });
     });
   });
 });

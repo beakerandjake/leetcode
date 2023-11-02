@@ -67,38 +67,69 @@
 /**
  * @param {number} k
  */
-export const MyCircularQueue = (k) => {};
+export class MyCircularQueue {
+  constructor(k) {
+    this.queue = [];
+    this.capacity = k;
+    this.head = 0;
+    this.count = 0;
+  }
 
-/**
- * @param {number} value
- * @return {boolean}
- */
-MyCircularQueue.prototype.enQueue = function (value) {};
+  /**
+   * @param {number} value
+   * @return {boolean}
+   */
+  enQueue(value) {
+    if (this.count === this.capacity) {
+      return false;
+    }
+    this.queue[(this.head + this.count) % this.capacity] = value;
+    this.count++;
+    return true;
+  }
 
-/**
- * @return {boolean}
- */
-MyCircularQueue.prototype.deQueue = function () {};
+  /**
+   * @return {boolean}
+   */
+  deQueue() {
+    if (this.count === 0) {
+      return false;
+    }
+    this.head = (this.head + 1) % this.capacity;
+    this.count--;
+    return true;
+  }
 
-/**
- * @return {number}
- */
-MyCircularQueue.prototype.Front = function () {};
+  /**
+   * @return {number}
+   */
+  Front() {
+    return this.count ? this.queue[this.head] : -1;
+  }
 
-/**
- * @return {number}
- */
-MyCircularQueue.prototype.Rear = function () {};
+  /**
+   * @return {number}
+   */
+  Rear() {
+    return this.count
+      ? this.queue[(this.head + this.count - 1) % this.capacity]
+      : -1;
+  }
 
-/**
- * @return {boolean}
- */
-MyCircularQueue.prototype.isEmpty = function () {};
+  /**
+   * @return {boolean}
+   */
+  isEmpty() {
+    return this.count === 0;
+  }
 
-/**
- * @return {boolean}
- */
-MyCircularQueue.prototype.isFull = function () {};
+  /**
+   * @return {boolean}
+   */
+  isFull() {
+    return this.count === this.capacity;
+  }
+}
 
 /**
  * Your MyCircularQueue object will be instantiated and called as such:
