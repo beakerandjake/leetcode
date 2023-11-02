@@ -15,5 +15,13 @@ if [ ! -f $srcFile ]
         exit 1
 fi
 
-# uglify the file.
-uglifyjs -m -c --mangle-props keep_quoted $srcFile 
+# uglify with or without without mangling props.
+if [[ -z $2 ]]
+    then
+        # mangle the props.
+        uglifyjs -m -c --mangle-props keep_quoted $srcFile 
+    else 
+        # keep the props
+        uglifyjs $srcFile -m -c
+fi
+
