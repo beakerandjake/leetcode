@@ -48,10 +48,54 @@
  * https://leetcode.com/problems/minimum-genetic-mutation
  */
 
+const differences = (a, b) => {
+  let diffs = 0;
+  for (let i = 0; i < a.length; i++) {
+    if (a[i] !== b[i]) {
+      diffs++;
+    }
+  }
+  return diffs;
+};
+
+const isConnected = (a, b) => differences(a, b) <= 1;
+
+const buildGraph = (vertexes) => {
+  const graph = {};
+  for (const current of vertexes) {
+    graph[current] = [];
+    for (const vertex of vertexes) {
+      if (vertex !== current && isConnected(current, vertex)) {
+        graph[current].push(vertex);
+      }
+    }
+  }
+  return graph;
+};
+
 /**
  * @param {string} startGene
  * @param {string} endGene
  * @param {string[]} bank
  * @return {number}
  */
-export const minMutation = (startGene, endGene, bank) => {};
+export const minMutation = (startGene, endGene, bank) => {
+  const graph = buildGraph([...new Set([startGene, ...bank])]);
+  const queue = [{ vertex: startGene, distance: 0 }];
+  const visited = new Set();
+  while (queue.length) {
+    const { vertex, distance: mutations } = queue.shift();
+    if (vertex === endGene) {
+      return mutations;
+    }
+    if (!visited.has(vertex)) {
+      visited.add(vertex);
+      for (const edge of graph[vertex]) {
+        if (!visited.has(edge)) {
+          queue.push({ vertex: edge, distance: mutations + 1 });
+        }
+      }
+    }
+  }
+  return -1;
+};
