@@ -48,8 +48,46 @@
  * https://leetcode.com/problems/number-of-provinces
  */
 
+class DisjointSet {
+  constructor(size) {
+    this.set = [...Array(size)].map((_, i) => i);
+  }
+
+  find(x) {
+    return this.set[x];
+  }
+
+  union(x, y) {
+    const rootX = this.find(x);
+    const rootY = this.find(y);
+    if (rootX !== rootY) {
+      for (let i = 0; i < this.set.length; i++) {
+        if (this.set[i] === rootY) {
+          this.set[i] = rootX;
+        }
+      }
+    }
+  }
+
+  isConnected(x, y) {
+    return this.find(x) === this.find(y);
+  }
+}
+
 /**
  * @param {number[][]} isConnected
  * @return {number}
  */
-export const findCircleNum = (isConnected) => {};
+export const findCircleNum = (isConnected) => {
+  let connections = 0;
+  const set = new DisjointSet(isConnected.length);
+  for (let row = 0; row < isConnected.length; row++) {
+    for (let col = 0; col < isConnected.length; col++) {
+      if (isConnected[row][col] && !set.isConnected(row, col)) {
+        set.union(row, col);
+        connections++;
+      }
+    }
+  }
+  return isConnected.length - connections;
+};
