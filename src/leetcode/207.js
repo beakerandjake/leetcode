@@ -44,9 +44,72 @@
  * https://leetcode.com/problems/course-schedule
  */
 
+const buildGraph = (size, edges) => {
+  const empty = [...Array(size)].reduce((acc, _, i) => {
+    acc[i] = [];
+    return acc;
+  }, {});
+
+  return edges.reduce((acc, [to, from]) => {
+    if (!acc[to]) {
+      acc[to] = [from];
+    } else {
+      acc[to].push(from);
+    }
+    return acc;
+  }, empty);
+};
+
+const bfsCycleCheck = (graph, node) => {
+  const visited = new Set();
+  const queue = [...graph[node]];
+  while (queue.length) {
+    const current = queue.pop();
+    if (current === node) {
+      return true;
+    }
+    if (!visited.has(current)) {
+      visited.add(current);
+      queue.push(...graph[current]);
+    }
+  }
+  return false;
+};
+
+const dfsCycleCheck = (graph, node) => {
+  const visitPrevious = new Set();
+  const visitCurrent = new Set();
+  const dfs = (current) => {
+    if (visitCurrent.has(current)) {
+      return true;
+    }
+    if (visitPrevious.has(current)) {
+      return false;
+    }
+    visitPrevious.add(current);
+    visitCurrent.add(current);
+    for (const edge of graph[current]) {
+      if (dfs(edge)) {
+        return true;
+      }
+    }
+    visitCurrent.delete(current);
+    return false;
+  };
+  return dfs(node);
+};
+
 /**
  * @param {number} numCourses
  * @param {number[][]} prerequisites
  * @return {boolean}
  */
-export const canFinish = (numCourses, prerequisites) => {};
+export const canFinish = (numCourses, prerequisites) => {
+  const graph = buildGraph(numCourses, prerequisites);
+  for (let vertex = 0; vertex < numCourses; vertex++) {
+    if (bfsCycleCheck(graph, vertex)) {
+      return false;
+    }
+  }
+  return true;
+};

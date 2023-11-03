@@ -1,13 +1,29 @@
-import { canFinish } from "../../src/leetcode/207.js";
-import { arrToStr } from "../util.js";
+import { canFinish } from '../../src/leetcode/207.js';
+import { arrToStr } from '../util.js';
 
-describe("207. Course Schedule", () => {
+describe('207. Course Schedule', () => {
   [
-    // replace with real test data
-    [true, false],
-  ].forEach(([input, expected]) => {
-    test(`${input} -> ${expected}`, () => {
-      const result = canFinish(input);
+    [2, [[1, 0]], true],
+    [
+      2,
+      [
+        [1, 0],
+        [0, 1],
+      ],
+      false,
+    ],
+    [
+      3,
+      [
+        [1, 0],
+        [0, 2],
+        [2, 1],
+      ],
+      false,
+    ],
+  ].forEach(([numCourses, prerequisites, expected]) => {
+    test(`${numCourses},${arrToStr(prerequisites)} -> ${expected}`, () => {
+      const result = canFinish(numCourses, prerequisites);
       expect(result).toBe(expected);
     });
   });
