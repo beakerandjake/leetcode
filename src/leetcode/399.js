@@ -61,10 +61,49 @@
  * https://leetcode.com/problems/evaluate-division
  */
 
+const addEdge = (graph, vertex, edge) =>
+  graph[vertex] ? [...graph[vertex], edge] : [edge];
+
+const buildGraph = (edges, weights) => {
+  const graph = {};
+  for (let i = 0; i < edges.length; i++) {
+    const [lhs, rhs] = edges[i];
+    graph[lhs] = addEdge(graph, lhs, [rhs, weights[i]]);
+    graph[rhs] = addEdge(graph, rhs, [lhs, 1 / weights[i]]);
+  }
+  return graph;
+};
+
+const pathCost = (graph, from, to) => {
+  const visited = new Set();
+  const dfs = (node, cost) => {
+    if (!graph[node]) {
+      return -1;
+    }
+    if (node === to) {
+      return cost;
+    }
+    visited.add(node);
+    for (const [neighbor, weight] of graph[node]) {
+      if (!visited.has(neighbor)) {
+        const result = dfs(neighbor, cost * weight);
+        if (result !== -1) {
+          return result;
+        }
+      }
+    }
+    return -1;
+  };
+  return dfs(from, 1);
+};
+
 /**
  * @param {string[][]} equations
  * @param {number[]} values
  * @param {string[][]} queries
  * @return {number[]}
  */
-export const calcEquation = (equations, values, queries) => {};
+export const calcEquation = (equations, values, queries) => {
+  const graph = buildGraph(equations, values);
+  return queries.map(([a, b]) => pathCost(graph, a, b));
+};
