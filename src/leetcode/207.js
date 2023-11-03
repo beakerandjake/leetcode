@@ -44,20 +44,12 @@
  * https://leetcode.com/problems/course-schedule
  */
 
-const buildGraph = (size, edges) => {
-  const empty = [...Array(size)].reduce((acc, _, i) => {
-    acc[i] = [];
-    return acc;
-  }, {});
-
-  return edges.reduce((acc, [to, from]) => {
-    if (!acc[to]) {
-      acc[to] = [from];
-    } else {
-      acc[to].push(from);
-    }
-    return acc;
-  }, empty);
+const buildGraph = (size, connections) => {
+  const graph = [...Array(size)].map(() => []);
+  for (const [to, from] of connections) {
+    graph[from].push(to);
+  }
+  return graph;
 };
 
 const bfsCycleCheck = (graph, node) => {
@@ -99,17 +91,52 @@ const dfsCycleCheck = (graph, node) => {
   return dfs(node);
 };
 
-/**
- * @param {number} numCourses
- * @param {number[][]} prerequisites
- * @return {boolean}
- */
-export const canFinish = (numCourses, prerequisites) => {
+const searching = (numCourses, prerequisites) => {
   const graph = buildGraph(numCourses, prerequisites);
   for (let vertex = 0; vertex < numCourses; vertex++) {
+    // if (dfsCycleCheck(graph, vertex)) {
     if (bfsCycleCheck(graph, vertex)) {
       return false;
     }
   }
   return true;
 };
+
+const kahnsAlgorithm = (numCourses, prerequisites) => {
+  const graph = buildGraph(numCourses, prerequisites);
+
+  // count the number of edges leading to each vertex.
+  const inDegrees = Array(numCourses).fill(0);
+  prerequisites.forEach(([vertex]) => {
+    inDegrees[vertex]++;
+  });
+
+  // start by visiting every node with an in degree of zero.
+  const queue = [];
+  for (let i = 0; i < inDegrees.length; i++) {
+    if (inDegrees[i] === 0) {
+      queue.push(i);
+    }
+  }
+
+  let visited = 0;
+  // continually remove zero in degree nodes from the graph.
+  while (queue.length) {
+    const current = queue.shift();
+    for (const neighbor of graph[current]) {
+      visited++;
+      inDegrees[neighbor] -= 1;
+      if (inDegrees[neighbor] === 0) {
+        queue.push(neighbor);
+      }
+    }
+  }
+  return visited === prerequisites.length;
+};
+
+/**
+ * @param {number} numCourses
+ * @param {number[][]} prerequisites
+ * @return {boolean}
+ */
+export const canFinish = kahnsAlgorithm;

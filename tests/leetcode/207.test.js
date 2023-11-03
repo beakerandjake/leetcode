@@ -21,6 +21,7 @@ describe('207. Course Schedule', () => {
       ],
       false,
     ],
+    [2, [[0, 1]], true],
   ].forEach(([numCourses, prerequisites, expected]) => {
     test(`${numCourses},${arrToStr(prerequisites)} -> ${expected}`, () => {
       const result = canFinish(numCourses, prerequisites);
