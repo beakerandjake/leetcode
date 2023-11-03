@@ -74,11 +74,7 @@ class DisjointSet {
   }
 }
 
-/**
- * @param {number[][]} isConnected
- * @return {number}
- */
-export const findCircleNum = (isConnected) => {
+const disjointSet = (isConnected) => {
   let connections = 0;
   const set = new DisjointSet(isConnected.length);
   for (let row = 0; row < isConnected.length; row++) {
@@ -90,4 +86,31 @@ export const findCircleNum = (isConnected) => {
     }
   }
   return isConnected.length - connections;
+};
+
+/**
+ * @param {number[][]} isConnected
+ * @return {number}
+ */
+export const findCircleNum = (isConnected) => {
+  const visited = Array(isConnected.length).fill(0);
+  const dfs = (index) => {
+    visited[index] = true;
+    const connections = isConnected[index];
+    for (let n = 0; n < connections.length; n++) {
+      if (connections[n] && !visited[n]) {
+        dfs(n);
+      }
+    }
+  };
+
+  let visitCount = 0;
+  for (let i = 0; i < isConnected.length; i++) {
+    if (!visited[i]) {
+      visitCount++;
+      dfs(i);
+    }
+  }
+
+  return visitCount;
 };
