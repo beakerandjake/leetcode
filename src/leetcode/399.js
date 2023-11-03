@@ -75,11 +75,11 @@ const buildGraph = (edges, weights) => {
 };
 
 const pathCost = (graph, from, to) => {
+  if (!graph[from] || !graph[to]) {
+    return -1;
+  }
   const visited = new Set();
   const dfs = (node, cost) => {
-    if (!graph[node]) {
-      return -1;
-    }
     if (node === to) {
       return cost;
     }
