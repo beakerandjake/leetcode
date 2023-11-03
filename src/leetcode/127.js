@@ -46,10 +46,58 @@
  * https://leetcode.com/problems/word-ladder
  */
 
+const connected = (a, b) => {
+  let foundDifference = false;
+  for (let i = 0; i < a.length; i++) {
+    if (a[i] !== b[i]) {
+      if (foundDifference) {
+        return false;
+      }
+      foundDifference = true;
+    }
+  }
+  return true;
+};
+
+const buildGraph = (vertexes) => {
+  const graph = {};
+  for (const vertex of vertexes) {
+    graph[vertex] = [];
+    for (const neighbor of vertexes) {
+      if (vertex !== neighbor && connected(vertex, neighbor)) {
+        graph[vertex].push(neighbor);
+      }
+    }
+  }
+  return graph;
+};
+
 /**
  * @param {string} beginWord
  * @param {string} endWord
  * @param {string[]} wordList
  * @return {number}
  */
-export const ladderLength = (beginWord, endWord, wordList) => {};
+export const ladderLength = (beginWord, endWord, wordList) => {
+  const graph = buildGraph([beginWord, ...wordList]);
+  if (!graph[endWord]) {
+    return 0;
+  }
+  const queue = [{ vertex: beginWord, transforms: 1 }];
+  const visited = new Set();
+  while (queue.length) {
+    const { vertex, transforms } = queue.shift();
+    if (vertex === endWord) {
+      return transforms;
+    }
+    if (!visited.has(vertex)) {
+      visited.add(vertex);
+      for (const edge of graph[vertex]) {
+        if (!visited.has(edge)) {
+          queue.push({ vertex: edge, transforms: transforms + 1 });
+        }
+      }
+    }
+  }
+  return 0;
+};
