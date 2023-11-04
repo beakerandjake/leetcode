@@ -35,6 +35,7 @@ class DisjointSet {
         }
       }
     }
+    return rootX !== rootY;
   }
 
   connected(x, y) {
@@ -45,14 +46,6 @@ class DisjointSet {
     return [...new Set(this.nodes)];
   }
 }
-
-const hasSingleRoot = (n, edges) => {
-  const set = new DisjointSet(n);
-  for (const [from, to] of edges) {
-    set.union(from, to);
-  }
-  return set.roots().length === 1;
-};
 
 const toGraph = (n, edges) => {
   const graph = [...Array(n)].reduce((acc, _, i) => {
@@ -67,22 +60,87 @@ const toGraph = (n, edges) => {
   }, graph);
 };
 
-const hasNoCycles = (n, edges) => {
+const simple = (() => {
+  const hasSingleRoot = (n, edges) => {
+    const set = new DisjointSet(n);
+    for (const [from, to] of edges) {
+      set.union(from, to);
+    }
+    return set.roots().length === 1;
+  };
+
+  const hasNoCycles = (n, edges) => {
+    const graph = toGraph(n, edges);
+    const visited = new Set();
+    const hasCycle = (vertex, parent) => {
+      if (visited.has(vertex)) {
+        return true;
+      }
+      visited.add(vertex);
+      for (const edge of graph[vertex]) {
+        if (edge !== parent && hasCycle(edge, vertex)) {
+          return true;
+        }
+      }
+      return false;
+    };
+    return !hasCycle(0, null);
+  };
+
+  return (n, edges) => hasSingleRoot(n, edges) && hasNoCycles(n, edges);
+})();
+
+const simpleDfs = (n, edges) => {
   const graph = toGraph(n, edges);
   const visited = new Set();
-  const hasCycle = (vertex, parent) => {
+  const dfs = (vertex, parent) => {
+    // if already encountered this node, then there is a cycle.
     if (visited.has(vertex)) {
-      return true;
+      return false;
     }
     visited.add(vertex);
     for (const edge of graph[vertex]) {
-      if (edge !== parent && hasCycle(edge, vertex)) {
-        return true;
+      // visit every non parent neighbor.
+      if (edge !== parent && !dfs(edge, vertex)) {
+        return false;
       }
     }
-    return false;
+    return true;
   };
-  return !hasCycle(0, null);
+  // ensure no cycles and every node was visited from root.
+  return dfs(0, -1) && visited.size === n;
+};
+
+const betterDfs = (n, edges) => {
+  if (edges.length !== n - 1) {
+    return false;
+  }
+  const graph = toGraph(n, edges);
+  const visited = new Set();
+  const dfs = (vertex) => {
+    visited.add(vertex);
+    for (const edge of graph[vertex]) {
+      if (!visited.has(edge)) {
+        dfs(edge);
+      }
+    }
+  };
+  dfs(0);
+  return visited.size === n;
+};
+
+const usingDisjointSet = (n, edges) => {
+  if (edges.length !== n - 1) {
+    return false;
+  }
+
+  const disjointSet = new DisjointSet(n);
+  for (const [from, to] of edges) {
+    if (!disjointSet.union(from, to)) {
+      return false;
+    }
+  }
+  return true;
 };
 
 /**
@@ -90,4 +148,4 @@ const hasNoCycles = (n, edges) => {
  * @param {number[][]} edges
  * @return {boolean}
  */
-export const validTree = (n, edges) => hasSingleRoot(n, edges) && hasNoCycles(n, edges);
+export const validTree = usingDisjointSet;

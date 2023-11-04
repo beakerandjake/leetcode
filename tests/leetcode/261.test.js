@@ -59,6 +59,20 @@ describe('261. Graph Valid Tree', () => {
       ],
       false,
     ],
+    [
+      9,
+      [
+        [0, 1],
+        [0, 2],
+        [1, 3],
+        [1, 4],
+        [2, 5],
+        [2, 6],
+        [7, 2],
+        [7, 6],
+      ],
+      false,
+    ],
   ].forEach(([n, edges, expected]) => {
     test(`${n},${arrToStr(edges)} -> ${expected}`, () => {
       const result = validTree(n, edges);
