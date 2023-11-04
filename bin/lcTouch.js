@@ -52,7 +52,7 @@ const alreadyTouched = async (problem) => {
 /**
  * Convert the raw html content to plain text.
  */
-const parseContent = ({ content }) => convert(content);
+const parseContent = ({ content }) => convert(content).replace(/\u00a0/g, ' ');
 
 /**
  * Get the JS code snippet for the problem
