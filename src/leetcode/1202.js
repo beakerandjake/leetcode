@@ -56,9 +56,73 @@
  * https://leetcode.com/problems/smallest-string-with-swaps
  */
 
+class DisjointSet {
+  constructor(n) {
+    this.nodes = [...Array(n)].map((_, i) => i);
+  }
+
+  find(x) {
+    return this.nodes[x];
+  }
+
+  union(x, y) {
+    const rootX = this.find(x);
+    const rootY = this.find(y);
+    if (rootX !== rootY) {
+      for (let i = 0; i < this.nodes.length; i++) {
+        if (this.nodes[i] === rootY) {
+          this.nodes[i] = rootX;
+        }
+      }
+    }
+  }
+
+  roots() {
+    return [...new Set(this.nodes)];
+  }
+}
+
+const toUnion = (n, pairs) =>
+  pairs.reduce((acc, [from, to]) => {
+    acc.union(from, to);
+    return acc;
+  }, new DisjointSet(n));
+
+const toLookup = (str, disjointSet) => {
+  const lookup = new Map();
+  for (let i = 0; i < str.length; i++) {
+    const root = disjointSet.find(i);
+    if (!lookup.has(root)) {
+      lookup.set(root, [str[i]]);
+    } else {
+      lookup.get(root).push(str[i]);
+    }
+  }
+
+  // now that chars are grouped, sort them descending
+  lookup.forEach((value) => {
+    value.sort().reverse();
+  });
+
+  return lookup;
+};
+
 /**
  * @param {string} s
  * @param {number[][]} pairs
  * @return {string}
  */
-export const smallestStringWithSwaps = (s, pairs) => {};
+export const smallestStringWithSwaps = (s, pairs) => {
+  const set = toUnion(s.length, pairs);
+  // if all chars are connected, just sort the string.
+  if (set.roots().length === 1) {
+    return [...s].sort().join('');
+  }
+  const lookup = toLookup(s, set);
+  const result = [];
+  for (let i = 0; i < s.length; i++) {
+    const root = set.find(i);
+    result.push(lookup.get(root).pop());
+  }
+  return result.join('');
+};
