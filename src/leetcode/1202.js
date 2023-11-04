@@ -59,26 +59,31 @@
 class DisjointSet {
   constructor(n) {
     this.nodes = [...Array(n)].map((_, i) => i);
+    this.rank = Array(n).fill(1);
   }
 
   find(x) {
-    return this.nodes[x];
+    let root = this.nodes[x];
+    while (root !== this.nodes[root]) {
+      root = this.nodes[root];
+    }
+    return root;
   }
 
   union(x, y) {
     const rootX = this.find(x);
     const rootY = this.find(y);
     if (rootX !== rootY) {
-      for (let i = 0; i < this.nodes.length; i++) {
-        if (this.nodes[i] === rootY) {
-          this.nodes[i] = rootX;
-        }
+      // use rank to maintain the lowest height
+      if (this.rank[rootX] > this.rank[rootY]) {
+        this.nodes[rootY] = rootX;
+      } else if (this.rank[rootX] < this.rank[rootY]) {
+        this.nodes[rootX] = rootY;
+      } else {
+        this.nodes[rootY] = rootX;
+        this.rank[rootX]++;
       }
     }
-  }
-
-  roots() {
-    return [...new Set(this.nodes)];
   }
 }
 
@@ -114,10 +119,6 @@ const toLookup = (str, disjointSet) => {
  */
 export const smallestStringWithSwaps = (s, pairs) => {
   const set = toUnion(s.length, pairs);
-  // if all chars are connected, just sort the string.
-  if (set.roots().length === 1) {
-    return [...s].sort().join('');
-  }
   const lookup = toLookup(s, set);
   const result = [];
   for (let i = 0; i < s.length; i++) {
