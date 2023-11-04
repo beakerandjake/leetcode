@@ -59,9 +59,32 @@
  * https://leetcode.com/problems/reorder-routes-to-make-all-paths-lead-to-the-city-zero
  */
 
+const toUndirectedGraph = (n, connections) =>
+  connections.reduce(
+    (acc, [from, to]) => {
+      acc[from].push([to, 1]);
+      acc[to].push([from, 0]);
+      return acc;
+    },
+    [...Array(n)].map(() => [])
+  );
+
 /**
  * @param {number} n
  * @param {number[][]} connections
  * @return {number}
  */
-export const minReorder = (n, connections) => {};
+export const minReorder = (n, connections) => {
+  const graph = toUndirectedGraph(n, connections);
+  let flips = 0;
+  const dfs = (vertex, parent) => {
+    for (const [edge, natural] of graph[vertex]) {
+      if (edge !== parent) {
+        flips += natural;
+        dfs(edge, vertex);
+      }
+    }
+  };
+  dfs(0, -1);
+  return flips;
+};
