@@ -70,8 +70,48 @@
  * https://leetcode.com/problems/snakes-and-ladders
  */
 
+const boustrophedon = (n) => {
+  // eslint-disable-next-line no-shadow
+  const board = [...Array(n)].map((_, y) => [...Array(n)].map((_, x) => n * y + x + 1));
+  return board.map((row, i) => (i % 2 ? row.reverse() : row)).reverse();
+};
+
+const getTranslationMap = (n) => {
+  const board = boustrophedon(n);
+  const map = new Map();
+  for (let y = 0; y < n; y++) {
+    for (let x = 0; x < n; x++) {
+      map.set(board[y][x], { x, y });
+    }
+  }
+  return map;
+};
+
 /**
  * @param {number[][]} board
  * @return {number}
  */
-export const snakesAndLadders = (board) => {};
+export const snakesAndLadders = (board) => {
+  const target = board.length ** 2;
+  const translation = getTranslationMap(board.length);
+  const visited = new Set();
+  const queue = [{ square: 1, moves: 0 }];
+  while (queue.length) {
+    const { square, moves } = queue.shift();
+    if (square === target) {
+      return moves;
+    }
+    if (!visited.has(square)) {
+      visited.add(square);
+      const maxRoll = Math.min(target, square + 6);
+      for (let roll = square + 1; roll <= maxRoll; roll++) {
+        const rollPosition = translation.get(roll);
+        if (rollPosition) {
+          const tile = board[rollPosition.y][rollPosition.x];
+          queue.push({ square: tile === -1 ? roll : tile, moves: moves + 1 });
+        }
+      }
+    }
+  }
+  return -1;
+};
