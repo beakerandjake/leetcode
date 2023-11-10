@@ -71,9 +71,63 @@
  * https://leetcode.com/problems/nearest-exit-from-entrance-in-maze
  */
 
+const WALL = '+';
+
+const empty = (m, n) => [...Array(m)].map(() => Array(n).fill(0));
+
+const getExitChecker = (maze, [entranceY, entranceX]) => {
+  const maxRowIndex = maze.length - 1;
+  const maxColIndex = maze[0].length - 1;
+  return (y, x) => {
+    if (maze[y][x] === WALL || (y === entranceY && x === entranceX)) {
+      return false;
+    }
+    return y === 0 || x === 0 || y === maxRowIndex || x === maxColIndex;
+  };
+};
+
+const directions = [
+  [-1, 0],
+  [0, 1],
+  [1, 0],
+  [0, -1],
+];
+
+const getBoundsChecker = (maze) => {
+  const height = maze.length;
+  const width = maze[0].length;
+  return (y, x) => y >= 0 && y < height && x >= 0 && x < width;
+};
+
 /**
  * @param {character[][]} maze
  * @param {number[]} entrance
  * @return {number}
  */
-export const nearestExit = (maze, entrance) => {};
+export const nearestExit = (maze, entrance) => {
+  const isExit = getExitChecker(maze, entrance);
+  const inBounds = getBoundsChecker(maze);
+  const visited = empty(maze.length, maze[0].length);
+  const queue = [{ pos: entrance, distance: 0 }];
+  while (queue.length) {
+    const {
+      pos: [y, x],
+      distance,
+    } = queue.shift();
+    // first exit found is closest.
+    if (isExit(y, x)) {
+      return distance;
+    }
+    if (!visited[y][x]) {
+      visited[y][x] = 1;
+      for (const [dy, dx] of directions) {
+        const ny = dy + y;
+        const nx = dx + x;
+        if (inBounds(ny, nx) && !visited[ny][nx] && maze[y][x] !== WALL) {
+          queue.push({ pos: [ny, nx], distance: distance + 1 });
+        }
+      }
+    }
+  }
+  return -1;
+};
