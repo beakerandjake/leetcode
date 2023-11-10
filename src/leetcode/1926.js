@@ -73,11 +73,13 @@
 
 const WALL = '+';
 
-const empty = (m, n) => [...Array(m)].map(() => Array(n).fill(0));
+const getShape = (maze) => ({ height: maze.length, width: maze[0].length });
 
-const getExitChecker = (maze, [entranceY, entranceX]) => {
-  const maxRowIndex = maze.length - 1;
-  const maxColIndex = maze[0].length - 1;
+const empty = ({ width, height }) => [...Array(height)].map(() => Array(width).fill(0));
+
+const getExitChecker = (maze, { width, height }, [entranceY, entranceX]) => {
+  const maxRowIndex = height - 1;
+  const maxColIndex = width - 1;
   return (y, x) => {
     if (maze[y][x] === WALL || (y === entranceY && x === entranceX)) {
       return false;
@@ -93,11 +95,7 @@ const directions = [
   [0, -1],
 ];
 
-const getBoundsChecker = (maze) => {
-  const height = maze.length;
-  const width = maze[0].length;
-  return (y, x) => y >= 0 && y < height && x >= 0 && x < width;
-};
+const inBounds = (y, x, { height, width }) => y >= 0 && y < height && x >= 0 && x < width;
 
 /**
  * @param {character[][]} maze
@@ -105,15 +103,12 @@ const getBoundsChecker = (maze) => {
  * @return {number}
  */
 export const nearestExit = (maze, entrance) => {
-  const isExit = getExitChecker(maze, entrance);
-  const inBounds = getBoundsChecker(maze);
-  const visited = empty(maze.length, maze[0].length);
-  const queue = [{ pos: entrance, distance: 0 }];
+  const shape = getShape(maze);
+  const isExit = getExitChecker(maze, shape, entrance);
+  const visited = empty(shape);
+  const queue = [{ y: entrance[0], x: entrance[1], distance: 0 }];
   while (queue.length) {
-    const {
-      pos: [y, x],
-      distance,
-    } = queue.shift();
+    const { x, y, distance } = queue.shift();
     // first exit found is closest.
     if (isExit(y, x)) {
       return distance;
@@ -123,8 +118,8 @@ export const nearestExit = (maze, entrance) => {
       for (const [dy, dx] of directions) {
         const ny = dy + y;
         const nx = dx + x;
-        if (inBounds(ny, nx) && !visited[ny][nx] && maze[y][x] !== WALL) {
-          queue.push({ pos: [ny, nx], distance: distance + 1 });
+        if (inBounds(ny, nx, shape) && !visited[ny][nx] && maze[y][x] !== WALL) {
+          queue.push({ y: ny, x: nx, distance: distance + 1 });
         }
       }
     }
