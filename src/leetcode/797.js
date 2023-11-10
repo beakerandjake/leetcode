@@ -46,4 +46,20 @@
  * @param {number[][]} graph
  * @return {number[][]}
  */
-export const allPathsSourceTarget = (graph) => {};
+export const allPathsSourceTarget = (graph) => {
+  const paths = [];
+  const target = graph.length - 1;
+  const backtrack = (path, current) => {
+    if (current === target) {
+      paths.push([...path]);
+      return;
+    }
+    for (const neighbor of graph[current]) {
+      path.push(neighbor);
+      backtrack(path, neighbor);
+      path.pop(neighbor);
+    }
+  };
+  backtrack([0], 0);
+  return paths;
+};

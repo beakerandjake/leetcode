@@ -50,10 +50,59 @@
  * https://leetcode.com/problems/network-delay-time
  */
 
+const toGraph = (n, times) => {
+  const empty = [...Array(n)].reduce((acc, _, i) => {
+    acc[i + 1] = [];
+    return acc;
+  }, {});
+
+  return times.reduce((acc, [from, to, weight]) => {
+    acc[from].push([to, weight]);
+    return acc;
+  }, empty);
+};
+
+const initialDistances = (n, startVertex) => {
+  const map = new Map();
+  for (let i = 1; i <= n; i++) {
+    map.set(i, i === startVertex ? 0 : Number.MAX_SAFE_INTEGER);
+  }
+  return map;
+};
+
+const findMin = (distances, visited) => {
+  let minVertex;
+  let minDistance = Number.MAX_SAFE_INTEGER;
+  for (const [vertex, distance] of distances.entries()) {
+    if (!visited.has(vertex) && distance < minDistance) {
+      minVertex = vertex;
+      minDistance = distance;
+    }
+  }
+  return minVertex;
+};
+
 /**
  * @param {number[][]} times
  * @param {number} n
  * @param {number} k
  * @return {number}
  */
-export const networkDelayTime = (times, n, k) => {};
+export const networkDelayTime = (times, n, k) => {
+  const graph = toGraph(n, times);
+  const visited = new Set();
+  const distances = initialDistances(n, k);
+  let current = k;
+  while (current) {
+    for (const [edge, weight] of graph[current]) {
+      const alternate = distances.get(current) + weight;
+      if (alternate < distances.get(edge)) {
+        distances.set(edge, alternate);
+      }
+    }
+    visited.add(current);
+    current = findMin(distances, visited);
+  }
+  const maxTime = Math.max(...[...distances.values()]);
+  return maxTime !== Number.MAX_SAFE_INTEGER ? maxTime : -1;
+};
