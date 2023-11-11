@@ -67,8 +67,18 @@
  * }
  */
 
+const simple = (head) => {
+  const visited = new Set();
+  let current = head;
+  while (current && !visited.has(current)) {
+    visited.add(current);
+    current = current.next;
+  }
+  return current || null;
+};
+
 /**
  * @param {ListNode} head
  * @return {ListNode}
  */
-export const detectCycle = (head) => {};
+export const detectCycle = (head) => simple;
