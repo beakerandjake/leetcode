@@ -122,4 +122,25 @@ const slowConstantSpace = (() => {
  * @param {ListNode} head
  * @return {ListNode}
  */
-export const detectCycle = slowConstantSpace;
+export const detectCycle = (head) => {
+  let slow = head;
+  let fast = head;
+  while (fast?.next) {
+    slow = slow.next;
+    fast = fast.next.next;
+    if (slow === fast) {
+      break;
+    }
+  }
+
+  if (!fast?.next) {
+    return null;
+  }
+
+  slow = head;
+  while (fast !== slow) {
+    fast = fast.next;
+    slow = slow.next;
+  }
+  return slow;
+};
