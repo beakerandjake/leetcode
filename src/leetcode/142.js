@@ -77,8 +77,49 @@ const simple = (head) => {
   return current || null;
 };
 
+const slowConstantSpace = (() => {
+  const findCycle = (head) => {
+    let slow = head;
+    let fast = head?.next?.next;
+    while (fast) {
+      if (fast === slow) {
+        return fast;
+      }
+      slow = slow.next;
+      fast = fast.next?.next;
+    }
+    return null;
+  };
+
+  const walkCycle = (start, target) => {
+    if (start === target) {
+      return true;
+    }
+    let current = start.next;
+    while (current !== start) {
+      if (current === target) {
+        return true;
+      }
+      current = current.next;
+    }
+    return false;
+  };
+
+  return (head) => {
+    const cycleNode = findCycle(head);
+    if (!cycleNode) {
+      return null;
+    }
+    let current = head;
+    while (!walkCycle(cycleNode, current, cycleNode.next)) {
+      current = current.next;
+    }
+    return current;
+  };
+})();
+
 /**
  * @param {ListNode} head
  * @return {ListNode}
  */
-export const detectCycle = (head) => simple;
+export const detectCycle = slowConstantSpace;
