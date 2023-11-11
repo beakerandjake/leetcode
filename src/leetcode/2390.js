@@ -52,4 +52,14 @@
  * @param {string} s
  * @return {string}
  */
-export const removeStars = (s) => {};
+export const removeStars = (s) => {
+  const chars = [];
+  for (const char of s) {
+    if (char !== '*') {
+      chars.push(char);
+    } else {
+      chars.pop(char);
+    }
+  }
+  return chars.join('');
+};
