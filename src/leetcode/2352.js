@@ -44,8 +44,33 @@
  * https://leetcode.com/problems/equal-row-and-column-pairs
  */
 
+const hashRow = (grid, row) => grid[row].join(',');
+
+const hashCol = (grid, col) => grid.map((row) => row[col]).join(',');
+
+const hashMap = (grid, hashFn) => {
+  const map = new Map();
+  for (let i = 0; i < grid.length; i++) {
+    map.set(i, hashFn(grid, i));
+  }
+  return map;
+};
+
 /**
  * @param {number[][]} grid
  * @return {number}
  */
-export const equalPairs = (grid) => {};
+export const equalPairs = (grid) => {
+  const n = grid.length;
+  const rowHash = hashMap(grid, hashRow);
+  const colHash = hashMap(grid, hashCol);
+  let pairs = 0;
+  for (let row = 0; row < n; row++) {
+    for (let col = 0; col < n; col++) {
+      if (rowHash.get(row) === colHash.get(col)) {
+        pairs++;
+      }
+    }
+  }
+  return pairs;
+};
