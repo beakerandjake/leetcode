@@ -49,7 +49,54 @@
  */
 
 /**
+ * Returns the top of the stack.
+ */
+const peek = (stack) => stack.at(-1);
+
+/**
+ * Returns the size of the asteroid, regardless of the direction its facing.
+ */
+const size = (asteroid) => Math.abs(asteroid);
+
+/**
+ * Are the two asteroids on a collision course?
+ */
+const willCollide = (a, b) => a > 0 && b < 0;
+
+/**
+ * Returns the result of the collision:
+ * < 0 if b destroyed a
+ * > 0 if a destroyed b
+ * === 0 if both were destroyed.
+ */
+const collide = (a, b) => size(a) - size(b);
+
+/**
  * @param {number[]} asteroids
  * @return {number[]}
  */
-export const asteroidCollision = (asteroids) => {};
+export const asteroidCollision = (asteroids) => {
+  const state = [];
+  for (const asteroid of asteroids) {
+    let survived = true;
+    // if possible, continually smash the current asteroid into the head of state.
+    while (state.length && willCollide(peek(state), asteroid) && survived) {
+      const result = collide(peek(state), asteroid);
+      if (result < 0) {
+        // previous did not survive.
+        state.pop();
+      } else if (result > 0) {
+        // current did not survive.
+        survived = false;
+      } else {
+        // both did not survive.
+        state.pop();
+        survived = false;
+      }
+    }
+    if (survived) {
+      state.push(asteroid);
+    }
+  }
+  return state;
+};
