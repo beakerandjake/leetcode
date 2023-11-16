@@ -86,4 +86,18 @@ const binarySearch = (() => {
  * @param {number} target
  * @return {number[]}
  */
-export const twoSum = binarySearch;
+export const twoSum = (numbers, target) => {
+  let left = 0;
+  let right = numbers.length - 1;
+  while (left < right) {
+    const needed = target - numbers[left];
+    while (numbers[right] > needed) {
+      right--;
+    }
+    if (numbers[right] === needed) {
+      return [left + 1, right + 1];
+    }
+    left++;
+  }
+  return [];
+};
