@@ -53,9 +53,37 @@
  * https://leetcode.com/problems/two-sum-ii-input-array-is-sorted
  */
 
+const binarySearch = (() => {
+  const indexOf = (numbers, target) => {
+    let l = 0;
+    let u = numbers.length - 1;
+    while (l <= u) {
+      const m = Math.floor(l + (u - l) / 2);
+      if (numbers[m] > target) {
+        u = m - 1;
+      } else if (numbers[m] < target) {
+        l = m + 1;
+      } else {
+        return m;
+      }
+    }
+    return -1;
+  };
+  return (numbers, target) => {
+    for (let i = 0; i < numbers.length; i++) {
+      const foundIndex = indexOf(numbers, target - numbers[i]);
+      if (foundIndex !== -1 && foundIndex !== i) {
+        const nums = [i + 1, foundIndex + 1];
+        return nums.sort((a, b) => a - b);
+      }
+    }
+    throw new Error('not found');
+  };
+})();
+
 /**
  * @param {number[]} numbers
  * @param {number} target
  * @return {number[]}
  */
-export const twoSum = (numbers, target) => {};
+export const twoSum = binarySearch;
