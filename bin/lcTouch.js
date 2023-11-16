@@ -17,6 +17,11 @@ const getSlug = () => {
 };
 
 /**
+ * Returns true if passed the --reset option.
+ */
+const isReset = () => argv[3] === '--reset';
+
+/**
  * Download the leetcode problem.
  */
 const getProblem = async (slug) => {
@@ -168,20 +173,12 @@ const commitFilesToGit = (problemId, ...files) => {
   );
 };
 
-const main = async () => {
-  const problem = await getProblem(getSlug());
-  // bail if invalid slug.
-  if (!problem) {
-    throw new Error('problem not found');
-  }
+const touch = async (problem) => {
   // bail if already created a file for this problem.
   if (await alreadyTouched(problem)) {
     throw new Error('problem already exists');
   }
-  // bail if have to sign in to download.
-  if (problem.isPaidOnly) {
-    throw new Error('paid only problem');
-  }
+
   // create the files.
   const problemId = getProblemId(problem);
   const src = srcFilePath(problemId);
@@ -190,6 +187,30 @@ const main = async () => {
   openFilesInVsCode(src, test);
   commitFilesToGit(problemId, src, test);
   console.log(`created src: ${src}, test: ${test}`);
+};
+
+/**
+ * Clear the implementation of an existing problem, good for practice
+ */
+const reset = async (problem) => {
+  console.log('resetting problem', problem);
+  const problemId = getProblemId(problem);
+  const src = srcFilePath(problemId);
+  await createSolution(problem, problemId);
+  openFilesInVsCode(src);
+};
+
+const main = async () => {
+  const problem = await getProblem(getSlug());
+  // bail if invalid slug.
+  if (!problem) {
+    throw new Error('problem not found');
+  }
+  // bail if have to sign in to download.
+  if (problem.isPaidOnly) {
+    throw new Error('paid only problem');
+  }
+  await (!isReset() ? touch(problem) : reset(problem));
 };
 
 try {
