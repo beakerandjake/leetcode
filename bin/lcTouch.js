@@ -193,7 +193,6 @@ const touch = async (problem) => {
  * Clear the implementation of an existing problem, good for practice
  */
 const reset = async (problem) => {
-  console.log('resetting problem', problem);
   const problemId = getProblemId(problem);
   const src = srcFilePath(problemId);
   await createSolution(problem, problemId);
