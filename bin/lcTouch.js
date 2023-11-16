@@ -193,10 +193,13 @@ const touch = async (problem) => {
  * Clear the implementation of an existing problem, good for practice
  */
 const reset = async (problem) => {
+  if (!(await alreadyTouched(problem))) {
+    throw new Error('problem does not exit');
+  }
   const problemId = getProblemId(problem);
   const src = srcFilePath(problemId);
   await createSolution(problem, problemId);
-  openFilesInVsCode(src);
+  openFilesInVsCode(src, testFilePath(problemId));
 };
 
 const main = async () => {
