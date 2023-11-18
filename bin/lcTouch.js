@@ -50,9 +50,7 @@ const srcFilePath = (problemId) => `src/leetcode/${problemId}.js`;
 /**
  * Returns true if a file has already been created for this problem.
  */
-const alreadyTouched = async (problem) => {
-  return fileExists(srcFilePath(getProblemId(problem)));
-};
+const alreadyTouched = async (problem) => fileExists(srcFilePath(getProblemId(problem)));
 
 /**
  * Convert the raw html content to plain text.
@@ -128,6 +126,17 @@ const getTitle = ({ title }) => title;
 const testFilePath = (problemId) => `tests/leetcode/${problemId}.test.js`;
 
 /**
+ * Returns an new string with each matching character escaped by a backslash.
+ */
+const escape = (string, ...chars) => {
+  let result = string;
+  for (const char of chars) {
+    result = result.replace(char, `\\${char}`);
+  }
+  return result;
+};
+
+/**
  * Create the test file.
  */
 const createTest = async (problem, problemId) => {
@@ -138,7 +147,7 @@ const createTest = async (problem, problemId) => {
       "import { arrToStr } from '../util.js'",
     ].join('\n'),
     [
-      `describe('${problemId}. ${getTitle(problem)}', () => {`,
+      `describe('${problemId}. ${escape(getTitle(problem), "'")}', () => {`,
       '\t[',
       '\t\t// replace with real test data',
       '\t\t[true,false],',
