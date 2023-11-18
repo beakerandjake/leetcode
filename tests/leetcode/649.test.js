@@ -1,10 +1,15 @@
-import { predictPartyVictory } from "../../src/leetcode/649.js";
-import { arrToStr } from "../util.js";
+import { predictPartyVictory } from '../../src/leetcode/649.js';
 
-describe("649. Dota2 Senate", () => {
+describe('649. Dota2 Senate', () => {
   [
-    // replace with real test data
-    [true, false],
+    ['RD', 'Radiant'],
+    ['RDD', 'Dire'],
+    ['DRRDRDRDRDDRDRDR', 'Radiant'],
+    ['DDRRR', 'Dire'],
+    [
+      'RDRDRDDRDRDRDRDRRDRDRDRDRDRDDDDRRDRDRDRDRDRDRDRRRRRDRDRDRDRDDDDDRDRDRDRDRDRDRDRRDRDRDRDRDRDRRDRDRDRDRDRDRDRDRRDRDRDRDRDRRD',
+      'Radiant',
+    ],
   ].forEach(([input, expected]) => {
     test(`${input} -> ${expected}`, () => {
       const result = predictPartyVictory(input);

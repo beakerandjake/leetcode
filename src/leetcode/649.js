@@ -62,8 +62,47 @@
  * https://leetcode.com/problems/dota2-senate
  */
 
+const victory = (senate) => new Set(senate).size === 1;
+
+const findBan = (senator, senate, banned) => {
+  const party = senate[senator];
+  // try to ban those who haven't yet voted.
+  for (let i = senator + 1; i < senate.length; i++) {
+    if (senate[i] !== party && !banned.has(i)) {
+      return i;
+    }
+  }
+  // try to ban previous voters if no one ahead of us
+  for (let i = 0; i < senator; i++) {
+    if (senate[i] !== party && !banned.has(i)) {
+      return i;
+    }
+  }
+  return -1;
+};
+
+const round = (senate) => {
+  const banned = new Set();
+  for (let i = 0; i < senate.length; i++) {
+    if (!banned.has(i)) {
+      const toBan = findBan(i, senate, banned);
+      if (toBan === -1) {
+        return [senate[i]];
+      }
+      banned.add(toBan);
+    }
+  }
+  return senate.filter((_, i) => !banned.has(i));
+};
+
 /**
  * @param {string} senate
  * @return {string}
  */
-export const predictPartyVictory = (senate) => {};
+export const predictPartyVictory = (senate) => {
+  let remaining = [...senate];
+  while (!victory(remaining)) {
+    remaining = round(remaining);
+  }
+  return remaining[0] === 'R' ? 'Radiant' : 'Dire';
+};
