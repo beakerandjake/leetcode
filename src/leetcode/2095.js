@@ -67,8 +67,64 @@
  *     this.next = (next===undefined ? null : next)
  * }
  */
+
+const simple = (() => {
+  const length = (head) => {
+    let current = head;
+    let len = 0;
+    while (current) {
+      current = current.next;
+      len++;
+    }
+    return len;
+  };
+
+  const nodeAt = (head, index) => {
+    let successor;
+    let currentNode = head;
+    let currentIndex = 0;
+    while (currentIndex !== index) {
+      successor = currentNode;
+      currentNode = currentNode.next;
+      currentIndex++;
+    }
+    return { node: currentNode, successor };
+  };
+
+  return (head) => {
+    const middle = Math.floor(length(head) / 2);
+    const { node, successor } = nodeAt(head, middle);
+    if (!successor) {
+      return head.next;
+    }
+    successor.next = node.next;
+    return head;
+  };
+})();
+
+const faster = (() => {
+  const middleNodeSuccessor = (head) => {
+    let slow = head;
+    let fast = head.next.next;
+    while (fast && fast.next) {
+      slow = slow.next;
+      fast = fast.next.next;
+    }
+    return slow;
+  };
+
+  return (head) => {
+    if (!head.next) {
+      return null;
+    }
+    const successor = middleNodeSuccessor(head);
+    successor.next = successor.next.next;
+    return head;
+  };
+})();
+
 /**
  * @param {ListNode} head
  * @return {ListNode}
  */
-export const deleteMiddle = (head) => {};
+export const deleteMiddle = faster;
