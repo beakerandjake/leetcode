@@ -42,8 +42,49 @@
  * https://leetcode.com/problems/longest-subarray-of-1s-after-deleting-one-element
  */
 
+// const topDown = (nums) => {
+//   const memo = [...Array(nums.length)].map(() => [-1, -1]);
+//   const dp = (start, hasDeleted) => {
+//     if (memo[start][hasDeleted] === -1) {
+//       if (start === nums.length - 1) {
+//         // if have not deleted then score is zero
+//         memo[start][hasDeleted] = hasDeleted ? nums[start] : 0;
+//       } else if (nums[start] === 0) {
+//         // delete this zero if possible, otherwise reached the end.
+//         memo[start][hasDeleted] = !hasDeleted ? dp(start + 1, 1) : 0;
+//       } else {
+//         // keep the chain going with a 1.
+//         memo[start][hasDeleted] = 1 + dp(start + 1, hasDeleted);
+//       }
+//     }
+//     return memo[start][hasDeleted];
+//   };
+//   let longest = 0;
+//   for (let i = 0; i < nums.length; i++) {
+//     longest = Math.max(longest, dp(i, 0));
+//   }
+//   return longest;
+// };
+
 /**
  * @param {number[]} nums
  * @return {number}
  */
-export const longestSubarray = (nums) => {};
+export const longestSubarray = (nums) => {
+  let longest = 0;
+  let windowStart = 0;
+  let zeroCount = 0;
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] === 0) {
+      zeroCount++;
+    }
+    while (zeroCount > 1) {
+      if (nums[windowStart] === 0) {
+        zeroCount--;
+      }
+      windowStart++;
+    }
+    longest = Math.max(longest, i - windowStart);
+  }
+  return longest;
+};
