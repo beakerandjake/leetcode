@@ -42,15 +42,40 @@
  * https://leetcode.com/problems/odd-even-linked-list
  */
 
-/**
- * Definition for singly-linked list.
- * function ListNode(val, next) {
- *     this.val = (val===undefined ? 0 : val)
- *     this.next = (next===undefined ? null : next)
- * }
- */
+// class ListNode {
+//   constructor(val, next) {
+//     this.val = val === undefined ? 0 : val;
+//     this.next = next === undefined ? null : next;
+//   }
+// }
+
 /**
  * @param {ListNode} head
  * @return {ListNode}
  */
-export const oddEvenList = (head) => {};
+export const oddEvenList = (head) => {
+  let odd = head;
+  let even = head?.next;
+  // less than three nodes is already sorted.
+  if (!even?.next) {
+    return head;
+  }
+  const evenHead = even;
+  let index = 3;
+  let current = even.next;
+  while (current) {
+    const { next } = current;
+    if (index % 2 === 0) {
+      even.next = current;
+      even = even.next;
+    } else {
+      odd.next = current;
+      odd = odd.next;
+    }
+    current = next;
+    index++;
+  }
+  even.next = null;
+  odd.next = evenHead;
+  return head;
+};
