@@ -89,26 +89,24 @@ const usingLinkedLists = (() => {
     return sentinel.next;
   };
 
-  const length = (head) => {
-    let current = head;
-    let len = 0;
-    while (current) {
-      current = current.next;
-      len++;
+  const startOfUpperHalf = (head) => {
+    let slow = head;
+    let fast = head.next;
+    while (fast.next) {
+      slow = slow.next;
+      fast = fast.next.next;
     }
-    return len;
+    return slow.next;
   };
 
   return (head) => {
     let maxSum = 0;
-    const reversed = reverse(head);
-    const maxIndex = length(head) / 2;
+    const upper = startOfUpperHalf(head);
+    const reversed = reverse(upper);
     let a = head;
     let b = reversed;
-    let i = 0;
-    while (i < maxIndex) {
+    while (a !== upper) {
       maxSum = Math.max(maxSum, a.val + b.val);
-      i++;
       a = a.next;
       b = b.next;
     }
@@ -116,8 +114,26 @@ const usingLinkedLists = (() => {
   };
 })();
 
+const usingStack = (head) => {
+  let maxSum = 0;
+  const stack = [head.val];
+  let slow = head;
+  let fast = head.next;
+  while (fast.next) {
+    fast = fast.next.next;
+    slow = slow.next;
+    stack.push(slow.val);
+  }
+  let current = slow.next;
+  while (current) {
+    maxSum = Math.max(stack.pop() + current.val, maxSum);
+    current = current.next;
+  }
+  return maxSum;
+};
+
 /**
  * @param {ListNode} head
  * @return {number}
  */
-export const pairSum = usingLinkedLists;
+export const pairSum = usingStack;
