@@ -70,8 +70,54 @@
  *     this.next = (next===undefined ? null : next)
  * }
  */
+
+class ListNode {
+  constructor(val, next) {
+    this.val = val === undefined ? 0 : val;
+    this.next = next === undefined ? null : next;
+  }
+}
+
+const usingLinkedLists = (() => {
+  const reverse = (head) => {
+    const sentinel = new ListNode();
+    let current = head;
+    while (current) {
+      sentinel.next = new ListNode(current.val, sentinel.next);
+      current = current.next;
+    }
+    return sentinel.next;
+  };
+
+  const length = (head) => {
+    let current = head;
+    let len = 0;
+    while (current) {
+      current = current.next;
+      len++;
+    }
+    return len;
+  };
+
+  return (head) => {
+    let maxSum = 0;
+    const reversed = reverse(head);
+    const maxIndex = length(head) / 2;
+    let a = head;
+    let b = reversed;
+    let i = 0;
+    while (i < maxIndex) {
+      maxSum = Math.max(maxSum, a.val + b.val);
+      i++;
+      a = a.next;
+      b = b.next;
+    }
+    return maxSum;
+  };
+})();
+
 /**
  * @param {ListNode} head
  * @return {number}
  */
-export const pairSum = (head) => {};
+export const pairSum = usingLinkedLists;
