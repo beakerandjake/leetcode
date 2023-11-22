@@ -55,8 +55,19 @@
  *     this.right = (right===undefined ? null : right)
  * }
  */
+
 /**
  * @param {TreeNode} root
  * @return {number}
  */
-export const goodNodes = (root) => {};
+export const goodNodes = (root) => {
+  const count = (node, max) => {
+    if (!node) {
+      return 0;
+    }
+    const newMax = Math.max(max, node.val);
+    const subtreeCount = count(node.left, newMax) + count(node.right, newMax);
+    return node.val === newMax ? 1 + subtreeCount : subtreeCount;
+  };
+  return count(root, Number.MIN_SAFE_INTEGER);
+};
