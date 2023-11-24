@@ -63,8 +63,49 @@
  *     this.right = (right===undefined ? null : right)
  * }
  */
+
+const bruteForce = (() => {
+  const postOrder = (node, visitFn) => {
+    if (!node) {
+      return;
+    }
+    postOrder(node.left, visitFn);
+    postOrder(node.right, visitFn);
+    visitFn(node);
+  };
+
+  return (root) => {
+    let max = 0;
+    const memo = new Map();
+    const zigZag = (node, isLeft) => {
+      if (!node) {
+        return 0;
+      }
+      if (!node.left && !node.right) {
+        return 1;
+      }
+      if ((!node.left && isLeft) || (!node.right && !isLeft)) {
+        return 1;
+      }
+      const memoIndex = isLeft ? 0 : 1;
+      if (!memo.has(node) || memo.get(node)[memoIndex] === -1) {
+        memo.set(node, [-1, -1]);
+        memo.get(node)[memoIndex] =
+          1 + (isLeft ? zigZag(node.left, false) : zigZag(node.right, true));
+      }
+      return memo.get(node)[memoIndex];
+    };
+
+    postOrder(root, (node) => {
+      max = Math.max(max, zigZag(node, true), zigZag(node, false));
+    });
+
+    return Math.max(0, max - 1);
+  };
+})();
+
 /**
  * @param {TreeNode} root
  * @return {number}
  */
-export const longestZigZag = (root) => {};
+export const longestZigZag = bruteForce;
