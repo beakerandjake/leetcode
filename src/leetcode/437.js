@@ -45,9 +45,38 @@
  *     this.right = (right===undefined ? null : right)
  * }
  */
+
+const dfs = (() => {
+  const inOrder = (node, visitFn) => {
+    if (!node) {
+      return;
+    }
+    inOrder(node.left, visitFn);
+    visitFn(node);
+    inOrder(node.right, visitFn);
+  };
+
+  return (root, target) => {
+    const findSum = (node, sum) => {
+      if (!node) {
+        return 0;
+      }
+      const newSum = node.val + sum;
+      const subtreeSum = findSum(node.left, newSum) + findSum(node.right, newSum);
+      return newSum === target ? 1 + subtreeSum : subtreeSum;
+    };
+
+    let found = 0;
+    inOrder(root, (node) => {
+      found += findSum(node, 0);
+    });
+    return found;
+  };
+})();
+
 /**
  * @param {TreeNode} root
- * @param {number} targetSum
+ * @param {number} target
  * @return {number}
  */
-export const pathSum = (root, targetSum) => {};
+export const pathSum = dfs;
