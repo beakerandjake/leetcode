@@ -31,9 +31,38 @@
  * https://leetcode.com/problems/subarray-sum-equals-k
  */
 
+const runningSum = (nums, k) => {
+  let found = 0;
+  for (let start = 0; start < nums.length; start++) {
+    let sum = 0;
+    for (let end = start; end < nums.length; end++) {
+      sum += nums[end];
+      if (sum === k) {
+        found++;
+      }
+    }
+  }
+  return found;
+};
+
 /**
  * @param {number[]} nums
  * @param {number} k
  * @return {number}
  */
-export const subarraySum = (nums, k) => {};
+export const subarraySum = (nums, k) => {
+  let found = 0;
+  let sum = 0;
+  const map = new Map();
+  for (let i = 0; i < nums.length; i++) {
+    sum += nums[i];
+    if (sum === k) {
+      found += 1;
+    }
+    if (map.has(sum - k)) {
+      found += map.get(sum - k);
+    }
+    map.set(sum, (map.get(sum) || 0) + 1);
+  }
+  return found;
+};

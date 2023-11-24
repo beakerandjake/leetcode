@@ -46,37 +46,61 @@
  * }
  */
 
-const dfs = (() => {
-  const inOrder = (node, visitFn) => {
-    if (!node) {
-      return;
-    }
-    inOrder(node.left, visitFn);
-    visitFn(node);
-    inOrder(node.right, visitFn);
-  };
+// const dfs = (() => {
+//   const inOrder = (node, visitFn) => {
+//     if (!node) {
+//       return;
+//     }
+//     inOrder(node.left, visitFn);
+//     visitFn(node);
+//     inOrder(node.right, visitFn);
+//   };
 
-  return (root, target) => {
-    const findSum = (node, sum) => {
-      if (!node) {
-        return 0;
-      }
-      const newSum = node.val + sum;
-      const subtreeSum = findSum(node.left, newSum) + findSum(node.right, newSum);
-      return newSum === target ? 1 + subtreeSum : subtreeSum;
-    };
+//   return (root, target) => {
+//     const findSum = (node, sum) => {
+//       if (!node) {
+//         return 0;
+//       }
+//       const newSum = node.val + sum;
+//       const subtreeSum = findSum(node.left, newSum) + findSum(node.right, newSum);
+//       return newSum === target ? 1 + subtreeSum : subtreeSum;
+//     };
 
-    let found = 0;
-    inOrder(root, (node) => {
-      found += findSum(node, 0);
-    });
-    return found;
-  };
-})();
+//     let found = 0;
+//     inOrder(root, (node) => {
+//       found += findSum(node, 0);
+//     });
+//     return found;
+//   };
+// })();
+
+const getOrDefault = (map, key, defaultValue) =>
+  map.has(key) ? map.get(key) : defaultValue;
 
 /**
  * @param {TreeNode} root
  * @param {number} target
  * @return {number}
  */
-export const pathSum = dfs;
+export const pathSum = (root, target) => {
+  let found = 0;
+  const cache = new Map();
+  const preOrder = (node, sum) => {
+    if (!node) {
+      return;
+    }
+    const pathToNode = sum + node.val;
+    if (pathToNode === target) {
+      found += 1;
+    }
+    if (cache.has(pathToNode - target)) {
+      found += cache.get(pathToNode - target);
+    }
+    cache.set(pathToNode, getOrDefault(cache, pathToNode, 0) + 1);
+    preOrder(node.left, pathToNode);
+    preOrder(node.right, pathToNode);
+    cache.set(pathToNode, cache.get(pathToNode) - 1);
+  };
+  preOrder(root, 0);
+  return found;
+};
