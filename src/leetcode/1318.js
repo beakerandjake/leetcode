@@ -42,10 +42,25 @@
  * https://leetcode.com/problems/minimum-flips-to-make-a-or-b-equal-to-c
  */
 
+const isBitSet = (num, index) => (num & (1 << index)) !== 0;
+
 /**
  * @param {number} a
  * @param {number} b
  * @param {number} c
  * @return {number}
  */
-export const minFlips = (a, b, c) => {};
+export const minFlips = (a, b, c) => {
+  let flips = 0;
+  for (let i = 0; i < 32; i++) {
+    const aBit = isBitSet(a, i);
+    const bBit = isBitSet(b, i);
+    const cBit = isBitSet(c, i);
+    // no flips necessary if binary OR of these bits would result in target.
+    if ((aBit || bBit) === cBit) {
+      continue;
+    }
+    flips += !cBit && aBit && bBit ? 2 : 1;
+  }
+  return flips;
+};
