@@ -38,4 +38,18 @@
  * @param {number} k
  * @return {number}
  */
-export const findKthLargest = (nums, k) => {};
+export const findKthLargest = (nums, k) => {
+  const bitset = Array(2e4 + 1).fill(0);
+  for (const num of nums) {
+    bitset[num + 1e4]++;
+  }
+  let current = 0;
+  for (let i = bitset.length; i--; ) {
+    if (bitset[i]) {
+      current += bitset[i];
+      if (current >= k) {
+        return i - 1e4;
+      }
+    }
+  }
+};
