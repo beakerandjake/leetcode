@@ -1,13 +1,12 @@
-import { uniquePaths } from "../../src/leetcode/62.js";
-import { arrToStr } from "../util.js";
+import { uniquePaths } from '../../src/leetcode/62.js';
 
-describe("62. Unique Paths", () => {
+describe('62. Unique Paths', () => {
   [
-    // replace with real test data
-    [true, false],
-  ].forEach(([input, expected]) => {
-    test(`${input} -> ${expected}`, () => {
-      const result = uniquePaths(input);
+    [3, 7, 28],
+    [3, 2, 3],
+  ].forEach(([m, n, expected]) => {
+    test(`${m},${n} -> ${expected}`, () => {
+      const result = uniquePaths(m, n);
       expect(result).toBe(expected);
     });
   });

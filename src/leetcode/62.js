@@ -43,9 +43,38 @@
  * https://leetcode.com/problems/unique-paths
  */
 
+const topDown = (m, n) => {
+  const memo = [...Array(m)].map(() => Array(n).fill(-1));
+  const dp = (x, y) => {
+    if (y < 0 || y >= m || x < 0 || x >= n) {
+      return 0;
+    }
+    if (y === m - 1 && x === n - 1) {
+      return 1;
+    }
+
+    if (memo[y][x] === -1) {
+      memo[y][x] = dp(x + 1, y) + dp(x, y + 1);
+    }
+    return memo[y][x];
+  };
+  return dp(0, 0);
+};
+
+const bottomUp = (m, n) => {
+  const dp = [...Array(m + 1)].map(() => Array(n + 1).fill(0));
+  dp[0][1] = 1;
+  for (let y = 1; y <= m; y++) {
+    for (let x = 1; x <= n; x++) {
+      dp[y][x] = dp[y - 1][x] + dp[y][x - 1];
+    }
+  }
+  return dp[m][n];
+};
+
 /**
  * @param {number} m
  * @param {number} n
  * @return {number}
  */
-export const uniquePaths = (m, n) => {};
+export const uniquePaths = bottomUp;
