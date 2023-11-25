@@ -56,11 +56,9 @@ export const minFlips = (a, b, c) => {
     const aBit = isBitSet(a, i);
     const bBit = isBitSet(b, i);
     const cBit = isBitSet(c, i);
-    // no flips necessary if binary OR of these bits would result in target.
-    if ((aBit || bBit) === cBit) {
-      continue;
+    if ((aBit || bBit) !== cBit) {
+      flips += !cBit && aBit && bBit ? 2 : 1;
     }
-    flips += !cBit && aBit && bBit ? 2 : 1;
   }
   return flips;
 };
