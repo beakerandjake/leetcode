@@ -1,13 +1,15 @@
-import { minDistance } from "../../src/leetcode/72.js";
-import { arrToStr } from "../util.js";
+import { minDistance } from '../../src/leetcode/72.js';
 
-describe("72. Edit Distance", () => {
+describe('72. Edit Distance', () => {
   [
-    // replace with real test data
-    [true, false],
-  ].forEach(([input, expected]) => {
-    test(`${input} -> ${expected}`, () => {
-      const result = minDistance(input);
+    ['horse', 'ros', 3],
+    ['intention', 'execution', 5],
+    ['', 'a', 1],
+    ['catty', 'cathy', 1],
+    ['plasma', 'altruism', 6],
+  ].forEach(([a, b, expected]) => {
+    test(`${a},${b}-> ${expected}`, () => {
+      const result = minDistance(a, b);
       expect(result).toBe(expected);
     });
   });
