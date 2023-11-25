@@ -48,22 +48,49 @@
  *     this.right = (right===undefined ? null : right)
  * }
  */
+
+// const simple = (root) => {
+//   const levelSums = [];
+//   const queue = [{ node: root, level: 0 }];
+//   while (queue.length) {
+//     const { node, level } = queue.shift();
+//     levelSums[level] = (levelSums[level] || 0) + node.val;
+//     if (node.left) {
+//       queue.push({ node: node.left, level: level + 1 });
+//     }
+//     if (node.right) {
+//       queue.push({ node: node.right, level: level + 1 });
+//     }
+//   }
+//   return levelSums.indexOf(Math.max(...levelSums)) + 1;
+// };
+
 /**
  * @param {TreeNode} root
  * @return {number}
  */
 export const maxLevelSum = (root) => {
-  const levelSums = [];
-  const queue = [{ node: root, level: 0 }];
+  let maxLevel;
+  let maxSum = Number.MIN_SAFE_INTEGER;
+  let level = 0;
+  const queue = [root];
   while (queue.length) {
-    const { node, level } = queue.shift();
-    levelSums[level] = (levelSums[level] || 0) + node.val;
-    if (node.left) {
-      queue.push({ node: node.left, level: level + 1 });
+    level++;
+    let levelSum = 0;
+    for (let i = queue.length; i > 0; i--) {
+      const node = queue.shift();
+      levelSum += node.val;
+      if (node.left) {
+        queue.push(node.left);
+      }
+      if (node.right) {
+        queue.push(node.right);
+      }
     }
-    if (node.right) {
-      queue.push({ node: node.right, level: level + 1 });
+    if (maxSum < levelSum) {
+      maxSum = levelSum;
+      maxLevel = level;
     }
   }
-  return levelSums.indexOf(Math.max(...levelSums)) + 1;
+  return maxLevel;
 };
