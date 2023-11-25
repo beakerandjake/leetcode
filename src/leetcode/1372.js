@@ -108,4 +108,14 @@ const bruteForce = (() => {
  * @param {TreeNode} root
  * @return {number}
  */
-export const longestZigZag = bruteForce;
+export const longestZigZag = (root) => {
+  const dfs = (node, isLeft, length) => {
+    if (!node) {
+      return length;
+    }
+    return isLeft
+      ? Math.max(dfs(node.left, false, length + 1), dfs(node.right, true, 1))
+      : Math.max(dfs(node.left, false, 1), dfs(node.right, true, length + 1));
+  };
+  return Math.max(dfs(root, false, 0) - 1, dfs(root, true, 0) - 1, 0);
+};
