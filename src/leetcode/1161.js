@@ -52,4 +52,18 @@
  * @param {TreeNode} root
  * @return {number}
  */
-export const maxLevelSum = (root) => {};
+export const maxLevelSum = (root) => {
+  const levelSums = [];
+  const queue = [{ node: root, level: 0 }];
+  while (queue.length) {
+    const { node, level } = queue.shift();
+    levelSums[level] = (levelSums[level] || 0) + node.val;
+    if (node.left) {
+      queue.push({ node: node.left, level: level + 1 });
+    }
+    if (node.right) {
+      queue.push({ node: node.right, level: level + 1 });
+    }
+  }
+  return levelSums.indexOf(Math.max(...levelSums)) + 1;
+};

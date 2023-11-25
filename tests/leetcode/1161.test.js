@@ -1,13 +1,14 @@
-import { maxLevelSum } from "../../src/leetcode/1161.js";
-import { arrToStr } from "../util.js";
+import { maxLevelSum } from '../../src/leetcode/1161.js';
+import { arrToStr } from '../util.js';
+import { arrToBst } from './util.js';
 
-describe("1161. Maximum Level Sum of a Binary Tree", () => {
+describe('1161. Maximum Level Sum of a Binary Tree', () => {
   [
-    // replace with real test data
-    [true, false],
+    [[1, 7, 0, 7, -8, null, null], 2],
+    [[989, null, 10250, 98693, -89388, null, null, null, -32127], 2],
   ].forEach(([input, expected]) => {
-    test(`${input} -> ${expected}`, () => {
-      const result = maxLevelSum(input);
+    test(`${arrToStr(input)} -> ${expected}`, () => {
+      const result = maxLevelSum(arrToBst(input));
       expect(result).toBe(expected);
     });
   });
