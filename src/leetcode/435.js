@@ -42,8 +42,28 @@
  * https://leetcode.com/problems/non-overlapping-intervals
  */
 
+const overlaps = ([s1, e1], [s2, e2]) => s1 < e2 && e1 > s2;
+
+const sortByEndTime = (intervals) => {
+  const copy = [...intervals];
+  copy.sort((a, b) => a[1] - b[1]);
+  return copy;
+};
+
 /**
  * @param {number[][]} intervals
  * @return {number}
  */
-export const eraseOverlapIntervals = (intervals) => {};
+export const eraseOverlapIntervals = (intervals) => {
+  let deleted = 0;
+  const sorted = sortByEndTime(intervals);
+  let previous = sorted[0];
+  for (let i = 1; i < sorted.length; i++) {
+    if (overlaps(previous, sorted[i])) {
+      deleted++;
+    } else {
+      previous = sorted[i];
+    }
+  }
+  return deleted;
+};
