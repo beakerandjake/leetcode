@@ -1,10 +1,11 @@
-import { numTilings } from "../../src/leetcode/790.js";
-import { arrToStr } from "../util.js";
+import { numTilings } from '../../src/leetcode/790.js';
 
-describe("790. Domino and Tromino Tiling", () => {
+describe('790. Domino and Tromino Tiling', () => {
   [
-    // replace with real test data
-    [true, false],
+    [1, 1],
+    [2, 2],
+    [3, 5],
+    [4, 11]
   ].forEach(([input, expected]) => {
     test(`${input} -> ${expected}`, () => {
       const result = numTilings(input);

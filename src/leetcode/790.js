@@ -45,4 +45,16 @@
  * @param {number} n
  * @return {number}
  */
-export const numTilings = (n) => {};
+export const numTilings = (n) => {
+  const mod = 10 ** 9 + 7;
+  const partial = Array(n + 1).fill(0);
+  const full = Array(n + 1).fill(0);
+  full[1] = 1;
+  full[2] = 2;
+  partial[2] = 1;
+  for (let i = 3; i <= n; i++) {
+    full[i] = (full[i - 1] + full[i - 2] + 2 * partial[i - 1]) % mod;
+    partial[i] = (partial[i - 1] + full[i - 2]) % mod;
+  }
+  return full[n];
+};
