@@ -6,13 +6,9 @@
 //   deleteMin() {}
 // }
 
-const parent = (i) => Math.floor(i / 2);
-const left = (i) => i * 2;
-const right = (i) => i * 2 + 1;
-
 export class MinHeap {
-  #items = [];
   #size = 0;
+  #items = [];
 
   get size() {
     return this.#size;
@@ -29,9 +25,10 @@ export class MinHeap {
   }
 
   #bubbleUp() {
+    const parent = (i) => Math.floor(i / 2);
     let i = this.#size;
     while (i > 1 && this.#items[i] < this.#items[parent(i)]) {
-      this.#swap(parent(i), i);
+      this.#swap(i, parent(i));
       i = parent(i);
     }
   }
@@ -48,12 +45,16 @@ export class MinHeap {
   }
 
   #bubbleDown() {
+    const left = (i) => i * 2;
+    const right = (i) => i * 2 + 1;
     let i = 1;
     while (left(i) <= this.#size) {
+      // choose smaller child
       const child =
-        right(i) <= this.size && this.#items[right(i)] < this.#items[left(i)]
+        right(i) <= this.#size && this.#items[right(i)] < this.#items[left(i)]
           ? right(i)
           : left(i);
+      // stop if node is now at correct place.
       if (this.#items[i] < this.#items[child]) {
         break;
       }
@@ -62,7 +63,7 @@ export class MinHeap {
     }
   }
 
-  #swap(lhs, rhs) {
-    [this.#items[lhs], this.#items[rhs]] = [this.#items[rhs], this.#items[lhs]];
+  #swap(a, b) {
+    [this.#items[a], this.#items[b]] = [this.#items[b], this.#items[a]];
   }
 }

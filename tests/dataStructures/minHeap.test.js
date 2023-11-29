@@ -10,7 +10,7 @@ const arrToHeap = (arr) =>
 describe('MinHeap', () => {
   describe('insert()', () => {
     [
-      [[], 3, 3],
+      [[], 122, 122],
       [[122], 88, 88],
       [[122, 88], 67, 67],
       [[122, 88, 67], 245, 67],
@@ -22,10 +22,30 @@ describe('MinHeap', () => {
       [[122, 88, 67, 245, 44, 98, 56, 37, 22], 18, 18],
       [[122, 88, 67, 245, 44, 98, 56, 37, 22, 18], 5, 5],
     ].forEach(([items, toAdd, expected]) => {
-      test(`${arrToStr(items)} insert:${toAdd} -> ${expected}`, () => {
+      test(`${arrToStr(items)} insert:${toAdd} -> min:${expected}`, () => {
         const heap = arrToHeap(items);
         heap.insert(toAdd);
         expect(heap.findMin()).toBe(expected);
+      });
+    });
+
+    [
+      [[], 122, 1],
+      [[122], 88, 2],
+      [[122, 88], 67, 3],
+      [[122, 88, 67], 245, 4],
+      [[122, 88, 67, 245], 44, 5],
+      [[122, 88, 67, 245, 44], 98, 6],
+      [[122, 88, 67, 245, 44, 98], 56, 7],
+      [[122, 88, 67, 245, 44, 98, 56], 37, 8],
+      [[122, 88, 67, 245, 44, 98, 56, 37], 22, 9],
+      [[122, 88, 67, 245, 44, 98, 56, 37, 22], 18, 10],
+      [[122, 88, 67, 245, 44, 98, 56, 37, 22, 18], 5, 11],
+    ].forEach(([items, toAdd, expected]) => {
+      test(`${arrToStr(items)} insert:${toAdd} -> size:${expected}`, () => {
+        const heap = arrToHeap(items);
+        heap.insert(toAdd);
+        expect(heap.size).toBe(expected);
       });
     });
   });
@@ -90,6 +110,55 @@ describe('MinHeap', () => {
         const heap = arrToHeap(items);
         heap.deleteMin();
         expect(heap.size).toBe(size);
+      });
+    });
+
+    describe('called multiple times', () => {
+      [
+        [[], [undefined]],
+        [[122], [122]],
+        [
+          [122, 88],
+          [88, 122],
+        ],
+        [
+          [122, 88, 67],
+          [67, 88, 122],
+        ],
+        [
+          [122, 88, 67, 245],
+          [67, 88, 122, 245],
+        ],
+        [
+          [122, 88, 67, 245, 44],
+          [44, 67, 88, 122, 245],
+        ],
+        [
+          [122, 88, 67, 245, 44, 98],
+          [44, 67, 88, 98, 122, 245],
+        ],
+        [
+          [122, 88, 67, 245, 44, 98, 56],
+          [44, 56, 67, 88, 98, 122, 245],
+        ],
+        [
+          [122, 88, 67, 245, 44, 98, 56, 37],
+          [37, 44, 56, 67, 88, 98, 122, 245],
+        ],
+        [
+          [122, 88, 67, 245, 44, 98, 56, 37, 22],
+          [22, 37, 44, 56, 67, 88, 98, 122, 245],
+        ],
+        [
+          [122, 88, 67, 245, 44, 98, 56, 37, 22, 18],
+          [18, 22, 37, 44, 56, 67, 88, 98, 122, 245],
+        ],
+      ].forEach(([items, expected]) => {
+        test(`${arrToStr(items)} -> ${arrToStr(expected)}`, () => {
+          const heap = arrToHeap(items);
+          const results = items.map(() => heap.deleteMin());
+          expect(results).toEqual(expected);
+        });
       });
     });
   });
