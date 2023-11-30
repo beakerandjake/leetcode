@@ -21,5 +21,6 @@ module.exports = {
     'import/extensions': 'off',
     'import/prefer-default-export': 'off',
     'lines-between-class-members': ['error', 'always', { exceptAfterSingleLine: true }],
+    'max-classes-per-file': 'off'
   },
 };
