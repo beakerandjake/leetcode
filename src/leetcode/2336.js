@@ -46,18 +46,108 @@
  * https://leetcode.com/problems/smallest-number-in-infinite-set
  */
 
-var SmallestInfiniteSet = function () {};
+class MinHeap {
+  #items;
+  #size;
 
-/**
- * @return {number}
- */
-SmallestInfiniteSet.prototype.popSmallest = function () {};
+  constructor() {
+    this.#items = [];
+    this.#size = 0;
+  }
 
-/**
- * @param {number} num
- * @return {void}
- */
-SmallestInfiniteSet.prototype.addBack = function (num) {};
+  get size() {
+    return this.#size;
+  }
+
+  findMin() {
+    return this.#items[1];
+  }
+
+  insert(value) {
+    this.#size++;
+    this.#items[this.#size] = value;
+    this.#bubbleUp();
+  }
+
+  #bubbleUp() {
+    const parent = (i) => Math.floor(i / 2);
+    let i = this.#size;
+    while (i > 1 && this.#items[parent(i)] > this.#items[i]) {
+      this.#swap(i, parent(i));
+      i = parent(i);
+    }
+  }
+
+  deleteMin() {
+    if (!this.#size) {
+      return undefined;
+    }
+    this.#swap(1, this.#size);
+    const toReturn = this.#items.pop();
+    this.#size--;
+    this.#bubbleDown();
+    return toReturn;
+  }
+
+  #bubbleDown() {
+    const left = (i) => i * 2;
+    const right = (i) => i * 2 + 1;
+    let i = 1;
+    while (left(i) <= this.#size) {
+      // get the smallest child
+      const child =
+        right(i) <= this.#size && this.#items[right(i)] < this.#items[left(i)]
+          ? right(i)
+          : left(i);
+
+      if (this.#items[i] < this.#items[child]) {
+        break;
+      }
+      this.#swap(i, child);
+      i = child;
+    }
+  }
+
+  #swap(a, b) {
+    [this.#items[a], this.#items[b]] = [this.#items[b], this.#items[a]];
+  }
+}
+
+export class SmallestInfiniteSet {
+  #lastPopped;
+  #pushedBack;
+  #pushedBackLookup;
+
+  constructor() {
+    this.#lastPopped = 0;
+    this.#pushedBack = new MinHeap();
+    this.#pushedBackLookup = new Set();
+  }
+
+  /**
+   * @return {number}
+   */
+  popSmallest() {
+    if (!this.#pushedBack.size || this.#pushedBack.findMin() > this.#lastPopped + 1) {
+      return ++this.#lastPopped;
+    }
+    const smallest = this.#pushedBack.deleteMin();
+    this.#pushedBackLookup.delete(smallest);
+    return smallest;
+  }
+
+  /**
+   * @param {number} num
+   * @return {void}
+   */
+  addBack(num) {
+    if (num > this.#lastPopped || this.#pushedBackLookup.has(num)) {
+      return;
+    }
+    this.#pushedBack.insert(num);
+    this.#pushedBackLookup.add(num);
+  }
+}
 
 /**
  * Your SmallestInfiniteSet object will be instantiated and called as such:
