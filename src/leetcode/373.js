@@ -130,17 +130,17 @@ class MaxHeap {
  * @return {number[][]}
  */
 export const kSmallestPairs = (nums1, nums2, k) => {
-  const aSorted = nums1.sort((a, b) => a - b);
-  const bSorted = nums2.sort((a, b) => a - b);
+  const aMin = nums1[0];
+  const bMin = nums2[0];
   const heap = new MaxHeap();
-  for (const a of aSorted) {
+  for (const a of nums1) {
     // stop early if no remaining a can produce sum smaller than max.
-    if (heap.size === k && a + bSorted[0] > heap.findMax().key) {
+    if (heap.size === k && a + bMin > heap.findMax().key) {
       break;
     }
-    for (const b of bSorted) {
+    for (const b of nums2) {
       // stop early if no remaining b can produce sum smaller than max.
-      if (heap.size === k && aSorted[0] + b > heap.findMax().key) {
+      if (heap.size === k && b + aMin > heap.findMax().key) {
         break;
       }
       if (heap.size < k) {
