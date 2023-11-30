@@ -54,10 +54,124 @@
  * https://leetcode.com/problems/maximum-subsequence-score
  */
 
+const simple = (() => {
+  const subsequenceIndexes = (arrLength, subsequenceLength) => {
+    const toReturn = [];
+    const recurse = (i, current) => {
+      if (i >= arrLength) {
+        if (current.length === subsequenceLength) {
+          toReturn.push([...current]);
+        }
+        return;
+      }
+      // use i
+      current.push(i);
+      recurse(i + 1, current);
+      current.pop();
+
+      // don't use i.
+      recurse(i + 1, current);
+    };
+    recurse(0, []);
+    return toReturn;
+  };
+
+  const elements = (arr, indexes) => indexes.map((i) => arr[i]);
+
+  const sum = (arr) => arr.reduce((acc, x) => acc + x, 0);
+
+  return (nums1, nums2, k) =>
+    Math.max(
+      ...subsequenceIndexes(nums1.length, k).map(
+        (indexes) => sum(elements(nums1, indexes)) * Math.min(...elements(nums2, indexes))
+      )
+    );
+})();
+
+const withHeap = (() => {
+  class MinHeap {
+    #size = 0;
+    #items = [];
+
+    get size() {
+      return this.#size;
+    }
+
+    findMin() {
+      return this.#items[1];
+    }
+
+    insert(value) {
+      this.#size++;
+      this.#items[this.#size] = value;
+      this.#bubbleUp();
+    }
+
+    #bubbleUp() {
+      const parent = (i) => Math.floor(i / 2);
+      let i = this.#size;
+      while (i > 1 && this.#items[i] < this.#items[parent(i)]) {
+        this.#swap(i, parent(i));
+        i = parent(i);
+      }
+    }
+
+    deleteMin() {
+      if (!this.#size) {
+        return undefined;
+      }
+      this.#swap(1, this.#size);
+      const toReturn = this.#items.pop();
+      this.#size--;
+      this.#bubbleDown();
+      return toReturn;
+    }
+
+    #bubbleDown() {
+      const left = (i) => i * 2;
+      const right = (i) => i * 2 + 1;
+      let i = 1;
+      while (left(i) <= this.#size) {
+        // choose smaller child
+        const child =
+          right(i) <= this.#size && this.#items[right(i)] < this.#items[left(i)]
+            ? right(i)
+            : left(i);
+        // stop if node is now at correct place.
+        if (this.#items[i] < this.#items[child]) {
+          break;
+        }
+        this.#swap(i, child);
+        i = child;
+      }
+    }
+
+    #swap(a, b) {
+      [this.#items[a], this.#items[b]] = [this.#items[b], this.#items[a]];
+    }
+  }
+  
+  return (nums1, nums2, k) => {
+    const pairs = nums1.map((x, i) => [x, nums2[i]]).sort((a, b) => b[1] - a[1]);
+    const heap = new MinHeap();
+    let answer = 0;
+    let sum = 0;
+    for (const [num, min] of pairs) {
+      heap.insert(num);
+      sum += num;
+      if (heap.size === k) {
+        answer = Math.max(answer, sum * min);
+        sum -= heap.deleteMin();
+      }
+    }
+    return answer;
+  };
+})();
+
 /**
  * @param {number[]} nums1
  * @param {number[]} nums2
  * @param {number} k
  * @return {number}
  */
-export const maxScore = (nums1, nums2, k) => {};
+export const maxScore = withHeap;
