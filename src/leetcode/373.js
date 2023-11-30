@@ -47,10 +47,109 @@
  * https://leetcode.com/problems/find-k-pairs-with-smallest-sums
  */
 
+class MaxHeap {
+  #items = [];
+  #size = 0;
+
+  get size() {
+    return this.#size;
+  }
+
+  insert(key, value) {
+    this.#size++;
+    this.#items[this.#size] = { key, value };
+    this.#bubbleUp();
+  }
+
+  findMax() {
+    return this.#items[1];
+  }
+
+  #bubbleUp() {
+    const parent = (i) => Math.floor(i / 2);
+
+    let i = this.#size;
+    while (i > 1 && this.#items[i].key > this.#items[parent(i)].key) {
+      this.#swap(i, parent(i));
+      i = parent(i);
+    }
+  }
+
+  deleteMax() {
+    if (!this.#size) {
+      return undefined;
+    }
+    this.#swap(1, this.#size);
+    const toReturn = this.#items.pop();
+    this.#size--;
+    this.#bubbleDown();
+    return toReturn;
+  }
+
+  pushPop(key, value) {
+    this.#items[1] = { key, value };
+    this.#bubbleDown();
+  }
+
+  #bubbleDown() {
+    const left = (i) => i * 2;
+    const right = (i) => i * 2 + 1;
+    let i = 1;
+    while (left(i) <= this.#size) {
+      // choose larger child
+      const child =
+        right(i) <= this.#size && this.#items[right(i)].key > this.#items[left(i)].key
+          ? right(i)
+          : left(i);
+      // stop if child is in right place.
+      if (this.#items[i].key > this.#items[child].key) {
+        break;
+      }
+      this.#swap(i, child);
+      i = child;
+    }
+  }
+
+  #swap(a, b) {
+    [this.#items[a], this.#items[b]] = [this.#items[b], this.#items[a]];
+  }
+
+  toArray() {
+    const toReturn = [];
+    for (let i = 1; i < this.#items.length; i++) {
+      toReturn.push(this.#items[i].value);
+    }
+    return toReturn;
+  }
+}
+
 /**
  * @param {number[]} nums1
  * @param {number[]} nums2
  * @param {number} k
  * @return {number[][]}
  */
-export const kSmallestPairs = (nums1, nums2, k) => {};
+export const kSmallestPairs = (nums1, nums2, k) => {
+  const aSorted = nums1.sort((a, b) => a - b);
+  const bSorted = nums2.sort((a, b) => a - b);
+  const heap = new MaxHeap();
+  for (const a of aSorted) {
+    // stop early if no remaining a can produce sum smaller than max.
+    if (heap.size === k && a + bSorted[0] > heap.findMax().key) {
+      break;
+    }
+    for (const b of bSorted) {
+      // stop early if no remaining b can produce sum smaller than max.
+      if (heap.size === k && aSorted[0] + b > heap.findMax().key) {
+        break;
+      }
+      if (heap.size < k) {
+        heap.insert(a + b, [a, b]);
+      } else if (a + b <= heap.findMax().key) {
+        heap.pushPop(a + b, [a, b]);
+      }
+    }
+  }
+  // order does not seem to matter for leetcode.
+  return heap.toArray();
+};
