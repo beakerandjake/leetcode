@@ -50,10 +50,28 @@
  * https://leetcode.com/problems/successful-pairs-of-spells-and-potions
  */
 
+const countGoodSpells = (spell, potions, target) => {
+  let l = 0;
+  let u = potions.length - 1;
+  while (l <= u) {
+    const m = Math.floor((u + l) / 2);
+    const pairValue = spell * potions[m];
+    if (pairValue >= target) {
+      u = m - 1;
+    } else {
+      l = m + 1;
+    }
+  }
+  return potions.length - l;
+};
+
 /**
  * @param {number[]} spells
  * @param {number[]} potions
  * @param {number} success
  * @return {number[]}
  */
-export const successfulPairs = (spells, potions, success) => {};
+export const successfulPairs = (spells, potions, success) => {
+  const sortedPotions = [...potions].sort((a, b) => a - b);
+  return spells.map((s) => countGoodSpells(s, sortedPotions, success));
+};
