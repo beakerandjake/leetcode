@@ -60,10 +60,107 @@
  * https://leetcode.com/problems/total-cost-to-hire-k-workers
  */
 
+class MinHeap {
+  #size = 0;
+  #items = [];
+
+  get size() {
+    return this.#size;
+  }
+
+  findMin() {
+    return this.#items[1];
+  }
+
+  insert(value) {
+    this.#size++;
+    this.#items[this.#size] = value;
+    this.#bubbleUp();
+  }
+
+  #bubbleUp() {
+    const parent = (i) => Math.floor(i / 2);
+    let i = this.#size;
+    while (i > 1 && this.#items[i] < this.#items[parent(i)]) {
+      this.#swap(i, parent(i));
+      i = parent(i);
+    }
+  }
+
+  deleteMin() {
+    if (!this.#size) {
+      return undefined;
+    }
+    this.#swap(1, this.#size);
+    const toReturn = this.#items.pop();
+    this.#size--;
+    this.#bubbleDown();
+    return toReturn;
+  }
+
+  #bubbleDown() {
+    const left = (i) => i * 2;
+    const right = (i) => i * 2 + 1;
+    let i = 1;
+    while (left(i) <= this.#size) {
+      // choose smaller child
+      const child =
+        right(i) <= this.#size && this.#items[right(i)] < this.#items[left(i)]
+          ? right(i)
+          : left(i);
+      // stop if node is now at correct place.
+      if (this.#items[i] < this.#items[child]) {
+        break;
+      }
+      this.#swap(i, child);
+      i = child;
+    }
+  }
+
+  #swap(a, b) {
+    [this.#items[a], this.#items[b]] = [this.#items[b], this.#items[a]];
+  }
+}
+
+const heapify = (arr, from, to) => {
+  const heap = new MinHeap();
+  for (let i = from; i < to; i++) {
+    heap.insert(arr[i]);
+  }
+  return heap;
+};
+
+const pickMinHeap = (a, b) => {
+  if (a.size && !b.size) {
+    return a;
+  }
+  if (b.size && !a.size) {
+    return b;
+  }
+  return a.findMin() <= b.findMin() ? a : b;
+};
+
 /**
  * @param {number[]} costs
  * @param {number} k
- * @param {number} candidates
+ * @param {number} m
  * @return {number}
  */
-export const totalCost = (costs, k, candidates) => {};
+export const totalCost = (costs, k, m) => {
+  let total = 0;
+  const left = heapify(costs, 0, m);
+  const right = heapify(costs, Math.max(costs.length - m, m), costs.length);
+  let nextLeft = m;
+  let nextRight = costs.length - m - 1;
+  for (let round = 0; round < k; round++) {
+    const hiredFrom = pickMinHeap(left, right);
+    total += hiredFrom.deleteMin();
+    if (nextLeft <= nextRight) {
+      const nextIndex = hiredFrom === left ? nextLeft : nextRight;
+      hiredFrom.insert(costs[nextIndex]);
+      nextLeft += hiredFrom === left ? 1 : 0;
+      nextRight -= hiredFrom === right ? 1 : 0;
+    }
+  }
+  return total;
+};
