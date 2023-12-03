@@ -150,7 +150,7 @@ const withHeap = (() => {
       [this.#items[a], this.#items[b]] = [this.#items[b], this.#items[a]];
     }
   }
-  
+
   return (nums1, nums2, k) => {
     const pairs = nums1.map((x, i) => [x, nums2[i]]).sort((a, b) => b[1] - a[1]);
     const heap = new MinHeap();
