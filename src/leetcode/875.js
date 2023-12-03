@@ -50,8 +50,45 @@
  */
 
 /**
+ * Returns true if koko can eat all piles of bananas with speed k in h hours.
+ */
+const canEatPiles = (piles, k, h) => {
+  let remaining = h;
+  for (const pile of piles) {
+    remaining -= pile <= k ? 1 : Math.ceil(pile / k);
+    if (remaining < 0) {
+      return false;
+    }
+  }
+  return true;
+};
+
+/**
+ * Returns the lowest power of 2 that cannot be eaten by koko.`
+ */
+const findUpperBound = (piles, h) => {
+  let k = 1;
+  while (!canEatPiles(piles, k, h)) {
+    k *= 2;
+  }
+  return k;
+};
+
+/**
  * @param {number[]} piles
  * @param {number} h
  * @return {number}
  */
-export const minEatingSpeed = (piles, h) => {};
+export const minEatingSpeed = (piles, h) => {
+  let upperK = findUpperBound(piles, h);
+  let lowerK = upperK / 2;
+  while (lowerK <= upperK) {
+    const m = Math.floor(lowerK + (upperK - lowerK) / 2);
+    if (canEatPiles(piles, m, h)) {
+      upperK = m - 1;
+    } else {
+      lowerK = m + 1;
+    }
+  }
+  return lowerK;
+};
