@@ -52,28 +52,27 @@
  * @return {number}
  */
 export const maxProfit = (prices, fee) => {
-  const memo = new Map();
-  const dp = (index, buyIndex, profit) => {
+  const memo = [...Array(prices.length)].map(() => Array(2).fill(-1));
+  const dp = (index, holding) => {
     if (index >= prices.length) {
-      return profit;
+      return 0;
     }
-    const outcomes = [];
-    // not holding a stock
-    if (buyIndex < 0) {
-      // buy stock today
-      outcomes.push(dp(index + 1, -1, profit));
-      // don't buy stock today
-      outcomes.push(dp(index + 1, index, profit - fee));
+    if (memo[index][holding] === -1) {
+      memo[index][holding] = holding
+        ? Math.max(
+            // sell stock today
+            dp(index + 1, 0) + prices[index],
+            // don't sell stock today
+            dp(index + 1, 1)
+          )
+        : Math.max(
+            // buy stock today
+            dp(index + 1, 1) - prices[index] - fee,
+            // don't buy stock today
+            dp(index + 1, 0)
+          );
     }
-    // holding a stock
-    else {
-      // sell stock today.
-      outcomes.push(dp(index + 1, -1, profit + prices[index] - prices[buyIndex]));
-      // don't sell stock today.
-      outcomes.push(dp(index + 1, buyIndex, profit));
-    }
-    return Math.max(...outcomes);
+    return memo[index][holding];
   };
-
-  return dp(0, -1, 0);
+  return dp(0, 0);
 };
