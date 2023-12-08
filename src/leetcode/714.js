@@ -51,4 +51,29 @@
  * @param {number} fee
  * @return {number}
  */
-export const maxProfit = (prices, fee) => {};
+export const maxProfit = (prices, fee) => {
+  const memo = new Map();
+  const dp = (index, buyIndex, profit) => {
+    if (index >= prices.length) {
+      return profit;
+    }
+    const outcomes = [];
+    // not holding a stock
+    if (buyIndex < 0) {
+      // buy stock today
+      outcomes.push(dp(index + 1, -1, profit));
+      // don't buy stock today
+      outcomes.push(dp(index + 1, index, profit - fee));
+    }
+    // holding a stock
+    else {
+      // sell stock today.
+      outcomes.push(dp(index + 1, -1, profit + prices[index] - prices[buyIndex]));
+      // don't sell stock today.
+      outcomes.push(dp(index + 1, buyIndex, profit));
+    }
+    return Math.max(...outcomes);
+  };
+
+  return dp(0, -1, 0);
+};
