@@ -46,9 +46,78 @@
  * https://leetcode.com/problems/search-suggestions-system
  */
 
+const alphabet = [...Array(26)].map((_, i) => String.fromCharCode(i + 97));
+
+class TrieNode {
+  constructor(char, isWord) {
+    this.char = char;
+    this.isWord = !!isWord;
+    this.children = new Map();
+  }
+}
+
+class Trie {
+  #root;
+
+  constructor() {
+    this.#root = new TrieNode('', false);
+  }
+
+  insert(word) {
+    let current = this.#root;
+    for (const char of word) {
+      if (!current.children.has(char)) {
+        current.children.set(char, new TrieNode(char));
+      }
+      current = current.children.get(char);
+    }
+    current.isWord = true;
+  }
+
+  suggest(prefix, limit) {
+    let current = this.#root;
+    for (const char of prefix) {
+      if (!current.children.has(char)) {
+        return [];
+      }
+      current = current.children.get(char);
+    }
+
+    const words = [];
+    const recurse = (word, node) => {
+      if (words.length >= limit) {
+        return;
+      }
+      if (node.isWord) {
+        words.push(word);
+      }
+      for (const char of alphabet) {
+        if (node.children.has(char)) {
+          recurse(word + char, node.children.get(char));
+        }
+      }
+    };
+    recurse(prefix, current);
+
+    return words;
+  }
+}
+
 /**
  * @param {string[]} products
  * @param {string} searchWord
  * @return {string[][]}
  */
-export const suggestedProducts = (products, searchWord) => {};
+export const suggestedProducts = (products, searchWord) => {
+  const trie = products.reduce((acc, x) => {
+    acc.insert(x);
+    return acc;
+  }, new Trie());
+
+  const words = [];
+  for (let i = 0; i < searchWord.length; i++) {
+    words.push(trie.suggest(searchWord.slice(0, i + 1), 3));
+  }
+
+  return words;
+};
