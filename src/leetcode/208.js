@@ -48,30 +48,62 @@
  * https://leetcode.com/problems/implement-trie-prefix-tree
  */
 
-var Trie = function () {};
+class Node {
+  constructor(isWord) {
+    this.isWord = !!isWord;
+    this.children = new Map();
+  }
+}
 
-/**
- * @param {string} word
- * @return {void}
- */
-Trie.prototype.insert = function (word) {};
+export class Trie {
+  #root;
 
-/**
- * @param {string} word
- * @return {boolean}
- */
-Trie.prototype.search = function (word) {};
+  constructor() {
+    this.#root = new Node(null);
+  }
 
-/**
- * @param {string} prefix
- * @return {boolean}
- */
-Trie.prototype.startsWith = function (prefix) {};
+  /**
+   * @param {string} word
+   * @return {void}
+   */
+  insert(word) {
+    let current = this.#root;
+    for (const char of word) {
+      if (!current.children.has(char)) {
+        current.children.set(char, new Node());
+      }
+      current = current.children.get(char);
+    }
+    current.isWord = true;
+  }
 
-/**
- * Your Trie object will be instantiated and called as such:
- * var obj = new Trie()
- * obj.insert(word)
- * var param_2 = obj.search(word)
- * var param_3 = obj.startsWith(prefix)
- */
+  /**
+   * @param {string} word
+   * @return {boolean}
+   */
+  search(word) {
+    let current = this.#root;
+    for (const char of word) {
+      if (!current.children.has(char)) {
+        return false;
+      }
+      current = current.children.get(char);
+    }
+    return current.isWord;
+  }
+
+  /**
+   * @param {string} prefix
+   * @return {boolean}
+   */
+  startsWith(prefix) {
+    let current = this.#root;
+    for (const char of prefix) {
+      if (!current.children.has(char)) {
+        return false;
+      }
+      current = current.children.get(char);
+    }
+    return true;
+  }
+}
