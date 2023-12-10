@@ -1,12 +1,13 @@
-import { containsDuplicate } from "../../src/leetcode/217.js";
-import { arrToStr } from "../util.js";
+import { containsDuplicate } from '../../src/leetcode/217.js';
+import { arrToStr } from '../util.js';
 
-describe("217. Contains Duplicate", () => {
+describe('217. Contains Duplicate', () => {
   [
-    // replace with real test data
-    [true, false],
+    [[1, 2, 3, 1], true],
+    [[1, 2, 3, 4], false],
+    [[1, 1, 1, 3, 3, 4, 3, 2, 4, 2], true],
   ].forEach(([input, expected]) => {
-    test(`${input} -> ${expected}`, () => {
+    test(`${arrToStr(input)} -> ${expected}`, () => {
       const result = containsDuplicate(input);
       expect(result).toBe(expected);
     });
