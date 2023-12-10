@@ -1,14 +1,36 @@
-import { setZeroes } from "../../src/leetcode/73.js";
-import { arrToStr } from "../util.js";
+import { setZeroes } from '../../src/leetcode/73.js';
+import { arrToStr } from '../util.js';
 
-describe("73. Set Matrix Zeroes", () => {
+describe('73. Set Matrix Zeroes', () => {
   [
-    // replace with real test data
-    [true, false],
+    [
+      [
+        [1, 1, 1],
+        [1, 0, 1],
+        [1, 1, 1],
+      ],
+      [
+        [1, 0, 1],
+        [0, 0, 0],
+        [1, 0, 1],
+      ],
+    ],
+    [
+      [
+        [0, 1, 2, 0],
+        [3, 4, 5, 2],
+        [1, 3, 1, 5],
+      ],
+      [
+        [0, 0, 0, 0],
+        [0, 4, 5, 0],
+        [0, 3, 1, 0],
+      ],
+    ],
   ].forEach(([input, expected]) => {
-    test(`${input} -> ${expected}`, () => {
-      const result = setZeroes(input);
-      expect(result).toBe(expected);
+    test(`${arrToStr(input)} -> ${arrToStr(expected)}`, () => {
+      setZeroes(input);
+      expect(input).toEqual(expected);
     });
   });
 });
