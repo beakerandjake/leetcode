@@ -67,8 +67,57 @@
  * https://leetcode.com/problems/find-winner-on-a-tic-tac-toe-game
  */
 
+const emptyBoard = () => [...Array(3)].map(() => Array(3).fill(' '));
+
+const place = (board, [y, x], player) => {
+  const copy = board.map((row) => [...row]);
+  copy[y][x] = player;
+  return copy;
+};
+
+const playerToken = (moveIndex) => (moveIndex % 2 === 0 ? 'X' : 'O');
+
+const getCol = (board, index) => board.map((row) => row[index]);
+
+const getRow = (board, index) => board[index];
+
+const diag = (board, up) => {
+  let col = up ? 0 : board.length - 1;
+  return board.map((x) => x[up ? col++ : col--]);
+};
+
+// eslint-disable-next-line func-style
+function* candidates(board) {
+  for (let col = 0; col < board.length; col++) {
+    yield getCol(board, col);
+  }
+  for (let row = 0; row < board.length; row++) {
+    yield getRow(board, row);
+  }
+  yield diag(board, true);
+  yield diag(board, false);
+}
+
+const threeOfAKind = (squares) => squares[0] !== ' ' && new Set(squares).size === 1;
+
+const findWinningToken = (board) => {
+  for (const candidate of candidates(board)) {
+    if (threeOfAKind(candidate)) {
+      return candidate[0];
+    }
+  }
+  return null;
+};
+
 /**
  * @param {number[][]} moves
  * @return {string}
  */
-export const tictactoe = (moves) => {};
+export const tictactoe = (moves) => {
+  const board = moves.reduce((acc, x, i) => place(acc, x, playerToken(i)), emptyBoard());
+  const winningToken = findWinningToken(board);
+  if (!winningToken) {
+    return moves.length === 9 ? 'Draw' : 'Pending';
+  }
+  return winningToken === 'X' ? 'A' : 'B';
+};

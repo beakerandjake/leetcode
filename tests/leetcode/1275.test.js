@@ -1,12 +1,21 @@
-import { tictactoe } from "../../src/leetcode/1275.js";
-import { arrToStr } from "../util.js";
+import { tictactoe } from '../../src/leetcode/1275.js';
+import { arrToStr } from '../util.js';
 
-describe("1275. Find Winner on a Tic Tac Toe Game", () => {
+describe('1275. Find Winner on a Tic Tac Toe Game', () => {
   [
     // replace with real test data
-    [true, false],
+    [
+      [
+        [0, 0],
+        [2, 0],
+        [1, 1],
+        [2, 1],
+        [2, 2],
+      ],
+      'A',
+    ],
   ].forEach(([input, expected]) => {
-    test(`${input} -> ${expected}`, () => {
+    test(`${arrToStr(input)} -> ${expected}`, () => {
       const result = tictactoe(input);
       expect(result).toBe(expected);
     });
