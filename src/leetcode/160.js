@@ -98,9 +98,23 @@
  * }
  */
 
+const length = (head) => (head ? 1 + length(head.next) : 0);
+
+const skip = (head, n) => (n > 0 ? skip(head.next, n - 1) : head);
+
 /**
- * @param {ListNode} headA
- * @param {ListNode} headB
+ * @param {ListNode} a
+ * @param {ListNode} b
  * @return {ListNode}
  */
-export const getIntersectionNode = (headA, headB) => {};
+export const getIntersectionNode = (a, b) => {
+  const lenA = length(a);
+  const lenB = length(b);
+  let currA = lenA > lenB ? skip(a, lenA - lenB) : a;
+  let currB = lenB > lenA ? skip(b, lenB - lenA) : b;
+  while (currA !== currB) {
+    currA = currA.next;
+    currB = currB.next;
+  }
+  return currA;
+};
