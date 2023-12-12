@@ -32,8 +32,40 @@
  * https://leetcode.com/problems/contiguous-array
  */
 
+const countDifferences = (nums) => {
+  const differences = [];
+  let zeros = 0;
+  let ones = 0;
+  for (const num of nums) {
+    if (num === 0) {
+      zeros++;
+    } else {
+      ones++;
+    }
+    differences.push(zeros - ones);
+  }
+  return differences;
+};
+
 /**
  * @param {number[]} nums
  * @return {number}
  */
-export const findMaxLength = (nums) => {};
+export const findMaxLength = (nums) => {
+  const differences = countDifferences(nums);
+  const differenceLookup = differences.reduce((acc, x, i) => {
+    if (!acc.has(x)) {
+      acc.set(x, i);
+    }
+    return acc;
+  }, new Map([[0, -1]]));
+
+  let maxLength = 0;
+  for (const [i, diff] of differences.entries()) {
+    const firstSeen = differenceLookup.get(diff);
+    if (firstSeen !== i) {
+      maxLength = Math.max(i - firstSeen, maxLength);
+    }
+  }
+  return maxLength;
+};
