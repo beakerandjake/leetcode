@@ -5,7 +5,7 @@ describe('280. Wiggle Sort', () => {
   [
     [
       [3, 5, 2, 1, 6, 4],
-      [1, 6, 2, 5, 3, 4],
+      [3, 5, 2, 6, 1, 4],
     ],
   ].forEach(([input, expected]) => {
     test(`${arrToStr(input)} -> ${arrToStr(expected)}`, () => {

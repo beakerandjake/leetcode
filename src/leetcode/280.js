@@ -26,11 +26,7 @@
  *
  */
 
-/**
- * @param {number[]} nums
- * @return {void} Do not return anything, modify nums in-place instead.
- */
-export const wiggleSort = (nums) => {
+const simple = (nums) => {
   const sorted = [...nums].sort((a, b) => a - b);
   const wiggle = [];
   while (sorted.length) {
@@ -39,3 +35,31 @@ export const wiggleSort = (nums) => {
   }
   nums.forEach((_, i) => (nums[i] = wiggle[i]));
 };
+
+const bubble = (nums) => {
+  const findBiggest = (i) => {
+    const prev = i > 0 ? nums[i - 1] : Number.MIN_SAFE_INTEGER;
+    const curr = nums[i];
+    const next = i < nums.length - 1 ? nums[i + 1] : Number.MIN_SAFE_INTEGER;
+    const max = Math.max(prev, curr, next);
+    if (max === curr) {
+      return i;
+    }
+    return max === prev ? i - 1 : i + 1;
+  };
+
+  for (let i = 1; i < nums.length; i += 2) {
+    const biggest = findBiggest(i);
+    if (biggest !== i) {
+      const temp = nums[i];
+      nums[i] = nums[biggest];
+      nums[biggest] = temp;
+    }
+  }
+};
+
+/**
+ * @param {number[]} nums
+ * @return {void} Do not return anything, modify nums in-place instead.
+ */
+export const wiggleSort = bubble;
