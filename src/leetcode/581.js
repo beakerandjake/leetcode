@@ -45,30 +45,28 @@
  * https://leetcode.com/problems/shortest-unsorted-continuous-subarray
  */
 
-const scanMax = (nums) => {
-  const max = [nums[0]];
-  for (let i = 1; i < nums.length; i++) {
-    max.push(Math.max(nums[i], max[i - 1]));
-  }
-  return max;
-};
-
-const scanMin = (nums) => {
-  const min = [];
-  min[nums.length - 1] = nums.at(-1);
-  for (let i = nums.length - 2; i >= 0; i--) {
-    min[i] = Math.min(nums[i], min[i + 1]);
-  }
-  return min;
-};
-
-const lastIndexOf = (array, predicate) => {
-  for (let i = array.length - 1; i >= 0; i--) {
-    if (predicate(array[i], i)) {
-      return i;
+const findStart = (nums) => {
+  let start = -1;
+  let min = Number.MAX_SAFE_INTEGER;
+  for (let i = nums.length - 1; i >= 0; i--) {
+    min = Math.min(min, nums[i]);
+    if (nums[i] > min) {
+      start = i;
     }
   }
-  return -1;
+  return start;
+};
+
+const findEnd = (nums) => {
+  let end = -1;
+  let max = Number.MIN_SAFE_INTEGER;
+  for (let i = 0; i < nums.length; i++) {
+    max = Math.max(max, nums[i]);
+    if (nums[i] < max) {
+      end = i;
+    }
+  }
+  return end;
 };
 
 /**
@@ -76,15 +74,7 @@ const lastIndexOf = (array, predicate) => {
  * @return {number}
  */
 export const findUnsortedSubarray = (nums) => {
-  const max = scanMax(nums);
-  const min = scanMin(nums);
-
-  const start = max.findIndex((x, i) => x !== min[i]);
-  const end = lastIndexOf(nums, (x, i) => x !== max[i]);
-
-  if (start === -1 && end === -1) {
-    return 0;
-  }
-
-  return end - start + 1;
+  const start = findStart(nums);
+  const end = findEnd(nums);
+  return start !== -1 && end !== -1 ? end - start + 1 : 0;
 };
