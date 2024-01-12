@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "test": "NODE_OPTIONS=--experimental-vm-modules jest",
+    "lint": "eslint src tests",
+    "format": "prettier . --write",
     "lc-count": "ls ./src -1 | wc -l",
     "lc-book": "node ./bin/lcBook.js",
     "lc-test": "./bin/lcTest.sh",
