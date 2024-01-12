@@ -23,7 +23,7 @@ export const isBalanced = (root) => {
     return true;
   }
 
-  if(Math.abs(height(root.left) - height(root.right)) > 1){
+  if (Math.abs(height(root.left) - height(root.right)) > 1) {
     return false;
   }
 

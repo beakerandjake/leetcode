@@ -19,7 +19,7 @@ export const combinationSum2 = (candidates, target) => {
     }
 
     for (let i = startIndex; i < sortedCandidates.length; i++) {
-      // skip next if same as current 
+      // skip next if same as current
       if (i > startIndex && sortedCandidates[i] === sortedCandidates[i - 1]) {
         continue;
       }

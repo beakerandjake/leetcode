@@ -46,16 +46,16 @@ export const combine = (n, k) => {
 
   const results = [];
   const backtrack = (current, start) => {
-    if(current.length === k){
-      results.push([...current]); 
+    if (current.length === k) {
+      results.push([...current]);
       return;
     }
-    for(let i = start; i <= n; i++) {
+    for (let i = start; i <= n; i++) {
       current.push(i);
-      backtrack(current, i+1);
+      backtrack(current, i + 1);
       current.pop();
     }
-  }
+  };
   backtrack([], 1);
   return results;
 };

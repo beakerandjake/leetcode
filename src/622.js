@@ -111,9 +111,7 @@ export class MyCircularQueue {
    * @return {number}
    */
   Rear() {
-    return this.count
-      ? this.queue[(this.head + this.count - 1) % this.capacity]
-      : -1;
+    return this.count ? this.queue[(this.head + this.count - 1) % this.capacity] : -1;
   }
 
   /**

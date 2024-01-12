@@ -30,7 +30,7 @@ export const maxVowels = (str, k) => {
   if (max === k) {
     return max;
   }
-  
+
   const sliceMax = str.length - k;
   for (let i = 1; i <= sliceMax; i++) {
     rollingCount += points(str, i + k - 1) - points(str, i - 1);

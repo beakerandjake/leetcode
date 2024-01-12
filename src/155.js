@@ -7,7 +7,7 @@
  * var param_4 = obj.getMin()
  */
 
- export class MinStack {
+export class MinStack {
   constructor() {
     this.stack = [];
     this.min = [];

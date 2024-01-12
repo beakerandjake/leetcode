@@ -17,7 +17,7 @@ const search = (matrix, target, left, right, top, bottom) => {
 
   const rowMid = Math.floor(top + (bottom - top) / 2);
   const colMid = Math.floor(left + (right - left) / 2);
-  
+
   const value = matrix[rowMid][colMid];
   if (value < target) {
     return (
