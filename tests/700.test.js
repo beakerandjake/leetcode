@@ -1,6 +1,5 @@
 import { searchBST } from '../src/700.js';
-import { arrToStr } from './util.js';
-import { arrToBst } from './util.js';
+import { arrToStr, arrToBst } from './util.js';
 
 describe('700. Search in a Binary Tree', () => {
   [

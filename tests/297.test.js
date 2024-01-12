@@ -1,6 +1,5 @@
 import { serialize, deserialize } from '../src/297.js';
-import { arrToStr } from './util.js';
-import { arrToBst, bstToArr, trimEnd } from './util.js';
+import { arrToStr, arrToBst, bstToArr, trimEnd } from './util.js';
 
 describe('297. Serialize and Deserialize Binary Tree', () => {
   [

@@ -1,6 +1,5 @@
 import { insertIntoBST } from '../src/701.js';
-import { arrToStr } from './util.js';
-import { arrToBst, bstToArr, trimEnd } from './util.js';
+import { arrToStr, arrToBst, bstToArr, trimEnd } from './util.js';
 
 describe('701. Insert into a Binary Search Tree', () => {
   [

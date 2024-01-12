@@ -1,6 +1,5 @@
 import { addTwoNumbers } from '../src/2.js';
-import { arrToStr } from './util.js';
-import { arrayToLinkedList, linkedListToArray } from './util.js';
+import { arrToStr, arrayToLinkedList, linkedListToArray } from './util.js';
 
 describe('2. Add Two Numbers', () => {
   [

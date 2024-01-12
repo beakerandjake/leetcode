@@ -1,6 +1,5 @@
 import { flatten } from '../src/114.js';
-import { arrToStr } from './util.js';
-import { arrToBst, bstToArr, trimEnd } from './util.js';
+import { arrToStr, arrToBst, bstToArr, trimEnd } from './util.js';
 
 describe('114. Flatten Binary Tree to Linked List', () => {
   [

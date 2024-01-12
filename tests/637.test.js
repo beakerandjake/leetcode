@@ -1,6 +1,5 @@
 import { averageOfLevels } from '../src/637.js';
-import { arrToStr } from './util.js';
-import { arrToBst } from './util.js';
+import { arrToStr, arrToBst } from './util.js';
 
 describe('637. Average of Levels in Binary Tree', () => {
   [

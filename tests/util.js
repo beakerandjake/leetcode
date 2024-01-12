@@ -106,8 +106,8 @@ export const graphToArr = (graph) => {
   if (!graph) {
     return [];
   }
-  let nodes = [];
-  let queue = [graph];
+  const nodes = [];
+  const queue = [graph];
   while (queue.length) {
     const node = queue.shift();
     nodes[node.val - 1] = node.neighbors.map((x) => x.val);

@@ -1,6 +1,5 @@
 import { leafSimilar } from '../src/872.js';
-import { arrToStr } from './util.js';
-import { arrToBst } from './util.js';
+import { arrToStr, arrToBst } from './util.js';
 
 describe('872. Leaf-Similar Trees', () => {
   [

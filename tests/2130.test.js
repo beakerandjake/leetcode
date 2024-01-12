@@ -1,6 +1,5 @@
 import { pairSum } from '../src/2130.js';
-import { arrToStr } from './util.js';
-import { arrayToLinkedList } from './util.js';
+import { arrToStr, arrayToLinkedList } from './util.js';
 
 describe('2130. Maximum Twin Sum of a Linked List', () => {
   [

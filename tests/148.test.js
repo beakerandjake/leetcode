@@ -1,6 +1,5 @@
 import { sortList } from '../src/148.js';
-import { arrToStr } from './util.js';
-import { arrayToLinkedList, linkedListToArray } from './util.js';
+import { arrToStr, arrayToLinkedList, linkedListToArray } from './util.js';
 
 describe('148. Sort List', () => {
   [

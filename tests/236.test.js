@@ -1,6 +1,5 @@
 import { lowestCommonAncestor } from '../src/236.js';
-import { arrToStr } from './util.js';
-import { arrToBst } from './util.js';
+import { arrToStr, arrToBst } from './util.js';
 
 describe('236. Lowest Common Ancestor of a Binary Tree', () => {
   [

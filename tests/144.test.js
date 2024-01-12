@@ -1,6 +1,5 @@
 import { preorderTraversal } from '../src/144.js';
-import { arrToStr } from './util.js';
-import { arrToBst } from './util.js';
+import { arrToStr, arrToBst } from './util.js';
 
 describe('144. Binary Tree Pre Order Traversal', () => {
   [

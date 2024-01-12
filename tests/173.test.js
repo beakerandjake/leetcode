@@ -1,6 +1,5 @@
 import { BSTIterator } from '../src/173.js';
-import { arrToStr } from './util.js';
-import { arrToBst } from './util.js';
+import { arrToStr, arrToBst } from './util.js';
 // ].forEach(([funcs, args, expected]) => {
 //   const stack = new MinStack();
 //   test(`${arrToStr(funcs)},${arrToStr(args)} -> ${arrToStr(expected)}`, () => {

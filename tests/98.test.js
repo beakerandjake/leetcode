@@ -1,6 +1,5 @@
 import { isValidBST } from '../src/98.js';
-import { arrToStr } from './util.js';
-import { arrToBst } from './util.js';
+import { arrToStr, arrToBst } from './util.js';
 
 describe('98. Validate Binary Search Tree', () => {
   [

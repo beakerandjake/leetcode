@@ -1,6 +1,5 @@
 import { deleteMiddle } from '../src/2095.js';
-import { arrToStr } from './util.js';
-import { linkedListToArray, arrayToLinkedList } from './util.js';
+import { arrToStr, linkedListToArray, arrayToLinkedList } from './util.js';
 
 describe('2095. Delete the Middle Node of a Linked List', () => {
   [

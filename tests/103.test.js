@@ -1,6 +1,5 @@
 import { zigzagLevelOrder } from '../src/103.js';
-import { arrToStr } from './util.js';
-import { arrToBst } from './util.js';
+import { arrToStr, arrToBst } from './util.js';
 
 describe('103. Binary Tree Zigzag Level Order Traversal', () => {
   [

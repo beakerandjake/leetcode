@@ -1,6 +1,5 @@
 import { generateTrees } from '../src/95.js';
-import { arrToStr } from './util.js';
-import { bstToArr } from './util.js';
+import { arrToStr, bstToArr } from './util.js';
 
 describe('95. Unique Binary Search Trees II', () => {
   [

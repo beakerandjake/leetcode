@@ -1,6 +1,5 @@
 import { rightSideView } from '../src/199.js';
-import { arrToStr } from './util.js';
-import { arrToBst } from './util.js';
+import { arrToStr, arrToBst } from './util.js';
 
 describe('199. Binary Tree Right Side View', () => {
   [

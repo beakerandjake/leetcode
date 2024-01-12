@@ -1,6 +1,5 @@
 import { levelOrder } from '../src/102.js';
-import { arrToStr } from './util.js';
-import { arrToBst } from './util.js';
+import { arrToStr, arrToBst } from './util.js';
 
 describe('102. Binary Tree Level Order Traversal', () => {
   [

@@ -1,6 +1,5 @@
 import { goodNodes } from '../src/1448.js';
-import { arrToStr } from './util.js';
-import { arrToBst } from './util.js';
+import { arrToStr, arrToBst } from './util.js';
 
 describe('1448. Count Good Nodes in Binary Tree', () => {
   [

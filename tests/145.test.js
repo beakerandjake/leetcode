@@ -1,6 +1,5 @@
 import { postorderTraversal } from '../src/145.js';
-import { arrToStr } from './util.js';
-import { arrToBst } from './util.js';
+import { arrToStr, arrToBst } from './util.js';
 
 describe('145. Binary Tree Post Order Traversal', () => {
   [

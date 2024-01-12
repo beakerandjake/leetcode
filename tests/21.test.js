@@ -1,6 +1,5 @@
 import { mergeTwoLists } from '../src/21.js';
-import { arrToStr } from './util.js';
-import { arrayToLinkedList, linkedListToArray } from './util.js';
+import { arrToStr, arrayToLinkedList, linkedListToArray } from './util.js';
 
 describe('21. Merge Two Sorted Lists', () => {
   [

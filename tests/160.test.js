@@ -1,6 +1,5 @@
 import { getIntersectionNode } from '../src/160.js';
-import { arrToStr } from './util.js';
-import { arrayToLinkedList, linkedListToArray } from './util.js';
+import { arrToStr, arrayToLinkedList, linkedListToArray } from './util.js';
 
 const tail = (head) => {
   let current = head;

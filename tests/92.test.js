@@ -1,6 +1,5 @@
 import { reverseBetween } from '../src/92.js';
-import { arrToStr } from './util.js';
-import { arrayToLinkedList, linkedListToArray } from './util.js';
+import { arrToStr, arrayToLinkedList, linkedListToArray } from './util.js';
 
 describe('92. Reverse Linked List II', () => {
   [

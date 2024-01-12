@@ -1,6 +1,5 @@
 import { detectCycle } from '../src/142.js';
-import { arrToStr } from './util.js';
-import { arrayToLinkedList } from './util.js';
+import { arrToStr, arrayToLinkedList } from './util.js';
 
 const tail = (head) => {
   let current = head;

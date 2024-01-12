@@ -1,6 +1,5 @@
 import { mergeKLists } from '../src/23.js';
-import { arrToStr } from './util.js';
-import { arrayToLinkedList, linkedListToArray } from './util.js';
+import { arrToStr, arrayToLinkedList, linkedListToArray } from './util.js';
 
 describe('23. Merge k Sorted Lists', () => {
   [

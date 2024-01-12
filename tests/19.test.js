@@ -1,6 +1,5 @@
 import { removeNthFromEnd } from '../src/19.js';
-import { arrToStr } from './util.js';
-import { arrayToLinkedList, linkedListToArray } from './util.js';
+import { arrToStr, arrayToLinkedList, linkedListToArray } from './util.js';
 
 describe('19. Remove Nth Node From End of List', () => {
   [

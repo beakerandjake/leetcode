@@ -1,6 +1,5 @@
 import { deleteNode } from '../src/450.js';
-import { arrToStr } from './util.js';
-import { bstToArr, arrToBst, trimEnd } from './util.js';
+import { arrToStr, bstToArr, arrToBst, trimEnd } from './util.js';
 
 describe('450. Delete Node in a BST', () => {
   [

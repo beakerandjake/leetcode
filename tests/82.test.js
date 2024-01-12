@@ -1,6 +1,5 @@
 import { deleteDuplicates } from '../src/82.js';
-import { arrToStr } from './util.js';
-import { arrayToLinkedList, linkedListToArray } from './util.js';
+import { arrToStr, arrayToLinkedList, linkedListToArray } from './util.js';
 
 describe('82. Remove Duplicates from Sorted List II', () => {
   [

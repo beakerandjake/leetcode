@@ -1,6 +1,5 @@
 import { inorderTraversal } from '../src/94.js';
-import { arrToStr } from './util.js';
-import { arrToBst } from './util.js';
+import { arrToStr, arrToBst } from './util.js';
 
 describe('94. Binary Tree In Order Traversal', () => {
   [

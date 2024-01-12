@@ -1,6 +1,5 @@
 import { invertTree } from '../src/226.js';
-import { arrToStr } from './util.js';
-import { bstToArr, arrToBst, trimEnd } from './util.js';
+import { arrToStr, bstToArr, arrToBst, trimEnd } from './util.js';
 
 describe('226. Invert Binary Tree', () => {
   [

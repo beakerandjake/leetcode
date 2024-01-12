@@ -1,6 +1,5 @@
 import { kthSmallest } from '../src/230.js';
-import { arrToStr } from './util.js';
-import { arrToBst } from './util.js';
+import { arrToStr, arrToBst } from './util.js';
 
 describe('230. Kth Smallest Element in a BST', () => {
   [

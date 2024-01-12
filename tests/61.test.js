@@ -1,6 +1,5 @@
 import { rotateRight } from '../src/61.js';
-import { arrToStr } from './util.js';
-import { linkedListToArray, arrayToLinkedList } from './util.js';
+import { arrToStr, linkedListToArray, arrayToLinkedList } from './util.js';
 
 describe('61. Rotate List', () => {
   [

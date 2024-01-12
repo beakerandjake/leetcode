@@ -1,6 +1,5 @@
 import { swapPairs } from '../src/24.js';
-import { arrToStr } from './util.js';
-import { arrayToLinkedList, linkedListToArray } from './util.js';
+import { arrToStr, arrayToLinkedList, linkedListToArray } from './util.js';
 
 describe('24. Swap Nodes In Pairs', () => {
   [

@@ -1,6 +1,5 @@
 import { maxDepth } from '../src/104.js';
-import { arrToStr } from './util.js';
-import { arrToBst } from './util.js';
+import { arrToStr, arrToBst } from './util.js';
 
 describe('104. Maximum Depth of Binary Tree', () => {
   [

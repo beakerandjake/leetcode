@@ -1,6 +1,5 @@
 import { deleteNode } from '../src/237.js';
-import { arrToStr } from './util.js';
-import { linkedListToArray, arrayToLinkedList } from './util.js';
+import { arrToStr, linkedListToArray, arrayToLinkedList } from './util.js';
 
 const findNode = (head, val) => {
   if (!head) {
