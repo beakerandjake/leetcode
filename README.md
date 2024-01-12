@@ -20,14 +20,6 @@ npm install
 
 ## Commands
 
-### `test`
-
-Run the tests for all problems.
-
-```sh
-npm run test
-```
-
 ### `test [problem-number]`
 
 Run the tests for all problems:
