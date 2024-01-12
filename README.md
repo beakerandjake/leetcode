@@ -74,7 +74,7 @@ To uglify problem 42 (without mangling quoted property names):
 npm run uglify 42 1
 ```
 
-### count
+### `count`
 
 Returns the total number of problems that are in the src/ folder. 
 
@@ -82,12 +82,22 @@ Returns the total number of problems that are in the src/ folder.
 npm run count
 ```
 
-### today
+### `today`
 
 Returns the total number of problems that were created today. 
 
 ```sh
 npm run today
+```
+
+### `ctci`
+
+Returns the number of problems solved out of the book [Cracking the Coding Interview](https://www.crackingthecodinginterview.com/)
+
+Note this isn't a perfect mapping, and a lot of problems in the book don't map to a leetcode problem, additionally I may have missed some problems while mapping.
+
+```sh
+npm run ctci
 ```
 
 

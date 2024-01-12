@@ -8,7 +8,7 @@
     "lint": "eslint src tests",
     "format": "prettier . --write",
     "count": "ls ./src -1 | wc -l",
-    "lc-book": "node ./bin/lcBook.js",
+    "ctci": "node ./bin/lcBook.js",
     "lc-test": "./bin/lcTest.sh",
     "today": "ls ./src -lt --time=birth --time-style='+%b %-d' | grep \"$(date '+%b %-d')\" | wc -l",
     "touch": "node ./bin/lcTouch.js",
