@@ -7,12 +7,12 @@
     "test": "NODE_OPTIONS=--experimental-vm-modules jest",
     "lint": "eslint src tests",
     "format": "prettier . --write",
-    "lc-count": "ls ./src -1 | wc -l",
+    "count": "ls ./src -1 | wc -l",
     "lc-book": "node ./bin/lcBook.js",
     "lc-test": "./bin/lcTest.sh",
-    "lc-today": "ls ./src -lt --time=birth --time-style='+%b %-d' | grep \"$(date '+%b %-d')\" | wc -l",
-    "lc-touch": "node ./bin/lcTouch.js",
-    "lc-uglify": "./bin/lcUglify.sh"
+    "today": "ls ./src -lt --time=birth --time-style='+%b %-d' | grep \"$(date '+%b %-d')\" | wc -l",
+    "touch": "node ./bin/lcTouch.js",
+    "uglify": "./bin/lcUglify.sh"
   },
   "repository": {
     "type": "git",
