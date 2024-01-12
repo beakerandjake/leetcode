@@ -1,4 +1,4 @@
-import { longestSubarray } from '../src/leetcode/1493.js';
+import { longestSubarray } from '../src/1493.js';
 import { arrToStr } from './util.js';
 
 describe("1493. Longest Subarray of 1's After Deleting One Element", () => {

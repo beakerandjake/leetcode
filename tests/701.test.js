@@ -1,6 +1,6 @@
-import { insertIntoBST } from '../src/leetcode/701.js';
+import { insertIntoBST } from '../src/701.js';
 import { arrToStr } from './util.js';
-import { arrToBst, bstToArr, trimEnd } from './leetcode/util.js';
+import { arrToBst, bstToArr, trimEnd } from './util.js';
 
 describe('701. Insert into a Binary Search Tree', () => {
   [

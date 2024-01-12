@@ -1,6 +1,6 @@
-import { getIntersectionNode } from '../src/leetcode/160.js';
+import { getIntersectionNode } from '../src/160.js';
 import { arrToStr } from './util.js';
-import { arrayToLinkedList, linkedListToArray } from './leetcode/util.js';
+import { arrayToLinkedList, linkedListToArray } from './util.js';
 
 const tail = (head) => {
   let current = head;

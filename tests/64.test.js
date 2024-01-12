@@ -1,4 +1,4 @@
-import { minPathSum } from '../src/leetcode/64.js';
+import { minPathSum } from '../src/64.js';
 import { arrToStr } from './util.js';
 
 describe('64. Minimum Path Sum', () => {

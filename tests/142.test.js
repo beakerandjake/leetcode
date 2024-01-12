@@ -1,6 +1,6 @@
-import { detectCycle } from '../src/leetcode/142.js';
+import { detectCycle } from '../src/142.js';
 import { arrToStr } from './util.js';
-import { arrayToLinkedList } from './leetcode/util.js';
+import { arrayToLinkedList } from './util.js';
 
 const tail = (head) => {
   let current = head;

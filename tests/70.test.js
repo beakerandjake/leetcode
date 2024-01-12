@@ -1,4 +1,4 @@
-import { climbStairs } from '../src/leetcode/70.js';
+import { climbStairs } from '../src/70.js';
 
 describe('70. Climbing Stairs', () => {
   [

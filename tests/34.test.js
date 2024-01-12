@@ -1,4 +1,4 @@
-import { searchRange } from '../src/leetcode/34.js';
+import { searchRange } from '../src/34.js';
 import { arrToStr } from './util.js';
 
 describe('34. Find First and Last Position of Element in Sorted Array', () => {

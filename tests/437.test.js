@@ -1,6 +1,6 @@
-import { pathSum } from '../src/leetcode/437.js';
+import { pathSum } from '../src/437.js';
 import { arrToStr } from './util.js';
-import { arrToBst } from './leetcode/util.js';
+import { arrToBst } from './util.js';
 
 describe('437. Path Sum III', () => {
   [

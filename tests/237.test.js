@@ -1,6 +1,6 @@
-import { deleteNode } from '../src/leetcode/237.js';
+import { deleteNode } from '../src/237.js';
 import { arrToStr } from './util.js';
-import { linkedListToArray, arrayToLinkedList } from './leetcode/util.js';
+import { linkedListToArray, arrayToLinkedList } from './util.js';
 
 const findNode = (head, val) => {
   if (!head) {

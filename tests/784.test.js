@@ -1,4 +1,4 @@
-import { letterCasePermutation } from '../src/leetcode/784.js';
+import { letterCasePermutation } from '../src/784.js';
 import { arrToStr } from './util.js';
 
 describe('784. Letter Case Permutation', () => {

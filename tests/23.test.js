@@ -1,6 +1,6 @@
-import { mergeKLists } from '../src/leetcode/23.js';
+import { mergeKLists } from '../src/23.js';
 import { arrToStr } from './util.js';
-import { arrayToLinkedList, linkedListToArray } from './leetcode/util.js';
+import { arrayToLinkedList, linkedListToArray } from './util.js';
 
 describe('23. Merge k Sorted Lists', () => {
   [

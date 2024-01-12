@@ -1,4 +1,4 @@
-import { isAnagram } from '../src/leetcode/242.js';
+import { isAnagram } from '../src/242.js';
 
 describe('242. Valid Anagram', () => {
   [

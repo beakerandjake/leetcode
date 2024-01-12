@@ -1,4 +1,4 @@
-import { snakesAndLadders } from '../src/leetcode/909.js';
+import { snakesAndLadders } from '../src/909.js';
 import { arrToStr } from './util.js';
 
 describe('909. Snakes and Ladders', () => {

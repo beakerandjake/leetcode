@@ -1,4 +1,4 @@
-import { findCircleNum } from '../src/leetcode/547.js';
+import { findCircleNum } from '../src/547.js';
 import { arrToStr } from './util.js';
 
 describe('547. Number of Provinces', () => {

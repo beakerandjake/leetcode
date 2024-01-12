@@ -1,4 +1,4 @@
-import { totalNQueens } from '../src/leetcode/52.js';
+import { totalNQueens } from '../src/52.js';
 
 describe('52. N-Queens II', () => {
   [

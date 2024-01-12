@@ -1,4 +1,4 @@
-import { minMeetingRooms } from '../src/leetcode/253.js';
+import { minMeetingRooms } from '../src/253.js';
 import { arrToStr } from './util.js';
 
 describe('253. Meeting Rooms II', () => {

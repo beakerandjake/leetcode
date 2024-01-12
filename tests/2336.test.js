@@ -1,4 +1,4 @@
-import { SmallestInfiniteSet } from '../src/leetcode/2336.js';
+import { SmallestInfiniteSet } from '../src/2336.js';
 import { arrToStr } from './util.js';
 
 describe('2336. Smallest Number in Infinite Set', () => {

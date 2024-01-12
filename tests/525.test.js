@@ -1,4 +1,4 @@
-import { findMaxLength } from '../src/leetcode/525.js';
+import { findMaxLength } from '../src/525.js';
 import { arrToStr } from './util.js';
 
 describe('525. Contiguous Array', () => {

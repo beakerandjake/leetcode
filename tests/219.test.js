@@ -1,4 +1,4 @@
-import { containsNearbyDuplicate } from '../src/leetcode/219.js';
+import { containsNearbyDuplicate } from '../src/219.js';
 import { arrToStr } from './util.js';
 
 describe('219. Contains Duplicate II', () => {

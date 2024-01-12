@@ -1,6 +1,6 @@
-import { reverseBetween } from '../src/leetcode/92.js';
+import { reverseBetween } from '../src/92.js';
 import { arrToStr } from './util.js';
-import { arrayToLinkedList, linkedListToArray } from './leetcode/util.js';
+import { arrayToLinkedList, linkedListToArray } from './util.js';
 
 describe('92. Reverse Linked List II', () => {
   [

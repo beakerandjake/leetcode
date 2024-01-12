@@ -1,4 +1,4 @@
-import { subsetXORSum } from '../src/leetcode/1863.js';
+import { subsetXORSum } from '../src/1863.js';
 import { arrToStr } from './util.js';
 
 describe('1863. Sum of all Subset XOR totals', () => {

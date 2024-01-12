@@ -1,4 +1,4 @@
-import { floodFill } from '../src/leetcode/733.js';
+import { floodFill } from '../src/733.js';
 import { arrToStr } from './util.js';
 
 describe('733. Flood Fill', () => {

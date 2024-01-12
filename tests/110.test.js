@@ -1,6 +1,6 @@
-import { isBalanced } from '../src/leetcode/110.js';
+import { isBalanced } from '../src/110.js';
 import { arrToStr } from './util.js';
-import { arrToBst } from './leetcode/util.js';
+import { arrToBst } from './util.js';
 
 describe('110. Balanced Binary Tree', () => {
   [

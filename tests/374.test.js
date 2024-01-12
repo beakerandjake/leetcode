@@ -1,4 +1,4 @@
-import { guessNumber, setPick } from '../src/leetcode/374.js';
+import { guessNumber, setPick } from '../src/374.js';
 
 describe('374. Guess Number Higher or Lower', () => {
   [

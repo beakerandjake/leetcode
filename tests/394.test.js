@@ -1,4 +1,4 @@
-import { decodeString } from '../src/leetcode/394.js';
+import { decodeString } from '../src/394.js';
 
 describe('394. Decode String', () => {
   [

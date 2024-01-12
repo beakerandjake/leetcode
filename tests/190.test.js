@@ -1,4 +1,4 @@
-import { reverseBits } from '../src/leetcode/190.js';
+import { reverseBits } from '../src/190.js';
 import { binToStr } from './util.js';
 
 describe('190. Reverse Bits', () => {

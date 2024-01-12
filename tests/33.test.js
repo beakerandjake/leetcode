@@ -1,4 +1,4 @@
-import { search } from '../src/leetcode/33.js';
+import { search } from '../src/33.js';
 import { arrToStr } from './util.js';
 
 describe('33. Search in Rotated Sorted Array', () => {

@@ -1,4 +1,4 @@
-import { maximumScore } from '../src/leetcode/1770.js';
+import { maximumScore } from '../src/1770.js';
 import { arrToStr } from './util.js';
 
 describe('1770. Maximum Score from Performing Multiplication Operations', () => {

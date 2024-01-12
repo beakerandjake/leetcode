@@ -1,4 +1,4 @@
-import { numSquares } from '../src/leetcode/279.js';
+import { numSquares } from '../src/279.js';
 
 describe('279. Perfect Squares', () => {
   [

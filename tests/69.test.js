@@ -1,4 +1,4 @@
-import { mySqrt } from '../src/leetcode/69.js';
+import { mySqrt } from '../src/69.js';
 
 describe('69. Sqrt', () => {
   [

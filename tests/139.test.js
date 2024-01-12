@@ -1,4 +1,4 @@
-import { wordBreak } from '../src/leetcode/139.js';
+import { wordBreak } from '../src/139.js';
 import { arrToStr } from './util.js';
 
 describe('139. Word Break', () => {

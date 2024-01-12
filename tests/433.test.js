@@ -1,4 +1,4 @@
-import { minMutation } from '../src/leetcode/433.js';
+import { minMutation } from '../src/433.js';
 import { arrToStr } from './util.js';
 
 describe('433. Minimum Genetic Mutation', () => {

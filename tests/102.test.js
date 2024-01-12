@@ -1,6 +1,6 @@
-import { levelOrder } from '../src/leetcode/102.js';
+import { levelOrder } from '../src/102.js';
 import { arrToStr } from './util.js';
-import { arrToBst } from './leetcode/util.js';
+import { arrToBst } from './util.js';
 
 describe('102. Binary Tree Level Order Traversal', () => {
   [

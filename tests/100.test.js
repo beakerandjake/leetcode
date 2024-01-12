@@ -1,6 +1,6 @@
-import { isSameTree } from '../src/leetcode/100.js';
+import { isSameTree } from '../src/100.js';
 import { arrToStr } from './util.js';
-import { arrToBst } from './leetcode/util.js';
+import { arrToBst } from './util.js';
 
 describe('100. Same Tree', () => {
   [

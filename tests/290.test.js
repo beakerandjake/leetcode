@@ -1,4 +1,4 @@
-import { wordPattern } from '../src/leetcode/290.js';
+import { wordPattern } from '../src/290.js';
 
 describe('290. Word Pattern', () => {
   [

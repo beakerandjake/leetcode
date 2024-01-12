@@ -1,4 +1,4 @@
-import { hammingWeight } from '../src/leetcode/191.js';
+import { hammingWeight } from '../src/191.js';
 import { binToStr } from './util.js';
 
 describe('191. Number of 1 Bits', () => {

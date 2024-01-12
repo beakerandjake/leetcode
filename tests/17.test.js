@@ -1,4 +1,4 @@
-import { letterCombinations } from '../src/leetcode/17.js';
+import { letterCombinations } from '../src/17.js';
 import { arrToStr } from './util.js';
 
 describe('17. Letter Combinations of a Phone Number', () => {

@@ -1,6 +1,6 @@
-import { hasPathSum } from '../src/leetcode/112.js';
+import { hasPathSum } from '../src/112.js';
 import { arrToStr } from './util.js';
-import { arrToBst } from './leetcode/util.js';
+import { arrToBst } from './util.js';
 
 describe('112. Path Sum', () => {
   [

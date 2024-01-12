@@ -1,4 +1,4 @@
-import { minEatingSpeed } from '../src/leetcode/875.js';
+import { minEatingSpeed } from '../src/875.js';
 import { arrToStr } from './util.js';
 
 describe('875. Koko Eating Bananas', () => {

@@ -1,6 +1,6 @@
-import { goodNodes } from '../src/leetcode/1448.js';
+import { goodNodes } from '../src/1448.js';
 import { arrToStr } from './util.js';
-import { arrToBst } from './leetcode/util.js';
+import { arrToBst } from './util.js';
 
 describe('1448. Count Good Nodes in Binary Tree', () => {
   [

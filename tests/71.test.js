@@ -1,4 +1,4 @@
-import { simplifyPath } from '../src/leetcode/71.js';
+import { simplifyPath } from '../src/71.js';
 
 describe('71. Simplify Path', () => {
   [

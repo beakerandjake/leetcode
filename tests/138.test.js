@@ -1,4 +1,4 @@
-import { copyRandomList } from '../src/leetcode/138.js';
+import { copyRandomList } from '../src/138.js';
 import { arrToStr } from './util.js';
 /* eslint-disable no-param-reassign */
 

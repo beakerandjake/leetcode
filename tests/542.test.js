@@ -1,4 +1,4 @@
-import { updateMatrix } from '../src/leetcode/542.js';
+import { updateMatrix } from '../src/542.js';
 import { arrToStr } from './util.js';
 
 describe('542. 01 Matrix', () => {

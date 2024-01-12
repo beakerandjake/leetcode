@@ -1,4 +1,4 @@
-import { shortestBridge } from '../src/leetcode/934.js';
+import { shortestBridge } from '../src/934.js';
 import { arrToStr } from './util.js';
 
 describe('934. Shortest Bridge', () => {

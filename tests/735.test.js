@@ -1,4 +1,4 @@
-import { asteroidCollision } from '../src/leetcode/735.js';
+import { asteroidCollision } from '../src/735.js';
 import { arrToStr } from './util.js';
 
 describe('735. Asteroid Collision', () => {

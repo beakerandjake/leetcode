@@ -1,4 +1,4 @@
-import { minimumTotal } from '../src/leetcode/120.js';
+import { minimumTotal } from '../src/120.js';
 import { arrToStr } from './util.js';
 
 describe('120. Triangle', () => {

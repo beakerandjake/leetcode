@@ -1,4 +1,4 @@
-import { uniqueOccurrences } from '../src/leetcode/1207.js';
+import { uniqueOccurrences } from '../src/1207.js';
 import { arrToStr } from './util.js';
 
 describe('1207. Unique Number of Occurrences', () => {

@@ -1,4 +1,4 @@
-import { maxVowels } from '../src/leetcode/1456.js';
+import { maxVowels } from '../src/1456.js';
 
 describe('1456. Maximum Number of Vowels in a Substring of Given Length', () => {
   [

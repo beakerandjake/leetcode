@@ -1,4 +1,4 @@
-import { kthGrammar } from '../src/leetcode/779.js';
+import { kthGrammar } from '../src/779.js';
 
 describe('779. K-th Symbol in Grammar', () => {
   [

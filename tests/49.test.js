@@ -1,4 +1,4 @@
-import { groupAnagrams } from '../src/leetcode/49.js';
+import { groupAnagrams } from '../src/49.js';
 import { arrToStr } from './util.js';
 
 describe('49. Group Anagrams', () => {

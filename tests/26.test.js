@@ -1,4 +1,4 @@
-import { removeDuplicates } from '../src/leetcode/26.js';
+import { removeDuplicates } from '../src/26.js';
 import { arrToStr } from './util.js';
 
 describe('26. Remove Duplicates from Sorted Array', () => {

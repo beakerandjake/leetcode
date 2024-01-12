@@ -1,4 +1,4 @@
-import { searchInsert } from '../src/leetcode/35.js';
+import { searchInsert } from '../src/35.js';
 import { arrToStr } from './util.js';
 
 describe('35. Search Insert Position', () => {

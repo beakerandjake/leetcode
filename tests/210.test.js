@@ -1,4 +1,4 @@
-import { findOrder } from '../src/leetcode/210.js';
+import { findOrder } from '../src/210.js';
 import { arrToStr } from './util.js';
 
 describe('210. Course Schedule II', () => {

@@ -1,4 +1,4 @@
-import { plusOne } from '../src/leetcode/66.js';
+import { plusOne } from '../src/66.js';
 import { arrToStr } from './util.js';
 
 describe('66. Plus One', () => {

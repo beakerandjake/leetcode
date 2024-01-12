@@ -1,4 +1,4 @@
-import { mergeAlternately } from '../src/leetcode/1768.js';
+import { mergeAlternately } from '../src/1768.js';
 
 describe('1768. Merge Strings Alternately', () => {
   [

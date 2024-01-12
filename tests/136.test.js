@@ -1,4 +1,4 @@
-import { singleNumber } from '../src/leetcode/136';
+import { singleNumber } from '../src/136';
 import { arrToStr } from './util.js';
 
 describe('136. Single Number', () => {

@@ -1,4 +1,4 @@
-import { lengthOfLIS } from '../src/leetcode/300.js';
+import { lengthOfLIS } from '../src/300.js';
 import { arrToStr } from './util.js';
 
 describe('300. Longest Increasing Subsequence', () => {

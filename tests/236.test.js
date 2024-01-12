@@ -1,6 +1,6 @@
-import { lowestCommonAncestor } from '../src/leetcode/236.js';
+import { lowestCommonAncestor } from '../src/236.js';
 import { arrToStr } from './util.js';
-import { arrToBst } from './leetcode/util.js';
+import { arrToBst } from './util.js';
 
 describe('236. Lowest Common Ancestor of a Binary Tree', () => {
   [

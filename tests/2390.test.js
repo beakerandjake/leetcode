@@ -1,4 +1,4 @@
-import { removeStars } from '../src/leetcode/2390.js';
+import { removeStars } from '../src/2390.js';
 
 describe('2390. Removing Stars From a String', () => {
   [

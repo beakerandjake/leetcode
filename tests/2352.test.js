@@ -1,4 +1,4 @@
-import { equalPairs } from '../src/leetcode/2352.js';
+import { equalPairs } from '../src/2352.js';
 import { arrToStr } from './util.js';
 
 describe('2352. Equal Row and Column Pairs', () => {

@@ -1,4 +1,4 @@
-import { totalCost } from '../src/leetcode/2462.js';
+import { totalCost } from '../src/2462.js';
 import { arrToStr } from './util.js';
 
 describe('2462. Total Cost to Hire K Workers', () => {

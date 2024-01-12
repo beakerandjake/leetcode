@@ -1,4 +1,4 @@
-import { setZeroes } from '../src/leetcode/73.js';
+import { setZeroes } from '../src/73.js';
 import { arrToStr } from './util.js';
 
 describe('73. Set Matrix Zeroes', () => {

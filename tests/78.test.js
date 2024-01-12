@@ -1,4 +1,4 @@
-import { subsets } from '../src/leetcode/78.js';
+import { subsets } from '../src/78.js';
 import { arrToStr } from './util.js';
 
 describe('78. Subsets', () => {

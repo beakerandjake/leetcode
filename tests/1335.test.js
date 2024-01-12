@@ -1,4 +1,4 @@
-import { minDifficulty } from '../src/leetcode/1335.js';
+import { minDifficulty } from '../src/1335.js';
 import { arrToStr } from './util.js';
 
 describe('1135. Minimum Difficulty of a Job Schedule', () => {

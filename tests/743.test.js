@@ -1,4 +1,4 @@
-import { networkDelayTime } from '../src/leetcode/743.js';
+import { networkDelayTime } from '../src/743.js';
 import { arrToStr } from './util.js';
 
 describe('743. Network Delay Time', () => {

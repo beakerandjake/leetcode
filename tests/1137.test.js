@@ -1,4 +1,4 @@
-import { tribonacci } from '../src/leetcode/1137.js';
+import { tribonacci } from '../src/1137.js';
 
 describe('1137. N-th Tribonacci Number', () => {
   [

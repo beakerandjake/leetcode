@@ -1,4 +1,4 @@
-import { numRollsToTarget } from '../src/leetcode/1155.js';
+import { numRollsToTarget } from '../src/1155.js';
 
 describe('1155. Number of Dice Rolls With Target Sum', () => {
   [

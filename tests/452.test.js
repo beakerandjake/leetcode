@@ -1,4 +1,4 @@
-import { findMinArrowShots } from '../src/leetcode/452.js';
+import { findMinArrowShots } from '../src/452.js';
 import { arrToStr } from './util.js';
 
 describe('452. Minimum Number of Arrows to Burst Balloons', () => {

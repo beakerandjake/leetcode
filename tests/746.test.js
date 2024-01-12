@@ -1,4 +1,4 @@
-import { minCostClimbingStairs } from '../src/leetcode/746.js';
+import { minCostClimbingStairs } from '../src/746.js';
 import { arrToStr } from './util.js';
 
 describe('746. Min Cost Climbing Stairs', () => {

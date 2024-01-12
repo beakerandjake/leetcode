@@ -1,4 +1,4 @@
-import { canPlaceFlowers } from '../src/leetcode/605.js';
+import { canPlaceFlowers } from '../src/605.js';
 import { arrToStr } from './util.js';
 
 describe('605. Can Place Flowers', () => {

@@ -1,4 +1,4 @@
-import { maximalSquare } from '../src/leetcode/221.js';
+import { maximalSquare } from '../src/221.js';
 
 describe('221. Maximal Square', () => {
   [

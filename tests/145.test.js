@@ -1,6 +1,6 @@
-import { postorderTraversal } from '../src/leetcode/145.js';
+import { postorderTraversal } from '../src/145.js';
 import { arrToStr } from './util.js';
-import { arrToBst } from './leetcode/util.js';
+import { arrToBst } from './util.js';
 
 describe('145. Binary Tree Post Order Traversal', () => {
   [

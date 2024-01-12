@@ -1,4 +1,4 @@
-import { gcdOfStrings } from '../src/leetcode/1071.js';
+import { gcdOfStrings } from '../src/1071.js';
 
 describe('1071. Greatest Common Divisor of Strings', () => {
   [

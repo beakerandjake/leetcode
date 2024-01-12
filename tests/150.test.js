@@ -1,4 +1,4 @@
-import { evalRPN } from '../src/leetcode/150.js';
+import { evalRPN } from '../src/150.js';
 
 describe('150. Evaluate Reverse Polish Notation', () => {
   [

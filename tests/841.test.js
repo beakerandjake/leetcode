@@ -1,4 +1,4 @@
-import { canVisitAllRooms } from '../src/leetcode/841.js';
+import { canVisitAllRooms } from '../src/841.js';
 import { arrToStr } from './util.js';
 
 describe('841. Keys and Rooms', () => {

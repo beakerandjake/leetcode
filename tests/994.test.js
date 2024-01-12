@@ -1,4 +1,4 @@
-import { orangesRotting } from '../src/leetcode/994.js';
+import { orangesRotting } from '../src/994.js';
 import { arrToStr } from './util.js';
 
 describe('994. Rotting Oranges', () => {

@@ -1,4 +1,4 @@
-import { isIsomorphic } from '../src/leetcode/205.js';
+import { isIsomorphic } from '../src/205.js';
 
 describe('205. Isomorphic Strings', () => {
   [

@@ -1,6 +1,6 @@
-import { preorderTraversal } from '../src/leetcode/144.js';
+import { preorderTraversal } from '../src/144.js';
 import { arrToStr } from './util.js';
-import { arrToBst } from './leetcode/util.js';
+import { arrToBst } from './util.js';
 
 describe('144. Binary Tree Pre Order Traversal', () => {
   [

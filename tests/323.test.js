@@ -1,4 +1,4 @@
-import { countComponents } from '../src/leetcode/323.js';
+import { countComponents } from '../src/323.js';
 import { arrToStr } from './util.js';
 
 describe('323. Number of Connected Components in an Undirected Graph', () => {

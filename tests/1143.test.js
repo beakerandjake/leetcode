@@ -1,4 +1,4 @@
-import { longestCommonSubsequence } from '../src/leetcode/1143.js';
+import { longestCommonSubsequence } from '../src/1143.js';
 
 describe('1143. Longest Common Subsequence', () => {
   [

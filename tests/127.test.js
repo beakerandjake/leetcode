@@ -1,4 +1,4 @@
-import { ladderLength } from '../src/leetcode/127.js';
+import { ladderLength } from '../src/127.js';
 import { arrToStr } from './util.js';
 
 describe('127. Word Ladder', () => {

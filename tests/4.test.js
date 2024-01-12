@@ -1,4 +1,4 @@
-import { findMedianSortedArrays } from '../src/leetcode/4.js';
+import { findMedianSortedArrays } from '../src/4.js';
 import { arrToStr } from './util.js';
 
 describe('4. Median of Two Sorted Arrays', () => {

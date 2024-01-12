@@ -1,4 +1,4 @@
-import { countBits } from '../src/leetcode/338.js';
+import { countBits } from '../src/338.js';
 import { arrToStr } from './util.js';
 
 describe('338. Counting Bits', () => {

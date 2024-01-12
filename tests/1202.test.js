@@ -1,4 +1,4 @@
-import { smallestStringWithSwaps } from '../src/leetcode/1202.js';
+import { smallestStringWithSwaps } from '../src/1202.js';
 import { arrToStr } from './util.js';
 
 describe('1202. Smallest String With Swaps', () => {

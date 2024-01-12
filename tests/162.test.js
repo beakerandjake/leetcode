@@ -1,4 +1,4 @@
-import { findPeakElement } from '../src/leetcode/162.js';
+import { findPeakElement } from '../src/162.js';
 import { arrToStr } from './util.js';
 
 describe('162. Find Peak Element', () => {

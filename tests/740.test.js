@@ -1,4 +1,4 @@
-import { deleteAndEarn } from '../src/leetcode/740.js';
+import { deleteAndEarn } from '../src/740.js';
 import { arrToStr } from './util.js';
 
 describe('740. Delete and Earn', () => {

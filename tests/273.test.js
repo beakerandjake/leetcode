@@ -1,4 +1,4 @@
-import { numberToWords } from '../src/leetcode/273.js';
+import { numberToWords } from '../src/273.js';
 
 describe('273. Integer to English Words', () => {
   [

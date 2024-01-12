@@ -1,4 +1,4 @@
-import { generate } from '../src/leetcode/118.js';
+import { generate } from '../src/118.js';
 import { arrToStr } from './util.js';
 
 describe('118. Pascals Triangle', () => {

@@ -1,4 +1,4 @@
-import { findDifference } from '../src/leetcode/2215.js';
+import { findDifference } from '../src/2215.js';
 import { arrToStr } from './util.js';
 
 describe('2215. Find the Difference of Two Arrays', () => {

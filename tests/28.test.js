@@ -1,4 +1,4 @@
-import { strStr } from '../src/leetcode/28.js';
+import { strStr } from '../src/28.js';
 
 describe('28. Find the Index of the First Occurrence in a String', () => {
   [

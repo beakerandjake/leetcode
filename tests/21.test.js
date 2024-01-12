@@ -1,6 +1,6 @@
-import { mergeTwoLists } from '../src/leetcode/21.js';
+import { mergeTwoLists } from '../src/21.js';
 import { arrToStr } from './util.js';
-import { arrayToLinkedList, linkedListToArray } from './leetcode/util.js';
+import { arrayToLinkedList, linkedListToArray } from './util.js';
 
 describe('21. Merge Two Sorted Lists', () => {
   [

@@ -1,6 +1,6 @@
-import { oddEvenList } from '../src/leetcode/328.js';
+import { oddEvenList } from '../src/328.js';
 import { arrToStr } from './util.js';
-import { arrayToLinkedList, linkedListToArray } from './leetcode/util.js';
+import { arrayToLinkedList, linkedListToArray } from './util.js';
 
 describe('328. Odd Even Linked List', () => {
   [

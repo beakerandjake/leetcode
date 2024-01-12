@@ -1,4 +1,4 @@
-import { isValidSudoku } from '../src/leetcode/36.js';
+import { isValidSudoku } from '../src/36.js';
 import { arrToStr } from './util.js';
 
 describe('36. Valid Sudoku', () => {

@@ -1,4 +1,4 @@
-import { MinStack } from '../src/leetcode/155.js';
+import { MinStack } from '../src/155.js';
 import { arrToStr } from './util.js';
 
 describe('155. Min Stack', () => {

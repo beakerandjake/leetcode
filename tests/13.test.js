@@ -1,4 +1,4 @@
-import { romanToInt } from '../src/leetcode/13.js';
+import { romanToInt } from '../src/13.js';
 
 describe('13. Roman to Integer', () => {
   [

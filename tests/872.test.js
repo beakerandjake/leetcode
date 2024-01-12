@@ -1,6 +1,6 @@
-import { leafSimilar } from '../src/leetcode/872.js';
+import { leafSimilar } from '../src/872.js';
 import { arrToStr } from './util.js';
-import { arrToBst } from './leetcode/util.js';
+import { arrToBst } from './util.js';
 
 describe('872. Leaf-Similar Trees', () => {
   [

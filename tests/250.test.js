@@ -1,6 +1,6 @@
-import { countUnivalSubtrees } from '../src/leetcode/250.js';
+import { countUnivalSubtrees } from '../src/250.js';
 import { arrToStr } from './util.js';
-import { arrToBst } from './leetcode/util.js';
+import { arrToBst } from './util.js';
 
 describe('250. Count Univalue Subtrees', () => {
   [

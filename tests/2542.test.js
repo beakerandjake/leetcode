@@ -1,4 +1,4 @@
-import { maxScore } from '../src/leetcode/2542.js';
+import { maxScore } from '../src/2542.js';
 import { arrToStr } from './util.js';
 
 describe('2542. Maximum Subsequence Score', () => {

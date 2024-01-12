@@ -1,6 +1,6 @@
-import { isValidBST } from '../src/leetcode/98.js';
+import { isValidBST } from '../src/98.js';
 import { arrToStr } from './util.js';
-import { arrToBst } from './leetcode/util.js';
+import { arrToBst } from './util.js';
 
 describe('98. Validate Binary Search Tree', () => {
   [

@@ -1,6 +1,6 @@
-import { pairSum } from '../src/leetcode/2130.js';
+import { pairSum } from '../src/2130.js';
 import { arrToStr } from './util.js';
-import { arrayToLinkedList } from './leetcode/util.js';
+import { arrayToLinkedList } from './util.js';
 
 describe('2130. Maximum Twin Sum of a Linked List', () => {
   [

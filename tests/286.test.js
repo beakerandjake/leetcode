@@ -1,4 +1,4 @@
-import { wallsAndGates } from '../src/leetcode/286.js';
+import { wallsAndGates } from '../src/286.js';
 import { arrToStr } from './util.js';
 
 describe('286. Walls and Gates', () => {

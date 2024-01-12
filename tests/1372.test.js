@@ -1,6 +1,6 @@
-import { longestZigZag } from '../src/leetcode/1372.js';
+import { longestZigZag } from '../src/1372.js';
 import { arrToStr } from './util.js';
-import { arrToBst } from './leetcode/util.js';
+import { arrToBst } from './util.js';
 
 describe('1372. Longest ZigZag Path in a Binary Tree', () => {
   [[[1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3]].forEach(([input, expected]) => {

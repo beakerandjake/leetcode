@@ -1,4 +1,4 @@
-import { getRow } from '../src/leetcode/119.js';
+import { getRow } from '../src/119.js';
 import { arrToStr } from './util.js';
 
 describe('119. Pascals Triangle II', () => {

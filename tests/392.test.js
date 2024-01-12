@@ -1,4 +1,4 @@
-import { isSubsequence } from '../src/leetcode/392.js';
+import { isSubsequence } from '../src/392.js';
 
 describe('392. Is Subsequence', () => {
   [

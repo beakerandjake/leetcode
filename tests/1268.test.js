@@ -1,4 +1,4 @@
-import { suggestedProducts } from '../src/leetcode/1268.js';
+import { suggestedProducts } from '../src/1268.js';
 import { arrToStr } from './util.js';
 
 describe('1268. Search Suggestions System', () => {

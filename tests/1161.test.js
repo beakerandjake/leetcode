@@ -1,6 +1,6 @@
-import { maxLevelSum } from '../src/leetcode/1161.js';
+import { maxLevelSum } from '../src/1161.js';
 import { arrToStr } from './util.js';
-import { arrToBst } from './leetcode/util.js';
+import { arrToBst } from './util.js';
 
 describe('1161. Maximum Level Sum of a Binary Tree', () => {
   [

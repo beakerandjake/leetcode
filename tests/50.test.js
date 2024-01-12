@@ -1,4 +1,4 @@
-import { myPow } from '../src/leetcode/50.js';
+import { myPow } from '../src/50.js';
 
 describe('50. Pow(x,n)', () => {
   [

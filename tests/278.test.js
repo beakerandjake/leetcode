@@ -1,4 +1,4 @@
-import { solution } from '../src/leetcode/278.js';
+import { solution } from '../src/278.js';
 
 describe('278. First Bad Version', () => {
   [

@@ -1,4 +1,4 @@
-import { maxArea } from '../src/leetcode/11.js';
+import { maxArea } from '../src/11.js';
 import { arrToStr } from './util.js';
 
 describe('11. Container With Most Water', () => {

@@ -1,4 +1,4 @@
-import { merge } from '../src/leetcode/88.js';
+import { merge } from '../src/88.js';
 import { arrToStr } from './util.js';
 
 describe('88. Merge Sorted Array', () => {

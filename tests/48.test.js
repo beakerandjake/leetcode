@@ -1,4 +1,4 @@
-import { rotate } from '../src/leetcode/48.js';
+import { rotate } from '../src/48.js';
 import { arrToStr } from './util.js';
 
 describe('48. Rotate Image', () => {

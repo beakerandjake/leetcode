@@ -1,4 +1,4 @@
-import { merge } from '../src/leetcode/56.js';
+import { merge } from '../src/56.js';
 import { arrToStr } from './util.js';
 
 describe('56. Merge Intervals', () => {

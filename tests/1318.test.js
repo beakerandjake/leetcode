@@ -1,4 +1,4 @@
-import { minFlips } from '../src/leetcode/1318.js';
+import { minFlips } from '../src/1318.js';
 
 describe('1318. Minimum Flips to Make a OR b Equal to c', () => {
   [

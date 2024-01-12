@@ -1,4 +1,4 @@
-import { addBinary } from '../src/leetcode/67.js';
+import { addBinary } from '../src/67.js';
 
 describe('67. Add Binary', () => {
   [

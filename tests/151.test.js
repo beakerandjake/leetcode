@@ -1,4 +1,4 @@
-import { reverseWords } from '../src/leetcode/151.js';
+import { reverseWords } from '../src/151.js';
 
 describe('151. Reverse Words in a String', () => {
   [

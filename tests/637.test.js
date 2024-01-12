@@ -1,6 +1,6 @@
-import { averageOfLevels } from '../src/leetcode/637.js';
+import { averageOfLevels } from '../src/637.js';
 import { arrToStr } from './util.js';
-import { arrToBst } from './leetcode/util.js';
+import { arrToBst } from './util.js';
 
 describe('637. Average of Levels in Binary Tree', () => {
   [

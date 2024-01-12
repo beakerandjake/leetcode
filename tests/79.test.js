@@ -1,4 +1,4 @@
-import { exist } from '../src/leetcode/79.js';
+import { exist } from '../src/79.js';
 import { arrToStr } from './util.js';
 
 describe('79. Word Search', () => {

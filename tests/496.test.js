@@ -1,4 +1,4 @@
-import { nextGreaterElement } from '../src/leetcode/496.js';
+import { nextGreaterElement } from '../src/496.js';
 import { arrToStr } from './util.js';
 
 describe('496. Next Greater Element I', () => {

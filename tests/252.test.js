@@ -1,4 +1,4 @@
-import { canAttendMeetings } from '../src/leetcode/252.js';
+import { canAttendMeetings } from '../src/252.js';
 import { arrToStr } from './util.js';
 
 describe('252. Meeting Rooms', () => {

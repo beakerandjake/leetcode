@@ -1,4 +1,4 @@
-import { numTilings } from '../src/leetcode/790.js';
+import { numTilings } from '../src/790.js';
 
 describe('790. Domino and Tromino Tiling', () => {
   [

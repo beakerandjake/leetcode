@@ -1,6 +1,6 @@
-import { connect } from '../src/leetcode/116.js';
+import { connect } from '../src/116.js';
 import { arrToStr } from './util.js';
-import { arrToBst, bstToArr, trimEnd } from './leetcode/util.js';
+import { arrToBst, bstToArr, trimEnd } from './util.js';
 
 describe('116. Populating Next Right Pointers In Each Node', () => {
   [

@@ -1,4 +1,4 @@
-import { findTargetSumWays } from '../src/leetcode/494.js';
+import { findTargetSumWays } from '../src/494.js';
 import { arrToStr } from './util.js';
 
 describe('494. Target Sum', () => {

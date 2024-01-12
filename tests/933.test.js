@@ -1,4 +1,4 @@
-import { RecentCounter } from '../src/leetcode/933.js';
+import { RecentCounter } from '../src/933.js';
 import { arrToStr } from './util.js';
 
 describe('933. Number of Recent Calls', () => {

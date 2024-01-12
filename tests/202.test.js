@@ -1,4 +1,4 @@
-import { isHappy } from '../src/leetcode/202.js';
+import { isHappy } from '../src/202.js';
 
 describe('202. Happy Number', () => {
   [

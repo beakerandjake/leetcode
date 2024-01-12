@@ -1,4 +1,4 @@
-import { findUnsortedSubarray } from '../src/leetcode/581.js';
+import { findUnsortedSubarray } from '../src/581.js';
 import { arrToStr } from './util.js';
 
 describe('581. Shortest Unsorted Continuous Subarray', () => {

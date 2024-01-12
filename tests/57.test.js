@@ -1,4 +1,4 @@
-import { insert } from '../src/leetcode/57.js';
+import { insert } from '../src/57.js';
 import { arrToStr } from './util.js';
 
 describe('57. Insert Interval', () => {

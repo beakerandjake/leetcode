@@ -1,4 +1,4 @@
-import { earliestAcq } from '../src/leetcode/1101.js';
+import { earliestAcq } from '../src/1101.js';
 import { arrToStr } from './util.js';
 
 describe('1101. The Earliest Moment When Everyone Become Friends', () => {

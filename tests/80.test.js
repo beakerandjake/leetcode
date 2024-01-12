@@ -1,4 +1,4 @@
-import { removeDuplicates } from '../src/leetcode/80.js';
+import { removeDuplicates } from '../src/80.js';
 import { arrToStr } from './util.js';
 
 describe('80. Remove Duplicates from Sorted Array II', () => {

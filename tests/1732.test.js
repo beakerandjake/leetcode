@@ -1,4 +1,4 @@
-import { largestAltitude } from '../src/leetcode/1732.js';
+import { largestAltitude } from '../src/1732.js';
 import { arrToStr } from './util.js';
 
 describe('1732. Find the Highest Altitude', () => {

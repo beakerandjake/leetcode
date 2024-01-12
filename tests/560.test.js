@@ -1,4 +1,4 @@
-import { subarraySum } from '../src/leetcode/560.js';
+import { subarraySum } from '../src/560.js';
 import { arrToStr } from './util.js';
 
 describe('560. Subarray Sum Equals K', () => {

@@ -1,6 +1,6 @@
-import { inorderTraversal } from '../src/leetcode/94.js';
+import { inorderTraversal } from '../src/94.js';
 import { arrToStr } from './util.js';
-import { arrToBst } from './leetcode/util.js';
+import { arrToBst } from './util.js';
 
 describe('94. Binary Tree In Order Traversal', () => {
   [

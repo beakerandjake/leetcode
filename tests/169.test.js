@@ -1,4 +1,4 @@
-import { majorityElement } from '../src/leetcode/169.js';
+import { majorityElement } from '../src/169.js';
 import { arrToStr } from './util.js';
 
 describe('169. Majority Element', () => {

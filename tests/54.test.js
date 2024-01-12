@@ -1,4 +1,4 @@
-import { spiralOrder } from '../src/leetcode/54.js';
+import { spiralOrder } from '../src/54.js';
 import { arrToStr } from './util.js';
 
 describe('54. Spiral Matrix', () => {

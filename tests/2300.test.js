@@ -1,4 +1,4 @@
-import { successfulPairs } from '../src/leetcode/2300.js';
+import { successfulPairs } from '../src/2300.js';
 import { arrToStr } from './util.js';
 
 describe('2300. Successful Pairs of Spells and Potions', () => {

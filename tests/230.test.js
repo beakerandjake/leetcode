@@ -1,6 +1,6 @@
-import { kthSmallest } from '../src/leetcode/230.js';
+import { kthSmallest } from '../src/230.js';
 import { arrToStr } from './util.js';
-import { arrToBst } from './leetcode/util.js';
+import { arrToBst } from './util.js';
 
 describe('230. Kth Smallest Element in a BST', () => {
   [

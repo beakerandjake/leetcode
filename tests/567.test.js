@@ -1,4 +1,4 @@
-import { checkInclusion } from '../src/leetcode/567.js';
+import { checkInclusion } from '../src/567.js';
 
 describe('567. Permutation in String', () => {
   [

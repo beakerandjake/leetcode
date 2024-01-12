@@ -1,4 +1,4 @@
-import { Trie } from '../src/leetcode/208.js';
+import { Trie } from '../src/208.js';
 import { arrToStr } from './util.js';
 
 describe('208. Implement Trie (Prefix Tree)', () => {

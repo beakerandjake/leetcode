@@ -1,4 +1,4 @@
-import { wiggleSort } from '../src/leetcode/280.js';
+import { wiggleSort } from '../src/280.js';
 import { arrToStr } from './util.js';
 
 describe('280. Wiggle Sort', () => {

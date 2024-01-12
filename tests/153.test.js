@@ -1,4 +1,4 @@
-import { findMin } from '../src/leetcode/153.js';
+import { findMin } from '../src/153.js';
 import { arrToStr } from './util.js';
 
 describe('153. Find Minimum in Rotated Sorted Array', () => {

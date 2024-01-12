@@ -1,6 +1,6 @@
-import { partition } from '../src/leetcode/86.js';
+import { partition } from '../src/86.js';
 import { arrToStr } from './util.js';
-import { arrayToLinkedList, linkedListToArray } from './leetcode/util.js';
+import { arrayToLinkedList, linkedListToArray } from './util.js';
 
 describe('86. Partition List', () => {
   [

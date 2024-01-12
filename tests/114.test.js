@@ -1,6 +1,6 @@
-import { flatten } from '../src/leetcode/114.js';
+import { flatten } from '../src/114.js';
 import { arrToStr } from './util.js';
-import { arrToBst, bstToArr, trimEnd } from './leetcode/util.js';
+import { arrToBst, bstToArr, trimEnd } from './util.js';
 
 describe('114. Flatten Binary Tree to Linked List', () => {
   [

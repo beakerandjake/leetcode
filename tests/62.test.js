@@ -1,4 +1,4 @@
-import { uniquePaths } from '../src/leetcode/62.js';
+import { uniquePaths } from '../src/62.js';
 
 describe('62. Unique Paths', () => {
   [

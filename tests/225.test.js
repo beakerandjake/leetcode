@@ -1,4 +1,4 @@
-import { MyStack } from '../src/leetcode/225.js';
+import { MyStack } from '../src/225.js';
 import { arrToStr } from './util.js';
 
 describe('225. Implement Stack using Queues', () => {

@@ -1,4 +1,4 @@
-import { coinChange } from '../src/leetcode/332.js';
+import { coinChange } from '../src/332.js';
 import { arrToStr } from './util.js';
 
 describe('322. Coin Change', () => {

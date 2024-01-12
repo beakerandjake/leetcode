@@ -1,4 +1,4 @@
-import { solve } from '../src/leetcode/130.js';
+import { solve } from '../src/130.js';
 import { arrToStr } from './util.js';
 
 describe('130. Surrounded Regions', () => {

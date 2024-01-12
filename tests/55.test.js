@@ -1,4 +1,4 @@
-import { canJump } from '../src/leetcode/55.js';
+import { canJump } from '../src/55.js';
 import { arrToStr } from './util.js';
 
 describe('55. Jump Game', () => {

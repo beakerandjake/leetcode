@@ -1,4 +1,4 @@
-import { rotate } from '../src/leetcode/189.js';
+import { rotate } from '../src/189.js';
 import { arrToStr } from './util.js';
 
 describe('189. Rotate Array', () => {

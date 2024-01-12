@@ -1,4 +1,4 @@
-import { findMaxAverage } from '../src/leetcode/643.js';
+import { findMaxAverage } from '../src/643.js';
 import { arrToStr } from './util.js';
 
 describe('643. Maximum Average Subarray I', () => {

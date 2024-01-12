@@ -1,6 +1,6 @@
-import { buildTree } from '../src/leetcode/105.js';
+import { buildTree } from '../src/105.js';
 import { arrToStr } from './util.js';
-import { bstToArr, arrToBst, trimEnd } from './leetcode/util.js';
+import { bstToArr, arrToBst, trimEnd } from './util.js';
 
 describe('105. Construct Binary Tree from PreOrder and InOrder traversal', () => {
   [

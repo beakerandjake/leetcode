@@ -1,4 +1,4 @@
-import { solveNQueens } from '../src/leetcode/51.js';
+import { solveNQueens } from '../src/51.js';
 import { arrToStr } from './util.js';
 
 describe('51. N-Queens', () => {

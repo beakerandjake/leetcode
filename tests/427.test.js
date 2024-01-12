@@ -1,4 +1,4 @@
-import { construct } from '../src/leetcode/427.js';
+import { construct } from '../src/427.js';
 import { arrToStr } from './util.js';
 
 describe('427. Construct Quad Tree', () => {

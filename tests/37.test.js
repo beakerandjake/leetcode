@@ -1,4 +1,4 @@
-import { solveSudoku } from '../src/leetcode/37.js';
+import { solveSudoku } from '../src/37.js';
 import { arrToStr } from './util.js';
 
 describe('37. Sudoku Solver', () => {

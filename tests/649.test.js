@@ -1,4 +1,4 @@
-import { predictPartyVictory } from '../src/leetcode/649.js';
+import { predictPartyVictory } from '../src/649.js';
 
 describe('649. Dota2 Senate', () => {
   [

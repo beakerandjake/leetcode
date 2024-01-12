@@ -1,4 +1,4 @@
-import { twoSum } from '../src/leetcode/1.js';
+import { twoSum } from '../src/1.js';
 import { arrToStr } from './util.js';
 
 describe('1. Two Sum', () => {

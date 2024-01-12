@@ -1,6 +1,6 @@
-import { serialize, deserialize } from '../src/leetcode/297.js';
+import { serialize, deserialize } from '../src/297.js';
 import { arrToStr } from './util.js';
-import { arrToBst, bstToArr, trimEnd } from './leetcode/util.js';
+import { arrToBst, bstToArr, trimEnd } from './util.js';
 
 describe('297. Serialize and Deserialize Binary Tree', () => {
   [

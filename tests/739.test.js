@@ -1,4 +1,4 @@
-import { dailyTemperatures } from '../src/leetcode/739.js';
+import { dailyTemperatures } from '../src/739.js';
 import { arrToStr } from './util.js';
 
 describe('739. Daily Temperatures', () => {

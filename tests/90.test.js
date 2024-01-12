@@ -1,4 +1,4 @@
-import { subsetsWithDup } from '../src/leetcode/90.js';
+import { subsetsWithDup } from '../src/90.js';
 import { arrToStr } from './util.js';
 
 describe('90. Subsets II', () => {

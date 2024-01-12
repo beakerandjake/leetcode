@@ -1,4 +1,4 @@
-import { LRUCache } from '../src/leetcode/146.js';
+import { LRUCache } from '../src/146.js';
 import { arrToStr } from './util.js';
 
 describe('146. LRU Cache', () => {

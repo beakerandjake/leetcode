@@ -1,4 +1,4 @@
-import { summaryRanges } from '../src/leetcode/228.js';
+import { summaryRanges } from '../src/228.js';
 import { arrToStr } from './util.js';
 
 describe('228. Summary Ranges', () => {

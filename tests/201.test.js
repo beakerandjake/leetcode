@@ -1,4 +1,4 @@
-import { rangeBitwiseAnd } from '../src/leetcode/201.js';
+import { rangeBitwiseAnd } from '../src/201.js';
 
 describe('201. Bitwise AND of Numbers Range', () => {
   [

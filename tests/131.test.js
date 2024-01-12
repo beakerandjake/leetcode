@@ -1,4 +1,4 @@
-import { partition } from '../src/leetcode/131.js';
+import { partition } from '../src/131.js';
 import { arrToStr } from './util.js';
 
 describe('131. Palindrome Partitioning', () => {

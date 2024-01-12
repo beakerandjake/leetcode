@@ -1,4 +1,4 @@
-import { removeElement } from '../src/leetcode/27.js';
+import { removeElement } from '../src/27.js';
 import { arrToStr } from './util.js';
 
 describe('27. Remove Element', () => {

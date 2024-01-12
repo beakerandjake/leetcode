@@ -1,4 +1,4 @@
-import { permute } from '../src/leetcode/46.js';
+import { permute } from '../src/46.js';
 import { arrToStr } from './util.js';
 
 describe('46. Permutations', () => {

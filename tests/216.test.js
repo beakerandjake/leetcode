@@ -1,4 +1,4 @@
-import { combinationSum3 } from '../src/leetcode/216.js';
+import { combinationSum3 } from '../src/216.js';
 import { arrToStr } from './util.js';
 
 describe('216. Combination Sum III', () => {

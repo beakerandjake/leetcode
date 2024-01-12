@@ -1,4 +1,4 @@
-import { sortArray } from '../src/leetcode/912.js';
+import { sortArray } from '../src/912.js';
 import { arrToStr } from './util.js';
 
 describe('912. Sort an Array', () => {

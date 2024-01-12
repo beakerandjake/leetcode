@@ -1,4 +1,4 @@
-import { lengthOfLastWord } from '../src/leetcode/58.js';
+import { lengthOfLastWord } from '../src/58.js';
 
 describe('58. Length of Last Word', () => {
   [

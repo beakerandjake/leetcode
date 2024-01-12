@@ -1,4 +1,4 @@
-import { tictactoe } from '../src/leetcode/1275.js';
+import { tictactoe } from '../src/1275.js';
 import { arrToStr } from './util.js';
 
 describe('1275. Find Winner on a Tic Tac Toe Game', () => {

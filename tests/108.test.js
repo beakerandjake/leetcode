@@ -1,6 +1,6 @@
-import { sortedArrayToBST } from '../src/leetcode/108.js';
+import { sortedArrayToBST } from '../src/108.js';
 import { arrToStr } from './util.js';
-import { bstToArr, trimEnd } from './leetcode/util.js';
+import { bstToArr, trimEnd } from './util.js';
 
 describe('108. Convert Sorted Array to Binary Search Tree', () => {
   [

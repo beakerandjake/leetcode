@@ -1,4 +1,4 @@
-import { canConstruct } from '../src/leetcode/383.js';
+import { canConstruct } from '../src/383.js';
 
 describe('383. Ransom Note', () => {
   [

@@ -1,4 +1,4 @@
-import { longestOnes } from '../src/leetcode/1004.js';
+import { longestOnes } from '../src/1004.js';
 import { arrToStr } from './util.js';
 
 describe('1004. Max Consecutive Ones III', () => {

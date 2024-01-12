@@ -1,4 +1,4 @@
-import { canCompleteCircuit } from '../src/leetcode/134.js';
+import { canCompleteCircuit } from '../src/134.js';
 import { arrToStr } from './util.js';
 
 describe('134. Gas Station', () => {

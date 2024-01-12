@@ -1,4 +1,4 @@
-import { MovingAverage } from '../src/leetcode/346.js';
+import { MovingAverage } from '../src/346.js';
 import { arrToStr } from './util.js';
 
 describe('346. Moving Average from Data Stream', () => {

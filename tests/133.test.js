@@ -1,6 +1,6 @@
-import { cloneGraph } from '../src/leetcode/133.js';
+import { cloneGraph } from '../src/133.js';
 import { arrToStr } from './util.js';
-import { arrToGraph, graphToArr } from './leetcode/util.js';
+import { arrToGraph, graphToArr } from './util.js';
 
 describe('133. Clone Graph', () => {
   [

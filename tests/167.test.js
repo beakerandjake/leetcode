@@ -1,4 +1,4 @@
-import { twoSum } from '../src/leetcode/167.js';
+import { twoSum } from '../src/167.js';
 import { arrToStr } from './util.js';
 
 describe('167. Two Sum II - Input Array Is Sorted', () => {

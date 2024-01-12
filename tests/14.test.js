@@ -1,4 +1,4 @@
-import { longestCommonPrefix } from '../src/leetcode/14.js';
+import { longestCommonPrefix } from '../src/14.js';
 import { arrToStr } from './util.js';
 
 describe('14. Longest Common Prefix', () => {

@@ -1,4 +1,4 @@
-import { minDistance } from '../src/leetcode/72.js';
+import { minDistance } from '../src/72.js';
 
 describe('72. Edit Distance', () => {
   [

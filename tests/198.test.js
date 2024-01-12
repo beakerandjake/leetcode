@@ -1,4 +1,4 @@
-import { rob } from '../src/leetcode/198.js';
+import { rob } from '../src/198.js';
 import { arrToStr } from './util.js';
 
 describe('198. House Robber', () => {

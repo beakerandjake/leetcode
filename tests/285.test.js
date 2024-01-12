@@ -1,6 +1,6 @@
-import { inorderSuccessor } from '../src/leetcode/285.js';
+import { inorderSuccessor } from '../src/285.js';
 import { arrToStr } from './util.js';
-import { arrToBst } from './leetcode/util.js';
+import { arrToBst } from './util.js';
 
 describe('285. Inorder Successor in BST', () => {
   [

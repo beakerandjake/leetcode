@@ -1,4 +1,4 @@
-import { generateParenthesis } from '../src/leetcode/22.js';
+import { generateParenthesis } from '../src/22.js';
 import { arrToStr } from './util.js';
 
 describe('22. Generate Parentheses', () => {

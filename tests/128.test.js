@@ -1,4 +1,4 @@
-import { longestConsecutive } from '../src/leetcode/128.js';
+import { longestConsecutive } from '../src/128.js';
 import { arrToStr } from './util.js';
 
 describe('128. Longest Consecutive Sequence', () => {

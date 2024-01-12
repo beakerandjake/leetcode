@@ -1,4 +1,4 @@
-import { pivotIndex } from '../src/leetcode/724.js';
+import { pivotIndex } from '../src/724.js';
 import { arrToStr } from './util.js';
 
 describe('724. Find Pivot Index', () => {

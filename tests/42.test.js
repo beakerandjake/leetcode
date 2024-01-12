@@ -1,4 +1,4 @@
-import { trap } from '../src/leetcode/42.js';
+import { trap } from '../src/42.js';
 import { arrToStr } from './util.js';
 
 describe('42. Trapping Rain Water', () => {

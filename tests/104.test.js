@@ -1,6 +1,6 @@
-import { maxDepth } from '../src/leetcode/104.js';
+import { maxDepth } from '../src/104.js';
 import { arrToStr } from './util.js';
-import { arrToBst } from './leetcode/util.js';
+import { arrToBst } from './util.js';
 
 describe('104. Maximum Depth of Binary Tree', () => {
   [

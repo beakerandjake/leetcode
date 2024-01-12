@@ -1,4 +1,4 @@
-import { calcEquation } from '../src/leetcode/399.js';
+import { calcEquation } from '../src/399.js';
 import { arrToStr } from './util.js';
 
 describe('399. Evaluate Division', () => {

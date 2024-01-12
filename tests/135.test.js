@@ -1,4 +1,4 @@
-import { candy } from '../src/leetcode/135.js';
+import { candy } from '../src/135.js';
 import { arrToStr } from './util.js';
 
 describe('135. Candy', () => {

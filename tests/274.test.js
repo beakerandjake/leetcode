@@ -1,4 +1,4 @@
-import { hIndex } from '../src/leetcode/274.js';
+import { hIndex } from '../src/274.js';
 import { arrToStr } from './util.js';
 
 describe('274. H-Index', () => {

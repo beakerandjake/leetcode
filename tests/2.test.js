@@ -1,6 +1,6 @@
-import { addTwoNumbers } from '../src/leetcode/2.js';
+import { addTwoNumbers } from '../src/2.js';
 import { arrToStr } from './util.js';
-import { arrayToLinkedList, linkedListToArray } from './leetcode/util.js';
+import { arrayToLinkedList, linkedListToArray } from './util.js';
 
 describe('2. Add Two Numbers', () => {
   [

@@ -1,4 +1,4 @@
-import { numIslands } from '../src/leetcode/200.js';
+import { numIslands } from '../src/200.js';
 import { arrToStr } from './util.js';
 
 describe('200. Number of Islands', () => {

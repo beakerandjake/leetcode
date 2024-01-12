@@ -1,4 +1,4 @@
-import { MyCircularQueue } from '../src/leetcode/622.js';
+import { MyCircularQueue } from '../src/622.js';
 import { arrToStr } from './util.js';
 
 describe('622. Design Circular Queue', () => {

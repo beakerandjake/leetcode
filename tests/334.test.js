@@ -1,4 +1,4 @@
-import { increasingTriplet } from '../src/leetcode/334.js';
+import { increasingTriplet } from '../src/334.js';
 import { arrToStr } from './util.js';
 
 describe('334. Increasing Triplet Subsequence', () => {

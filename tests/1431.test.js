@@ -1,4 +1,4 @@
-import { kidsWithCandies } from '../src/leetcode/1431.js';
+import { kidsWithCandies } from '../src/1431.js';
 import { arrToStr } from './util.js';
 
 describe('1431. Kids With the Greatest Number of Candies', () => {

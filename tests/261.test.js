@@ -1,4 +1,4 @@
-import { validTree } from '../src/leetcode/261.js';
+import { validTree } from '../src/261.js';
 import { arrToStr } from './util.js';
 
 describe('261. Graph Valid Tree', () => {

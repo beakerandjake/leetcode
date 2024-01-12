@@ -1,4 +1,4 @@
-import { reverseString } from '../src/leetcode/344.js';
+import { reverseString } from '../src/344.js';
 import { arrToStr } from './util.js';
 
 describe('344. Reverse String', () => {

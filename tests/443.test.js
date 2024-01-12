@@ -1,4 +1,4 @@
-import { compress } from '../src/leetcode/443.js';
+import { compress } from '../src/443.js';
 import { arrToStr } from './util.js';
 
 describe('443. String Compression', () => {

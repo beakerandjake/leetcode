@@ -1,4 +1,4 @@
-import { maxOperations } from '../src/leetcode/1679.js';
+import { maxOperations } from '../src/1679.js';
 import { arrToStr } from './util.js';
 
 describe('1679. Max Number Of K-Sum Pairs', () => {

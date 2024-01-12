@@ -1,4 +1,4 @@
-import { validPath } from '../src/leetcode/1971.js';
+import { validPath } from '../src/1971.js';
 import { arrToStr } from './util.js';
 
 describe('1971. Find if Path Exists in Graph', () => {

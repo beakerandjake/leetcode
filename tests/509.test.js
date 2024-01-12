@@ -1,4 +1,4 @@
-import { fib } from '../src/leetcode/509.js';
+import { fib } from '../src/509.js';
 
 describe('509. Fibonacci Number', () => {
   [

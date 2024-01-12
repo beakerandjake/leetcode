@@ -1,6 +1,6 @@
-import { swapPairs } from '../src/leetcode/24.js';
+import { swapPairs } from '../src/24.js';
 import { arrToStr } from './util.js';
-import { arrayToLinkedList, linkedListToArray } from './leetcode/util.js';
+import { arrayToLinkedList, linkedListToArray } from './util.js';
 
 describe('24. Swap Nodes In Pairs', () => {
   [

@@ -1,4 +1,4 @@
-import { moveZeroes } from '../src/leetcode/283.js';
+import { moveZeroes } from '../src/283.js';
 import { arrToStr } from './util.js';
 
 describe('283. Move Zeroes', () => {

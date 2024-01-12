@@ -1,4 +1,4 @@
-import { productExceptSelf } from '../src/leetcode/238.js';
+import { productExceptSelf } from '../src/238.js';
 import { arrToStr } from './util.js';
 
 describe('238. Product of Array Except Self', () => {

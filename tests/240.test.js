@@ -1,4 +1,4 @@
-import { searchMatrix } from '../src/leetcode/240.js';
+import { searchMatrix } from '../src/240.js';
 import { arrToStr } from './util.js';
 
 describe('240. Search a 2D Matrix II', () => {

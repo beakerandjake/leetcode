@@ -1,4 +1,4 @@
-import { isValid } from '../src/leetcode/20.js';
+import { isValid } from '../src/20.js';
 
 describe('20. Valid Parentheses', () => {
   [

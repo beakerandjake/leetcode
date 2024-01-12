@@ -1,4 +1,4 @@
-import { maxProfit } from '../src/leetcode/121.js';
+import { maxProfit } from '../src/121.js';
 import { arrToStr } from './util.js';
 
 describe('121. Best Time to Buy and Sell Stock', () => {

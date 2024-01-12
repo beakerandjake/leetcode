@@ -1,6 +1,6 @@
-import { rotateRight } from '../src/leetcode/61.js';
+import { rotateRight } from '../src/61.js';
 import { arrToStr } from './util.js';
-import { linkedListToArray, arrayToLinkedList } from './leetcode/util.js';
+import { linkedListToArray, arrayToLinkedList } from './util.js';
 
 describe('61. Rotate List', () => {
   [

@@ -1,6 +1,6 @@
-import { invertTree } from '../src/leetcode/226.js';
+import { invertTree } from '../src/226.js';
 import { arrToStr } from './util.js';
-import { bstToArr, arrToBst, trimEnd } from './leetcode/util.js';
+import { bstToArr, arrToBst, trimEnd } from './util.js';
 
 describe('226. Invert Binary Tree', () => {
   [

@@ -1,6 +1,6 @@
-import { isSymmetric } from '../src/leetcode/101.js';
+import { isSymmetric } from '../src/101.js';
 import { arrToStr } from './util.js';
-import { arrToBst } from './leetcode/util.js';
+import { arrToBst } from './util.js';
 
 describe('101. Symmetric Tree', () => {
   [

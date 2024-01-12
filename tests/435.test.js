@@ -1,4 +1,4 @@
-import { eraseOverlapIntervals } from '../src/leetcode/435.js';
+import { eraseOverlapIntervals } from '../src/435.js';
 import { arrToStr } from './util.js';
 
 describe('435. Non-overlapping Intervals', () => {

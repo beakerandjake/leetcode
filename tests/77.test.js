@@ -1,4 +1,4 @@
-import { combine } from '../src/leetcode/77.js';
+import { combine } from '../src/77.js';
 import { arrToStr } from './util.js';
 
 describe('77. Combinations', () => {

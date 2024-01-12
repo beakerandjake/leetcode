@@ -1,4 +1,4 @@
-import { openLock } from '../src/leetcode/752.js';
+import { openLock } from '../src/752.js';
 import { arrToStr } from './util.js';
 
 describe('752. Open the Lock', () => {
