@@ -15,8 +15,8 @@ const topDown = (k, prices) => {
       const doNothing = recursive(day + 1, sold, holding);
       // buy or sell based on if currently holding a stock or not.
       const action = !holding
-        ? -prices[day] + recursive(day + 1, sold, 1) // buy todays stock
-        : prices[day] + recursive(day + 1, sold + 1, 0); // sell todays stock
+        ? -prices[day] + recursive(day + 1, sold, 1)
+        : prices[day] + recursive(day + 1, sold + 1, 0);
       memo[day][sold][holding] = Math.max(doNothing, action);
     }
     return memo[day][sold][holding];

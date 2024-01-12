@@ -33,7 +33,8 @@ const topDown = (jobs, days) => {
     }
     const hash = `${day}_${jobIndex}`;
     if (!memo.has(hash)) {
-      const maxJob = jobs.length - (days - day); // exclusive
+      // exclusive
+      const maxJob = jobs.length - (days - day);
       let hardestJobSeen = 0;
       let easiestSchedule = Number.MAX_SAFE_INTEGER;
       for (let i = jobIndex; i < maxJob; i++) {

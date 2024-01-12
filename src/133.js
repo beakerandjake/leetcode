@@ -141,8 +141,8 @@ const bfs = (node) => {
   }
 
   // replace the neighbors with actual pointers.
-  nodes.forEach((node) => {
-    node.neighbors = node.neighbors.map((val) => nodes[val - 1]);
+  nodes.forEach((x) => {
+    x.neighbors = x.neighbors.map((val) => nodes[val - 1]);
   });
 
   return nodes[0];

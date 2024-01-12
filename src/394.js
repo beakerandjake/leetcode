@@ -85,6 +85,7 @@ const evaluate = (str) => {
     if (isStartOfEncoding(str[i])) {
       const encoded = getEncoded(str, i);
       i += encoded.length;
+      // eslint-disable-next-line no-use-before-define
       toReturn.push(apply(encoded));
     } else {
       toReturn.push(str[i]);

@@ -43,7 +43,7 @@
  * Constraints:
  *
  *  * 1 <= x <= 9
- *  * At most 100 calls will be made to push, pop, peek, and empty.
+ *  * At most 100 calls will be made to push, pop, peek, and empty.
  *  * All the calls to pop and peek are valid.
  *
  *

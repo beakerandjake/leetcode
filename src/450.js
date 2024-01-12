@@ -36,7 +36,7 @@ const iterative = (() => {
     return { parent, node: next };
   };
 
-  (root, key) => {
+  return (root, key) => {
     const toDelete = findNode(root, key);
     // bail if key isn't in tree.
     if (!toDelete) {

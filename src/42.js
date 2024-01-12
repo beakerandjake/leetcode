@@ -65,10 +65,11 @@ const buckets = (heights) => {
   const sumBuckets = (buckets) =>
     buckets.reduce((acc, [start, end]) => {
       const height = Math.min(heights[start], heights[end]);
+      let newTotal = acc;
       for (let i = start + 1; i < end; i++) {
-        acc += height - heights[i];
+        newTotal += height - heights[i];
       }
-      return acc;
+      return newTotal;
     }, 0);
 
   return sumBuckets(findBuckets());

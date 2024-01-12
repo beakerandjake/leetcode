@@ -52,4 +52,5 @@ export const findKthLargest = (nums, k) => {
       }
     }
   }
+  throw new Error('Not Found')
 };

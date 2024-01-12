@@ -81,9 +81,7 @@ const turnForward = (num) => forwardMap[num];
 
 const turnBackward = (num) => backwardMap[num];
 
-const replace = (lock, index, value) => {
-  return lock.substring(0, index) + value + lock.substring(index + 1);
-};
+const replace = (lock, index, value) => lock.substring(0, index) + value + lock.substring(index + 1);
 
 /**
  * @param {string[]} deadends

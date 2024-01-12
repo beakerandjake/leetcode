@@ -26,6 +26,7 @@ const twoPassMap = (nums, target) => {
     }
     return needed === nums[i] ? [i, neededIndexes[1]] : [i, neededIndexes[0]];
   }
+  throw new Error('Not Found')
 };
 
 /**
@@ -42,4 +43,5 @@ export const twoSum = (nums, target) => {
     }
     indexLookup.set(nums[i], i);
   }
+  throw new Error('Not Found');
 };
