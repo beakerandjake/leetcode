@@ -129,9 +129,6 @@ class LinkedList {
   }
 
   delete(node) {
-    if (!node.prev?.next) {
-      console.log('fuck', node);
-    }
     node.prev.next = node.next;
     node.next.prev = node.prev;
   }

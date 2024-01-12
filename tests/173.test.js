@@ -1,15 +1,5 @@
 import { BSTIterator } from '../src/173.js';
 import { arrToStr, arrToBst } from './util.js';
-// ].forEach(([funcs, args, expected]) => {
-//   const stack = new MinStack();
-//   test(`${arrToStr(funcs)},${arrToStr(args)} -> ${arrToStr(expected)}`, () => {
-//     funcs.forEach((func, i) => {
-//       const result = stack[func](args[i]);
-//       // console.log(`${func}(${args[i]}) -> ${result}, ${JSON.stringify(stack)}`);
-//       expect(result).toBe(expected[i]);
-//     });
-//   });
-// });
 
 describe('173. Binary Search Tree Iterator', () => {
   [
