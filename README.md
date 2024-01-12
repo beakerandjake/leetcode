@@ -1,5 +1,4 @@
 # leetcode
-🚧 README under construction 🚧
 
 Contains my leetcode solutions.
 
