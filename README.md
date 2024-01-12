@@ -39,7 +39,9 @@ npm run lc-test 42
 
 ### `touch <problem-slug> [--reset]`
 
-Create the source and test file for the specified problem.
+Create the source and test file for the specified problem. 
+
+The source file is added to `src/` and test file is added to `tests/`. The test file is just a scaffolded test and you will need to update the test. 
 
 The slug is in the url of the problem, just copy the path after `leetcode.com/problems/`
 
@@ -103,4 +105,4 @@ npm run ctci
 
 # Acknowledgements
 
-Big thanks to the [leetcode-query](https://github.com/JacobLinCool/LeetCode-Query) package, it removed a lot of the copy and paste tedium when creating problem source code files. 
+Big thanks to the [leetcode-query](https://github.com/JacobLinCool/LeetCode-Query) package, it removed a lot of the copy and paste tedium when creating the source files for problems. 
