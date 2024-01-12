@@ -1,7 +1,7 @@
 # leetcode
 🚧 README under construction 🚧
 
-Contains my solutions to leetcode.
+Contains my leetcode solutions.
 
 I don't like coding in a browser so I added tools to support local development:
 - Generate the source code file for a problem, with included description.
