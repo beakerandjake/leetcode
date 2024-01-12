@@ -8,7 +8,7 @@ if [[ -z $1 ]]
 fi
 
 # ensure test file exists.
-testFile="./tests/leetcode/$1.test.js"
+testFile="./tests/$1.test.js"
 if [ ! -f $testFile ] 
     then 
         echo "err: ${testFile} not found"

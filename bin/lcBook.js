@@ -1,7 +1,7 @@
 import { argv, exit } from 'node:process';
 import { readFile, readdir } from 'node:fs/promises';
 
-const LC_DIR = 'src/leetcode';
+const LC_DIR = 'src/';
 const INPUT_FILE = 'bin/ctci-to-lc.txt';
 
 /**

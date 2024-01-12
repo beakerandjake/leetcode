@@ -5,10 +5,10 @@
   "type": "module",
   "scripts": {
     "test": "NODE_OPTIONS=--experimental-vm-modules jest",
-    "lc-count": "ls ./src/leetcode -1 | wc -l",
+    "lc-count": "ls ./src -1 | wc -l",
     "lc-book": "node ./bin/lcBook.js",
     "lc-test": "./bin/lcTest.sh",
-    "lc-today": "ls src/leetcode -lt --time=birth --time-style='+%b %-d' | grep \"$(date '+%b %-d')\" | wc -l",
+    "lc-today": "ls ./src -lt --time=birth --time-style='+%b %-d' | grep \"$(date '+%b %-d')\" | wc -l",
     "lc-touch": "node ./bin/lcTouch.js",
     "lc-uglify": "./bin/lcUglify.sh"
   },

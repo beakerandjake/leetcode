@@ -8,7 +8,7 @@ if [[ -z $1 ]]
 fi
 
 # ensure file exists.
-srcFile="./src/leetcode/$1.js"
+srcFile="./src/$1.js"
 if [ ! -f $srcFile ] 
     then 
         echo "err: ${srcFile} not found"

@@ -45,7 +45,7 @@ const getProblemId = ({ questionFrontendId }) => questionFrontendId;
 /**
  * Returns the path to the source file.
  */
-const srcFilePath = (problemId) => `src/leetcode/${problemId}.js`;
+const srcFilePath = (problemId) => `src/${problemId}.js`;
 
 /**
  * Returns true if a file has already been created for this problem.
