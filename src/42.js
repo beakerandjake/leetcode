@@ -27,7 +27,7 @@ const countVerticallyRegex = (heights) => {
   return total;
 };
 
-const buckets = (heights) => {
+const usingBuckets = (heights) => {
   if (heights.length <= 2) {
     return 0;
   }
