@@ -98,6 +98,12 @@ Note this isn't a perfect mapping, and a lot of problems in the book don't map t
 npm run ctci
 ```
 
+Additionally you can pass the `-r` flag to list the remaining problems:
+
+```sh
+npm run ctci -- -r
+```
+
 
 # Acknowledgements
 
