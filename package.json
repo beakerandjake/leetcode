@@ -1,7 +1,7 @@
 {
-  "name": "interview-prep",
+  "name": "leetcode",
   "version": "1.0.0",
-  "description": "Gotta remember all the crap",
+  "description": "My leetcode solution repository",
   "type": "module",
   "scripts": {
     "jest": "NODE_OPTIONS=--experimental-vm-modules jest",
@@ -16,14 +16,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/beakerandjake/interview-prep.git"
+    "url": "git+https://github.com/beakerandjake/leetcode.git"
   },
   "author": "",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/beakerandjake/interview-prep/issues"
+    "url": "https://github.com/beakerandjake/leetcode/issues"
   },
-  "homepage": "https://github.com/beakerandjake/interview-prep#readme",
+  "homepage": "https://github.com/beakerandjake/leetcode#readme",
   "devDependencies": {
     "@types/jest": "^29.4.0",
     "eslint": "^8.55.0",
