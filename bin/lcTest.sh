@@ -1,19 +1,15 @@
 #!/bin/bash
 
-# ensure test name argument.
+# No arguments? Then run all tests.
 if [[ -z $1 ]]
     then
-        echo "err: no test name specified"
-        exit 1
-fi
-
-# ensure test file exists.
-testFile="./tests/$1.test.js"
-if [ ! -f $testFile ] 
+        npm run jest
+# Argument provided, but file does not exist.
+elif [ ! -f "./tests/$1.test.js" ] 
     then 
-        echo "err: ${testFile} not found"
+        echo "err: file './tests/$1.test.js' not found"
         exit 1
+# Run the specified test.
+else
+    npm run jest "./tests/$1.test.js" 
 fi
-
-# run the specific test file.
-npm test $testFile

@@ -28,13 +28,18 @@ Run the tests for all problems.
 npm run test
 ```
 
-### `lc-test <problem-number>`
+### `test [problem-number]`
+
+Run the tests for all problems:
+
+```sh
+npm run test
+```
 
 Run the test for a specific problem
 
-To run the test corresponding to problem 42:
 ```sh
-npm run lc-test 42
+npm run test 42
 ```
 
 ### `touch <problem-slug> [--reset]`

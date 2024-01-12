@@ -4,7 +4,8 @@
   "description": "Gotta remember all the crap",
   "type": "module",
   "scripts": {
-    "test": "NODE_OPTIONS=--experimental-vm-modules jest",
+    "jest": "NODE_OPTIONS=--experimental-vm-modules jest",
+    "test": "./bin/lcTest.sh",
     "lint": "eslint src tests",
     "format": "prettier . --write",
     "count": "ls ./src -1 | wc -l",
