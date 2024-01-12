@@ -56,8 +56,7 @@
  *
  *  * 1 <= k <= 1000
  *  * 0 <= value <= 1000
- *  * At most 3000 calls will be made to enQueue, deQueue, Front, Rear, isEmpty,
- *    and isFull.
+ *  * At most 3000 calls will be made to enQueue, deQueue, Front, Rear, isEmpty, and isFull.
  *
  *
  *

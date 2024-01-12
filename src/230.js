@@ -20,7 +20,6 @@ const iterative = (() => {
     inOrder(root, (node) => {
       if (index++ === k) {
         toReturn = node;
-        return false;
       }
     });
     return toReturn?.val;

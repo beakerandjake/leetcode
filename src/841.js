@@ -1,5 +1,5 @@
 /**
- * There are n rooms labeled from 0 to n - 1 and all the rooms are locked except
+ * There are n rooms labeled from 0 to n - 1 and all the rooms are locked except
  * for room 0. Your goal is to visit all the rooms. However, you cannot enter a
  * locked room without having its key.
  *

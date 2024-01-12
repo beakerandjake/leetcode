@@ -12,7 +12,7 @@
  * Note: The input is always valid. You may assume that evaluating the queries will
  * not result in division by zero and that there is no contradiction.
  *
- * Note: The variables that do not occur in the list of equations are undefined, so
+ * Note: The variables that do not occur in the list of equations are undefined, so
  * the answer cannot be determined for them.
  *
  *

@@ -45,7 +45,6 @@ rules:
   no-loop-func: error
   no-multi-assign: error
   no-multi-str: error
-  no-negated-condition: error
   no-new: error
   no-new-func: error
   no-new-native-nonconstructor: error
@@ -75,7 +74,6 @@ rules:
   operator-assignment: error
   prefer-arrow-callback: error
   prefer-const: error
-  prefer-destructuring: error
   prefer-exponentiation-operator: error
   prefer-numeric-literals: error
   prefer-object-has-own: error

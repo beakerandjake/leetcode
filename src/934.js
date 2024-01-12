@@ -79,4 +79,5 @@ export const shortestBridge = (grid) => {
       }
     }
   }
+  throw new Error('Not found');
 };
