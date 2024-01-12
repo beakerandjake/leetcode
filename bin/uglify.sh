@@ -17,13 +17,14 @@ fi
 
 # uglify with or without extra options.
 ugly=0
-if [[ -z $2 ]]
+if [ $# -eq 0 ]
     then
-        # extra options
-        ugly=$(uglifyjs $srcFile -c drop_console=true,passes=2 -m properties=keep_quoted)
-    else 
-        # simple options
+        # if no extra args prodivded, just use default uglify
         ugly=$(uglifyjs $srcFile -c drop_console=true,passes=2 -m)
+    else 
+        # if extra args provided, forward the args to uglify js.
+        shift
+        ugly=$(uglifyjs $srcFile -c drop_console=true,passes=2 -m "$@")
 fi
 
 # remove the export portion of the uglified output.

@@ -55,7 +55,7 @@ npm run touch two-sum -- --reset
 
 Note the `--` is necessary to tell npm that the `--reset` flag is not for npm but for the `touch` command.
 
-### `uglify <problem-number> [keep-quoted]`
+### `uglify <problem-number>`
 
 Uglifies the problem source code outputs it to the console and attempts to copy it to the clipboard (if `xclip` is installed on the system). 
 
@@ -66,11 +66,11 @@ To uglify problem 42:
 npm run uglify 42
 ```
 
-Note sometimes uglify-js can cause issues with mangling quoted property names, you can pass a second argument to tell uglify-js to not mangle these names. 
+Any additional arguments you pass to this command will be forwarded to uglify.js.
 
-To uglify problem 42 (without mangling quoted property names):
+For example to tell uglify-js to not mangle quoted property names:
 ```sh
-npm run uglify 42 1
+npm run uglify 42 -- --mangle-props keep_quoted
 ```
 
 ### `count`
