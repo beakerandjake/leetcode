@@ -5,15 +5,14 @@
   "type": "module",
   "scripts": {
     "jest": "NODE_OPTIONS=--experimental-vm-modules jest",
-    "test": "./bin/lcTest.sh",
+    "test": "./bin/test.sh",
     "lint": "eslint src tests",
     "format": "prettier . --write",
     "count": "ls ./src -1 | wc -l",
-    "ctci": "node ./bin/lcBook.js",
-    "lc-test": "./bin/lcTest.sh",
+    "ctci": "node ./bin/book.js",
     "today": "ls ./src -lt --time=birth --time-style='+%b %-d' | grep \"$(date '+%b %-d')\" | wc -l",
-    "touch": "node ./bin/lcTouch.js",
-    "uglify": "./bin/lcUglify.sh"
+    "touch": "node ./bin/touch.js",
+    "uglify": "./bin/uglify.sh"
   },
   "repository": {
     "type": "git",
