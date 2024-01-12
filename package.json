@@ -9,7 +9,7 @@
     "lint": "eslint src tests",
     "format": "prettier . --write",
     "count": "ls ./src -1 | wc -l",
-    "ctci": "node ./bin/book.js",
+    "ctci": "node ./bin/ctci.js",
     "today": "ls ./src -lt --time=birth --time-style='+%b %-d' | grep \"$(date '+%b %-d')\" | wc -l",
     "touch": "node ./bin/touch.js",
     "uglify": "./bin/uglify.sh"
