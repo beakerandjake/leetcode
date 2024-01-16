@@ -42,4 +42,14 @@
  * @param {number[]} nums
  * @return {void} Do not return anything, modify nums in-place instead.
  */
-export const wiggleSort = (nums) => {};
+export const wiggleSort = (nums) => {
+  const sorted = [...nums].sort((a, b) => a - b);
+
+  let right = sorted.length - 1;
+  for (let i = 1; i < sorted.length; i += 2) {
+    nums[i] = sorted[right--];
+  }
+  for (let i = 0; i < sorted.length; i += 2) {
+    nums[i] = sorted[right--];
+  }
+};
