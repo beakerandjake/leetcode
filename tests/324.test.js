@@ -1,5 +1,5 @@
-import { wiggleSort } from "../../src/324.js";
-import { arrToStr } from "../util.js";
+import { wiggleSort } from "../src/324.js";
+import { arrToStr } from "./util.js";
 
 describe("324. Wiggle Sort II", () => {
   [
