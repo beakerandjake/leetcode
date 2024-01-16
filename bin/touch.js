@@ -123,7 +123,7 @@ const getTitle = ({ title }) => title;
 /**
  * Returns the path to the test file.
  */
-const testFilePath = (problemId) => `tests/leetcode/${problemId}.test.js`;
+const testFilePath = (problemId) => `tests/${problemId}.test.js`;
 
 /**
  * Returns an new string with each matching character escaped by a backslash.
