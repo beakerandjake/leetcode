@@ -143,8 +143,8 @@ const createTest = async (problem, problemId) => {
   const fnName = getSolutionFunction(problem);
   const contents = [
     [
-      `import { ${fnName} } from '../../${srcFilePath(problemId)}'`,
-      "import { arrToStr } from '../util.js'",
+      `import { ${fnName} } from '../${srcFilePath(problemId)}'`,
+      "import { arrToStr } from './util.js'",
     ].join('\n'),
     [
       `describe('${problemId}. ${escape(getTitle(problem), "'")}', () => {`,
