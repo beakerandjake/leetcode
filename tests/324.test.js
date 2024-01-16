@@ -1,14 +1,16 @@
-import { wiggleSort } from "../src/324.js";
-import { arrToStr } from "./util.js";
+import { wiggleSort } from '../src/324.js';
+import { arrToStr } from './util.js';
 
-describe("324. Wiggle Sort II", () => {
+describe('324. Wiggle Sort II', () => {
   [
-    // replace with real test data
-    [true, false],
+    [
+      [1, 5, 1, 1, 6, 4],
+      [1, 6, 1, 5, 1, 4],
+    ],
   ].forEach(([input, expected]) => {
-    test(`${input} -> ${expected}`, () => {
+    test(`${arrToStr(input)} -> ${arrToStr(expected)}`, () => {
       const result = wiggleSort(input);
-      expect(result).toBe(expected);
+      expect(result).toEqual(expected);
     });
   });
 });
