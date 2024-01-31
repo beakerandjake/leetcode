@@ -6,7 +6,9 @@ describe('402. Remove K Digits', () => {
     ['10200', 1, '200'],
     ['10', 2, '0'],
     ['10', 1, '0'],
-    ['112', 1, '11']
+    ['112', 1, '11'],
+    ['432694', 3, '264'],
+    ['56789', 2, '567'],
   ].forEach(([input, k, expected]) => {
     test(`${input},${k} -> ${expected}`, () => {
       const result = removeKdigits(input, k);
