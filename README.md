@@ -35,7 +35,7 @@ npm run test 42
 
 ### `touch <problem-slug> [--reset]`
 
-Create the source and test file for the specified problem. 
+Create the source and test file for the specified problem, commits these files to git, and finally opens them in vs code.
 
 The source file is added to `src/` and test file is added to `tests/`. The test file is just a scaffolded test and you will need to update the test. 
 
