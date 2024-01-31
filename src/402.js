@@ -41,9 +41,35 @@
  * https://leetcode.com/problems/remove-k-digits
  */
 
+const toNumber = (str) => {
+  let trimmed = str;
+  while (trimmed[0] === '0') {
+    trimmed = trimmed.slice(1);
+  }
+  return Number.parseInt(trimmed || '0', 10);
+};
+
+const removeAt = (str, index) =>
+  [...str.slice(0, index), ...str.slice(index + 1)].join('');
+
 /**
  * @param {string} num
  * @param {number} k
  * @return {string}
  */
-export const removeKdigits = (num, k) => {};
+export const removeKdigits = (num, k) => {
+  if (!num || num.length <= k) {
+    return '0';
+  }
+  let smallest = toNumber(num);
+  const recurse = (str, index, remaining) => {
+    if (remaining <= 0 || index >= str.length) {
+      smallest = Math.min(smallest, toNumber(str));
+      return;
+    }
+    recurse(str, index + 1, remaining);
+    recurse(removeAt(str, index), index, remaining - 1);
+  };
+  recurse(num, 0, k);
+  return `${smallest}`;
+};
