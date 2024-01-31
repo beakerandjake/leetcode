@@ -18,23 +18,40 @@
  * }
  */
 
-const inOrder = (root, arr) => {
-  if (!root) {
-    return arr;
-  }
-  return [...inOrder(root.left, arr), root.val, ...inOrder(root.right, arr)];
-};
+const simple = (() => {
+  const validate = (root, min, max) => {
+    if (!root) {
+      return true;
+    }
+    if ((min && root.val <= min.val) || (max && root.val >= max.val)) {
+      return false;
+    }
+    return validate(root.left, min, root) && validate(root.right, root, max);
+  };
+
+  return (root) => validate(root, null, null);
+})();
+
+const usingSorting = (() => {
+  const inOrder = (root, arr) => {
+    if (!root) {
+      return arr;
+    }
+    return [...inOrder(root.left, arr), root.val, ...inOrder(root.right, arr)];
+  };
+  return (root) => {
+    const sorted = inOrder(root, []);
+    for (let i = 1; i < sorted.length; i++) {
+      if (sorted[i] <= sorted[i - 1]) {
+        return false;
+      }
+    }
+    return true;
+  };
+})();
 
 /**
  * @param {TreeNode} root
  * @return {boolean}
  */
-export const isValidBST = (root) => {
-  const sorted = inOrder(root, []);
-  for (let i = 1; i < sorted.length; i++) {
-    if (sorted[i] <= sorted[i - 1]) {
-      return false;
-    }
-  }
-  return true;
-};
+export const isValidBST = simple;
