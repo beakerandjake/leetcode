@@ -55,20 +55,20 @@ export const countSmaller = (nums) => {
   const sorted = toSorted([...new Set(nums)]);
   const indexLookup = toIndexLookup(nums);
   const counts = Array(nums.length).fill(0);
-  const visited = new Set();
 
   for (const current of sorted) {
     const indexes = indexLookup.get(current);
-    for (const index of indexes) {
-      for (let i = index - 1; i >= 0; i--) {
-        if (nums[i] > current && !visited.has(i)) {
-          counts[i]++;
+    for (let i = 0; i < indexes.length; i++) {
+      const numIndex = indexes[i];
+      for (let n = numIndex - 1; n >= 0; n--) {
+        if (nums[n] === current) {
+          break;
+        }
+        if (nums[n] > current) {
+          counts[n] += indexes.length - i;
         }
       }
     }
-    indexes.forEach((i) => {
-      visited.add(i);
-    });
   }
 
   return counts;
