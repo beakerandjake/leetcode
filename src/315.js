@@ -42,8 +42,34 @@
  * https://leetcode.com/problems/count-of-smaller-numbers-after-self
  */
 
+const toSorted = (arr) => [...arr].sort((a, b) => a - b);
+
+const toIndexLookup = (arr) =>
+  arr.reduce((acc, x, i) => acc.set(x, [...(acc.get(x) || []), i]), new Map());
+
 /**
  * @param {number[]} nums
  * @return {number[]}
  */
-export const countSmaller = (nums) => {};
+export const countSmaller = (nums) => {
+  const sorted = toSorted([...new Set(nums)]);
+  const indexLookup = toIndexLookup(nums);
+  const counts = Array(nums.length).fill(0);
+  const visited = new Set();
+
+  for (const current of sorted) {
+    const indexes = indexLookup.get(current);
+    for (const index of indexes) {
+      for (let i = index - 1; i >= 0; i--) {
+        if (nums[i] > current && !visited.has(i)) {
+          counts[i]++;
+        }
+      }
+    }
+    indexes.forEach((i) => {
+      visited.add(i);
+    });
+  }
+
+  return counts;
+};
