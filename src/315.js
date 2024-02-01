@@ -44,8 +44,8 @@
 
 const toSorted = (arr) => [...arr].sort((a, b) => a - b);
 
-const toIndexLookup = (arr) =>
-  arr.reduce((acc, x, i) => acc.set(x, [...(acc.get(x) || []), i]), new Map());
+// map each element to the index of the last occurrence in the array.
+const toIndexLookup = (arr) => arr.reduce((acc, x, i) => acc.set(x, i), new Map());
 
 /**
  * @param {number[]} nums
@@ -57,16 +57,12 @@ export const countSmaller = (nums) => {
   const counts = Array(nums.length).fill(0);
 
   for (const current of sorted) {
-    const indexes = indexLookup.get(current);
-    for (let i = 0; i < indexes.length; i++) {
-      const numIndex = indexes[i];
-      for (let n = numIndex - 1; n >= 0; n--) {
-        if (nums[n] === current) {
-          break;
-        }
-        if (nums[n] > current) {
-          counts[n] += indexes.length - i;
-        }
+    let encountered = 1;
+    for (let i = indexLookup.get(current) - 1; i >= 0; i--) {
+      if (nums[i] === current) {
+        encountered++;
+      } else if (nums[i] > current) {
+        counts[i] += encountered;
       }
     }
   }
