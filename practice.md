@@ -4,7 +4,7 @@ Certain problems I like to practice to stay fresh in basic concepts. This docume
 
 ## Sorting 
 
-- [sort-an array #912](https://leetcode.com/problems/sort-an-array)
+- [sort-an-array #912](https://leetcode.com/problems/sort-an-array)
 - [binary-search #704](https://leetcode.com/problems/binary-search)
 
 ## Array
