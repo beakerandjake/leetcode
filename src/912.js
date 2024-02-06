@@ -1,33 +1,65 @@
 /**
- * Given an array of integers nums, sort the array in ascending order and return it.
- * You must solve the problem without using any built-in functions in O(nlog(n)) time complexity and with the smallest space complexity possible.
+ * Given an array of integers nums, sort the array in ascending order and return
+ * it.
+ *
+ * You must solve the problem without using any built-in functions in O(nlog(n))
+ * time complexity and with the smallest space complexity possible.
+ *
+ *
+ *
+ * Example 1:
+ *
+ *
+ * Input: nums = [5,2,3,1]
+ * Output: [1,2,3,5]
+ * Explanation: After sorting the array, the positions of some numbers are not changed (for example, 2 and 3), while the positions of other numbers are changed (for example, 1 and 5).
+ *
+ *
+ * Example 2:
+ *
+ *
+ * Input: nums = [5,1,1,2,0,0]
+ * Output: [0,0,1,1,2,5]
+ * Explanation: Note that the values of nums are not necessairly unique.
+ *
+ *
+ *
+ *
+ * Constraints:
+ *
+ *  * 1 <= nums.length <= 5 * 104
+ *  * -5 * 104 <= nums[i] <= 5 * 104
+ *
+ *
+ *
+ * https://leetcode.com/problems/sort-an-array
  */
 
 const mergeSort = (() => {
-  const merge = (a, b) => {
+  const merge = (lhs, rhs) => {
     const merged = [];
-    let aIndex = 0;
-    let bIndex = 0;
-    while (aIndex < a.length && bIndex < b.length) {
-      merged.push(a[aIndex] < b[bIndex] ? a[aIndex++] : b[bIndex++]);
+    let lhsIndex = 0;
+    let rhsIndex = 0;
+    while (lhsIndex < lhs.length && rhsIndex < rhs.length) {
+      merged.push(lhs[lhsIndex] < rhs[rhsIndex] ? lhs[lhsIndex++] : rhs[rhsIndex++]);
     }
-    if (aIndex !== a.length) {
-      merged.push(...a.slice(aIndex));
+    while (lhsIndex < lhs.length) {
+      merged.push(lhs[lhsIndex++]);
     }
-    if (bIndex !== b.length) {
-      merged.push(...b.slice(bIndex));
+    while (rhsIndex < rhs.length) {
+      merged.push(rhs[rhsIndex++]);
     }
     return merged;
   };
 
-  const doMergeSort = (nums) => {
-    if (nums.length === 1) {
-      return nums;
+  const doMergeSort = (arr) => {
+    if (arr.length <= 1) {
+      return arr;
     }
-    const m = Math.floor(nums.length / 2);
-    const left = doMergeSort(nums.slice(0, m));
-    const right = doMergeSort(nums.slice(m));
-    return merge(left, right);
+    const mid = Math.floor(arr.length / 2);
+    const lhs = doMergeSort(arr.slice(0, mid));
+    const rhs = doMergeSort(arr.slice(mid));
+    return merge(lhs, rhs);
   };
 
   return doMergeSort;
@@ -38,20 +70,19 @@ const quicksort = (arr) => {
     return arr;
   }
   const pivotIndex = Math.floor(Math.random() * arr.length);
-  const pivot = arr[pivotIndex];
-  const lessThan = [];
-  const greaterThan = [];
-  arr.forEach((item, index) => {
-    if (index === pivotIndex) {
+  const lt = [];
+  const gte = [];
+  arr.forEach((x, i) => {
+    if (i === pivotIndex) {
       return;
     }
-    if (item < pivot) {
-      lessThan.push(item);
+    if (x < arr[pivotIndex]) {
+      lt.push(x);
     } else {
-      greaterThan.push(item);
+      gte.push(x);
     }
   });
-  return [...quicksort(lessThan), pivot, ...quicksort(greaterThan)];
+  return [...quicksort(lt), arr[pivotIndex], ...quicksort(gte)];
 };
 
 /**
