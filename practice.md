@@ -35,7 +35,7 @@ Certain problems I like to practice to stay fresh in basic concepts. This docume
 - [maximum-depth-of-binary-tree #104](https://leetcode.com/problems/maximum-depth-of-binary-tree)
 - [flatten-binary-tree-to-linked-list #114](https://leetcode.com/problems/flatten-binary-tree-to-linked-list)
 
-# Binary Search Tree
+## Binary Search Tree
 - [delete-node-in-a-bst #450](https://leetcode.com/problems/delete-node-in-a-bst)
 - [kth-smallest-element-in-a-bst #230](https://leetcode.com/problems/kth-smallest-element-in-a-bst)
 - [delete-node-in-a-bst #450](https://leetcode.com/problems/delete-node-in-a-bst)
