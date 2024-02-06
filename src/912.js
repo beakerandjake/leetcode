@@ -35,55 +35,55 @@
  * https://leetcode.com/problems/sort-an-array
  */
 
-// const mergeSort = (() => {
-//   const merge = (lhs, rhs) => {
-//     const merged = [];
-//     let lhsIndex = 0;
-//     let rhsIndex = 0;
-//     while (lhsIndex < lhs.length && rhsIndex < rhs.length) {
-//       merged.push(lhs[lhsIndex] < rhs[rhsIndex] ? lhs[lhsIndex++] : rhs[rhsIndex++]);
-//     }
-//     while (lhsIndex < lhs.length) {
-//       merged.push(lhs[lhsIndex++]);
-//     }
-//     while (rhsIndex < rhs.length) {
-//       merged.push(rhs[rhsIndex++]);
-//     }
-//     return merged;
-//   };
+const mergeSort = (() => {
+  const merge = (lhs, rhs) => {
+    const merged = [];
+    let lhsIndex = 0;
+    let rhsIndex = 0;
+    while (lhsIndex < lhs.length && rhsIndex < rhs.length) {
+      merged.push(lhs[lhsIndex] < rhs[rhsIndex] ? lhs[lhsIndex++] : rhs[rhsIndex++]);
+    }
+    while (lhsIndex < lhs.length) {
+      merged.push(lhs[lhsIndex++]);
+    }
+    while (rhsIndex < rhs.length) {
+      merged.push(rhs[rhsIndex++]);
+    }
+    return merged;
+  };
 
-//   const doMergeSort = (arr) => {
-//     if (arr.length <= 1) {
-//       return arr;
-//     }
-//     const mid = Math.floor(arr.length / 2);
-//     const lhs = doMergeSort(arr.slice(0, mid));
-//     const rhs = doMergeSort(arr.slice(mid));
-//     return merge(lhs, rhs);
-//   };
+  const doMergeSort = (arr) => {
+    if (arr.length <= 1) {
+      return arr;
+    }
+    const mid = Math.floor(arr.length / 2);
+    const lhs = doMergeSort(arr.slice(0, mid));
+    const rhs = doMergeSort(arr.slice(mid));
+    return merge(lhs, rhs);
+  };
 
-//   return doMergeSort;
-// })();
+  return doMergeSort;
+})();
 
-// const quicksortSimple = (arr) => {
-//   if (arr.length < 2) {
-//     return arr;
-//   }
-//   const pivotIndex = Math.floor(Math.random() * arr.length);
-//   const lt = [];
-//   const gte = [];
-//   arr.forEach((x, i) => {
-//     if (i === pivotIndex) {
-//       return;
-//     }
-//     if (x < arr[pivotIndex]) {
-//       lt.push(x);
-//     } else {
-//       gte.push(x);
-//     }
-//   });
-//   return [...quicksortSimple(lt), arr[pivotIndex], ...quicksortSimple(gte)];
-// };
+const quicksortSimple = (arr) => {
+  if (arr.length < 2) {
+    return arr;
+  }
+  const pivotIndex = Math.floor(Math.random() * arr.length);
+  const lt = [];
+  const gte = [];
+  arr.forEach((x, i) => {
+    if (i === pivotIndex) {
+      return;
+    }
+    if (x < arr[pivotIndex]) {
+      lt.push(x);
+    } else {
+      gte.push(x);
+    }
+  });
+  return [...quicksortSimple(lt), arr[pivotIndex], ...quicksortSimple(gte)];
+};
 
 const quicksortInPlace = (arr) => {
   const swap = (a, b) => {
