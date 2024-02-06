@@ -42,4 +42,18 @@
  * @param {number} target
  * @return {number}
  */
-export const search = (nums, target) => {};
+export const search = (nums, target) => {
+  let l = 0;
+  let u = nums.length - 1;
+  while (l <= u) {
+    const m = Math.floor(l + (u - l) / 2);
+    if (target < nums[m]) {
+      u = m - 1;
+    } else if (target > nums[m]) {
+      l = m + 1;
+    } else {
+      return m;
+    }
+  }
+  return -1;
+};
