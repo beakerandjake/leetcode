@@ -35,54 +35,101 @@
  * https://leetcode.com/problems/sort-an-array
  */
 
-const mergeSort = (() => {
-  const merge = (lhs, rhs) => {
+const mergeSort = (nums) => {
+  const merge = (a, b) => {
     const merged = [];
-    let lhsIndex = 0;
-    let rhsIndex = 0;
-    while (lhsIndex < lhs.length && rhsIndex < rhs.length) {
-      merged.push(lhs[lhsIndex] < rhs[rhsIndex] ? lhs[lhsIndex++] : rhs[rhsIndex++]);
+    let aIndex = 0;
+    let bIndex = 0;
+    while (aIndex < a.length && bIndex < b.length) {
+      merged.push(a[aIndex] < b[bIndex] ? a[aIndex++] : b[bIndex++]);
     }
-    while (lhsIndex < lhs.length) {
-      merged.push(lhs[lhsIndex++]);
+    while (aIndex < a.length) {
+      merged.push(a[aIndex++]);
     }
-    while (rhsIndex < rhs.length) {
-      merged.push(rhs[rhsIndex++]);
+    while (bIndex < b.length) {
+      merged.push(b[bIndex++]);
     }
     return merged;
   };
-
   const doMergeSort = (arr) => {
-    if (arr.length <= 1) {
+    if (arr.length < 2) {
       return arr;
     }
-    const mid = Math.floor(arr.length / 2);
-    const lhs = doMergeSort(arr.slice(0, mid));
-    const rhs = doMergeSort(arr.slice(mid));
-    return merge(lhs, rhs);
+    const middle = Math.floor(arr.length / 2);
+    const left = doMergeSort(arr.slice(0, middle));
+    const right = doMergeSort(arr.slice(middle));
+    return merge(left, right);
+  };
+  return doMergeSort(nums);
+};
+
+const selectionSort = (arr) => {
+  const minFrom = (index) => {
+    let minIndex = index;
+    for (let i = index + 1; i < arr.length; i++) {
+      if (arr[i] < arr[minIndex]) {
+        minIndex = i;
+      }
+    }
+    return minIndex;
   };
 
-  return doMergeSort;
-})();
+  const swap = (a, b) => {
+    const temp = arr[a];
+    arr[a] = arr[b];
+    arr[b] = temp;
+  };
 
-const quicksortSimple = (arr) => {
-  if (arr.length < 2) {
-    return arr;
+  for (let i = 0; i < arr.length; i++) {
+    const minIndex = minFrom(i);
+    if (i !== minIndex) {
+      swap(i, minIndex);
+    }
   }
-  const pivotIndex = Math.floor(Math.random() * arr.length);
-  const lt = [];
-  const gte = [];
-  arr.forEach((x, i) => {
-    if (i === pivotIndex) {
-      return;
+  return arr;
+};
+
+const insertionSort = (arr) => {
+  const swap = (a, b) => {
+    const temp = arr[a];
+    arr[a] = arr[b];
+    arr[b] = temp;
+  };
+
+  for (let i = 1; i < arr.length; i++) {
+    let j = i;
+    while (j > 0 && arr[j - 1] > arr[j]) {
+      swap(j, j - 1);
+      j--;
     }
-    if (x < arr[pivotIndex]) {
-      lt.push(x);
-    } else {
-      gte.push(x);
-    }
-  });
-  return [...quicksortSimple(lt), arr[pivotIndex], ...quicksortSimple(gte)];
+  }
+  return arr;
+};
+
+const quicksortSimple = (nums) => {
+  if (nums.length < 2) {
+    return nums;
+  }
+
+  const quicksort = (arr) => {
+    const pivot = Math.floor(Math.random() * arr.length);
+    const lt = [];
+    const gte = [];
+    arr.forEach((x, i) => {
+      if (i === pivot) {
+        return;
+      }
+      if (x < arr[pivot]) {
+        lt.push(x);
+      } else {
+        gte.push(x);
+      }
+    });
+
+    return [...quicksortSimple(lt), arr[pivot], ...quicksortSimple(gte)];
+  };
+
+  return quicksort(nums);
 };
 
 const quicksortInPlace = (arr) => {
@@ -105,17 +152,11 @@ const quicksortInPlace = (arr) => {
     return firstHi;
   };
 
-  const partitionRandom = (lo, hi) => {
-    const pivot = Math.floor(Math.random() * (hi - lo + 1) + lo);
-    swap(pivot, hi);
-    return partition(lo, hi);
-  };
-
   const quicksort = (lo, hi) => {
     if (lo < hi) {
-      const p = partitionRandom(lo, hi);
-      quicksort(lo, p - 1);
-      quicksort(p + 1, hi);
+      const pivot = partition(lo, hi);
+      quicksort(lo, pivot - 1);
+      quicksort(pivot + 1, hi);
     }
   };
 
