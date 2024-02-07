@@ -76,3 +76,11 @@ Certain problems I like to practice to stay fresh in basic concepts. This docume
 - [powx-n #50](https://leetcode.com/problems/powx-n)
 - [plus-one #66](https://leetcode.com/problems/plus-one)
 - [divide-two-integers #29](https://leetcode.com/problems/divide-two-integers)
+
+## Graph
+
+## Disjoint Set
+
+## Trie
+
+## Heap
