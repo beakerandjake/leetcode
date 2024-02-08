@@ -47,8 +47,22 @@
  * https://leetcode.com/problems/queue-reconstruction-by-height
  */
 
+const height = (person) => person[0];
+
+const kValue = (person) => person[1];
+
+const comparePeople = (a, b) =>
+  height(a) === height(b) ? kValue(a) - kValue(b) : height(b) - height(a);
+
 /**
  * @param {number[][]} people
  * @return {number[][]}
  */
-export const reconstructQueue = (people) => {};
+export const reconstructQueue = (people) => {
+  const output = [];
+  const sorted = [...people].sort(comparePeople);
+  sorted.forEach((x) => {
+    output.splice(kValue(x), 0, x);
+  });
+  return output;
+};
