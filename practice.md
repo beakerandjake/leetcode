@@ -84,3 +84,4 @@ Certain problems I like to practice to stay fresh in basic concepts. This docume
 ## Trie
 
 ## Heap
+- [find-k-pairs-with-smallest-sums #373](https://leetcode.com/problems/find-k-pairs-with-smallest-sums)
