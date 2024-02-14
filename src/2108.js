@@ -44,10 +44,20 @@
  * https://leetcode.com/problems/find-first-palindromic-string-in-the-array
  */
 
-const isPalindrome = (word) => word === [...word].reverse().join('');
-
 /**
  * @param {string[]} words
  * @return {string}
  */
-export const firstPalindrome = (words) => words.find(isPalindrome) || '';
+export const firstPalindrome = (words) => {
+  const isPalindrome = (word) => {
+    let l = 0;
+    let r = word.length - 1;
+    while (l <= r) {
+      if (word[l++] !== word[r--]) {
+        return false;
+      }
+    }
+    return true;
+  };
+  return words.find(isPalindrome) || '';
+};
