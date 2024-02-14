@@ -54,4 +54,15 @@
  * @param {number[]} nums
  * @return {number[]}
  */
-export const rearrangeArray = (nums) => {};
+export const rearrangeArray = (nums) => {
+  const negative = nums.filter((x) => x < 0);
+  const positive = nums.filter((x) => x > 0);
+  const rearranged = [];
+  let n = 0;
+  let p = 0;
+  while (rearranged.length !== nums.length) {
+    rearranged.push(positive[p++]);
+    rearranged.push(negative[n++]);
+  }
+  return rearranged;
+};
