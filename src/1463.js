@@ -65,4 +65,27 @@
  * @param {number[][]} grid
  * @return {number}
  */
-export const cherryPickup = (grid) => {};
+export const cherryPickup = (grid) => {
+  const height = grid.length;
+  const width = grid[0].length;
+  const memo = new Map();
+  const dp = (row, aCol, bCol) => {
+    if (aCol < 0 || bCol < 0 || aCol >= width || bCol >= width || row >= height) {
+      return 0;
+    }
+    const hash = `${row}.${aCol}.${bCol}`;
+    if (!memo.has(hash)) {
+      const pickedUp =
+        aCol !== bCol ? grid[row][aCol] + grid[row][bCol] : grid[row][aCol];
+      let max = 0;
+      for (const a of [aCol - 1, aCol, aCol + 1]) {
+        for (const b of [bCol - 1, bCol, bCol + 1]) {
+          max = Math.max(max, dp(row + 1, a, b));
+        }
+      }
+      memo.set(hash, pickedUp + max);
+    }
+    return memo.get(hash);
+  };
+  return dp(0, 0, width - 1);
+};
