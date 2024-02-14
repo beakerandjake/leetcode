@@ -61,6 +61,13 @@
  * https://leetcode.com/problems/cherry-pickup-ii
  */
 
+// column movement deltas each robot is allowed to take.
+const colDeltas = [-1, 0, 1];
+
+// return 3d array of height x width x width
+const buildMemo = (height, width) =>
+  [...Array(height)].map(() => [...Array(width)].map(() => Array(width).fill(-1)));
+
 /**
  * @param {number[][]} grid
  * @return {number}
@@ -68,24 +75,27 @@
 export const cherryPickup = (grid) => {
   const height = grid.length;
   const width = grid[0].length;
-  const memo = new Map();
+  const memo = buildMemo(height, width);
   const dp = (row, aCol, bCol) => {
     if (aCol < 0 || bCol < 0 || aCol >= width || bCol >= width || row >= height) {
       return 0;
     }
-    const hash = `${row}.${aCol}.${bCol}`;
-    if (!memo.has(hash)) {
-      const pickedUp =
-        aCol !== bCol ? grid[row][aCol] + grid[row][bCol] : grid[row][aCol];
+    if (memo[row][aCol][bCol] === -1) {
       let max = 0;
-      for (const a of [aCol - 1, aCol, aCol + 1]) {
-        for (const b of [bCol - 1, bCol, bCol + 1]) {
-          max = Math.max(max, dp(row + 1, a, b));
+      // find the future moves which return the most cherries.
+      for (const aDelta of colDeltas) {
+        for (const bDelta of colDeltas) {
+          max = Math.max(max, dp(row + 1, aCol + aDelta, bCol + bDelta));
         }
       }
-      memo.set(hash, pickedUp + max);
+      // robots cannot double pick up if on same spot.
+      const pickedUp =
+        aCol !== bCol ? grid[row][aCol] + grid[row][bCol] : grid[row][aCol];
+
+      // result is what was picked up this turn, plus best possible future pick ups.
+      memo[row][aCol][bCol] = pickedUp + max;
     }
-    return memo.get(hash);
+    return memo[row][aCol][bCol];
   };
   return dp(0, 0, width - 1);
 };
