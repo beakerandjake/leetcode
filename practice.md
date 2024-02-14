@@ -51,6 +51,7 @@ Certain problems I like to practice to stay fresh in basic concepts. This docume
 - [coin-change #322](https://leetcode.com/problems/coin-change)
 - [house-robber #198](https://leetcode.com/problems/house-robber)
 - [fibonacci-number #509](https://leetcode.com/problems/fibonacci-number)
+- [longest-palindromic-substring](https://leetcode.com/problems/longest-palindromic-substring)
 
 ## String
 - [group-anagrams #49](https://leetcode.com/problems/group-anagrams)
