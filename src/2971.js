@@ -53,13 +53,8 @@
  * https://leetcode.com/problems/find-polygon-with-the-largest-perimeter
  */
 
-// returns array containing the sums of the elements up to and including each index.
-const runningSums = (arr) =>
-  arr.reduce((acc, x, i) => {
-    const sum = i > 0 ? acc[i - 1] : 0;
-    acc[i] = sum + x;
-    return acc;
-  }, []);
+// returns the sum of all the elements of the array.
+const sum = (arr) => arr.reduce((acc, x) => acc + x, 0);
 
 /**
  * @param {number[]} nums
@@ -67,11 +62,11 @@ const runningSums = (arr) =>
  */
 export const largestPerimeter = (nums) => {
   const sorted = [...nums].sort((a, b) => a - b);
-  const sums = runningSums(sorted);
-  for (let i = sums.length - 1; i >= 2; i--) {
-    // find largest number who is smaller than the sum of numbers leading up to it.`
-    if (sums[i] - sorted[i] > sorted[i]) {
-      return sums[i];
+  let runningSum = sum(sorted);
+  for (let i = sorted.length - 1; i >= 2; i--) {
+    runningSum -= sorted[i];
+    if (runningSum > sorted[i]) {
+      return runningSum + sorted[i];
     }
   }
   return -1;
