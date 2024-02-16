@@ -6,6 +6,7 @@ describe('76. Minimum Window Substring', () => {
     ['a', 'a', 'a'],
     ['a', 'aa', ''],
     ['ab', 'a', 'a'],
+    ['cabwefgewcwaefgcf', 'cae', 'cwae'],
   ].forEach(([s, t, expected]) => {
     test(`${s},${t} -> ${expected}`, () => {
       const result = minWindow(s, t);

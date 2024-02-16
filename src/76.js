@@ -62,18 +62,6 @@ const emptyCounts = (map) => {
   return empty;
 };
 
-const increaseCount = (map, key) => {
-  const copy = new Map(map);
-  copy.set(key, (copy.get(key) || 0) + 1);
-  return copy;
-};
-
-const decreaseCount = (map, key) => {
-  const copy = new Map(map);
-  copy.set(key, (copy.get(key) || 0) - 1);
-  return copy;
-};
-
 const covers = (aMap, bMap) => {
   for (const [key, value] of aMap) {
     if (!bMap.has(key) || bMap.get(key) > value) {
@@ -84,11 +72,11 @@ const covers = (aMap, bMap) => {
 };
 
 const expandRight = (str, start, counts, target) => {
-  let newCounts = counts;
+  const newCounts = new Map(counts);
   let i = start;
   while (i < str.length && !covers(newCounts, target)) {
     if (target.has(str[i])) {
-      newCounts = increaseCount(newCounts, str[i]);
+      newCounts.set(str[i], newCounts.get(str[i]) + 1);
     }
     i++;
   }
@@ -96,20 +84,18 @@ const expandRight = (str, start, counts, target) => {
 };
 
 const contractLeft = (str, start, counts, target) => {
-  const contractions = [];
-  let newCounts = counts;
+  const newCounts = counts;
   let i = start;
   while (i < str.length && covers(newCounts, target)) {
     if (target.has(str[i])) {
-      newCounts = decreaseCount(newCounts, str[i]);
+      newCounts.set(str[i], newCounts.get(str[i]) - 1);
     }
     i++;
-    contractions.push({ start: i, counts: newCounts });
   }
-  return contractions;
+  return { start: i, counts: newCounts };
 };
 
-const length = ({ start, end }) => end - start;
+const beatsBest = (start, end, best) => !best || end - start < best.end - best.start;
 
 /**
  * @param {string} s
@@ -118,27 +104,22 @@ const length = ({ start, end }) => end - start;
  */
 export const minWindow = (s, t) => {
   const tMap = frequencyMap(t);
-  const history = [{ start: 0, end: 0, counts: emptyCounts(tMap) }];
-
-  let i = 0;
+  let start = 0;
+  let end = 0;
+  let counts = emptyCounts(tMap);
+  let best = null;
   for (;;) {
-    const previous = history.at(-1);
-    const right = expandRight(s, previous.end, previous.counts, tMap);
-    history.push({ start: previous.start, end: right.end, counts: right.counts });
+    const right = expandRight(s, end, counts, tMap);
     if (!covers(right.counts, tMap)) {
       break;
     }
-    const contractions = contractLeft(s, previous.start, right.counts, tMap);
-    history.push(
-      ...contractions.map((contraction) => ({ ...contraction, end: right.end }))
-    );
-    i++;
+    const left = contractLeft(s, start, right.counts, tMap);
+    if (beatsBest(left.start - 1, right.end, best)) {
+      best = { end: right.end, start: left.start - 1 };
+    }
+    start = left.start;
+    end = right.end;
+    counts = left.counts;
   }
-
-  const substrings = history.filter(({ counts }) => covers(counts, tMap));
-  if (!substrings.length) {
-    return '';
-  }
-  const sorted = substrings.sort((a, b) => length(a) - length(b));
-  return s.slice(sorted[0].start, sorted[0].end);
+  return best ? s.slice(best.start, best.end) : '';
 };
