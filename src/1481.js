@@ -32,9 +32,21 @@
  * https://leetcode.com/problems/least-number-of-unique-integers-after-k-removals
  */
 
+const frequencyMap = (arr) =>
+  arr.reduce((acc, x) => acc.set(x, (acc.get(x) || 0) + 1), new Map());
+
 /**
  * @param {number[]} arr
  * @param {number} k
  * @return {number}
  */
-export const findLeastNumOfUniqueInts = (arr, k) => {};
+export const findLeastNumOfUniqueInts = (arr, k) => {
+  const counts = [...frequencyMap(arr).values()].sort((a, b) => a - b);
+  let remaining = k;
+  let i = 0;
+  while (i < counts.length && remaining >= counts[i]) {
+    remaining -= counts[i];
+    i++;
+  }
+  return counts.length - i;
+};
