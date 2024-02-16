@@ -1,13 +1,14 @@
-import { minWindow } from "../src/76.js";
-import { arrToStr } from "./util.js";
+import { minWindow } from '../src/76.js';
 
-describe("76. Minimum Window Substring", () => {
+describe('76. Minimum Window Substring', () => {
   [
-    // replace with real test data
-    [true, false],
-  ].forEach(([input, expected]) => {
-    test(`${input} -> ${expected}`, () => {
-      const result = minWindow(input);
+    ['ADOBECODEBANC', 'ABC', 'BANC'],
+    ['a', 'a', 'a'],
+    ['a', 'aa', ''],
+    ['ab', 'a', 'a'],
+  ].forEach(([s, t, expected]) => {
+    test(`${s},${t} -> ${expected}`, () => {
+      const result = minWindow(s, t);
       expect(result).toBe(expected);
     });
   });
