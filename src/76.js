@@ -51,10 +51,12 @@
  * https://leetcode.com/problems/minimum-window-substring
  */
 
+// returns a map which maps a character to the number of times it occurs in the string.
 const frequencyMap = (str) =>
   [...str].reduce((acc, x) => acc.set(x, (acc.get(x) || 0) + 1), new Map());
 
-const emptyCounts = (map) => {
+// returns a copy of the map with all values set to zero.
+const zeroMap = (map) => {
   const empty = new Map();
   for (const key of map.keys()) {
     empty.set(key, 0);
@@ -62,6 +64,7 @@ const emptyCounts = (map) => {
   return empty;
 };
 
+// returns true if a includes every key of b and every value of a is >= every value of b.
 const covers = (aMap, bMap) => {
   for (const [key, value] of aMap) {
     if (!bMap.has(key) || bMap.get(key) > value) {
@@ -71,6 +74,7 @@ const covers = (aMap, bMap) => {
   return true;
 };
 
+// expands the index rightward until all characters in the target map have been found.
 const expandRight = (str, start, counts, target) => {
   const newCounts = new Map(counts);
   let i = start;
@@ -83,6 +87,7 @@ const expandRight = (str, start, counts, target) => {
   return { end: i, counts: newCounts };
 };
 
+// contracts the index leftward until all characters in the target map are no longer present.
 const contractLeft = (str, start, counts, target) => {
   const newCounts = counts;
   let i = start;
@@ -95,8 +100,6 @@ const contractLeft = (str, start, counts, target) => {
   return { start: i, counts: newCounts };
 };
 
-const beatsBest = (start, end, best) => !best || end - start < best.end - best.start;
-
 /**
  * @param {string} s
  * @param {string} t
@@ -106,15 +109,20 @@ export const minWindow = (s, t) => {
   const tMap = frequencyMap(t);
   let start = 0;
   let end = 0;
-  let counts = emptyCounts(tMap);
+  let counts = zeroMap(tMap);
   let best = null;
+  // continually expand and contract two pointers searching for the smallest substring.
   for (;;) {
+    // expand as far right as possible until the substring contains t.
     const right = expandRight(s, end, counts, tMap);
+    // if not covered after expanding right then s is exhausted and no substring contains t.
     if (!covers(right.counts, tMap)) {
       break;
     }
+    // contract left until no substring no longer contains t.
     const left = contractLeft(s, start, right.counts, tMap);
-    if (beatsBest(left.start - 1, right.end, best)) {
+    // check if the last valid substring is shorter than the previous best.
+    if (!best || right.end - (left.start - 1) < best.end - best.start) {
       best = { end: right.end, start: left.start - 1 };
     }
     start = left.start;
