@@ -1,10 +1,10 @@
-import { frequencySort } from "../src/451.js";
-import { arrToStr } from "./util.js";
+import { frequencySort } from '../src/451.js';
 
-describe("451. Sort Characters By Frequency", () => {
+describe('451. Sort Characters By Frequency', () => {
   [
-    // replace with real test data
-    [true, false],
+    ['tree', 'eetr'],
+    ['cccaaa', 'cccaaa'],
+    ['Aabb', 'bbAa'],
   ].forEach(([input, expected]) => {
     test(`${input} -> ${expected}`, () => {
       const result = frequencySort(input);

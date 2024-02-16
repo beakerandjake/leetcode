@@ -46,8 +46,22 @@
  * https://leetcode.com/problems/sort-characters-by-frequency
  */
 
+// returns a dictionary mapping each character to the number of times it occurs in the string.
+const frequencyMap = (str) =>
+  [...str].reduce((acc, x) => acc.set(x, (acc.get(x) || 0) + 1), new Map());
+
+// converts the frequency map to an array of { character, count }
+const toCountArray = (map) =>
+  [...map.entries()].map(([k, v]) => ({ character: k, count: v }));
+
+// returns a new count array sorted by character count (descending)
+const sortByCounts = (countArray) => [...countArray].sort((a, b) => b.count - a.count);
+
 /**
  * @param {string} s
  * @return {string}
  */
-export const frequencySort = (s) => {};
+export const frequencySort = (s) =>
+  sortByCounts(toCountArray(frequencyMap(s)))
+    .map(({ character, count }) => character.repeat(count))
+    .join('');
