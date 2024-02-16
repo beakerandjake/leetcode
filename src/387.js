@@ -34,8 +34,19 @@
  * https://leetcode.com/problems/first-unique-character-in-a-string
  */
 
+const frequencyMap = (str) =>
+  [...str].reduce((acc, x) => acc.set(x, (acc.get(x) || 0) + 1), new Map());
+
 /**
  * @param {string} s
  * @return {number}
  */
-export const firstUniqChar = (s) => {};
+export const firstUniqChar = (s) => {
+  const charCounts = frequencyMap(s);
+  for (let i = 0; i < s.length; i++) {
+    if (charCounts.get(s[i]) === 1) {
+      return i;
+    }
+  }
+  return -1;
+};

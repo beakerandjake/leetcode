@@ -1,10 +1,10 @@
-import { firstUniqChar } from "../src/387.js";
-import { arrToStr } from "./util.js";
+import { firstUniqChar } from '../src/387.js';
 
-describe("387. First Unique Character in a String", () => {
+describe('387. First Unique Character in a String', () => {
   [
-    // replace with real test data
-    [true, false],
+    ['leetcode', 0],
+    ['loveleetcode', 2],
+    ['aabb', -1],
   ].forEach(([input, expected]) => {
     test(`${input} -> ${expected}`, () => {
       const result = firstUniqChar(input);
