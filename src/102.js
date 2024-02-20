@@ -48,13 +48,12 @@
  * }
  */
 
-// level order using recursion
-const recursiveVersion = (root) => {
+const recursive = (root) => {
   if (!root) {
     return [];
   }
   const toReturn = [];
-  const recursive = (node, level) => {
+  const levelOrder = (node, level) => {
     if (!node) {
       return;
     }
@@ -63,15 +62,14 @@ const recursiveVersion = (root) => {
     } else {
       toReturn[level].push(node.val);
     }
-    recursive(node.left, level + 1);
-    recursive(node.right, level + 1);
+    levelOrder(node.left, level + 1);
+    levelOrder(node.right, level + 1);
   };
-  recursive(root, 0);
+  levelOrder(root, 0);
   return toReturn;
 };
 
-// level order using queue
-const iterativeVersion = (root) => {
+const iterativeSimple = (root) => {
   if (!root) {
     return [];
   }
@@ -95,8 +93,32 @@ const iterativeVersion = (root) => {
   return toReturn;
 };
 
+const iterative = (root) => {
+  if (!root) {
+    return [];
+  }
+  const toReturn = [];
+  const queue = [root];
+  while (queue.length) {
+    const level = [];
+    const levelSize = queue.length;
+    for (let i = 0; i < levelSize; i++) {
+      const node = queue.shift();
+      level.push(node.val);
+      if (node.left) {
+        queue.push(node.left);
+      }
+      if (node.right) {
+        queue.push(node.right);
+      }
+    }
+    toReturn.push(level);
+  }
+  return toReturn;
+};
+
 /**
  * @param {TreeNode} root
  * @return {number[][]}
  */
-export const levelOrder = recursiveVersion;
+export const levelOrder = iterative;
