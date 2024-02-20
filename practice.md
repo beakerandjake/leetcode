@@ -12,6 +12,7 @@ Certain problems I like to practice to stay fresh in basic concepts. This docume
 - [remove-duplicates-from-sorted-array #26](https://leetcode.com/problems/remove-duplicates-from-sorted-array/)
 - [remove-element #27](https://leetcode.com/problems/remove-element)
 - [trapping-rain-water #42](https://leetcode.com/problems/trapping-rain-water)
+- [surrounded-regions #130](https://leetcode.com/problems/surrounded-regions)
 
 ## Linked List
 - [add-two-numbers #2](https://leetcode.com/problems/add-two-numbers/description)
@@ -81,8 +82,21 @@ Certain problems I like to practice to stay fresh in basic concepts. This docume
 
 ## Graph
 - [find-if-path-exists-in-graph #1971](https://leetcode.com/problems/find-if-path-exists-in-graph)
+- [evaluate-division #399](https://leetcode.com/problems/evaluate-division)
+- [flood-fill #733](https://leetcode.com/problems/flood-fill)
+- [number-of-islands #200](https://leetcode.com/problems/number-of-islands)
+- [word-ladder #127](https://leetcode.com/problems/word-ladder)
+- [get-watched-videos-by-your-friends #1311](https://leetcode.com/problems/get-watched-videos-by-your-friends)
+- [longest-increasing-path-in-a-matrix #329](https://leetcode.com/problems/longest-increasing-path-in-a-matrix)
+- [network-time-delay #743](https://leetcode.com/problems/network-delay-time)
+- [path-with-maximum-minimum-value #1102](https://leetcode.com/problems/path-with-maximum-minimum-value)
+- [path-with-minimum-effort #1631](https://leetcode.com/problems/path-with-minimum-effort)
+- [cheapest-flights-within-k-stops #787](https://leetcode.com/problems/cheapest-flights-within-k-stops)
 
 ## Disjoint Set
+- [number-of-connected-components-in-an-undirected-graph #323](https://leetcode.com/problems/number-of-connected-components-in-an-undirected-graph)
+- [graph-valid-tree #261](https://leetcode.com/problems/graph-valid-tree/)
+- [number-of-provinces #547](https://leetcode.com/problems/number-of-provinces)
 
 ## Trie
 
