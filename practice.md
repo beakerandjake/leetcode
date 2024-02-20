@@ -80,6 +80,7 @@ Certain problems I like to practice to stay fresh in basic concepts. This docume
 - [divide-two-integers #29](https://leetcode.com/problems/divide-two-integers)
 
 ## Graph
+- [find-if-path-exists-in-graph #1971](https://leetcode.com/problems/find-if-path-exists-in-graph)
 
 ## Disjoint Set
 
