@@ -72,6 +72,7 @@ Certain problems I like to practice to stay fresh in basic concepts. This docume
 - [combinations #77](https://leetcode.com/problems/combinations)
 - [generate-parentheses #22](https://leetcode.com/problems/generate-parentheses)
 - [sudoku-solver #37](https://leetcode.com/problems/sudoku-solver)
+- [all-paths-from-source-to-target #797](https://leetcode.com/problems/all-paths-from-source-to-target)
 
 ## Math
 - [reverse-integer #7](https://leetcode.com/problems/reverse-integer)
@@ -92,6 +93,8 @@ Certain problems I like to practice to stay fresh in basic concepts. This docume
 - [path-with-maximum-minimum-value #1102](https://leetcode.com/problems/path-with-maximum-minimum-value)
 - [path-with-minimum-effort #1631](https://leetcode.com/problems/path-with-minimum-effort)
 - [cheapest-flights-within-k-stops #787](https://leetcode.com/problems/cheapest-flights-within-k-stops)
+- [possible-bipartition #886](https://leetcode.com/problems/possible-bipartition)
+- [course-schedule-ii #210](https://leetcode.com/problems/course-schedule-ii)
 
 ## Disjoint Set
 - [number-of-connected-components-in-an-undirected-graph #323](https://leetcode.com/problems/number-of-connected-components-in-an-undirected-graph)
