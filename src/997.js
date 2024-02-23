@@ -54,9 +54,27 @@
  * https://leetcode.com/problems/find-the-town-judge
  */
 
+const buildGraph = (n, edges) =>
+  edges.reduce((acc, [from, to]) => {
+    acc.get(from).out++;
+    acc.get(to).in++;
+    return acc;
+  }, new Map([...Array(n)].map((_, i) => [i + 1, { out: 0, in: 0 }])));
+
 /**
  * @param {number} n
  * @param {number[][]} trust
  * @return {number}
  */
-export const findJudge = (n, trust) => {};
+export const findJudge = (n, trust) => {
+  if (trust.length < n - 1) {
+    return -1;
+  }
+  const graph = buildGraph(n, trust);
+  for (const [vertex, edges] of graph.entries()) {
+    if (edges.in === n - 1 && edges.out === 0) {
+      return vertex;
+    }
+  }
+  return -1;
+};

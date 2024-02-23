@@ -1,13 +1,29 @@
-import { findJudge } from "../src/997.js";
-import { arrToStr } from "./util.js";
+import { findJudge } from '../src/997.js';
+import { arrToStr } from './util.js';
 
-describe("997. Find the Town Judge", () => {
+describe('997. Find the Town Judge', () => {
   [
-    // replace with real test data
-    [true, false],
-  ].forEach(([input, expected]) => {
-    test(`${input} -> ${expected}`, () => {
-      const result = findJudge(input);
+    [2, [[1, 2]], 2],
+    [
+      3,
+      [
+        [1, 3],
+        [2, 3],
+      ],
+      3,
+    ],
+    [
+      3,
+      [
+        [1, 3],
+        [2, 3],
+        [3, 1],
+      ],
+      -1,
+    ],
+  ].forEach(([n, trust, expected]) => {
+    test(`${n},${arrToStr(trust)} -> ${expected}`, () => {
+      const result = findJudge(n, trust);
       expect(result).toBe(expected);
     });
   });
