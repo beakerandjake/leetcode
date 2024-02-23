@@ -51,4 +51,14 @@
  * @param {number[]} nums
  * @return {number}
  */
-export const missingNumber = (nums) => {};
+export const missingNumber = (nums) => {
+  const lookup = Array(10 ** 4 + 1).fill(0);
+  nums.forEach((x) => {
+    lookup[x] = 1;
+  });
+  for (let i = 0; i <= nums.length; i++) {
+    if (lookup[i] === 0) {
+      return i;
+    }
+  }
+};
