@@ -64,6 +64,7 @@ Certain problems I like to practice to stay fresh in basic concepts. This docume
 - [reverse-bits #190](https://leetcode.com/problems/reverse-bits)
 - [hamming-distance #461](https://leetcode.com/problems/hamming-distance)
 - [counting-bits #338](https://leetcode.com/problems/counting-bits)
+- [missing-number #268](https://leetcode.com/problems/missing-number)
 
 ## Backtracking
 - [subsets #78](https://leetcode.com/problems/subsets)
