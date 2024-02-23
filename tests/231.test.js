@@ -1,10 +1,21 @@
-import { isPowerOfTwo } from "../src/231.js";
-import { arrToStr } from "./util.js";
+import { isPowerOfTwo } from '../src/231.js';
 
-describe("231. Power of Two", () => {
+describe('231. Power of Two', () => {
   [
-    // replace with real test data
-    [true, false],
+    [1, true],
+    [2, true],
+    [4, true],
+    [8, true],
+    [16, true],
+    [32, true],
+    [64, true],
+    [128, true],
+    [256, true],
+    [512, true],
+    [1024, true],
+    [6, false],
+    [10, false],
+    [5, false],
   ].forEach(([input, expected]) => {
     test(`${input} -> ${expected}`, () => {
       const result = isPowerOfTwo(input);

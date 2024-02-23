@@ -44,8 +44,23 @@
  * https://leetcode.com/problems/power-of-two
  */
 
+const recursive = (n) => {
+  if (n < 1) {
+    return false;
+  }
+
+  if (n === 1) {
+    return true;
+  }
+
+  if (n % 2 !== 0) {
+    return false;
+  }
+  return recursive(n / 2);
+};
+
 /**
  * @param {number} n
  * @return {boolean}
  */
-export const isPowerOfTwo = (n) => {};
+export const isPowerOfTwo = recursive;
