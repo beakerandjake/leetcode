@@ -16,6 +16,7 @@ describe('231. Power of Two', () => {
     [6, false],
     [10, false],
     [5, false],
+    [1073741824, true],
   ].forEach(([input, expected]) => {
     test(`${input} -> ${expected}`, () => {
       const result = isPowerOfTwo(input);
