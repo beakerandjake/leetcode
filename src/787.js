@@ -64,12 +64,38 @@
  * https://leetcode.com/problems/cheapest-flights-within-k-stops
  */
 
+// builds a graph from the list of edges.
+const buildGraph = (n, flights) =>
+  flights.reduce((acc, [from, to, price]) => {
+    acc.get(from).push({ to, price });
+    return acc;
+  }, new Map([...Array(n)].map((_, i) => [i, []])));
+
 /**
  * @param {number} n
  * @param {number[][]} flights
  * @param {number} src
- * @param {number} dst
+ * @param {number} dest
  * @param {number} k
  * @return {number}
  */
-export const findCheapestPrice = (n, flights, src, dst, k) => {};
+export const findCheapestPrice = (n, flights, src, dest, k) => {
+  let minCost = Number.MAX_SAFE_INTEGER;
+  const graph = buildGraph(n, flights);
+  const queue = [{ vertex: src, cost: 0, steps: 0 }];
+  const visited = new Map([[src, 0]]);
+  while (queue.length) {
+    const { vertex, cost, steps } = queue.shift();
+    if (vertex === dest && steps - 1 <= k) {
+      minCost = Math.min(minCost, cost);
+    }
+    for (const { to, price } of graph.get(vertex)) {
+      const costToEdge = cost + price;
+      if (!visited.has(to) || costToEdge < visited.get(to)) {
+        visited.set(to, costToEdge);
+        queue.push({ vertex: to, cost: costToEdge, steps: steps + 1 });
+      }
+    }
+  }
+  return minCost !== Number.MAX_SAFE_INTEGER ? minCost : -1;
+};
