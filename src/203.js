@@ -40,25 +40,43 @@
  * https://leetcode.com/problems/remove-linked-list-elements
  */
 
-/**
- * Definition for singly-linked list.
- * function ListNode(val, next) {
- *     this.val = (val===undefined ? 0 : val)
- *     this.next = (next===undefined ? null : next)
- * }
- */
+class ListNode {
+  constructor(val, next) {
+    this.val = val === undefined ? 0 : val;
+    this.next = next === undefined ? null : next;
+  }
+}
+
+const recursive = (head, val) => {
+  if (!head) {
+    return null;
+  }
+  if (head.val === val) {
+    return recursive(head.next, val);
+  }
+  head.next = recursive(head.next, val);
+  return head;
+};
+
+const iterative = (head, val) => {
+  const sentinel = new ListNode(null);
+  sentinel.next = head;
+  let prev = sentinel;
+  let curr = head;
+  while (curr) {
+    if (curr.val === val) {
+      prev.next = curr.next;
+    } else {
+      prev = curr;
+    }
+    curr = curr.next;
+  }
+  return sentinel.next;
+};
+
 /**
  * @param {ListNode} head
  * @param {number} val
  * @return {ListNode}
  */
-export const removeElements = (head, val) => {
-  if (!head) {
-    return null;
-  }
-  if (head.val === val) {
-    return removeElements(head.next, val);
-  }
-  head.next = removeElements(head.next, val);
-  return head;
-};
+export const removeElements = recursive;
