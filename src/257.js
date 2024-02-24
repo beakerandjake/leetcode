@@ -45,4 +45,20 @@
  * @param {TreeNode} root
  * @return {string[]}
  */
-export const binaryTreePaths = (root) => {};
+export const binaryTreePaths = (root) => {
+  const paths = [];
+  const dfs = (node, history) => {
+    if (!node) {
+      return;
+    }
+    history.push(node.val);
+    if (!node.left && !node.right) {
+      paths.push(history.join('->'));
+    }
+    dfs(node.left, history);
+    dfs(node.right, history);
+    history.pop();
+  };
+  dfs(root, []);
+  return paths;
+};
