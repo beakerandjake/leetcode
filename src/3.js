@@ -42,7 +42,27 @@
  */
 
 /**
- * @param {string} s
+ * @param {string} str
  * @return {number}
  */
-export const lengthOfLongestSubstring = (s) => {};
+export const lengthOfLongestSubstring = (str) => {
+  let longest = 0;
+  let left = 0;
+  let right = 0;
+  const visited = new Set();
+  while (right < str.length) {
+    // expand right until duplicate character
+    while (right < str.length && !visited.has(str[right])) {
+      visited.add(str[right]);
+      right++;
+    }
+    // store the current streak
+    longest = Math.max(longest, visited.size);
+    // shrink left until no more duplicates
+    while (left < right && visited.has(str[right])) {
+      visited.delete(str[left]);
+      left++;
+    }
+  }
+  return longest;
+};
