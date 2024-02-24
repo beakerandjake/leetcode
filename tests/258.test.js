@@ -1,10 +1,9 @@
-import { addDigits } from "../src/258.js";
-import { arrToStr } from "./util.js";
+import { addDigits } from '../src/258.js';
 
-describe("258. Add Digits", () => {
+describe('258. Add Digits', () => {
   [
-    // replace with real test data
-    [true, false],
+    [38, 2],
+    [0, 0],
   ].forEach(([input, expected]) => {
     test(`${input} -> ${expected}`, () => {
       const result = addDigits(input);

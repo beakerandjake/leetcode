@@ -37,8 +37,23 @@
  * https://leetcode.com/problems/add-digits
  */
 
+const digits = (num) => {
+  if (!num) {
+    return ['0'];
+  }
+  const toReturn = [];
+  let current = num;
+  while (current) {
+    toReturn.push(current % 10);
+    current = Math.floor(current / 10);
+  }
+  return toReturn.reverse();
+};
+
+const sum = (arr) => arr.reduce((acc, x) => acc + x, 0);
+
 /**
  * @param {number} num
  * @return {number}
  */
-export const addDigits = (num) => {};
+export const addDigits = (num) => (num < 10 ? num : addDigits(sum(digits(num))));
