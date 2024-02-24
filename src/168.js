@@ -53,4 +53,16 @@
  * @param {number} columnNumber
  * @return {string}
  */
-export const convertToTitle = (columnNumber) => {};
+export const convertToTitle = (columnNumber) => {
+  // generate array of [A...Z]
+  const columns = [...Array(26)].map((_, i) => String.fromCharCode(i + 65));
+  const output = [];
+  let remaining = columnNumber;
+  while (remaining) {
+    // excel starts at 1 not 0, sub 1 from remaining to map range correctly.
+    const char = columns[(remaining - 1) % 26];
+    output.push(char);
+    remaining = Math.floor((remaining - 1) / 26);
+  }
+  return output.reverse().join('');
+};

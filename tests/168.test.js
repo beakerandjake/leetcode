@@ -1,10 +1,10 @@
-import { convertToTitle } from "../src/168.js";
-import { arrToStr } from "./util.js";
+import { convertToTitle } from '../src/168.js';
 
-describe("168. Excel Sheet Column Title", () => {
+describe('168. Excel Sheet Column Title', () => {
   [
-    // replace with real test data
-    [true, false],
+    [1, 'A'],
+    [28, 'AB'],
+    [701, 'ZY'],
   ].forEach(([input, expected]) => {
     test(`${input} -> ${expected}`, () => {
       const result = convertToTitle(input);
