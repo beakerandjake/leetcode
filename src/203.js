@@ -52,4 +52,13 @@
  * @param {number} val
  * @return {ListNode}
  */
-export const removeElements = (head, val) => {};
+export const removeElements = (head, val) => {
+  if (!head) {
+    return null;
+  }
+  if (head.val === val) {
+    return removeElements(head.next, val);
+  }
+  head.next = removeElements(head.next, val);
+  return head;
+};
