@@ -42,8 +42,24 @@
  *     this.next = (next===undefined ? null : next)
  * }
  */
+
+// returns the first node in the list which does not have value
+const consumeDuplicates = (val, head) => {
+  if (!head) {
+    return head;
+  }
+  return head.val === val ? consumeDuplicates(val, head.next) : head;
+};
+
 /**
  * @param {ListNode} head
  * @return {ListNode}
  */
-export const deleteDuplicates = (head) => {};
+export const deleteDuplicates = (head) => {
+  if (!head) {
+    return null;
+  }
+  head.next = consumeDuplicates(head.val, head.next);
+  deleteDuplicates(head.next);
+  return head;
+};
