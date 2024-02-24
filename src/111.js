@@ -45,25 +45,18 @@
  * }
  */
 
-const preOrder = (root, depth, visitFn) => {
-  if (!root) {
-    return;
-  }
-  visitFn(root, depth);
-  preOrder(root.left, depth + 1, visitFn);
-  preOrder(root.right, depth + 1, visitFn);
-};
-
 /**
  * @param {TreeNode} root
  * @return {number}
  */
 export const minDepth = (root) => {
-  let min = Number.MAX_SAFE_INTEGER;
-  preOrder(root, 1, (node, depth) => {
-    if (!node.left && !node.right) {
-      min = Math.min(depth, min);
-    }
-  });
-  return min !== Number.MAX_SAFE_INTEGER ? min : 0;
+  if (!root) {
+    return 0;
+  }
+  if (!root.left) {
+    return 1 + minDepth(root.right);
+  } else if (!root.right) {
+    return 1 + minDepth(root.left);
+  }
+  return 1 + Math.min(minDepth(root.left), minDepth(root.right));
 };
