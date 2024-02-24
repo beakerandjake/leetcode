@@ -51,13 +51,12 @@ export const binaryTreePaths = (root) => {
     if (!node) {
       return;
     }
-    history.push(node.val);
+    const newHistory = [...history, node.val];
     if (!node.left && !node.right) {
-      paths.push(history.join('->'));
+      paths.push(newHistory.join('->'));
     }
-    dfs(node.left, history);
-    dfs(node.right, history);
-    history.pop();
+    dfs(node.left, newHistory);
+    dfs(node.right, newHistory);
   };
   dfs(root, []);
   return paths;
