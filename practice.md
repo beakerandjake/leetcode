@@ -24,6 +24,7 @@ Certain problems I like to practice to stay fresh in basic concepts. This docume
 - [reverse-linked-list #206](https://leetcode.com/problems/reverse-linked-list)
 - [delete-node-in-a-linked-list #237](https://leetcode.com/problems/delete-node-in-a-linked-list)
 - [merge-k-sorted-lists #23](https://leetcode.com/problems/merge-k-sorted-lists)
+- [remove-linked-list-elements #203](https://leetcode.com/problems/remove-linked-list-elements)
 
 ## Stack
 - [valid-parentheses #20](https://leetcode.com/problems/valid-parentheses)
