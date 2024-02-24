@@ -45,8 +45,27 @@
  *     this.next = (next===undefined ? null : next)
  * }
  */
+
+const iterateReverse = (head, visitFn) => {
+  if (!head) {
+    return;
+  }
+  iterateReverse(head.next, visitFn);
+  visitFn(head);
+};
+
 /**
  * @param {ListNode} head
  * @return {boolean}
  */
-export const isPalindrome = (head) => {};
+export const isPalindrome = (head) => {
+  let toReturn = true;
+  let current = head;
+  iterateReverse(head, (node) => {
+    if (current.val !== node.val) {
+      toReturn = false;
+    }
+    current = current.next;
+  });
+  return toReturn;
+};

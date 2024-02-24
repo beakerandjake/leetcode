@@ -1,13 +1,13 @@
-import { isPalindrome } from "../src/234.js";
-import { arrToStr } from "./util.js";
+import { isPalindrome } from '../src/234.js';
+import { arrToStr, arrayToLinkedList } from './util.js';
 
-describe("234. Palindrome Linked List", () => {
+describe('234. Palindrome Linked List', () => {
   [
-    // replace with real test data
-    [true, false],
+    [[1, 2, 2, 1], true],
+    [[1, 2, 3, 4], false],
   ].forEach(([input, expected]) => {
-    test(`${input} -> ${expected}`, () => {
-      const result = isPalindrome(input);
+    test(`${arrToStr(input)} -> ${expected}`, () => {
+      const result = isPalindrome(arrayToLinkedList(input));
       expect(result).toBe(expected);
     });
   });
