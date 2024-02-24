@@ -51,8 +51,14 @@
  * https://leetcode.com/problems/excel-sheet-column-number
  */
 
+const COLUMN_START = 'A'.charCodeAt(0) - 1;
+
+// maps a column (A-Z) to a digit (1-26)
+const toDigit = (column) => column.charCodeAt(0) - COLUMN_START;
+
 /**
  * @param {string} columnTitle
  * @return {number}
  */
-export const titleToNumber = (columnTitle) => {};
+export const titleToNumber = (columnTitle) =>
+  [...columnTitle].reverse().reduce((acc, x, i) => acc + 26 ** i * toDigit(x), 0);

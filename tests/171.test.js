@@ -1,10 +1,10 @@
-import { titleToNumber } from "../src/171.js";
-import { arrToStr } from "./util.js";
+import { titleToNumber } from '../src/171.js';
 
-describe("171. Excel Sheet Column Number", () => {
+describe('171. Excel Sheet Column Number', () => {
   [
-    // replace with real test data
-    [true, false],
+    ['A', 1],
+    ['AB', 28],
+    ['ZY', 701],
   ].forEach(([input, expected]) => {
     test(`${input} -> ${expected}`, () => {
       const result = titleToNumber(input);
