@@ -1,14 +1,18 @@
-import { intersection } from "../src/349.js";
-import { arrToStr } from "./util.js";
+import { intersection } from '../src/349.js';
+import { arrToStr } from './util.js';
 
-describe("349. Intersection of Two Arrays", () => {
+describe('349. Intersection of Two Arrays', () => {
   [
-    // replace with real test data
-    [true, false],
-  ].forEach(([input, expected]) => {
-    test(`${input} -> ${expected}`, () => {
-      const result = intersection(input);
-      expect(result).toBe(expected);
+    [[1, 2, 2, 1], [2, 2], [2]],
+    [
+      [4, 9, 5],
+      [9, 4, 9, 8, 4],
+      [9, 4],
+    ],
+  ].forEach(([a, b, expected]) => {
+    test(`${arrToStr(a)},${arrToStr(b)} -> ${arrToStr(expected)}`, () => {
+      const result = intersection(a, b);
+      expect(result).toEqual(expected);
     });
   });
 });

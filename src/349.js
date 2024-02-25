@@ -33,8 +33,18 @@
  */
 
 /**
- * @param {number[]} nums1
- * @param {number[]} nums2
+ * @param {number[]} a
+ * @param {number[]} b
  * @return {number[]}
  */
-export const intersection = (nums1, nums2) => {};
+export const intersection = (a, b) => {
+  const aLookup = new Set(a);
+  const bLookup = new Set(b);
+  const toReturn = [];
+  for (const item of aLookup) {
+    if (bLookup.has(item)) {
+      toReturn.push(item);
+    }
+  }
+  return toReturn;
+};
