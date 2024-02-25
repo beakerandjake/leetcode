@@ -33,17 +33,23 @@ Run the test for a specific problem
 npm run test 42
 ```
 
-### `touch <problem-slug> [--reset]`
+### `touch <problem-slug|url> [--reset]`
 
 Create the source and test file for the specified problem, commits these files to git, and finally opens them in vs code.
 
 The source file is added to `src/` and test file is added to `tests/`. The test file is just a scaffolded test and you will need to update the test. 
 
-The slug is in the url of the problem, just copy the path after `leetcode.com/problems/`
+Touch accepts either the problem slug or the full problem url.
 
-To touch problem #1 (https://leetcode.com/problems/two-sum):
+The problem slug is located in the problems url `leetcode.com/problems/SLUG/...`
+
+To touch problem #1 (https://leetcode.com/problems/two-sum) using the problem slug:
 ```sh
 npm run touch two-sum
+```
+To touch problem #1 (https://leetcode.com/problems/two-sum) using the full url:
+```sh
+npm run touch https://leetcode.com/problems/two-sum
 ```
 
 Additionally you can use the `--reset` flag to clear the existing source code for the problem. This is helpful if you want to practice the implementation. 
