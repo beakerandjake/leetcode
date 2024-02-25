@@ -13,7 +13,10 @@ const getSlug = () => {
     console.error('missing problem slug argument');
     exit(1);
   }
-  return argv[2];
+  // accept problem slug or whole url, if given whole url then strip out the slug for the user
+  const arg = argv[2];
+  const urlMatch = arg.match(/https:\/\/leetcode\.com\/problems\/([\w-]+)/i);
+  return urlMatch ? urlMatch[1] : arg;
 };
 
 /**
