@@ -43,20 +43,19 @@
  * https://leetcode.com/problems/range-sum-query-immutable
  */
 
-/**
- * @param {number[]} nums
- */
-export const NumArray = (nums) => {};
+export class NumArray {
+  #sumCache = [];
 
-/**
- * @param {number} left
- * @param {number} right
- * @return {number}
- */
-NumArray.prototype.sumRange = function (left, right) {};
+  constructor(nums) {
+    this.#sumCache = [...nums];
+    for (let i = 1; i < this.#sumCache.length; i++) {
+      this.#sumCache[i] += this.#sumCache[i - 1];
+    }
+  }
 
-/**
- * Your NumArray object will be instantiated and called as such:
- * var obj = new NumArray(nums)
- * var param_1 = obj.sumRange(left,right)
- */
+  sumRange(left, right) {
+    return left === 0
+      ? this.#sumCache[right]
+      : this.#sumCache[right] - this.#sumCache[left - 1];
+  }
+}
