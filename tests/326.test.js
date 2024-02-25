@@ -1,10 +1,10 @@
-import { isPowerOfThree } from "../src/326.js";
-import { arrToStr } from "./util.js";
+import { isPowerOfThree } from '../src/326.js';
 
-describe("326. Power of Three", () => {
+describe('326. Power of Three', () => {
   [
-    // replace with real test data
-    [true, false],
+    [27, true],
+    [0, false],
+    [-1, false],
   ].forEach(([input, expected]) => {
     test(`${input} -> ${expected}`, () => {
       const result = isPowerOfThree(input);
