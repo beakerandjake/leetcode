@@ -18,3 +18,18 @@ describe('19. Remove Nth Node From End of List', () => {
     });
   });
 });
+
+const z = 
+{
+  scope: 'javascript',
+  prefix: 'listNode',
+  description: 'Adds the class definition of ListNode from leetcode',
+  body: [
+    'class ListNode {',
+    '\tconstructor(val, next) {',
+    '\t\tthis.val = val === undefined ? 0 : val;',
+    '\t\tthis.next = next === undefined ? null : next;',
+    '\t}',
+    '}',
+  ],
+};

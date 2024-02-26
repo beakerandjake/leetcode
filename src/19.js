@@ -45,6 +45,14 @@
  * https://leetcode.com/problems/remove-nth-node-from-end-of-list
  */
 
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+
 const twoPass = (head, n) => {
   const length = (list) => {
     let toReturn = 0;
