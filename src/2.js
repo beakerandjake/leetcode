@@ -1,8 +1,57 @@
 /**
  * You are given two non-empty linked lists representing two non-negative integers.
- * The digits are stored in reverse order, and each of their nodes contains a single digit.
- * Add the two numbers and return the sum as a linked list.
- * You may assume the two numbers do not contain any leading zero, except the number 0 itself.
+ * The digits are stored in reverse order, and each of their nodes contains a
+ * single digit. Add the two numbers and return the sum as a linked list.
+ *
+ * You may assume the two numbers do not contain any leading zero, except the
+ * number 0 itself.
+ *
+ *
+ *
+ * Example 1:
+ *
+ * [https://assets.leetcode.com/uploads/2020/10/02/addtwonumber1.jpg]
+ *
+ *
+ * Input: l1 = [2,4,3], l2 = [5,6,4]
+ * Output: [7,0,8]
+ * Explanation: 342 + 465 = 807.
+ *
+ *
+ * Example 2:
+ *
+ *
+ * Input: l1 = [0], l2 = [0]
+ * Output: [0]
+ *
+ *
+ * Example 3:
+ *
+ *
+ * Input: l1 = [9,9,9,9,9,9,9], l2 = [9,9,9,9]
+ * Output: [8,9,9,9,0,0,0,1]
+ *
+ *
+ *
+ *
+ * Constraints:
+ *
+ *  * The number of nodes in each linked list is in the range [1, 100].
+ *  * 0 <= Node.val <= 9
+ *  * It is guaranteed that the list represents a number that does not have leading
+ *    zeros.
+ *
+ *
+ *
+ * https://leetcode.com/problems/add-two-numbers
+ */
+
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
  */
 
 class ListNode {
@@ -12,75 +61,33 @@ class ListNode {
   }
 }
 
-const convertToNumbers = (() => {
-  const pow = (val, power) => BigInt(val) * 10n ** power;
-
-  const toDigit = (node, power = 0n) =>
-    node.next
-      ? pow(node.val, power) + toDigit(node.next, power + 1n)
-      : pow(node.val, power);
-
-  const toList = (num) => {
-    let head;
-    let currentNode;
-    let remaining = num;
-    while (remaining) {
-      const decimal = remaining % 10n;
-      remaining /= 10n;
-
-      const newNode = new ListNode(Number(decimal));
-
-      if (!currentNode) {
-        head = newNode;
-        currentNode = newNode;
-      } else {
-        currentNode.next = newNode;
-        currentNode = newNode;
-      }
-    }
-
-    return head || new ListNode(0);
-  };
-
-  return (l1, l2) => toList(toDigit(l1) + toDigit(l2));
-})();
-
-/**
- * Definition for singly-linked list.
- * function ListNode(val, next) {
- *     this.val = (val===undefined ? 0 : val)
- *     this.next = (next===undefined ? null : next)
- * }
- */
 /**
  * @param {ListNode} l1
  * @param {ListNode} l2
  * @return {ListNode}
  */
-export const addTwoNumbers = (a, b) => {
-  let toReturn;
-  let current;
-  let carry = false;
-  let aCurrent = a;
-  let bCurrent = b;
-  while (aCurrent || bCurrent) {
-    const aVal = aCurrent?.val || 0;
-    const bVal = bCurrent?.val || 0;
-    const rawSum = aVal + bVal + (carry ? 1 : 0);
-    carry = rawSum >= 10;
-    const newNode = new ListNode(rawSum % 10);
-    if (!current) {
-      toReturn = newNode;
-      current = newNode;
-    } else {
-      current.next = newNode;
-      current = newNode;
+export const addTwoNumbers = (l1, l2) => {
+  let left = l1;
+  let right = l2;
+  const sentinel = new ListNode(null);
+  let tail = sentinel;
+  let carry = 0;
+  while (left || right) {
+    let result = (left?.val || 0) + (right?.val || 0) + carry;
+    carry = 0;
+    if (result > 9) {
+      carry = 1;
+      result -= 10;
     }
-    aCurrent = aCurrent?.next;
-    bCurrent = bCurrent?.next;
+    tail.next = new ListNode(result);
+    tail = tail.next;
+    left = left?.next;
+    right = right?.next;
   }
+
   if (carry) {
-    current.next = new ListNode(1);
+    tail.next = new ListNode(1);
   }
-  return toReturn;
+
+  return sentinel.next;
 };

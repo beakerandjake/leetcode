@@ -25,6 +25,11 @@ describe('2. Add Two Numbers', () => {
         0, 0, 0, 1,
       ],
     ],
+    [
+      [2, 4, 6],
+      [5, 6, 4],
+      [7, 0, 1, 1],
+    ],
   ].forEach(([a, b, expected]) => {
     test(`${arrToStr(a)}.${arrToStr(b)} -> ${arrToStr(expected)}`, () => {
       const result = addTwoNumbers(arrayToLinkedList(a), arrayToLinkedList(b));
