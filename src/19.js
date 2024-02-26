@@ -1,69 +1,100 @@
 /**
- * Given the head of a linked list, remove the nth node from the end of the list and return its head.
+ * Given the head of a linked list, remove the nth node from the end of the list
+ * and return its head.
+ *
+ *
+ *
+ * Example 1:
+ *
+ * [https://assets.leetcode.com/uploads/2020/10/03/remove_ex1.jpg]
+ *
+ *
+ * Input: head = [1,2,3,4,5], n = 2
+ * Output: [1,2,3,5]
+ *
+ *
+ * Example 2:
+ *
+ *
+ * Input: head = [1], n = 1
+ * Output: []
+ *
+ *
+ * Example 3:
+ *
+ *
+ * Input: head = [1,2], n = 1
+ * Output: [1]
+ *
+ *
+ *
+ *
+ * Constraints:
+ *
+ *  * The number of nodes in the list is sz.
+ *  * 1 <= sz <= 30
+ *  * 0 <= Node.val <= 100
+ *  * 1 <= n <= sz
+ *
+ *
+ *
+ * Follow up: Could you do this in one pass?
+ *
+ *
+ *
+ * https://leetcode.com/problems/remove-nth-node-from-end-of-list
  */
 
-/**
- * Definition for singly-linked list.
- * function ListNode(val, next) {
- *     this.val = (val===undefined ? 0 : val)
- *     this.next = (next===undefined ? null : next)
- * }
- */
-
-const twoPass = (() => {
-  const size = (head) => {
+const twoPass = (head, n) => {
+  const length = (list) => {
     let toReturn = 0;
-    let current = head;
+    let current = list;
     while (current) {
-      toReturn++;
       current = current.next;
+      toReturn++;
     }
     return toReturn;
   };
 
-  const deleteAtIndex = (head, index) => {
-    if (index === 1) {
-      return head.next;
+  const removeAtIndex = (list, index) => {
+    if (index === 0) {
+      return list.next;
     }
-    let currentIndex = 1;
-    let predecessor = head;
-    while (++currentIndex !== index) {
-      predecessor = predecessor.next;
+
+    let i = 0;
+    let previous;
+    let current = list;
+    while (i !== index) {
+      previous = current;
+      current = current.next;
+      i++;
     }
-    predecessor.next = predecessor.next.next;
-    return head;
+    previous.next = current.next;
+    return list;
   };
 
-  return (head, n) => deleteAtIndex(head, size(head) - n + 1);
-})();
+  return removeAtIndex(head, length(head) - n);
+};
 
-const onePass = (() => {
-  const nodeAt = (head, position) => {
-    let currentNode = head;
-    let currentPosition = 0;
-    while (currentPosition++ !== position) {
-      currentNode = currentNode.next;
-    }
-    return currentNode;
-  };
-
-  return (head, n) => {
-    let left = head;
-    let right = nodeAt(head, n);
-
-    if (!right) {
-      return head.next;
-    }
-
-    while (right.next !== null) {
-      right = right.next;
-      left = left.next;
-    }
-
-    left.next = left.next.next;
-    return head;
-  };
-})();
+const onePass = (head, n) => {
+  let slow = head;
+  let fast = head;
+  // advance fast n steps from head.
+  for (let i = 0; i < n; i++) {
+    fast = fast.next;
+  }
+  // if n == list length, then delete head.
+  if (!fast) {
+    return head.next;
+  }
+  // advance slow until fast is at tail (this puts slow at index n)
+  while (fast.next) {
+    fast = fast.next;
+    slow = slow.next;
+  }
+  slow.next = slow.next.next;
+  return head;
+};
 
 /**
  * @param {ListNode} head
