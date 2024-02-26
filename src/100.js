@@ -1,6 +1,49 @@
 /**
- * Given the roots of two binary trees p and q, write a function to check if they are the same or not.
- * Two binary trees are considered the same if they are structurally identical, and the nodes have the same value.
+ * Given the roots of two binary trees p and q, write a function to check if they
+ * are the same or not.
+ *
+ * Two binary trees are considered the same if they are structurally identical, and
+ * the nodes have the same value.
+ *
+ *
+ *
+ * Example 1:
+ *
+ * [https://assets.leetcode.com/uploads/2020/12/20/ex1.jpg]
+ *
+ *
+ * Input: p = [1,2,3], q = [1,2,3]
+ * Output: true
+ *
+ *
+ * Example 2:
+ *
+ * [https://assets.leetcode.com/uploads/2020/12/20/ex2.jpg]
+ *
+ *
+ * Input: p = [1,2], q = [1,null,2]
+ * Output: false
+ *
+ *
+ * Example 3:
+ *
+ * [https://assets.leetcode.com/uploads/2020/12/20/ex3.jpg]
+ *
+ *
+ * Input: p = [1,2,1], q = [1,1,2]
+ * Output: false
+ *
+ *
+ *
+ *
+ * Constraints:
+ *
+ *  * The number of nodes in both trees is in the range [0, 100].
+ *  * -104 <= Node.val <= 104
+ *
+ *
+ *
+ * https://leetcode.com/problems/same-tree
  */
 
 /**
@@ -11,18 +54,17 @@
  *     this.right = (right===undefined ? null : right)
  * }
  */
-
 /**
  * @param {TreeNode} p
  * @param {TreeNode} q
  * @return {boolean}
  */
-export const isSameTree = (a, b) => {
-  if (!a && !b) {
+export const isSameTree = (p, q) => {
+  if (!p && !q) {
     return true;
   }
-  if (!a || !b) {
+  if (!p || !q) {
     return false;
   }
-  return a.val === b.val && isSameTree(a.left, b.left) && isSameTree(a.right, b.right);
+  return p.val === q.val && isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
 };
