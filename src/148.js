@@ -91,7 +91,7 @@ const merge = (left, right) => {
 };
 
 const mergeSort = (list) => {
-  if (length(list) < 2) {
+  if (!list?.next) {
     return list;
   }
   const m = middle(length(list));
