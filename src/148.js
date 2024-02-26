@@ -1,62 +1,107 @@
 /**
- * Given the head of a linked list, return the list after sorting it in ascending order.
+ * Given the head of a linked list, return the list after sorting it in ascending
+ * order.
+ *
+ *
+ *
+ * Example 1:
+ *
+ * [https://assets.leetcode.com/uploads/2020/09/14/sort_list_1.jpg]
+ *
+ *
+ * Input: head = [4,2,1,3]
+ * Output: [1,2,3,4]
+ *
+ *
+ * Example 2:
+ *
+ * [https://assets.leetcode.com/uploads/2020/09/14/sort_list_2.jpg]
+ *
+ *
+ * Input: head = [-1,5,3,4,0]
+ * Output: [-1,0,3,4,5]
+ *
+ *
+ * Example 3:
+ *
+ *
+ * Input: head = []
+ * Output: []
+ *
+ *
+ *
+ *
+ * Constraints:
+ *
+ *  * The number of nodes in the list is in the range [0, 5 * 104].
+ *  * -105 <= Node.val <= 105
+ *
+ *
+ *
+ * Follow up: Can you sort the linked list in O(n logn) time and O(1) memory (i.e.
+ * constant space)?
+ *
+ *
+ *
+ * https://leetcode.com/problems/sort-list
  */
 
-const findMiddle = (head) => {
-  let parent;
-  let slow = head;
-  let fast = head;
-  while (fast?.next) {
-    parent = slow;
-    slow = slow.next;
-    fast = fast.next.next;
-  }
-  return { parent, node: slow };
-};
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
 
-const merge = (a, b) => {
-  const sentinel = { next: null };
-  let sentinelTail = sentinel;
-  let aCurrent = a;
-  let bCurrent = b;
-  while (aCurrent && bCurrent) {
-    if (aCurrent.val < bCurrent.val) {
-      const aNext = aCurrent.next;
-      aCurrent.next = null;
-      sentinelTail.next = aCurrent;
-      aCurrent = aNext;
+class ListNode {
+  constructor(val, next) {
+    this.val = val === undefined ? 0 : val;
+    this.next = next === undefined ? null : next;
+  }
+}
+
+const length = (head) => (head ? 1 + length(head.next) : 0);
+
+const nodeAt = (list, index) => (index === 0 ? list : nodeAt(list.next, index - 1));
+
+const middle = (n) => Math.floor(n / 2);
+
+const slice = (list, count) =>
+  list && count ? new ListNode(list.val, slice(list.next, count - 1)) : null;
+
+const merge = (left, right) => {
+  const sentinel = new ListNode(null);
+  let current = sentinel;
+  let l = left;
+  let r = right;
+  while (l && r) {
+    if (l.val < r.val) {
+      current.next = new ListNode(l.val);
+      l = l.next;
     } else {
-      const bNext = bCurrent.next;
-      bCurrent.next = null;
-      sentinelTail.next = bCurrent;
-      bCurrent = bNext;
+      current.next = new ListNode(r.val);
+      r = r.next;
     }
-    sentinelTail = sentinelTail.next;
+    current = current.next;
   }
-  if (aCurrent) {
-    sentinelTail.next = aCurrent;
-  }
-  if (bCurrent) {
-    sentinelTail.next = bCurrent;
-  }
+  // ensure remaining elements are appended to tail (if any)
+  current.next = l ? l : r;
   return sentinel.next;
 };
 
-const mergeSort = (head) => {
-  if (!head || !head.next) {
-    return head;
+const mergeSort = (list) => {
+  if (length(list) < 2) {
+    return list;
   }
-
-  const middle = findMiddle(head);
-  middle.parent.next = null;
-
-  const leftSorted = mergeSort(head);
-  const rightSorted = mergeSort(middle.node);
-  return merge(leftSorted, rightSorted);
+  const m = middle(length(list));
+  const left = mergeSort(slice(list, m));
+  const right = mergeSort(nodeAt(list, m));
+  return merge(left, right);
 };
 
 /**
  * @param {ListNode} head
  * @return {ListNode}
  */
-export const sortList = (head) => mergeSort(head);
+export const sortList = mergeSort;
