@@ -1,13 +1,13 @@
-import { checkTree } from "../src/2236.js";
-import { arrToStr } from "./util.js";
+import { checkTree } from '../src/2236.js';
+import { arrToBst, arrToStr } from './util.js';
 
-describe("2236. Root Equals Sum of Children", () => {
+describe('2236. Root Equals Sum of Children', () => {
   [
-    // replace with real test data
-    [true, false],
+    [[10, 4, 6], true],
+    [[5, 3, 1], false],
   ].forEach(([input, expected]) => {
-    test(`${input} -> ${expected}`, () => {
-      const result = checkTree(input);
+    test(`${arrToStr(input)} -> ${expected}`, () => {
+      const result = checkTree(arrToBst(input));
       expect(result).toBe(expected);
     });
   });

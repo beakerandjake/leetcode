@@ -53,4 +53,9 @@
  * @param {TreeNode} root
  * @return {boolean}
  */
-export const checkTree = (root) => {};
+export const checkTree = (root) => {
+  if (!root || !root.left || !root.right) {
+    return false;
+  }
+  return root.val === root.left.val + root.right.val;
+};
