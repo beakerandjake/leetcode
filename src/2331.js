@@ -64,8 +64,26 @@
  *     this.right = (right===undefined ? null : right)
  * }
  */
+
+const or = (a, b) => a || b;
+
+const and = (a, b) => a && b;
+
+const operatorMap = new Map([
+  [2, or],
+  [3, and],
+]);
+
 /**
  * @param {TreeNode} root
  * @return {boolean}
  */
-export const evaluateTree = (root) => {};
+export const evaluateTree = (root) => {
+  if (!root) {
+    return false;
+  }
+  if (!root.left && !root.right) {
+    return !!root.val;
+  }
+  return operatorMap.get(root.val)(evaluateTree(root.left), evaluateTree(root.right));
+};
