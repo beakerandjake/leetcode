@@ -53,4 +53,10 @@
  * @param {number} high
  * @return {number}
  */
-export const rangeSumBST = (root, low, high) => {};
+export const rangeSumBST = (root, low, high) => {
+  if (!root) {
+    return 0;
+  }
+  const selfSum = root.val >= low && root.val <= high ? root.val : 0;
+  return selfSum + rangeSumBST(root.left, low, high) + rangeSumBST(root.right, low, high);
+};
