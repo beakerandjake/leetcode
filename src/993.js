@@ -67,4 +67,21 @@
  * @param {number} y
  * @return {boolean}
  */
-export const isCousins = (root, x, y) => {};
+export const isCousins = (root, x, y) => {
+  const lookup = new Map([[root.val, 0]]);
+  const queue = [{ node: root, level: 0 }];
+  while (queue.length) {
+    const { node, level } = queue.shift();
+    if (node.left) {
+      lookup.set(node.left.val, { parent: node, level: level + 1 });
+      queue.push({ node: node.left, level: level + 1 });
+    }
+    if (node.right) {
+      lookup.set(node.right.val, { parent: node, level: level + 1 });
+      queue.push({ node: node.right, level: level + 1 });
+    }
+  }
+  const xLookup = lookup.get(x);
+  const yLookup = lookup.get(y);
+  return xLookup.level === yLookup.level && xLookup.parent !== yLookup.parent;
+};
