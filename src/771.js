@@ -34,9 +34,15 @@
  * https://leetcode.com/problems/jewels-and-stones
  */
 
+const uniqueCharacters = (str) => new Set(str);
+
+const countJewels = (stones, jewelLookup) =>
+  [...stones].filter((stone) => jewelLookup.has(stone)).length;
+
 /**
  * @param {string} jewels
  * @param {string} stones
  * @return {number}
  */
-export const numJewelsInStones = (jewels, stones) => {};
+export const numJewelsInStones = (jewels, stones) =>
+  countJewels(stones, uniqueCharacters(jewels));

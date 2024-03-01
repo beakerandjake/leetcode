@@ -1,13 +1,12 @@
-import { numJewelsInStones } from "../src/771.js";
-import { arrToStr } from "./util.js";
+import { numJewelsInStones } from '../src/771.js';
 
-describe("771. Jewels and Stones", () => {
+describe('771. Jewels and Stones', () => {
   [
-    // replace with real test data
-    [true, false],
-  ].forEach(([input, expected]) => {
-    test(`${input} -> ${expected}`, () => {
-      const result = numJewelsInStones(input);
+    ['aA', 'aAAbbbb', 3],
+    ['z', 'ZZ', 0],
+  ].forEach(([jewels, stones, expected]) => {
+    test(`${jewels},${stones} -> ${expected}`, () => {
+      const result = numJewelsInStones(jewels, stones);
       expect(result).toBe(expected);
     });
   });
