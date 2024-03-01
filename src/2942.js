@@ -50,4 +50,5 @@
  * @param {character} x
  * @return {number[]}
  */
-export const findWordsContaining = (words, x) => {};
+export const findWordsContaining = (words, x) =>
+  words.reduce((acc, word, i) => (word.includes(x) ? [...acc, i] : acc), []);
