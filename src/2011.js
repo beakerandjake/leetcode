@@ -60,8 +60,20 @@
  * https://leetcode.com/problems/final-value-of-variable-after-performing-operations
  */
 
+const increment = (x) => x + 1;
+
+const decrement = (x) => x - 1;
+
+const operationMap = new Map([
+  ['++X', increment],
+  ['X++', increment],
+  ['--X', decrement],
+  ['X--', decrement],
+]);
+
 /**
  * @param {string[]} operations
  * @return {number}
  */
-export const finalValueAfterOperations = (operations) => {};
+export const finalValueAfterOperations = (operations) =>
+  operations.reduce((acc, x) => operationMap.get(x)(acc), 0);

@@ -1,10 +1,11 @@
-import { finalValueAfterOperations } from "../src/2011.js";
-import { arrToStr } from "./util.js";
+import { finalValueAfterOperations } from '../src/2011.js';
+import { arrToStr } from './util.js';
 
-describe("2011. Final Value of Variable After Performing Operations", () => {
+describe('2011. Final Value of Variable After Performing Operations', () => {
   [
     // replace with real test data
-    [true, false],
+    [['--X', 'X++', 'X++'], 1],
+    [['++X', '++X', 'X++'], 3],
   ].forEach(([input, expected]) => {
     test(`${input} -> ${expected}`, () => {
       const result = finalValueAfterOperations(input);
