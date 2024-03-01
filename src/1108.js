@@ -32,4 +32,5 @@
  * @param {string} address
  * @return {string}
  */
-export const defangIPaddr = (address) => {};
+export const defangIPaddr = (address) =>
+  [...address].map((char) => (char === '.' ? '[.]' : char)).join('');
