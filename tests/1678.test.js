@@ -1,10 +1,9 @@
-import { interpret } from "../src/1678.js";
-import { arrToStr } from "./util.js";
+import { interpret } from '../src/1678.js';
 
-describe("1678. Goal Parser Interpretation", () => {
+describe('1678. Goal Parser Interpretation', () => {
   [
-    // replace with real test data
-    [true, false],
+    ['G()(al)', 'Goal'],
+    ['G()()()()(al)', 'Gooooal'],
   ].forEach(([input, expected]) => {
     test(`${input} -> ${expected}`, () => {
       const result = interpret(input);

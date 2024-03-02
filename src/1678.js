@@ -47,8 +47,49 @@
  * https://leetcode.com/problems/goal-parser-interpretation
  */
 
+const bruteForce = (command) => {
+  const translations = new Map([
+    ['G', 'G'],
+    ['()', 'o'],
+    ['(al)', 'al'],
+  ]);
+
+  const consume = (str, start) => {
+    let consumed = '';
+    let current = start;
+    while (current <= str.length) {
+      consumed += str[current];
+      if (translations.has(consumed)) {
+        return { translated: translations.get(consumed), endIndex: current };
+      }
+      current++;
+    }
+    return {};
+  };
+
+  const results = [];
+  let index = 0;
+  while (index < command.length) {
+    const { translated, endIndex } = consume(command, index);
+    results.push(translated);
+    index = endIndex + 1;
+  }
+  return results.join('');
+};
+
+const reduce = (() => {
+  const translations = new Map([
+    ['()', 'o'],
+    ['(al)', 'al'],
+  ]);
+
+  return (command) =>
+    [...translations].reduce((acc, [from, to]) => acc.replaceAll(from, to), command);
+})();
+
 /**
  * @param {string} command
  * @return {string}
  */
-export const interpret = (command) => {};
+export const interpret = (command) =>
+  command.replaceAll('()', 'o').replaceAll(/[()]/g, '');
