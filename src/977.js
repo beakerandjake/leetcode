@@ -38,8 +38,14 @@
  * https://leetcode.com/problems/squares-of-a-sorted-array
  */
 
+// squares a number.
+const square = (number) => number ** 2;
+
+// copies the array and returns the sorted copy.
+const sort = (arr) => [...arr].sort((a, b) => a - b);
+
 /**
  * @param {number[]} nums
  * @return {number[]}
  */
-export const sortedSquares = (nums) => {};
+export const sortedSquares = (nums) => sort(nums.map(square));
