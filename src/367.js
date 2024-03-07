@@ -36,8 +36,21 @@
  * https://leetcode.com/problems/valid-perfect-square
  */
 
+const square = (x) => x * x;
+
+const average = (x, y) => (x + y) / 2;
+
+const improve = (x, guess) => average(guess, x / guess);
+
+const goodEnough = (x, guess) => Math.abs(square(guess) - x) < 0.0001;
+
+const sqrt = (x, guess) => (goodEnough(x, guess) ? guess : sqrt(x, improve(x, guess)));
+
 /**
  * @param {number} num
  * @return {boolean}
  */
-export const isPerfectSquare = (num) => {};
+export const isPerfectSquare = (num) => {
+  const squareRoot = sqrt(num, 1);
+  return squareRoot - Math.trunc(squareRoot) < 0.00001;
+};

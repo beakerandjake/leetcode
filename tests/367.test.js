@@ -1,10 +1,9 @@
-import { isPerfectSquare } from "../src/367.js";
-import { arrToStr } from "./util.js";
+import { isPerfectSquare } from '../src/367.js';
 
-describe("367. Valid Perfect Square", () => {
+describe('367. Valid Perfect Square', () => {
   [
-    // replace with real test data
-    [true, false],
+    [16, true],
+    [14, false],
   ].forEach(([input, expected]) => {
     test(`${input} -> ${expected}`, () => {
       const result = isPerfectSquare(input);
