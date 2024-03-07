@@ -36,9 +36,20 @@
  * https://leetcode.com/problems/find-the-difference
  */
 
+const charCounts = (str) =>
+  [...str].reduce((acc, x) => acc.set(x, (acc.get(x) || 0) + 1), new Map());
+
 /**
  * @param {string} s
  * @param {string} t
  * @return {character}
  */
-export const findTheDifference = (s, t) => {};
+export const findTheDifference = (s, t) => {
+  const sCounts = charCounts(s);
+  const tCounts = charCounts(t);
+  for (const [key, value] of tCounts) {
+    if (!sCounts.has(key) || sCounts.get(key) < value) {
+      return key;
+    }
+  }
+};
