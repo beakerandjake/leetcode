@@ -49,4 +49,12 @@
  * @param {ListNode} head
  * @return {ListNode}
  */
-export const middleNode = (head) => {};
+export const middleNode = (head) => {
+  let slow = head;
+  let fast = head;
+  while (fast?.next) {
+    slow = slow.next;
+    fast = fast.next.next;
+  }
+  return slow;
+};

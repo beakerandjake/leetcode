@@ -43,4 +43,15 @@
  * @param {number} n
  * @return {boolean}
  */
-export const isPowerOfFour = (n) => {};
+export const isPowerOfFour = (n) => {
+  if (n < 1) {
+    return false;
+  }
+  if (n === 1) {
+    return true;
+  }
+  if (n % 4 !== 0) {
+    return false;
+  }
+  return isPowerOfFour(n / 4);
+};
