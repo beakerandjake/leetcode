@@ -44,8 +44,48 @@
  * https://leetcode.com/problems/binary-watch
  */
 
+// returns the number of bits set to 1
+const popCount = (binary) => {
+  let count = 0;
+  let remaining = binary;
+  while (remaining > 0) {
+    if ((remaining & 1) === 1) {
+      count++;
+    }
+    remaining /= 2;
+  }
+  return count;
+};
+
+// returns the hour of the binary clocks time.
+const hour = (binary) => (binary & 0b1111000000) >> 6;
+
+// returns the minute of the binary clocks time.
+const minute = (binary) => binary & 0b0000111111;
+
+// does the binary represent a valid time?
+const isValid = (binary) => hour(binary) <= 11 && minute(binary) <= 59;
+
+// all possible valid values of the binary clock.
+const validBinaryTimes = [...Array(2 ** 10)].map((_, i) => i).filter(isValid);
+
+// formats the time into the expected string.
+const formatTime = (h, m) => `${h}:${m.toString().padStart(2, '0')}`;
+
+// maps pop count to all valid times.
+const popCountMap = validBinaryTimes.reduce((acc, x) => {
+  const key = popCount(x);
+  const value = formatTime(hour(x), minute(x));
+  if (acc.has(key)) {
+    acc.get(key).push(value);
+  } else {
+    acc.set(key, [value]);
+  }
+  return acc;
+}, new Map());
+
 /**
  * @param {number} turnedOn
  * @return {string[]}
  */
-export const readBinaryWatch = (turnedOn) => {};
+export const readBinaryWatch = (turnedOn) => popCountMap.get(turnedOn) || [];
