@@ -67,18 +67,26 @@
  * https://leetcode.com/problems/random-pick-with-weight
  */
 
-/**
- * @param {number[]} w
- */
-export const Solution = (w) => {};
+export class Solution {
+  #probabilities;
 
-/**
- * @return {number}
- */
-Solution.prototype.pickIndex = function () {};
+  constructor(probabilities) {
+    const total = probabilities.reduce((acc, x) => acc + x, 0);
+    this.#probabilities = probabilities
+      .map((x, i) => ({
+        probability: x / total,
+        index: i,
+      }))
+      .sort((a, b) => a.probability - b.probability);
+  }
 
-/**
- * Your Solution object will be instantiated and called as such:
- * var obj = new Solution(w)
- * var param_1 = obj.pickIndex()
- */
+  pickIndex() {
+    let choice = Math.random();
+    for (const item of this.#probabilities) {
+      if (choice <= item.probability) {
+        return item.index;
+      }
+      choice -= item.probability;
+    }
+  }
+}
