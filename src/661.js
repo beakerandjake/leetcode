@@ -52,8 +52,53 @@
  * https://leetcode.com/problems/image-smoother
  */
 
+const empty = (m, n) => [...Array(m)].map(() => Array(n).fill(0));
+
+const kernelDirections = [
+  [1, -1],
+  [1, 0],
+  [1, 1],
+  [0, -1],
+  [0, 0],
+  [0, 1],
+  [-1, -1],
+  [-1, 0],
+  [-1, 1],
+];
+
+const width = (matrix) => matrix[0].length;
+
+const height = (matrix) => matrix.length;
+
+const inBounds = (matrix, y, x) =>
+  y >= 0 && y < height(matrix) && x >= 0 && x < width(matrix);
+
+const getCellsInKernel = (matrix, y, x) => {
+  const toReturn = [];
+  for (const [dY, dX] of kernelDirections) {
+    const nY = y + dY;
+    const nX = x + dX;
+    if (inBounds(matrix, nY, nX)) {
+      toReturn.push(matrix[nY][nX]);
+    }
+  }
+  return toReturn;
+};
+
+const sum = (numbers) => numbers.reduce((acc, x) => acc + x, 0);
+
+const average = (numbers) => (numbers.length ? sum(numbers) / numbers.length : 0);
+
 /**
  * @param {number[][]} img
  * @return {number[][]}
  */
-export const imageSmoother = (img) => {};
+export const imageSmoother = (img) => {
+  const output = empty(height(img), width(img));
+  for (let y = 0; y < height(img); y++) {
+    for (let x = 0; x < width(img); x++) {
+      output[y][x] = Math.floor(average(getCellsInKernel(img, y, x)));
+    }
+  }
+  return output;
+};
