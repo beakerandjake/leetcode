@@ -45,8 +45,11 @@
  * https://leetcode.com/problems/maximum-number-of-words-found-in-sentences
  */
 
+// returns the number of words in the sentence.
+const wordCount = (sentence) => sentence.split(' ').length;
+
 /**
  * @param {string[]} sentences
  * @return {number}
  */
-export const mostWordsFound = (sentences) => {};
+export const mostWordsFound = (sentences) => Math.max(...sentences.map(wordCount));

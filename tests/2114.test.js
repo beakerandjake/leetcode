@@ -1,10 +1,12 @@
-import { mostWordsFound } from "../src/2114.js";
-import { arrToStr } from "./util.js";
+import { mostWordsFound } from '../src/2114.js';
 
-describe("2114. Maximum Number of Words Found in Sentences", () => {
+describe('2114. Maximum Number of Words Found in Sentences', () => {
   [
-    // replace with real test data
-    [true, false],
+    [
+      ['alice and bob love leetcode', 'i think so too', 'this is great thanks very much'],
+      6,
+    ],
+    [['please wait', 'continue to fight', 'continue to win'], 3],
   ].forEach(([input, expected]) => {
     test(`${input} -> ${expected}`, () => {
       const result = mostWordsFound(input);
