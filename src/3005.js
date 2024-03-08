@@ -39,8 +39,21 @@
  * https://leetcode.com/problems/count-elements-with-maximum-frequency
  */
 
+const frequencyMap = (nums) =>
+  nums.reduce((acc, x) => acc.set(x, (acc.get(x) || 0) + 1), new Map());
+
 /**
  * @param {number[]} nums
  * @return {number}
  */
-export const maxFrequencyElements = (nums) => {};
+export const maxFrequencyElements = (nums) => {
+  const counts = frequencyMap(nums);
+  const max = Math.max(...counts.values());
+  let total = 0;
+  for (const count of counts.values()) {
+    if (count === max) {
+      total += count;
+    }
+  }
+  return total;
+};
