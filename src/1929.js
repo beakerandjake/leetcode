@@ -45,4 +45,4 @@
  * @param {number[]} nums
  * @return {number[]}
  */
-export const getConcatenation = (nums) => {};
+export const getConcatenation = (nums) => [...nums, ...nums];
