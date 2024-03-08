@@ -3,7 +3,6 @@ import { arrToBst, arrToStr } from './util.js';
 
 describe('257. Binary Tree Paths', () => {
   [
-    // replace with real test data
     [
       [1, 2, 3, null, 5],
       ['1->2->5', '1->3'],

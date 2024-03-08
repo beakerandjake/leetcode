@@ -3,7 +3,6 @@ import { arrToStr } from './util.js';
 
 describe('787. Cheapest Flights Within K Stops', () => {
   [
-    // replace with real test data
     [
       4,
       [

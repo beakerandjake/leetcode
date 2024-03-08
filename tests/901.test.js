@@ -3,7 +3,6 @@ import { arrToStr } from './util.js';
 
 describe('901. Online Stock Span', () => {
   [
-    // replace with real test data
     [
       ['next', 'next', 'next', 'next', 'next', 'next', 'next'],
       [[100], [80], [60], [70], [60], [75], [85]],

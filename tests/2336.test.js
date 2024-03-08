@@ -3,7 +3,6 @@ import { arrToStr } from './util.js';
 
 describe('2336. Smallest Number in Infinite Set', () => {
   [
-    // replace with real test data
     [
       [
         'addBack',

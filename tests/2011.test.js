@@ -3,7 +3,6 @@ import { arrToStr } from './util.js';
 
 describe('2011. Final Value of Variable After Performing Operations', () => {
   [
-    // replace with real test data
     [['--X', 'X++', 'X++'], 1],
     [['++X', '++X', 'X++'], 3],
   ].forEach(([input, expected]) => {

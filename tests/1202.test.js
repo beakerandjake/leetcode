@@ -3,7 +3,6 @@ import { arrToStr } from './util.js';
 
 describe('1202. Smallest String With Swaps', () => {
   [
-    // replace with real test data
     [
       'dcab',
       [

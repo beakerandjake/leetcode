@@ -3,7 +3,6 @@ import { arrToStr } from './util.js';
 
 describe('1971. Find if Path Exists in Graph', () => {
   [
-    // replace with real test data
     [
       3,
       [

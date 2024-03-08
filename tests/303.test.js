@@ -3,7 +3,6 @@ import { arrToStr } from './util.js';
 
 describe('303. Range Sum Query - Immutable', () => {
   [
-    // replace with real test data
     [
       [-2, 0, 3, -5, 2, -1],
       [

@@ -3,7 +3,6 @@ import { arrToStr } from './util.js';
 
 describe('841. Keys and Rooms', () => {
   [
-    // replace with real test data
     [[[1], [2], [3], []], true],
     [[[1, 3], [3, 0, 1], [2], [0]], false],
   ].forEach(([input, expected]) => {
