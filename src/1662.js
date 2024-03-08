@@ -45,9 +45,11 @@
  * https://leetcode.com/problems/check-if-two-string-arrays-are-equivalent
  */
 
+const concat = (chars) => chars.join('');
+
 /**
  * @param {string[]} word1
  * @param {string[]} word2
  * @return {boolean}
  */
-export const arrayStringsAreEqual = (word1, word2) => {};
+export const arrayStringsAreEqual = (word1, word2) => concat(word1) === concat(word2);
