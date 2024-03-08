@@ -7,7 +7,7 @@ describe('349. Intersection of Two Arrays', () => {
     [
       [4, 9, 5],
       [9, 4, 9, 8, 4],
-      [9, 4],
+      [4, 9],
     ],
   ].forEach(([a, b, expected]) => {
     test(`${arrToStr(a)},${arrToStr(b)} -> ${arrToStr(expected)}`, () => {
