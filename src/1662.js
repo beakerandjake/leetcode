@@ -45,11 +45,41 @@
  * https://leetcode.com/problems/check-if-two-string-arrays-are-equivalent
  */
 
-const concat = (chars) => chars.join('');
+const simple = (() => {
+  const concat = (chars) => chars.join('');
+  return (a, b) => concat(a) === concat(b);
+})();
 
 /**
- * @param {string[]} word1
- * @param {string[]} word2
+ * @param {string[]} a
+ * @param {string[]} b
  * @return {boolean}
  */
-export const arrayStringsAreEqual = (word1, word2) => concat(word1) === concat(word2);
+export const arrayStringsAreEqual = (a, b) => {
+  const check = (aWord, aLetter, bWord, bLetter) => {
+    if (aWord >= a.length) {
+      return bWord >= b.length;
+    }
+    if (bWord >= b.length) {
+      return aWord >= a.length;
+    }
+
+    if (aLetter >= a[aWord].length) {
+      return bLetter < b[bWord].length
+        ? check(aWord + 1, 0, bWord, bLetter)
+        : check(aWord + 1, 0, bWord + 1, 0);
+    }
+    if (bLetter >= b[bWord].length) {
+      return aLetter < a[aWord].length
+        ? check(aWord, aLetter, bWord + 1, 0)
+        : check(aWord + 1, 0, bWord + 1, 0);
+    }
+
+    if (a[aWord][aLetter] !== b[bWord][bLetter]) {
+      return false;
+    }
+
+    return check(aWord, aLetter + 1, bWord, bLetter + 1);
+  };
+  return check(0, 0, 0, 0);
+};
