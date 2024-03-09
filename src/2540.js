@@ -37,9 +37,32 @@
  * https://leetcode.com/problems/minimum-common-value
  */
 
+const usingSets = (() => {
+  const uniqueElements = (array) => new Set(array);
+
+  const union = (a, b) => {
+    const common = [];
+    for (const element of a) {
+      if (b.has(element)) {
+        common.push(element);
+      }
+    }
+    return common;
+  };
+
+  const minElement = (elements) => (elements.length ? Math.min(...elements) : -1);
+
+  return (a, b) => {
+    const aUnique = uniqueElements(a);
+    const bUnique = uniqueElements(b);
+    const commonElements = union(aUnique, bUnique);
+    return minElement(commonElements);
+  };
+})();
+
 /**
- * @param {number[]} nums1
- * @param {number[]} nums2
+ * @param {number[]} a
+ * @param {number[]} b
  * @return {number}
  */
-export const getCommon = (nums1, nums2) => {};
+export const getCommon = usingSets;
