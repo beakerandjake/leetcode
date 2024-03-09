@@ -37,8 +37,16 @@
  * https://leetcode.com/problems/fizz-buzz
  */
 
+const nums = (n) => [...Array(n)].map((_, i) => i + 1);
+
+const fizz = (num) => (num % 3 === 0 ? 'Fizz' : '');
+
+const buzz = (num) => (num % 5 === 0 ? 'Buzz' : '');
+
+const convert = (num) => `${fizz(num)}${buzz(num)}` || `${num}`;
+
 /**
  * @param {number} n
  * @return {string[]}
  */
-export const fizzBuzz = (n) => {};
+export const fizzBuzz = (n) => nums(n).map(convert);
