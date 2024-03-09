@@ -48,10 +48,29 @@
  * https://leetcode.com/problems/count-the-number-of-vowel-strings-in-range
  */
 
+const isAVowel = (char) => /[aeiou]/.test(char);
+
+const firstChar = (str) => str.at(0);
+
+const lastChar = (str) => str.at(-1);
+
+const isVowelString = (str) => isAVowel(firstChar(str)) && isAVowel(lastChar(str));
+
+const count = (arr, from, to, predicate) => {
+  let total = 0;
+  for (let i = from; i <= to; i++) {
+    if (predicate(arr[i])) {
+      total++;
+    }
+  }
+  return total;
+};
+
 /**
  * @param {string[]} words
  * @param {number} left
  * @param {number} right
  * @return {number}
  */
-export const vowelStrings = (words, left, right) => {};
+export const vowelStrings = (words, left, right) =>
+  count(words, left, right, isVowelString);
