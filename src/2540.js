@@ -65,4 +65,18 @@ const usingSets = (() => {
  * @param {number[]} b
  * @return {number}
  */
-export const getCommon = usingSets;
+export const getCommon = (a, b) => {
+  let aIndex = 0;
+  let bIndex = 0;
+  while (aIndex < a.length && bIndex < b.length) {
+    if (a[aIndex] === b[bIndex]) {
+      return a[aIndex];
+    }
+    if (a[aIndex] < b[bIndex]) {
+      aIndex++;
+    } else {
+      bIndex++;
+    }
+  }
+  return -1;
+};
