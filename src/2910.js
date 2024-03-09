@@ -56,8 +56,24 @@
  * https://leetcode.com/problems/minimum-number-of-groups-to-create-a-valid-assignment
  */
 
+const getCounts = (balls) =>
+  balls.reduce((acc, x) => acc.set(x, (acc.get(x) || 0) + 1), new Map());
+
+const findSmallestBox = (counts) => Math.min(...counts.values());
+
+const partition = (counts, bucketSize) => {};
+
 /**
  * @param {number[]} balls
  * @return {number}
  */
-export const minGroupsForValidAssignment = (balls) => {};
+export const minGroupsForValidAssignment = (balls) => {
+  const counts = getCounts(balls);
+  const smallest = findSmallestBox(counts);
+  for (let size = smallest; size >= 1; size--) {
+    const partitions = partition(counts, size);
+    if (partitions > 0) {
+      return partitions;
+    }
+  }
+};
