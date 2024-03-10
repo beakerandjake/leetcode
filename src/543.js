@@ -46,8 +46,34 @@
  *     this.right = (right===undefined ? null : right)
  * }
  */
+
+
 /**
  * @param {TreeNode} root
  * @return {number}
  */
-export const diameterOfBinaryTree = (root) => {};
+export const diameterOfBinaryTree = (root) => {
+  const heightMap = new Map();
+  const height = (node) => {
+    if (!node) {
+      return 0;
+    }
+    if (!heightMap.has(node)) {
+      heightMap.set(node, 1 + Math.max(height(node.left), height(node.right)));
+    }
+    return heightMap.get(node);
+  };
+
+  const diameter = (node) => {
+    if (!node) {
+      return 0;
+    }
+    return Math.max(
+      diameter(node.left),
+      diameter(node.right),
+      height(node.left) + height(node.right)
+    );
+  };
+
+  return diameter(root);
+};
