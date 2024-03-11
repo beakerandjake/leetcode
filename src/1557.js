@@ -44,9 +44,40 @@
  * https://leetcode.com/problems/minimum-number-of-vertices-to-reach-all-nodes
  */
 
+// builds a new map with vertexes (0 to n-1) mapped to a indegree count of 0.
+const emptyMap = (n) =>
+  [...Array(n)].reduce(
+    (acc, _, i) =>
+      acc.set(i, {
+        out: [],
+        in: [],
+      }),
+    new Map()
+  );
+
+// returns a new map of vertex -> in degree count.
+const indegreeMap = (n, edges) =>
+  edges.reduce((acc, [from, to]) => {
+    acc.get(from).out.push(to);
+    acc.get(to).in.push(from);
+    return acc;
+  }, emptyMap(n));
+
+// returns the number of vertexes with edges wich point to the specified vertex.
+const inDegree = (graph, vertex) => graph.get(vertex).in.length;
+
 /**
  * @param {number} n
  * @param {number[][]} edges
  * @return {number[]}
  */
-export const findSmallestSetOfVertices = (n, edges) => {};
+export const findSmallestSetOfVertices = (n, edges) => {
+  const toReturn = [];
+  const graph = indegreeMap(n, edges);
+  for (const vertex of graph.keys()) {
+    if (inDegree(graph, vertex) === 0) {
+      toReturn.push(vertex);
+    }
+  }
+  return toReturn;
+};
