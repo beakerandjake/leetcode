@@ -48,4 +48,4 @@
  * @param {number[]} nums
  * @return {number[]}
  */
-export const buildArray = (nums) => {};
+export const buildArray = (nums) => nums.map((x) => nums[x]);
