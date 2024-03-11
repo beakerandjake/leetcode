@@ -44,4 +44,11 @@
  * @param {number[]} nums
  * @return {number}
  */
-export const numIdenticalPairs = (nums) => {};
+export const numIdenticalPairs = (nums) => {
+  const counts = new Map();
+  return nums.reduce((acc, x) => {
+    const previous = counts.get(x) || 0;
+    counts.set(x, previous + 1);
+    return acc + previous;
+  }, 0);
+};
