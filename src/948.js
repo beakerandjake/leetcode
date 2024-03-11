@@ -67,9 +67,57 @@
  * https://leetcode.com/problems/bag-of-tokens
  */
 
+// returns true if enough score to play the token face up.
+const canPlayFaceUp = (power, token) => power >= token;
+
+// returns the new power and score after playing the token face up.
+const playFaceUp = (power, score, token) => [power - token, score + 1];
+
+// returns true if enough score to play the token face down.
+const canPlayFaceDown = (score) => score >= 1;
+
+// returns the new power and score after playing the token face down.
+const playFaceDown = (power, score, token) => [power + token, score - 1];
+
+// returns a new array of tokens sorted by token value ascending.
+const sortedByScore = (tokens) => [...tokens].sort((a, b) => a - b);
+
 /**
  * @param {number[]} tokens
  * @param {number} power
  * @return {number}
  */
-export const bagOfTokensScore = (tokens, power) => {};
+export const bagOfTokensScore = (tokens, power) => {
+  const sorted = sortedByScore(tokens);
+  let currentPower = power;
+  let currentScore = 0;
+  let maxScore = currentScore;
+  let left = 0;
+  let right = tokens.length - 1;
+
+  while (left <= right) {
+    // bail if cannot make a move.
+    if (!canPlayFaceUp(currentPower, sorted[left]) && !canPlayFaceDown(currentScore)) {
+      break;
+    }
+    // always attempt to play smallest token face up to increase score.
+    if (canPlayFaceUp(currentPower, sorted[left])) {
+      const [newPower, newScore] = playFaceUp(currentPower, currentScore, sorted[left++]);
+      currentPower = newPower;
+      currentScore = newScore;
+      maxScore = Math.max(newScore, maxScore);
+    }
+    // attempt to play largest token face down to increase power.
+    else if (canPlayFaceDown(currentScore) && left <= right) {
+      const [newPower, newScore] = playFaceDown(
+        currentPower,
+        currentScore,
+        sorted[right--]
+      );
+      currentPower = newPower;
+      currentScore = newScore;
+    }
+  }
+
+  return maxScore;
+};
