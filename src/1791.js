@@ -42,8 +42,36 @@
  * https://leetcode.com/problems/find-center-of-star-graph
  */
 
+// returns a new adjacency matrix formed by the edges.
+const toGraph = (edges) =>
+  edges.reduce((acc, [from, to]) => {
+    if (!acc.has(from)) {
+      acc.set(from, [to]);
+    } else {
+      acc.get(from).push(to);
+    }
+
+    if (!acc.has(to)) {
+      acc.set(to, [from]);
+    } else {
+      acc.get(to).push(from);
+    }
+
+    return acc;
+  }, new Map());
+
 /**
  * @param {number[][]} edges
  * @return {number}
  */
-export const findCenter = (edges) => {};
+export const findCenter = (edges) => {
+  const graph = toGraph(edges);
+  // center vertex has outgoing edge count equal to n - 1.
+  const target = graph.size - 1;
+  for (const [v, e] of graph) {
+    if (e.length === target) {
+      return v;
+    }
+  }
+  return -1;
+};
