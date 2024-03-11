@@ -52,9 +52,31 @@
  * https://leetcode.com/problems/custom-sort-string
  */
 
+// returns a map of character -> # of times appears in string.
+const characterCounts = (str) =>
+  [...str].reduce((acc, x) => acc.set(x, (acc.get(x) || 0) + 1), new Map());
+
+// returns a new string consisting of the character repeated n times.
+const buildString = (character, times) => character.repeat(times);
+
 /**
  * @param {string} order
  * @param {string} s
  * @return {string}
  */
-export const customSortString = (order, s) => {};
+export const customSortString = (order, s) => {
+  const output = [];
+  const counts = characterCounts(s);
+  // append characts of order present in s
+  for (const character of order) {
+    if (counts.has(character)) {
+      output.push(buildString(character, counts.get(character)));
+    }
+    counts.delete(character);
+  }
+  // append remaining characters of s not present in order.
+  for (const [character, count] of counts) {
+    output.push(buildString(character, count));
+  }
+  return output.join('');
+};

@@ -1,13 +1,12 @@
-import { customSortString } from "../src/791.js";
-import { arrToStr } from "./util.js";
+import { customSortString } from '../src/791.js';
 
-describe("791. Custom Sort String", () => {
+describe('791. Custom Sort String', () => {
   [
-    // replace with real test data
-    [true, false],
-  ].forEach(([input, expected]) => {
-    test(`${input} -> ${expected}`, () => {
-      const result = customSortString(input);
+    ['cba', 'abcd', 'cbad'],
+    ['bcafg', 'abcd', 'bcad'],
+  ].forEach(([order, s, expected]) => {
+    test(`${order},${s} -> ${expected}`, () => {
+      const result = customSortString(order, s);
       expect(result).toBe(expected);
     });
   });
