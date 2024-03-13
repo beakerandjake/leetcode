@@ -44,8 +44,29 @@
  * https://leetcode.com/problems/find-the-pivot-integer
  */
 
+// returns an array containing numbers 1 to n.
+const fill = (n) => [...Array(n)].map((_, i) => i + 1);
+
+// returns the cumulative sum of the array from left to right.
+const forwardSums = (arr) => {
+  let sum = 0;
+  return arr.map((x) => {
+    sum += x;
+    return sum;
+  });
+};
+
+// returns the cumulative sum of the array from right to left.
+const backwardSums = (arr) => forwardSums([...arr].reverse()).reverse();
+
 /**
  * @param {number} n
  * @return {number}
  */
-export const pivotInteger = (n) => {};
+export const pivotInteger = (n) => {
+  const nums = fill(n);
+  const forwards = forwardSums(nums);
+  const backwards = backwardSums(nums);
+  const pivotIndex = forwards.findIndex((x, i) => x === backwards[i]);
+  return pivotIndex !== -1 ? pivotIndex + 1 : pivotIndex;
+};

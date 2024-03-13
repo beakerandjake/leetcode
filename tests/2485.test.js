@@ -1,10 +1,10 @@
-import { pivotInteger } from "../src/2485.js";
-import { arrToStr } from "./util.js";
+import { pivotInteger } from '../src/2485.js';
 
-describe("2485. Find the Pivot Integer", () => {
+describe('2485. Find the Pivot Integer', () => {
   [
-    // replace with real test data
-    [true, false],
+    [8, 6],
+    [1, 1],
+    [4, -1],
   ].forEach(([input, expected]) => {
     test(`${input} -> ${expected}`, () => {
       const result = pivotInteger(input);
