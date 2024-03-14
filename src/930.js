@@ -38,6 +38,7 @@
  * https://leetcode.com/problems/binary-subarrays-with-sum
  */
 
+// o(n^3)
 const bruteForce = (() => {
   const sum = (arr) => arr.reduce((acc, x) => acc + x, 0);
 
@@ -60,9 +61,42 @@ const bruteForce = (() => {
   };
 })();
 
+// o(n ^ 2);
+const bruteForce3 = (nums, goal) => {
+  let subarrays = 0;
+  for (let i = 0; i < nums.length; i++) {
+    let sum = 0;
+    for (let j = i; j < nums.length; j++) {
+      sum += nums[j];
+      if (sum > goal) {
+        break;
+      }
+      if (sum === goal) {
+        subarrays++;
+      }
+    }
+  }
+  return subarrays;
+};
+
 /**
  * @param {number[]} nums
  * @param {number} goal
  * @return {number}
  */
-export const numSubarraysWithSum = bruteForce;
+export const numSubarraysWithSum = (nums, goal) => {
+  let subarrays = 0;
+  let sum = 0;
+  const history = new Map();
+  for (let i = 0; i < nums.length; i++) {
+    sum += nums[i];
+    if (sum === goal) {
+      subarrays += 1;
+    }
+    if (history.has(sum - goal)) {
+      subarrays += history.get(sum - goal);
+    }
+    history.set(sum, (history.get(sum) || 0) + 1);
+  }
+  return subarrays;
+};
