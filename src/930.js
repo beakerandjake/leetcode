@@ -38,9 +38,31 @@
  * https://leetcode.com/problems/binary-subarrays-with-sum
  */
 
+const bruteForce = (() => {
+  const sum = (arr) => arr.reduce((acc, x) => acc + x, 0);
+
+  const subarrays = (arr, visitFn) => {
+    for (let i = 0; i < arr.length; i++) {
+      for (let j = i; j < arr.length; j++) {
+        visitFn(arr.slice(i, j + 1));
+      }
+    }
+  };
+
+  return (nums, goal) => {
+    let count = 0;
+    subarrays(nums, (subarray) => {
+      if (sum(subarray) === goal) {
+        count++;
+      }
+    });
+    return count;
+  };
+})();
+
 /**
  * @param {number[]} nums
  * @param {number} goal
  * @return {number}
  */
-export const numSubarraysWithSum = (nums, goal) => {};
+export const numSubarraysWithSum = bruteForce;
