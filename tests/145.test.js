@@ -4,7 +4,7 @@ import { arrToStr, arrToBst } from './util.js';
 describe('145. Binary Tree Post Order Traversal', () => {
   [
     [
-      [1, null, 2, null, null, 3],
+      [1, null, 2, 3],
       [3, 2, 1],
     ],
   ].forEach(([input, expected]) => {
