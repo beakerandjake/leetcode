@@ -52,8 +52,32 @@
  * https://leetcode.com/problems/find-greatest-common-divisor-of-array
  */
 
+// returns the smallest number (or null if empty array)
+const smallest = (nums) => (nums?.length ? Math.min(...nums) : null);
+
+// returns the largest number (or null if empty array)
+const largest = (nums) => (nums?.length ? Math.max(...nums) : null);
+
+// does a / b result in a whole number?
+const dividesEvenly = (a, b) => (a / b) % 1 === 0;
+
+// creates a new array containing elements from 1 to N
+const fill = (num) => (num ? [...Array(num)].map((_, i) => i + 1) : []);
+
+// returns an array containing all of divisors of the number
+const divisors = (num) => fill(num).filter((x) => dividesEvenly(num, x));
+
+// returns an array containing the elements present in both a and b
+const intersection = (a, b) => {
+  const aUnique = new Set(a);
+  return [...new Set(b)].filter((x) => aUnique.has(x));
+};
+
+// returns the greatest common divisor between a and b.
+const gcd = (a, b) => largest(intersection(divisors(a), divisors(b))) || 1;
+
 /**
  * @param {number[]} nums
  * @return {number}
  */
-export const findGCD = (nums) => {};
+export const findGCD = (nums) => gcd(largest(nums), smallest(nums));
