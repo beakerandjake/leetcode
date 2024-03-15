@@ -40,8 +40,21 @@
  * https://leetcode.com/problems/maximum-odd-binary-number
  */
 
+const countOnes = (str) => [...str].reduce((count, x) => count + (x === '1' ? 1 : 0), 0);
+
+const join = (...str) => str.join('');
+
+const prefix = (oneCount) => (oneCount ? '1'.repeat(oneCount - 1) : '');
+
+const body = (strLength, oneCount) => '0'.repeat(strLength - oneCount);
+
+const suffix = (oneCount) => (oneCount ? '1' : '');
+
 /**
  * @param {string} s
  * @return {string}
  */
-export const maximumOddBinaryNumber = (s) => {};
+export const maximumOddBinaryNumber = (s) => {
+  const oneCount = countOnes(s);
+  return join(prefix(oneCount), body(s.length, oneCount), suffix(oneCount));
+};

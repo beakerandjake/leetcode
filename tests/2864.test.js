@@ -1,10 +1,9 @@
-import { maximumOddBinaryNumber } from "../src/2864.js";
-import { arrToStr } from "./util.js";
+import { maximumOddBinaryNumber } from '../src/2864.js';
 
-describe("2864. Maximum Odd Binary Number", () => {
+describe('2864. Maximum Odd Binary Number', () => {
   [
-    // replace with real test data
-    [true, false],
+    ['010', '001'],
+    ['0101', '1001'],
   ].forEach(([input, expected]) => {
     test(`${input} -> ${expected}`, () => {
       const result = maximumOddBinaryNumber(input);
