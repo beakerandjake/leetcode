@@ -56,6 +56,10 @@
 const lookForward = (head, sum) =>
   !head || head.val + sum === 0 ? head : lookForward(head.next, head.val + sum);
 
+/**
+ * @param {ListNode} head
+ * @return {ListNode}
+ */
 export const removeZeroSumSublists = (head) => {
   if (!head) {
     return null;
@@ -70,5 +74,3 @@ export const removeZeroSumSublists = (head) => {
   head.next = removeZeroSumSublists(head.next);
   return head;
 };
-
-
