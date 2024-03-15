@@ -56,8 +56,30 @@
  * https://leetcode.com/problems/minimum-length-of-string-after-deleting-similar-ends
  */
 
+const trimEnd = (s, char) => {
+  if (!s?.length) {
+    return '';
+  }
+  return s.at(-1) === char ? trimEnd(s.slice(0, -1), char) : s;
+};
+
+const trimStart = (s, char) => {
+  if (!s?.length) {
+    return '';
+  }
+  return s.at(0) === char ? trimStart(s.slice(1), char) : s;
+};
+
 /**
  * @param {string} s
  * @return {number}
  */
-export const minimumLength = (s) => {};
+export const minimumLength = (s) => {
+  if (!s || s.length <= 1) {
+    return s?.length || 0;
+  }
+  if (s.at(0) !== s.at(-1)) {
+    return s.length;
+  }
+  return minimumLength(trimEnd(trimStart(s, s.at(0)), s.at(0)));
+};

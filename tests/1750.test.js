@@ -1,10 +1,10 @@
-import { minimumLength } from "../src/1750.js";
-import { arrToStr } from "./util.js";
+import { minimumLength } from '../src/1750.js';
 
-describe("1750. Minimum Length of String After Deleting Similar Ends", () => {
+describe('1750. Minimum Length of String After Deleting Similar Ends', () => {
   [
-    // replace with real test data
-    [true, false],
+    ['ca', 2],
+    ['cabaabac', 0],
+    ['aabccabba', 3],
   ].forEach(([input, expected]) => {
     test(`${input} -> ${expected}`, () => {
       const result = minimumLength(input);
