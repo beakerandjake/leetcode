@@ -37,4 +37,26 @@
  * @param {number} n
  * @return {number}
  */
-export const integerBreak = (n) => {};
+export const integerBreak = (n) => {
+  if (!n) {
+    return 0;
+  }
+  if (n <= 3) {
+    return n - 1;
+  }
+  const memo = new Map();
+  const dp = (num) => {
+    if (num <= 3) {
+      return num;
+    }
+    if (!memo.has(num)) {
+      let max = num;
+      for (let i = 2; i <= num; i++) {
+        max = Math.max(max, i * dp(num - i));
+      }
+      memo.set(num, max);
+    }
+    return memo.get(num);
+  };
+  return dp(n);
+};

@@ -1,10 +1,9 @@
-import { integerBreak } from "../src/343.js";
-import { arrToStr } from "./util.js";
+import { integerBreak } from '../src/343.js';
 
-describe("343. Integer Break", () => {
+describe('343. Integer Break', () => {
   [
-    // replace with real test data
-    [true, false],
+    [2, 1],
+    [10, 36],
   ].forEach(([input, expected]) => {
     test(`${input} -> ${expected}`, () => {
       const result = integerBreak(input);
