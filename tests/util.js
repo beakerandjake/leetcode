@@ -37,21 +37,39 @@ export const linkedListToArray = (list) => {
   return toReturn;
 };
 
+// creates a new leetcode tree node.
+const treeNode = (value) => ({ val: value, left: null, right: null });
+
+// returns a bst formed by the leetcode serialized bst array.
 export const arrToBst = (arr) => {
   if (!arr?.length) {
-    return undefined;
+    return null;
   }
-  const nodes = arr.map((x) => (x === null ? null : { val: x, left: null, right: null }));
-  for (let i = 0; i < nodes.length; i++) {
-    if (nodes[i] == null) {
-      continue;
+  const values = arr.values();
+  const root = treeNode(values.next().value);
+  const queue = [root];
+  while (queue.length) {
+    const node = queue.shift();
+
+    // add left child (if exists)
+    const leftVal = values.next().value;
+    if (leftVal != null) {
+      node.left = treeNode(leftVal);
+      queue.push(node.left);
     }
-    nodes[i].left = nodes[2 * i + 1] || null;
-    nodes[i].right = nodes[2 * i + 2] || null;
+
+    // add right child (if exists)
+    const rightVal = values.next().value;
+    if (rightVal != null) {
+      node.right = treeNode(rightVal);
+      queue.push(node.right);
+    }
   }
-  return nodes[0];
+
+  return root;
 };
 
+// converts the bst to a leetcode serialized array representation of the bst.
 export const bstToArr = (root) => {
   if (!root) {
     return [];
@@ -76,6 +94,7 @@ export const bstToArr = (root) => {
   return toReturn;
 };
 
+// returns a new array with trailing nulls removed.
 export const trimEnd = (arr) => {
   if (!arr?.length) {
     return [];
