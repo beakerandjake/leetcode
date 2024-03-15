@@ -72,8 +72,53 @@
  *     this.right = (right===undefined ? null : right)
  * }
  */
+
+const isEven = (number) => number % 2 === 0;
+
+const allNodesEven = (arr) => arr.every(isEven);
+
+const allNodesOdd = (arr) => !arr.some(isEven);
+
+const strictlyIncreasing = (arr) =>
+  arr.every((x, i) => (i === 0 ? true : x > arr[i - 1]));
+
+const strictlyDecreasing = (arr) =>
+  arr.every((x, i) => (i === 0 ? true : x < arr[i - 1]));
+
+const levelOrder = (root, visitLevelFn) => {
+  let level = 0;
+  const queue = [root];
+  while (queue.length) {
+    const size = queue.length;
+    const nodes = [];
+    for (let i = 0; i < size; i++) {
+      const { val, left, right } = queue.shift();
+      nodes.push(val);
+      if (left) {
+        queue.push(left);
+      }
+      if (right) {
+        queue.push(right);
+      }
+    }
+    visitLevelFn(level, nodes);
+    level++;
+  }
+};
+
 /**
  * @param {TreeNode} root
  * @return {boolean}
  */
-export const isEvenOddTree = (root) => {};
+export const isEvenOddTree = (root) => {
+  let isValid;
+  levelOrder(root, (level, nodes) => {
+    if (isValid === false) {
+      return;
+    }
+    isValid = isEven(level)
+      ? allNodesOdd(nodes) && strictlyIncreasing(nodes)
+      : allNodesEven(nodes) && strictlyDecreasing(nodes);
+  });
+  return !!isValid;
+};
