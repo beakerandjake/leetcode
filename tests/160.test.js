@@ -1,5 +1,5 @@
 import { getIntersectionNode } from '../src/160.js';
-import { arrToStr, arrayToLinkedList, linkedListToArray } from './util.js';
+import { arrToStr, arrToList, listToArr } from './util.js';
 
 const tail = (head) => {
   let current = head;
@@ -10,9 +10,9 @@ const tail = (head) => {
 };
 
 const intersect = (a, b, suffix) => {
-  const aList = arrayToLinkedList(a);
-  const bList = arrayToLinkedList(b);
-  const sList = arrayToLinkedList(suffix);
+  const aList = arrToList(a);
+  const bList = arrToList(b);
+  const sList = arrToList(suffix);
   tail(aList).next = sList;
   tail(bList).next = sList;
   return [aList, bList, sList];

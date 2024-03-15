@@ -1,5 +1,5 @@
 import { reverseList } from '../src/206.js';
-import { arrToStr, arrayToLinkedList, linkedListToArray } from './util.js';
+import { arrToStr, arrToList, listToArr } from './util.js';
 
 describe('206. Reverse Linked List', () => {
   [
@@ -14,8 +14,8 @@ describe('206. Reverse Linked List', () => {
     [[], []],
   ].forEach(([input, expected]) => {
     test(`${arrToStr(input)} -> ${arrToStr(expected)}`, () => {
-      const result = reverseList(arrayToLinkedList(input));
-      expect(linkedListToArray(result)).toEqual(expected);
+      const result = reverseList(arrToList(input));
+      expect(listToArr(result)).toEqual(expected);
     });
   });
 });

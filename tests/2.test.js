@@ -1,5 +1,5 @@
 import { addTwoNumbers } from '../src/2.js';
-import { arrToStr, arrayToLinkedList, linkedListToArray } from './util.js';
+import { arrToStr, arrToList, listToArr } from './util.js';
 
 describe('2. Add Two Numbers', () => {
   [
@@ -32,8 +32,8 @@ describe('2. Add Two Numbers', () => {
     ],
   ].forEach(([a, b, expected]) => {
     test(`${arrToStr(a)}.${arrToStr(b)} -> ${arrToStr(expected)}`, () => {
-      const result = addTwoNumbers(arrayToLinkedList(a), arrayToLinkedList(b));
-      expect(linkedListToArray(result)).toEqual(expected);
+      const result = addTwoNumbers(arrToList(a), arrToList(b));
+      expect(listToArr(result)).toEqual(expected);
     });
   });
 });

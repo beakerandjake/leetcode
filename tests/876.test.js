@@ -1,5 +1,5 @@
 import { middleNode } from '../src/876.js';
-import { arrToStr, arrayToLinkedList, linkedListToArray } from './util.js';
+import { arrToStr, arrToList, listToArr } from './util.js';
 
 describe('876. Middle of the Linked List', () => {
   [
@@ -13,8 +13,8 @@ describe('876. Middle of the Linked List', () => {
     ],
   ].forEach(([input, expected]) => {
     test(`${arrToStr(input)} -> ${arrToStr(expected)}`, () => {
-      const result = middleNode(arrayToLinkedList(input));
-      expect(linkedListToArray(result)).toEqual(expected);
+      const result = middleNode(arrToList(input));
+      expect(listToArr(result)).toEqual(expected);
     });
   });
 });

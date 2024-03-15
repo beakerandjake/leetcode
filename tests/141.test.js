@@ -1,11 +1,11 @@
 import { hasCycle } from '../src/141.js';
-import { arrToStr, arrayToLinkedList } from './util.js';
+import { arrToStr, arrToList } from './util.js';
 
 const createCycle = (arr, cycleIndex) => {
   if (cycleIndex === -1) {
-    return arrayToLinkedList(arr);
+    return arrToList(arr);
   }
-  const head = arrayToLinkedList(arr);
+  const head = arrToList(arr);
   let current = head;
   let cycleTarget;
   let index = 0;

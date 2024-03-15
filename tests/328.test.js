@@ -1,5 +1,5 @@
 import { oddEvenList } from '../src/328.js';
-import { arrToStr, arrayToLinkedList, linkedListToArray } from './util.js';
+import { arrToStr, arrToList, listToArr } from './util.js';
 
 describe('328. Odd Even Linked List', () => {
   [
@@ -17,8 +17,8 @@ describe('328. Odd Even Linked List', () => {
     ],
   ].forEach(([input, expected]) => {
     test(`${arrToStr(input)} -> ${arrToStr(expected)}`, () => {
-      const result = oddEvenList(arrayToLinkedList(input));
-      expect(linkedListToArray(result)).toEqual(expected);
+      const result = oddEvenList(arrToList(input));
+      expect(listToArr(result)).toEqual(expected);
     });
   });
 });

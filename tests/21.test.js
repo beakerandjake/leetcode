@@ -1,5 +1,5 @@
 import { mergeTwoLists } from '../src/21.js';
-import { arrToStr, arrayToLinkedList, linkedListToArray } from './util.js';
+import { arrToStr, arrToList, listToArr } from './util.js';
 
 describe('21. Merge Two Sorted Lists', () => {
   [
@@ -12,8 +12,8 @@ describe('21. Merge Two Sorted Lists', () => {
     [[], [0], [0]],
   ].forEach(([a, b, expected]) => {
     test(`${arrToStr(a)},${arrToStr(b)} -> ${arrToStr(expected)}`, () => {
-      const result = mergeTwoLists(arrayToLinkedList(a), arrayToLinkedList(b));
-      expect(linkedListToArray(result)).toEqual(expected);
+      const result = mergeTwoLists(arrToList(a), arrToList(b));
+      expect(listToArr(result)).toEqual(expected);
     });
   });
 });

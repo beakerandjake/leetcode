@@ -1,5 +1,5 @@
 import { detectCycle } from '../src/142.js';
-import { arrToStr, arrayToLinkedList } from './util.js';
+import { arrToStr, arrToList } from './util.js';
 
 const tail = (head) => {
   let current = head;
@@ -31,7 +31,7 @@ describe('142. Linked List Cycle II', () => {
     [[], -1],
   ].forEach(([input, expected]) => {
     test(`${arrToStr(input)} -> ${expected}`, () => {
-      const list = circular(arrayToLinkedList(input), expected);
+      const list = circular(arrToList(input), expected);
       const result = detectCycle(list);
       expect(result).toBe(expected !== -1 ? nodeAt(list, expected) : null);
     });

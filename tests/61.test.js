@@ -1,5 +1,5 @@
 import { rotateRight } from '../src/61.js';
-import { arrToStr, linkedListToArray, arrayToLinkedList } from './util.js';
+import { arrToStr, listToArr, arrToList } from './util.js';
 
 describe('61. Rotate List', () => {
   [
@@ -8,8 +8,8 @@ describe('61. Rotate List', () => {
     [[1, 2], 1, [2, 1]],
   ].forEach(([input, k, expected]) => {
     test(`${arrToStr(input)},${k} -> ${expected}`, () => {
-      const result = rotateRight(arrayToLinkedList(input), k);
-      expect(linkedListToArray(result)).toEqual(expected);
+      const result = rotateRight(arrToList(input), k);
+      expect(listToArr(result)).toEqual(expected);
     });
   });
 });

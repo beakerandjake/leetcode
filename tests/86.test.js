@@ -1,5 +1,5 @@
 import { partition } from '../src/86.js';
-import { arrToStr, arrayToLinkedList, linkedListToArray } from './util.js';
+import { arrToStr, arrToList, listToArr } from './util.js';
 
 describe('86. Partition List', () => {
   [
@@ -7,8 +7,8 @@ describe('86. Partition List', () => {
     [[2, 1], 2, [1, 2]],
   ].forEach(([input, x, expected]) => {
     test(`${arrToStr(input)} -> ${arrToStr(expected)}`, () => {
-      const result = partition(arrayToLinkedList(input), x);
-      expect(linkedListToArray(result)).toEqual(expected);
+      const result = partition(arrToList(input), x);
+      expect(listToArr(result)).toEqual(expected);
     });
   });
 });

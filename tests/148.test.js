@@ -1,5 +1,5 @@
 import { sortList } from '../src/148.js';
-import { arrToStr, arrayToLinkedList, linkedListToArray } from './util.js';
+import { arrToStr, arrToList, listToArr } from './util.js';
 
 describe('148. Sort List', () => {
   [
@@ -19,8 +19,8 @@ describe('148. Sort List', () => {
     [[1], [1]],
   ].forEach(([input, expected]) => {
     test(`${arrToStr(input)} -> ${arrToStr(expected)}`, () => {
-      const result = sortList(arrayToLinkedList(input));
-      expect(linkedListToArray(result)).toEqual(expected);
+      const result = sortList(arrToList(input));
+      expect(listToArr(result)).toEqual(expected);
     });
   });
 });

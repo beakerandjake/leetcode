@@ -1,5 +1,5 @@
 import { deleteDuplicates } from '../src/82.js';
-import { arrToStr, arrayToLinkedList, linkedListToArray } from './util.js';
+import { arrToStr, arrToList, listToArr } from './util.js';
 
 describe('82. Remove Duplicates from Sorted List II', () => {
   [
@@ -19,8 +19,8 @@ describe('82. Remove Duplicates from Sorted List II', () => {
     [[1, 1, 1, 1, 1, 5], [5]],
   ].forEach(([input, expected]) => {
     test(`${arrToStr(input)} -> ${arrToStr(expected)}`, () => {
-      const result = deleteDuplicates(arrayToLinkedList(input));
-      expect(linkedListToArray(result)).toEqual(expected);
+      const result = deleteDuplicates(arrToList(input));
+      expect(listToArr(result)).toEqual(expected);
     });
   });
 });

@@ -1,5 +1,5 @@
 import { reverseBetween } from '../src/92.js';
-import { arrToStr, arrayToLinkedList, linkedListToArray } from './util.js';
+import { arrToStr, arrToList, listToArr } from './util.js';
 
 describe('92. Reverse Linked List II', () => {
   [
@@ -8,8 +8,8 @@ describe('92. Reverse Linked List II', () => {
     [[3, 5], 1, 2, [5, 3]],
   ].forEach(([input, left, right, expected]) => {
     test(`${arrToStr(input)},${left},${right} -> ${arrToStr(input)}`, () => {
-      const result = reverseBetween(arrayToLinkedList(input), left, right);
-      expect(linkedListToArray(result)).toEqual(expected);
+      const result = reverseBetween(arrToList(input), left, right);
+      expect(listToArr(result)).toEqual(expected);
     });
   });
 });

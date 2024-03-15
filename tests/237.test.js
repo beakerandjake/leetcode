@@ -1,5 +1,5 @@
 import { deleteNode } from '../src/237.js';
-import { arrToStr, linkedListToArray, arrayToLinkedList } from './util.js';
+import { arrToStr, listToArr, arrToList } from './util.js';
 
 const findNode = (head, val) => {
   if (!head) {
@@ -17,9 +17,9 @@ describe('237. Delete Node in a Linked List', () => {
     [[4, 5, 1, 9], 1, [4, 5, 9]],
   ].forEach(([input, node, expected]) => {
     test(`${arrToStr(input)},${node} -> ${arrToStr(expected)}`, () => {
-      const list = arrayToLinkedList(input);
+      const list = arrToList(input);
       deleteNode(findNode(list, node));
-      expect(linkedListToArray(list)).toEqual(expected);
+      expect(listToArr(list)).toEqual(expected);
     });
   });
 });

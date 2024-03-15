@@ -1,5 +1,5 @@
 import { mergeKLists } from '../src/23.js';
-import { arrToStr, arrayToLinkedList, linkedListToArray } from './util.js';
+import { arrToStr, arrToList, listToArr } from './util.js';
 
 describe('23. Merge k Sorted Lists', () => {
   [
@@ -15,8 +15,8 @@ describe('23. Merge k Sorted Lists', () => {
     [[[]], []],
   ].forEach(([input, expected]) => {
     test(`${arrToStr(input)} -> ${arrToStr(expected)}`, () => {
-      const result = mergeKLists(input.map(arrayToLinkedList));
-      expect(linkedListToArray(result)).toEqual(expected);
+      const result = mergeKLists(input.map(arrToList));
+      expect(listToArr(result)).toEqual(expected);
     });
   });
 });

@@ -1,5 +1,5 @@
 import { swapPairs } from '../src/24.js';
-import { arrToStr, arrayToLinkedList, linkedListToArray } from './util.js';
+import { arrToStr, arrToList, listToArr } from './util.js';
 
 describe('24. Swap Nodes In Pairs', () => {
   [
@@ -19,8 +19,8 @@ describe('24. Swap Nodes In Pairs', () => {
     ],
   ].forEach(([input, expected]) => {
     test(`${arrToStr(input)} -> ${arrToStr(expected)}`, () => {
-      const result = swapPairs(arrayToLinkedList(input));
-      expect(linkedListToArray(result)).toEqual(expected);
+      const result = swapPairs(arrToList(input));
+      expect(listToArr(result)).toEqual(expected);
     });
   });
 });

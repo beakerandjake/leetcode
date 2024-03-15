@@ -13,7 +13,7 @@ export const binToStr = (bin) => (bin >>> 0).toString(2).padStart(32, '0');
 /**
  * Converts an array to a singly linked list and returns the head node.
  */
-export const arrayToLinkedList = (arr) => {
+export const arrToList = (arr) => {
   if (arr.length <= 0) {
     return undefined;
   }
@@ -24,7 +24,7 @@ export const arrayToLinkedList = (arr) => {
   return nodes[0];
 };
 
-export const linkedListToArray = (list) => {
+export const listToArr = (list) => {
   if (!list) {
     return [];
   }
