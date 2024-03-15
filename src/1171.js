@@ -51,8 +51,24 @@
  *     this.next = (next===undefined ? null : next)
  * }
  */
-/**
- * @param {ListNode} head
- * @return {ListNode}
- */
-export const removeZeroSumSublists = (head) => {};
+
+// returns the fist node which results in running sum (from head -> node) of zero.
+const lookForward = (head, sum) =>
+  !head || head.val + sum === 0 ? head : lookForward(head.next, head.val + sum);
+
+export const removeZeroSumSublists = (head) => {
+  if (!head) {
+    return null;
+  }
+  // scan forward from head for a node that results in a running sum of zero.
+  const zeroNode = lookForward(head, 0);
+  // if node is found that causes a zero sum, then then remove from the resulting list.
+  if (zeroNode) {
+    return removeZeroSumSublists(zeroNode.next);
+  }
+  // this node does not lead to a zero sum (but its next node might, so check it).
+  head.next = removeZeroSumSublists(head.next);
+  return head;
+};
+
+
