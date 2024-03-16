@@ -1,10 +1,10 @@
-import { longestPalindrome } from "../src/5.js";
-import { arrToStr } from "./util.js";
+import { longestPalindrome } from '../src/5.js';
+import { arrToStr } from './util.js';
 
-describe("5. Longest Palindromic Substring", () => {
+describe('5. Longest Palindromic Substring', () => {
   [
-    // replace with real test data
-    [true, false],
+    ['babad', 'bab'],
+    ['cbbd', 'bb'],
   ].forEach(([input, expected]) => {
     test(`${input} -> ${expected}`, () => {
       const result = longestPalindrome(input);

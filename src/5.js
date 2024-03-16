@@ -30,8 +30,41 @@
  * https://leetcode.com/problems/longest-palindromic-substring
  */
 
+const bruteForce = (() => {
+  const substrings = (str, visitFn) => {
+    for (let i = 0; i < str.length; i++) {
+      for (let j = i; j < str.length; j++) {
+        visitFn(str.slice(i, j + 1));
+      }
+    }
+  };
+
+  const isPalindrome = (str) => {
+    let left = 0;
+    let right = str.length - 1;
+    while (left <= right) {
+      if (str[left] !== str[right]) {
+        return false;
+      }
+      left++;
+      right--;
+    }
+    return true;
+  };
+
+  return (str) => {
+    let longest = '';
+    substrings(str, (substring) => {
+      if (substring.length > longest.length && isPalindrome(substring)) {
+        longest = substring;
+      }
+    });
+    return longest;
+  };
+})();
+
 /**
  * @param {string} s
  * @return {string}
  */
-export const longestPalindrome = (s) => {};
+export const longestPalindrome = bruteForce;
