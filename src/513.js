@@ -43,33 +43,63 @@
  * }
  */
 
-const levelOrder = (root, visitFn) => {
-  const queue = [root];
-  while (queue.length) {
-    const length = queue.length;
-    const nodes = [];
-    for (let i = 0; i < length; i++) {
-      const { val, left, right } = queue.shift();
-      nodes.push(val);
-      if (left) {
-        queue.push(left);
+const usingLevelOrder = (() => {
+  const levelOrder = (root, visitFn) => {
+    const queue = [root];
+    while (queue.length) {
+      const length = queue.length;
+      const nodes = [];
+      for (let i = 0; i < length; i++) {
+        const { val, left, right } = queue.shift();
+        nodes.push(val);
+        if (left) {
+          queue.push(left);
+        }
+        if (right) {
+          queue.push(right);
+        }
       }
-      if (right) {
-        queue.push(right);
-      }
+      visitFn(nodes);
     }
-    visitFn(nodes);
-  }
-};
+  };
+
+  return (root) => {
+    let leftMost;
+    levelOrder(root, (nodes) => {
+      leftMost = nodes[0];
+    });
+    return leftMost;
+  };
+})();
+
+const usingDfs = (() => {
+  const preOrder = (root, visitFn) => {
+    const dfs = (node, depth) => {
+      if (!node) {
+        return;
+      }
+      visitFn(node, depth);
+      dfs(node.left, depth + 1);
+      dfs(node.right, depth + 1);
+    };
+    return dfs(root, 0);
+  };
+
+  return (root) => {
+    let maxDepth = Number.MIN_SAFE_INTEGER;
+    let leftMost;
+    preOrder(root, (node, depth) => {
+      if (!node.left && !node.right && depth > maxDepth) {
+        leftMost = node.val;
+        maxDepth = depth;
+      }
+    });
+    return leftMost;
+  };
+})();
 
 /**
  * @param {TreeNode} root
  * @return {number}
  */
-export const findBottomLeftValue = (root) => {
-  let leftMost;
-  levelOrder(root, (nodes) => {
-    leftMost = nodes[0];
-  });
-  return leftMost;
-};
+export const findBottomLeftValue = usingDfs;
