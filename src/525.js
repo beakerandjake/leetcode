@@ -32,25 +32,33 @@
  * https://leetcode.com/problems/contiguous-array
  */
 
+const recursive = (nums) => {
+  const maxLength = (startIndex, index, sum) => {
+    if (index >= nums.length) {
+      return 0;
+    }
+    // keep going if currently in a subarray
+    if (startIndex != null) {
+      const length = index - startIndex + 1;
+      const newSum = sum + nums[index];
+      // best value for this subarray could end here, or continue onward.
+      return Math.max(
+        // if equal zeros and ones, this could be the best.
+        newSum * 2 === length ? length : 0,
+        maxLength(startIndex, index + 1, newSum)
+      );
+    }
+    // max could come from either skipping this element, or starting a new subarray with it.
+    return Math.max(
+      maxLength(null, index + 1, 0),
+      maxLength(index, index + 1, nums[index])
+    );
+  };
+  return maxLength(null, 0, 0);
+};
+
 /**
  * @param {number[]} nums
  * @return {number}
  */
-export const findMaxLength = (nums) => {
-  const memo = new Map();
-  const dp = (index, startIndex, zeros, ones) => {
-    if (index >= nums.length) {
-      return zeros > 0 && zeros === ones ? index - startIndex : 0;
-    }
-    const newOnes = nums[index] === 1 ? ones + 1 : ones;
-    const newZeros = nums[index] === 0 ? zeros + 1 : zeros;
-    if (startIndex != null) {
-      return Math.max(
-        newOnes === newZeros ? index - startIndex + 1 : 0,
-        dp(index + 1, startIndex, newZeros, newOnes)
-      );
-    }
-    return Math.max(dp(index + 1, null, 0, 0), dp(index + 1, index, newZeros, newOnes));
-  };
-  return dp(0, null, 0, 0);
-};
+export const findMaxLength = recursive;
