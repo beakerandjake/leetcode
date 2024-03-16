@@ -32,40 +32,25 @@
  * https://leetcode.com/problems/contiguous-array
  */
 
-const countDifferences = (nums) => {
-  const differences = [];
-  let zeros = 0;
-  let ones = 0;
-  for (const num of nums) {
-    if (num === 0) {
-      zeros++;
-    } else {
-      ones++;
-    }
-    differences.push(zeros - ones);
-  }
-  return differences;
-};
-
 /**
  * @param {number[]} nums
  * @return {number}
  */
 export const findMaxLength = (nums) => {
-  const differences = countDifferences(nums);
-  const differenceLookup = differences.reduce((acc, x, i) => {
-    if (!acc.has(x)) {
-      acc.set(x, i);
+  const memo = new Map();
+  const dp = (index, startIndex, zeros, ones) => {
+    if (index >= nums.length) {
+      return zeros > 0 && zeros === ones ? index - startIndex : 0;
     }
-    return acc;
-  }, new Map([[0, -1]]));
-
-  let maxLength = 0;
-  for (const [i, diff] of differences.entries()) {
-    const firstSeen = differenceLookup.get(diff);
-    if (firstSeen !== i) {
-      maxLength = Math.max(i - firstSeen, maxLength);
+    const newOnes = nums[index] === 1 ? ones + 1 : ones;
+    const newZeros = nums[index] === 0 ? zeros + 1 : zeros;
+    if (startIndex != null) {
+      return Math.max(
+        newOnes === newZeros ? index - startIndex + 1 : 0,
+        dp(index + 1, startIndex, newZeros, newOnes)
+      );
     }
-  }
-  return maxLength;
+    return Math.max(dp(index + 1, null, 0, 0), dp(index + 1, index, newZeros, newOnes));
+  };
+  return dp(0, null, 0, 0);
 };
