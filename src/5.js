@@ -33,15 +33,15 @@
 const bruteForce = (() => {
   const substrings = (str, visitFn) => {
     for (let i = 0; i < str.length; i++) {
-      for (let j = i; j < str.length; j++) {
-        visitFn(str.slice(i, j + 1));
+      for (let j = str.length - 1; j >= i; j--) {
+        visitFn(i, j);
       }
     }
   };
 
-  const isPalindrome = (str) => {
-    let left = 0;
-    let right = str.length - 1;
+  const isPalindrome = (str, from, to) => {
+    let left = from;
+    let right = to;
     while (left <= right) {
       if (str[left] !== str[right]) {
         return false;
@@ -54,9 +54,9 @@ const bruteForce = (() => {
 
   return (str) => {
     let longest = '';
-    substrings(str, (substring) => {
-      if (substring.length > longest.length && isPalindrome(substring)) {
-        longest = substring;
+    substrings(str, (from, to) => {
+      if (to - from + 1 > longest.length && isPalindrome(str, from, to)) {
+        longest = str.slice(from, to + 1);
       }
     });
     return longest;
