@@ -61,4 +61,17 @@ const recursive = (nums) => {
  * @param {number[]} nums
  * @return {number}
  */
-export const findMaxLength = recursive;
+export const findMaxLength = (nums) => {
+  const history = new Map([[0, -1]]);
+  let count = 0;
+  let maxLength = 0;
+  for (let i = 0; i < nums.length; i++) {
+    count += nums[i] === 1 ? 1 : -1;
+    if (history.has(count)) {
+      maxLength = Math.max(maxLength, i - history.get(count));
+    } else {
+      history.set(count, i);
+    }
+  }
+  return maxLength;
+};
