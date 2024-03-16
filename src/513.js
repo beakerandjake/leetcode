@@ -42,8 +42,34 @@
  *     this.right = (right===undefined ? null : right)
  * }
  */
+
+const levelOrder = (root, visitFn) => {
+  const queue = [root];
+  while (queue.length) {
+    const length = queue.length;
+    const nodes = [];
+    for (let i = 0; i < length; i++) {
+      const { val, left, right } = queue.shift();
+      nodes.push(val);
+      if (left) {
+        queue.push(left);
+      }
+      if (right) {
+        queue.push(right);
+      }
+    }
+    visitFn(nodes);
+  }
+};
+
 /**
  * @param {TreeNode} root
  * @return {number}
  */
-export const findBottomLeftValue = (root) => {};
+export const findBottomLeftValue = (root) => {
+  let leftMost;
+  levelOrder(root, (nodes) => {
+    leftMost = nodes[0];
+  });
+  return leftMost;
+};

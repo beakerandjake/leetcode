@@ -1,13 +1,13 @@
-import { findBottomLeftValue } from "../src/513.js";
-import { arrToStr } from "./util.js";
+import { findBottomLeftValue } from '../src/513.js';
+import { arrToBst, arrToStr } from './util.js';
 
-describe("513. Find Bottom Left Tree Value", () => {
+describe('513. Find Bottom Left Tree Value', () => {
   [
-    // replace with real test data
-    [true, false],
+    [[2, 1, 3], 1],
+    [[1, 2, 3, 4, null, 5, 6, null, null, 7], 7],
   ].forEach(([input, expected]) => {
-    test(`${input} -> ${expected}`, () => {
-      const result = findBottomLeftValue(input);
+    test(`${arrToStr(input)} -> ${expected}`, () => {
+      const result = findBottomLeftValue(arrToBst(input));
       expect(result).toBe(expected);
     });
   });
