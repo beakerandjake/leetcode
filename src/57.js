@@ -67,7 +67,22 @@ const merge = (a, b) =>
   a && b ? [Math.min(start(a), start(b)), Math.max(end(a), end(b))] : a || b;
 
 // merge an array of sorted overlapping intervals into a single interval.
-const compress = (overlapping) => merge(overlapping.at(0), overlapping.at(-1));
+const compress = (overlapping) => {
+  if (!overlapping.length) {
+    return null;
+  }
+  if (overlapping.length === 1) {
+    return overlapping[0];
+  }
+  return merge(overlapping.at(0), overlapping.at(-1));
+};
+
+const simpleSolution = (intervals, newInterval) => {
+  const before = intervals.filter((interval) => comesBefore(interval, newInterval));
+  const overlapping = intervals.filter((interval) => overlaps(interval, newInterval));
+  const after = intervals.filter((interval) => comesAfter(interval, newInterval));
+  return [...before, merge(compress(overlapping), newInterval), ...after];
+};
 
 const recursiveSolution = (intervals, newInterval) => {
   if (!intervals?.length) {
@@ -84,15 +99,6 @@ const recursiveSolution = (intervals, newInterval) => {
   }
   return recursiveSolution(intervals.slice(1), merge(newInterval, intervals[0]));
 };
-
-const simpleSolution = (intervals, newInterval) => [
-  // intervals that come before
-  ...intervals.filter((x) => comesBefore(x, newInterval)),
-  // invervals that overlap (merged together into one interval)
-  merge(compress(intervals.filter((x) => overlaps(x, newInterval))), newInterval),
-  // intervals that come after
-  ...intervals.filter((x) => comesAfter(x, newInterval)),
-];
 
 const partitionSolution = (() => {
   const partition = (intervals, newInterval) =>
@@ -112,11 +118,7 @@ const partitionSolution = (() => {
 
   return (intervals, newInterval) => {
     const [before, overlapping, after] = partition(intervals, newInterval);
-    return [
-      ...before,
-      overlapping.length ? merge(compress(overlapping), newInterval) : newInterval,
-      ...after,
-    ];
+    return [...before, merge(compress(overlapping), newInterval), ...after];
   };
 })();
 
@@ -125,4 +127,4 @@ const partitionSolution = (() => {
  * @param {number[]} newInterval
  * @return {number[][]}
  */
-export const insert = simpleSolution;
+export const insert = recursiveSolution;
