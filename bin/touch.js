@@ -181,7 +181,7 @@ const commitFilesToGit = (problemId, ...files) => {
   exec(
     `git add ${files
       .map((file) => `'${file}'`)
-      .join(' ')} && git commit -m 'touch lc ${problemId}'`
+      .join(' ')} && git commit -m 'touch ${problemId}'`
   );
 };
 
