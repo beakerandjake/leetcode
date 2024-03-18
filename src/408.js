@@ -43,9 +43,64 @@
  * https://leetcode.com/problems/valid-word-abbreviation/description/
  */
 
+const parseAbbreviations = (abbr) => abbr.match(/([a-z]+|[0-9]+)/g);
+
+const isWord = (abbr) => /^[a-z]+$/.test(abbr);
+
+const isNumber = (abbr) => /^[\d]+$/.test(abbr);
+
+// always returns the abbreviation which was passed in.
+const identity = (word, index, abbr) => abbr;
+
+// attempts to return a slice of word from [index, index + abbr].
+// returns null if the abbr represents an invalid amount of characters.
+const expandNumber = (word, index, abbr) => {
+  if (abbr.startsWith('0')) {
+    return null;
+  }
+  const parsed = Number.parseInt(abbr, 10);
+
+  if (parsed === 0 || parsed > word.length - index) {
+    return null;
+  }
+  return word.slice(index, index + parsed);
+};
+
+// maps a abbreviation predicate function to an expansion function.
+// if a predicate returns true the expansion function will be used to expand the abbreviation.
+const expansionMap = new Map([
+  [isWord, identity],
+  [isNumber, expandNumber],
+]);
+
+// attempts to expand the abbreviation, returns null if abbreviation is not valid.
+const expand = (word, index, abbr) => {
+  for (const [testFn, expandFn] of expansionMap) {
+    if (testFn(abbr)) {
+      return expandFn(word, index, abbr);
+    }
+  }
+  return null;
+};
+
+// returns the word that results from expanding all of the abbreviations.
+// if the abbreviations result in an invalid word then null is returned.
+const expandAbbreviations = (original, abbreviations) => {
+  let result = '';
+  for (const abbr of abbreviations) {
+    const expanded = expand(original, result.length, abbr);
+    if (expanded == null) {
+      return null;
+    }
+    result += expanded;
+  }
+  return result;
+};
+
 /**
  * @param {string} word
  * @param {string} abbr
  * @return {boolean}
  */
-export const validWordAbbreviation = (word, abbr) => {};
+export const validWordAbbreviation = (word, abbr) =>
+  expandAbbreviations(word, parseAbbreviations(abbr)) === word;
