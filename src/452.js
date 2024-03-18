@@ -57,34 +57,35 @@
  * https://leetcode.com/problems/minimum-number-of-arrows-to-burst-balloons
  */
 
-const end = (point) => point[1];
+// returns the start of the interval
+const start = (interval) => interval[0];
 
-const start = (point) => point[0];
+// returns the end of the interval
+const end = (interval) => interval[1];
 
-const sortByEnd = (points) =>
-  [...points].sort((a, b) => {
-    if (end(a) > end(b)) {
-      return 1;
-    }
-    if (end(a) < end(b)) {
-      return -1;
-    }
+// returns true if a overlaps b
+const overlaps = (a, b) => end(a) >= start(b);
+
+// returns a new array of the intervals sorted by end position ascending.
+const sortedByEnd = (points) => [...points].sort((a, b) => end(a) - end(b));
+
+// returns the minimum number of arrows needed to shoot all of the balloons.
+const shootArrows = (points, from) => {
+  if (from >= points.length) {
     return 0;
-  });
+  }
+  if (from === points.length - 1) {
+    return 1;
+  }
+  let current = from;
+  while (current < points.length && overlaps(points[from], points[current])) {
+    current++;
+  }
+  return 1 + shootArrows(points, current);
+};
 
 /**
  * @param {number[][]} points
  * @return {number}
  */
-export const findMinArrowShots = (points) => {
-  const sorted = sortByEnd(points);
-  let previous = end(sorted[0]);
-  let arrows = 1;
-  for (let i = 1; i < sorted.length; i++) {
-    if (previous < start(sorted[i])) {
-      arrows++;
-      previous = end(sorted[i]);
-    }
-  }
-  return arrows;
-};
+export const findMinArrowShots = (points) => shootArrows(sortedByEnd(points), 0);

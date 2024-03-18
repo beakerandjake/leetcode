@@ -30,6 +30,33 @@ describe('452. Minimum Number of Arrows to Burst Balloons', () => {
       ],
       2,
     ],
+    [
+      [
+        [3, 9],
+        [7, 12],
+        [3, 8],
+        [6, 8],
+        [9, 10],
+        [2, 9],
+        [0, 9],
+        [3, 9],
+        [0, 6],
+        [2, 8],
+      ],
+      2,
+    ],
+    [
+      [
+        [9, 12],
+        [1, 10],
+        [4, 11],
+        [8, 12],
+        [3, 9],
+        [6, 9],
+        [6, 7],
+      ],
+      2,
+    ],
   ].forEach(([input, expected]) => {
     test(`${arrToStr(input)} -> ${expected}`, () => {
       const result = findMinArrowShots(input);
