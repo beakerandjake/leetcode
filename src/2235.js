@@ -30,9 +30,18 @@
  * https://leetcode.com/problems/add-two-integers
  */
 
+const increment = (x) => x + 1;
+
+const decrement = (x) => x - 1;
+
 /**
- * @param {number} num1
- * @param {number} num2
+ * @param {number} a
+ * @param {number} b
  * @return {number}
  */
-export const sum = (num1, num2) => {};
+export const sum = (a, b) => {
+  if (a === 0) {
+    return b;
+  }
+  return a > 0 ? sum(decrement(a), increment(b)) : sum(increment(a), decrement(b));
+};
