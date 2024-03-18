@@ -40,8 +40,22 @@
  * https://leetcode.com/problems/sort-integers-by-the-number-of-1-bits
  */
 
+// returns true if the bit at index is set to 1.
+const isBitSet = (num, index) => (num & (1 << index)) === 1;
+
+// returns the number of 1 bits in the number.
+const popCount = (num) => {
+  if (num === 0) {
+    return 0;
+  }
+  return isBitSet(num, 0) ? 1 + popCount(num >> 1) : popCount(num >> 1);
+};
+
+// compares two numbers first by pop count, then by their value in the event of a tie.
+const compare = (a, b) => popCount(a) - popCount(b) || a - b;
+
 /**
  * @param {number[]} arr
  * @return {number[]}
  */
-export const sortByBits = (arr) => {};
+export const sortByBits = (arr) => [...arr].sort(compare);
