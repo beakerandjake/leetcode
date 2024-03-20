@@ -38,15 +38,15 @@
  * https://leetcode.com/problems/valid-palindrome-ii
  */
 
-const bruteForce = (() => {
-  // returns true if the string is a palindrome
-  const isPalindrome = (str, left, right) => {
-    if (left >= right) {
-      return true;
-    }
-    return str[left] === str[right] && isPalindrome(str, left + 1, right - 1);
-  };
+// returns true if the string is a palindrome
+const isPalindrome = (str, left, right) => {
+  if (left >= right) {
+    return true;
+  }
+  return str[left] === str[right] && isPalindrome(str, left + 1, right - 1);
+};
 
+const bruteForce = (() => {
   // invokes the visitFn for each possible string formed by deleting one character from the string.
   const forEachDeletion = (str, visitFn) => {
     [...str].forEach((_, i, chars) => {
@@ -65,8 +65,20 @@ const bruteForce = (() => {
   };
 })();
 
+
 /**
- * @param {string} s
+ * @param {string} str
  * @return {boolean}
  */
-export const validPalindrome = bruteForce;
+export const validPalindrome = (str) => {
+  let left = 0;
+  let right = str.length - 1;
+  while (left < right) {
+    if (str[left] !== str[right]) {
+      return isPalindrome(str, left + 1, right) || isPalindrome(str, left, right - 1);
+    }
+    left++;
+    right--;
+  }
+  return true;
+};

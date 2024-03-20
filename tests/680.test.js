@@ -6,6 +6,11 @@ describe('680. Valid Palindrome II', () => {
     ['aba', true],
     ['abca', true],
     ['abc', false],
+    ['eeccccbebaeeabebccceea', false],
+    [
+      'aguokepatgbnvfqmgmlcupuufxoohdfpgjdmysgvhmvffcnqxjjxqncffvmhvgsymdjgpfdhooxfuupuculmgmqfvnbgtapekouga',
+      true,
+    ],
   ].forEach(([input, expected]) => {
     test(`${input} -> ${expected}`, () => {
       const result = validPalindrome(input);
