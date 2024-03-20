@@ -52,6 +52,13 @@
  *     this.next = (next===undefined ? null : next)
  * }
  */
+
+const tail = (node) => (!node?.next ? node : tail(node.next));
+
+const nodeAt = (list, index) => (index > 0 ? nodeAt(list.next, index - 1) : list);
+
+const predecessor = (list, index) => (index > 0 ? nodeAt(list, index - 1) : null);
+
 /**
  * @param {ListNode} list1
  * @param {number} a
@@ -59,4 +66,8 @@
  * @param {ListNode} list2
  * @return {ListNode}
  */
-export const mergeInBetween = (list1, a, b, list2) => {};
+export const mergeInBetween = (list1, a, b, list2) => {
+  tail(list2).next = nodeAt(list1, b).next;
+  predecessor(list1, a).next = list2;
+  return list1;
+};
