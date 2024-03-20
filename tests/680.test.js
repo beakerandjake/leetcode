@@ -1,10 +1,11 @@
-import { validPalindrome } from "../src/680.js";
-import { arrToStr } from "./util.js";
+import { validPalindrome } from '../src/680.js';
+import { arrToStr } from './util.js';
 
-describe("680. Valid Palindrome II", () => {
+describe('680. Valid Palindrome II', () => {
   [
-    // replace with real test data
-    [true, false],
+    ['aba', true],
+    ['abca', true],
+    ['abc', false],
   ].forEach(([input, expected]) => {
     test(`${input} -> ${expected}`, () => {
       const result = validPalindrome(input);
