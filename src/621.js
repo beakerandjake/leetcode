@@ -55,9 +55,87 @@
  * https://leetcode.com/problems/task-scheduler
  */
 
+class TaskQueue {
+  #items;
+  #head;
+
+  constructor(items) {
+    this.#items = new Map(items);
+    this.#head = this.#findMax();
+  }
+
+  peek() {
+    return this.#head;
+  }
+
+  insert(key, count) {
+    this.#items.set(key, count);
+    this.#head = this.#findMax();
+  }
+
+  getPriority(key) {
+    return this.#items.get(key);
+  }
+
+  remove(key) {
+    if (this.#items.delete(key)) {
+      this.#head = this.#findMax();
+    }
+  }
+
+  size() {
+    return this.#items.size;
+  }
+
+  #findMax() {
+    let maxKey = null;
+    let maxCount = Number.MIN_SAFE_INTEGER;
+    for (const [key, count] of this.#items.entries()) {
+      if (count > maxCount) {
+        maxKey = key;
+        maxCount = count;
+      }
+    }
+    return maxKey;
+  }
+}
+
+class Cooldown {
+  constructor(task, count, expires) {
+    this.task = task;
+    this.count = count;
+    this.expires = expires;
+  }
+}
+
+const frequencyMap = (items) =>
+  items.reduce((acc, x) => acc.set(x, (acc.get(x) || 0) + 1), new Map());
+
 /**
  * @param {character[]} tasks
  * @param {number} n
  * @return {number}
  */
-export const leastInterval = (tasks, n) => {};
+export const leastInterval = (tasks, n) => {
+  const pq = new TaskQueue(frequencyMap(tasks));
+  const cooldowns = [];
+  let cycle = 0;
+  while (pq.size() || cooldowns.length) {
+    // see if the oldest cooldown has expired.
+    if (cooldowns.length && cooldowns[0].expires < cycle) {
+      const { task, count } = cooldowns.shift();
+      pq.insert(task, count);
+    }
+    // find the most urgent available task (if any)
+    const task = pq.peek();
+    if (task) {
+      // re-queue only if this wasn't the last execution of the task.
+      if (pq.getPriority(task) > 1) {
+        cooldowns.push(new Cooldown(task, pq.getPriority(task) - 1, cycle + n));
+      }
+      pq.remove(task);
+    }
+    cycle++;
+  }
+  return cycle;
+};
