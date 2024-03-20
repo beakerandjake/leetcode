@@ -47,9 +47,15 @@
  * https://leetcode.com/problems/number-of-employees-who-met-the-target
  */
 
+// invokes the predicate fn on each element of the array
+// returns the number of times the predicate returned true
+const count = (arr, predicate) =>
+  arr.reduce((acc, x) => (predicate(x) ? acc + 1 : acc), 0);
+
 /**
  * @param {number[]} hours
  * @param {number} target
  * @return {number}
  */
-export const numberOfEmployeesWhoMetTarget = (hours, target) => {};
+export const numberOfEmployeesWhoMetTarget = (hours, target) =>
+  count(hours, (x) => x >= target);

@@ -1,13 +1,13 @@
-import { numberOfEmployeesWhoMetTarget } from "../src/2798.js";
-import { arrToStr } from "./util.js";
+import { numberOfEmployeesWhoMetTarget } from '../src/2798.js';
+import { arrToStr } from './util.js';
 
-describe("2798. Number of Employees Who Met the Target", () => {
+describe('2798. Number of Employees Who Met the Target', () => {
   [
-    // replace with real test data
-    [true, false],
-  ].forEach(([input, expected]) => {
-    test(`${input} -> ${expected}`, () => {
-      const result = numberOfEmployeesWhoMetTarget(input);
+    [[0, 1, 2, 3, 4], 2, 3],
+    [[5, 1, 4, 2, 2], 6, 0],
+  ].forEach(([hours, target, expected]) => {
+    test(`${arrToStr(hours)},${target} -> ${expected}`, () => {
+      const result = numberOfEmployeesWhoMetTarget(hours, target);
       expect(result).toBe(expected);
     });
   });
