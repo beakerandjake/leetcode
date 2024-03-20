@@ -1,10 +1,10 @@
-import { minRemoveToMakeValid } from "../src/1249.js";
-import { arrToStr } from "./util.js";
+import { minRemoveToMakeValid } from '../src/1249.js';
 
-describe("1249. Minimum Remove to Make Valid Parentheses", () => {
+describe('1249. Minimum Remove to Make Valid Parentheses', () => {
   [
-    // replace with real test data
-    [true, false],
+    ['lee(t(c)o)de)', 'lee(t(c)o)de'],
+    ['a)b(c)d', 'ab(c)d'],
+    ['))((', ''],
   ].forEach(([input, expected]) => {
     test(`${input} -> ${expected}`, () => {
       const result = minRemoveToMakeValid(input);

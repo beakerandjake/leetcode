@@ -50,7 +50,26 @@
  */
 
 /**
- * @param {string} s
+ * @param {string} str
  * @return {string}
  */
-export const minRemoveToMakeValid = (s) => {};
+export const minRemoveToMakeValid = (str) => {
+  const removed = new Set();
+  const openStack = [];
+  // find index of any closing parents that didn't match.
+  for (let i = 0; i < str.length; i++) {
+    if (str[i] === '(') {
+      openStack.push(i);
+    } else if (str[i] === ')') {
+      if (!openStack.length) {
+        removed.add(i);
+      } else {
+        openStack.pop();
+      }
+    }
+  }
+  // find index of any open parens that didn't match.
+  openStack.forEach((i) => removed.add(i));
+  // delete all parens that didn't have a match.
+  return [...str].filter((_, i) => !removed.has(i)).join('');
+};
