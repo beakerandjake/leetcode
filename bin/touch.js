@@ -147,15 +147,13 @@ const createTest = async (problem, problemId) => {
   const contents = [
     [
       `import { ${fnName} } from '../${srcFilePath(problemId)}'`,
-      "import { arrToStr } from './util.js'",
+      "import { generateTestName } from './util.js'",
     ].join('\n'),
     [
       `describe('${problemId}. ${escape(getTitle(problem), "'")}', () => {`,
-      '\t[',
-      '\t\t// replace with real test data',
-      '\t\t[true,false],',
-      '\t].forEach(([input,expected]) => {',
-      '\t\ttest(`${input} -> ${expected}`, () => {',
+      '\t[].forEach((args) => {',
+      '\t\tconst [input, expected] = args;',
+      `\t\ttest(generateTestName(${fnName}, ...args), () => {`,
       `\t\t\tconst result = ${fnName}(input);`,
       '\t\t\texpect(result).toBe(expected);',
       '\t\t});',
