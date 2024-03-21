@@ -37,8 +37,21 @@
  * https://leetcode.com/problems/transpose-matrix
  */
 
+const shape = (matrix) => [matrix.length, matrix[0].length];
+
+const empty = (height, width) => [...Array(height)].map(() => Array(width).fill(0));
+
 /**
  * @param {number[][]} matrix
  * @return {number[][]}
  */
-export const transpose = (matrix) => {};
+export const transpose = (matrix) => {
+  const [height, width] = shape(matrix);
+  const output = empty(width, height);
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      output[x][y] = matrix[y][x];
+    }
+  }
+  return output;
+};

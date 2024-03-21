@@ -43,9 +43,23 @@
  * https://leetcode.com/problems/assign-cookies
  */
 
+const sorted = (arr) => [...arr].sort((a, b) => b - a);
+
 /**
  * @param {number[]} g
  * @param {number[]} s
  * @return {number}
  */
-export const findContentChildren = (g, s) => {};
+export const findContentChildren = (g, s) => {
+  const children = sorted(g);
+  const cookies = sorted(s);
+  while (cookies.length && children.length) {
+    if (children.at(-1) > cookies.at(-1)) {
+      cookies.pop();
+    } else {
+      children.pop();
+      cookies.pop();
+    }
+  }
+  return g.length - children.length;
+};
