@@ -65,8 +65,39 @@
  * https://leetcode.com/problems/integer-to-roman
  */
 
+const intMap = new Map([
+  [1, 'I'],
+  [4, 'IV'],
+  [5, 'V'],
+  [9, 'IX'],
+  [10, 'X'],
+  [40, 'XL'],
+  [50, 'L'],
+  [90, 'XC'],
+  [100, 'C'],
+  [400, 'CD'],
+  [500, 'D'],
+  [900, 'CM'],
+  [1000, 'M'],
+]);
+
+// returns the highest integer that is smaller than num which also maps to a roman numeral.d
+const closestRoman = (() => {
+  const lookup = [...intMap.keys()].reverse();
+  return (num) => lookup.find((x) => x < num);
+})();
+
 /**
  * @param {number} num
  * @return {string}
  */
-export const intToRoman = (num) => {};
+export const intToRoman = (num) => {
+  if (num <= 0) {
+    return '';
+  }
+  if (intMap.has(num)) {
+    return intMap.get(num);
+  }
+  const take = closestRoman(num);
+  return intMap.get(take) + intToRoman(num - take);
+};

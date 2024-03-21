@@ -57,44 +57,64 @@
  * }
  */
 
-// performs in order traversal of the tree and invokes the visitFn for each node.
-const inOrder = (root, visitFn) => {
-  if (!root) {
-    return;
-  }
-  inOrder(root.left, visitFn);
-  visitFn(root.val);
-  inOrder(root.right, visitFn);
-};
-
-// converts the bst to an array
-const toArray = (root) => {
-  const toReturn = [];
-  inOrder(root, (val) => {
-    toReturn.push(val);
-  });
-  return toReturn;
-};
-
-// maps each element of the array to the number of times it occurs.
-const frequencyCounts = (arr) =>
-  arr.reduce((acc, x) => acc.set(x, (acc.get(x) || 0) + 1), new Map());
-
-// returns an array containing the modes of the array.
-const modes = (arr) => {
-  const toReturn = [];
-  const counts = frequencyCounts(arr);
-  const max = Math.max(...counts.values());
-  for (const [key, count] of counts) {
-    if (count === max) {
-      toReturn.push(key);
+const usingHashMap = (() => {
+  // performs in order traversal of the tree and invokes the visitFn for each node.
+  const inOrder = (root, visitFn) => {
+    if (!root) {
+      return;
     }
-  }
-  return toReturn;
+    inOrder(root.left, visitFn);
+    visitFn(root.val);
+    inOrder(root.right, visitFn);
+  };
+
+  // converts the bst to an array
+  const toArray = (root) => {
+    const toReturn = [];
+    inOrder(root, (val) => {
+      toReturn.push(val);
+    });
+    return toReturn;
+  };
+
+  // maps each element of the array to the number of times it occurs.
+  const frequencyCounts = (arr) =>
+    arr.reduce((acc, x) => acc.set(x, (acc.get(x) || 0) + 1), new Map());
+
+  // returns an array containing the modes of the array.
+  const modes = (arr) => {
+    const toReturn = [];
+    const counts = frequencyCounts(arr);
+    const max = Math.max(...counts.values());
+    for (const [key, count] of counts) {
+      if (count === max) {
+        toReturn.push(key);
+      }
+    }
+    return toReturn;
+  };
+
+  return (root) => modes(toArray(root));
+})();
+
+const usingCounting = (root) => {
+  const results = [];
+  const traverse = (node, currentStreak, maxStreak) => {
+    if (!root) {
+      return;
+    }
+    const equalsLeft = node.left && node.left.val === node.val;
+    const equalsRight = node.right && node.right.val === node.val;
+    return Math.max(
+      traverse(node.left, equalsLeft ? currentStreak + 1 : 0, equalsLeft ? Math.max(maxStreak, currentStreak + 1))
+    )
+  };
+  traverse(root, 0, Number.MIN_SAFE_INTEGER);
+  return results;
 };
 
 /**
  * @param {TreeNode} root
  * @return {number[]}
  */
-export const findMode = (root) => modes(toArray(root));
+export const findMode = usingHashMap;
