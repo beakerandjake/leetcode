@@ -46,8 +46,32 @@
  * https://leetcode.com/problems/calculate-money-in-leetcode-bank
  */
 
+const iterative = (n) => {
+  let total = 0;
+  let deposit = 1;
+  let week = 1;
+  for (let i = 1; i <= n; i++) {
+    total += deposit;
+    deposit++;
+    if (i % 7 === 0) {
+      week++;
+      deposit = week;
+    }
+  }
+  return total;
+};
+
+const recursive = (n) => {
+  if (n <= 1) {
+    return n;
+  }
+  const weekNumber = Math.floor((n - 1) / 7);
+  const dayNumber = (n - 1) % 7;
+  return 1 + weekNumber + dayNumber + recursive(n - 1);
+};
+
 /**
  * @param {number} n
  * @return {number}
  */
-export const totalMoney = (n) => {};
+export const totalMoney = recursive;
