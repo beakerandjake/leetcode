@@ -28,7 +28,7 @@ if [ $# -eq 0 ]
 fi
 
 # remove the export portion of the uglified output.
-ugly=$(echo $ugly | sed -E 's/;export\{\w+\};/;/g')
+ugly=$(echo $ugly | sed -E 's/;?export\{\w+\};/;/g')
 
 
 # attempt to copy uglify output to clipboard
