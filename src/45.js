@@ -41,8 +41,29 @@
  * https://leetcode.com/problems/jump-game-ii
  */
 
+const usingDp = (nums) => {
+  const memo = Array(nums.length).fill(null);
+  const dp = (index) => {
+    if (index >= nums.length) {
+      return Number.MAX_SAFE_INTEGER;
+    }
+    if (index === nums.length - 1) {
+      return 0;
+    }
+    if (memo[index] === null) {
+      let min = Number.MAX_SAFE_INTEGER;
+      for (let i = 1; i <= nums[index]; i++) {
+        min = Math.min(min, 1 + dp(index + i));
+      }
+      memo[index] = min;
+    }
+    return memo[index];
+  };
+  return dp(0);
+};
+
 /**
  * @param {number[]} nums
  * @return {number}
  */
-export const jump = (nums) => {};
+export const jump = usingDp;
