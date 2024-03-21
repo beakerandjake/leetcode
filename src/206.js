@@ -54,18 +54,33 @@
  * }
  */
 
+const recursive = (head) => {
+  if (!head?.next) {
+    return head;
+  }
+  const predecessor = recursive(head.next);
+  head.next.next = head;
+  head.next = null;
+  return predecessor;
+};
+
+const iterative = (head) => {
+  let tail = head;
+  while (tail?.next) {
+    tail = tail.next;
+  }
+  let current = head;
+  while (current !== tail) {
+    const next = current.next;
+    current.next = tail.next;
+    tail.next = current;
+    current = next;
+  }
+  return tail;
+};
+
 /**
  * @param {ListNode} head
  * @return {ListNode}
  */
-export const reverseList = (head) => {
-  let previous = null;
-  let current = head;
-  while (current) {
-    const temp = current.next;
-    current.next = previous;
-    previous = current;
-    current = temp;
-  }
-  return previous;
-};
+export const reverseList = recursive;
