@@ -41,8 +41,12 @@
  * https://leetcode.com/problems/convert-the-temperature
  */
 
+const kelvin = (c) => c + 273.15;
+
+const fahrenheit = (c) => c * 1.8 + 32.0;
+
 /**
  * @param {number} celsius
  * @return {number[]}
  */
-export const convertTemperature = (celsius) => {};
+export const convertTemperature = (celsius) => [kelvin(celsius), fahrenheit(celsius)];
