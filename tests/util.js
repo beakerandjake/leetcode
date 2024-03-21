@@ -138,3 +138,15 @@ export const graphToArr = (graph) => {
   }
   return nodes;
 };
+
+const argToStr = (arg) => (Array.isArray(arg) ? arrToStr(arg) : `${arg}`);
+
+//
+const fnToStr = (fn, args, expected) => `${fn.name}(${args?.join(',')}) -> ${expected}`;
+
+/**
+ * Generates a test name like:
+ *  fn.name(arg0, arg1, ..., argN-1) -> argN
+ */
+export const generateTestName = (fn, ...args) =>
+  fnToStr(fn, args.slice(0, -1).map(argToStr), argToStr(args.slice(-1).at(0)));
