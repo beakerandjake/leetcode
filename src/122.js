@@ -53,4 +53,26 @@
  * @param {number[]} prices
  * @return {number}
  */
-export const maxProfit = (prices) => {};
+export const maxProfit = (prices) => {
+  const memo = [...Array(prices.length)].map(() => Array(2).fill(null));
+  const dp = (index, holding) => {
+    if (index >= prices.length) {
+      return 0;
+    }
+    if (memo[index][holding] == null) {
+      /**
+       * holding stock choices:
+       *    - don't sell stock (same result as sell stock and re-buy)
+       *    - sell stock and don't re-buy
+       * not holding stock choices:
+       *    - buy stock today
+       *    - don't buy stock today
+       */
+      memo[index][holding] = holding
+        ? Math.max(dp(index + 1, 1), prices[index] + dp(index + 1, 0))
+        : Math.max(dp(index + 1, 1) - prices[index], dp(index + 1, 0));
+    }
+    return memo[index][holding];
+  };
+  return dp(0, 0);
+};
