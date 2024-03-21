@@ -45,9 +45,39 @@
  * https://leetcode.com/problems/minimum-size-subarray-sum
  */
 
+const bruteForce = (() => {
+  const subarray = (arr, visitFn) => {
+    for (let i = 0; i < arr.length; i++) {
+      for (let j = i; j < arr.length; j++) {
+        visitFn(i, j);
+      }
+    }
+  };
+
+  const prefixSum = (arr) => {
+    let sum = 0;
+    return arr.map((x) => {
+      sum += x;
+      return sum;
+    });
+  };
+
+  return (target, nums) => {
+    let minLength = Number.MAX_SAFE_INTEGER;
+    const sums = prefixSum(nums);
+    subarray(nums, (from, to) => {
+      const sum = sums[to] - sums[from] + nums[from];
+      if (sum >= target) {
+        minLength = Math.min(to - from + 1, minLength);
+      }
+    });
+    return minLength !== Number.MAX_SAFE_INTEGER ? minLength : 0;
+  };
+})();
+
 /**
  * @param {number} target
  * @param {number[]} nums
  * @return {number}
  */
-export const minSubArrayLen = (target, nums) => {};
+export const minSubArrayLen = bruteForce;
