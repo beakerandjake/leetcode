@@ -40,4 +40,25 @@
  * @param {number[]} nums
  * @return {number[]}
  */
-export const findErrorNums = (nums) => {};
+export const findErrorNums = (nums) => {
+  // map each number to its frequency.
+  const set = nums.reduce((acc, x) => {
+    acc[x] += 1;
+    return acc;
+  }, Array(nums.length + 1).fill(0));
+
+  // find the two error elements using the frequency array.
+  let twice = null;
+  let missing = null;
+  for (let i = 1; i <= nums.length; i++) {
+    if (set[i] === 0) {
+      missing = i;
+    } else if (set[i] === 2) {
+      twice = i;
+    }
+    if (missing != null && twice != null) {
+      break;
+    }
+  }
+  return [twice, missing];
+};
