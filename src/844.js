@@ -46,9 +46,28 @@
  * https://leetcode.com/problems/backspace-string-compare
  */
 
+const buildStrings = (() => {
+  const isBackspace = (key) => key === '#';
+
+  const type = (input) => {
+    const output = [];
+    for (const key of input) {
+      if (isBackspace(key)) {
+        output.pop();
+      } else {
+        output.push(key);
+      }
+    }
+
+    return output.join('');
+  };
+
+  return (s, t) => type(s) === type(t);
+})();
+
 /**
  * @param {string} s
  * @param {string} t
  * @return {boolean}
  */
-export const backspaceCompare = (s, t) => {};
+export const backspaceCompare = buildStrings;
