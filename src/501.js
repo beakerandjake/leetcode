@@ -56,8 +56,45 @@
  *     this.right = (right===undefined ? null : right)
  * }
  */
+
+// performs in order traversal of the tree and invokes the visitFn for each node.
+const inOrder = (root, visitFn) => {
+  if (!root) {
+    return;
+  }
+  inOrder(root.left, visitFn);
+  visitFn(root.val);
+  inOrder(root.right, visitFn);
+};
+
+// converts the bst to an array
+const toArray = (root) => {
+  const toReturn = [];
+  inOrder(root, (val) => {
+    toReturn.push(val);
+  });
+  return toReturn;
+};
+
+// maps each element of the array to the number of times it occurs.
+const frequencyCounts = (arr) =>
+  arr.reduce((acc, x) => acc.set(x, (acc.get(x) || 0) + 1), new Map());
+
+// returns an array containing the modes of the array.
+const modes = (arr) => {
+  const toReturn = [];
+  const counts = frequencyCounts(arr);
+  const max = Math.max(...counts.values());
+  for (const [key, count] of counts) {
+    if (count === max) {
+      toReturn.push(key);
+    }
+  }
+  return toReturn;
+};
+
 /**
  * @param {TreeNode} root
  * @return {number[]}
  */
-export const findMode = (root) => {};
+export const findMode = (root) => modes(toArray(root));
