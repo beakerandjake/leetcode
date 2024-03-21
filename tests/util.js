@@ -139,7 +139,15 @@ export const graphToArr = (graph) => {
   return nodes;
 };
 
-const argToStr = (arg) => (Array.isArray(arg) ? arrToStr(arg) : `${arg}`);
+const argToStr = (arg) => {
+  if (Array.isArray(arg)) {
+    return arrToStr(arg);
+  }
+  if (typeof arg === 'string') {
+    return `'${arg}'`;
+  }
+  return `${arg}`;
+};
 
 //
 const fnToStr = (fn, args, expected) => `${fn.name}(${args?.join(',')}) -> ${expected}`;
