@@ -75,9 +75,27 @@ const bruteForce = (() => {
   };
 })();
 
+const twoPointers = (target, nums) => {
+  let min = Number.MAX_SAFE_INTEGER;
+  let left = 0;
+  let sum = 0;
+  for (let right = 0; right < nums.length; right++) {
+    sum += nums[right];
+    // attempt to shrink window as much as possible.
+    while (sum - nums[left] >= target) {
+      sum -= nums[left];
+      left++;
+    }
+    if (sum >= target) {
+      min = Math.min(min, right - left + 1);
+    }
+  }
+  return min !== Number.MAX_SAFE_INTEGER ? min : 0;
+};
+
 /**
  * @param {number} target
  * @param {number[]} nums
  * @return {number}
  */
-export const minSubArrayLen = bruteForce;
+export const minSubArrayLen = twoPointers;
