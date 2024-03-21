@@ -33,8 +33,14 @@
  * https://leetcode.com/problems/reverse-words-in-a-string-iii
  */
 
+const toSentence = (words) => words.join(' ');
+
+const words = (sentence) => sentence.split(' ');
+
+const reverseWord = (word) => [...word].reverse().join('');
+
 /**
  * @param {string} s
  * @return {string}
  */
-export const reverseWords = (s) => {};
+export const reverseWords = (s) => toSentence(words(s).map(reverseWord));

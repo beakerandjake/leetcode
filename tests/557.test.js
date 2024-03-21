@@ -1,10 +1,9 @@
-import { reverseWords } from "../src/557.js";
-import { arrToStr } from "./util.js";
+import { reverseWords } from '../src/557.js';
 
-describe("557. Reverse Words in a String III", () => {
+describe('557. Reverse Words in a String III', () => {
   [
-    // replace with real test data
-    [true, false],
+    ["Let's take LeetCode contest", "s'teL ekat edoCteeL tsetnoc"],
+    ['cool guy', 'looc yug'],
   ].forEach(([input, expected]) => {
     test(`${input} -> ${expected}`, () => {
       const result = reverseWords(input);
