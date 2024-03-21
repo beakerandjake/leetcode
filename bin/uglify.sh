@@ -32,9 +32,13 @@ ugly=$(echo $ugly | sed -E 's/;?export\{\w+\};/;/g')
 
 
 # attempt to copy uglify output to clipboard
-if command -v xclip &> /dev/null
-    then
-        echo $ugly | xclip -selection clipboard
+
+# use pbcopy on mac
+if [ "$(uname)" == "Darwin" ]; then
+    echo $ugly | pbcopy
+# otherwise try xclip
+elif command -v xclip &> /dev/null; then
+    echo $ugly | xclip -selection clipboard 
 fi
 
 # output result
