@@ -1,13 +1,13 @@
-import { argumentsLength } from "../src/2703.js";
-import { arrToStr } from "./util.js";
+import { argumentsLength } from '../src/2703.js';
+import { arrToStr } from './util.js';
 
-describe("2703. Return Length of Arguments Passed", () => {
+describe('2703. Return Length of Arguments Passed', () => {
   [
-    // replace with real test data
-    [true, false],
+    [[5], 1],
+    [[{}, null, '3'], 3],
   ].forEach(([input, expected]) => {
-    test(`${input} -> ${expected}`, () => {
-      const result = argumentsLength(input);
+    test(`${arrToStr(input)} -> ${expected}`, () => {
+      const result = argumentsLength(...input);
       expect(result).toBe(expected);
     });
   });
