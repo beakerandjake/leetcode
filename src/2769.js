@@ -50,4 +50,4 @@
  * @param {number} t
  * @return {number}
  */
-export const theMaximumAchievableX = (num, t) => {};
+export const theMaximumAchievableX = (num, t) => num + t * 2;
