@@ -39,8 +39,41 @@
  * https://leetcode.com/problems/running-sum-of-1d-array
  */
 
+const usingMap = (nums) => {
+  let sum = 0;
+  return nums.map((x) => {
+    sum += x;
+    return sum;
+  });
+};
+
+const usingReduce = (nums) =>
+  nums.reduce((acc, x, i) => {
+    acc[i] = i > 0 ? x + acc[i - 1] : x;
+    return acc;
+  }, []);
+
+const usingRecursion = (nums) => {
+  const sum = (index, total) =>
+    index < nums.length
+      ? [nums[index] + total, ...sum(index + 1, nums[index] + total)]
+      : [];
+  return sum(0, 0);
+};
+
+const usingIteration = (nums) => {
+  if (!nums.length) {
+    return [];
+  }
+  const sums = [nums[0], ...Array(nums.length - 1).fill(0)];
+  for (let i = 1; i < nums.length; i++) {
+    sums[i] = sums[i - 1] + nums[i];
+  }
+  return sums;
+};
+
 /**
  * @param {number[]} nums
  * @return {number[]}
  */
-export const runningSum = (nums) => {};
+export const runningSum = usingRecursion;
