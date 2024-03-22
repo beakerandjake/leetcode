@@ -39,8 +39,8 @@ const touch = async (problem) => {
     createFile(testPath, testFileContents(problem)),
   ]);
   openFiles(solutionPath, testPath);
-  // commitFilesToGit(`touch ${problemId}`, solutionPath, testPath);
-  console.log(`created src: ${solutionPath}, test: ${testPath}`);
+  commitFilesToGit(`touch ${problemId}`, solutionPath, testPath);
+  console.log(`created solution: ${solutionPath}, test: ${testPath}`);
 };
 
 /**
@@ -49,15 +49,15 @@ const touch = async (problem) => {
 const reset = async (problem) => {
   const problemId = getProblemId(problem);
   const solutionPath = solutionFilePath(problemId);
-
   if (!(await fileExists(solutionPath))) {
     throw new Error('cannot rest problem, does not exit');
   }
   await createFile(solutionPath, solutionFileContents(problem));
   openFiles(solutionPath, testFilePath(problemId));
+  console.log(`reset solution: ${solutionPath}`);
 };
 
-const main = async () => {
+try {
   const problem = await getProblem(getSlug());
   // bail if invalid slug.
   if (!problem) {
@@ -68,10 +68,6 @@ const main = async () => {
     throw new Error('paid only problem');
   }
   await (!isReset() ? touch(problem) : reset(problem));
-};
-
-try {
-  await main();
 } catch (error) {
   console.error(error.message || error);
   exit(1);
