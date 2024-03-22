@@ -1,10 +1,10 @@
 import { argv, exit } from 'node:process';
-import { convert } from 'html-to-text';
 import { format } from 'prettier';
 import { openFiles } from './util/vscode.js';
 import { commitFilesToGit } from './util/git.js';
 import { getProblem, getProblemId, getSnippet } from './util/leetcode.js';
 import { alreadyTouched, createFile, srcFilePath, testFilePath } from './util/fs.js';
+import { toPlainText } from './util/html.js';
 
 /**
  * Parse the slug argument from the command line.
@@ -24,11 +24,6 @@ const getSlug = () => {
  * Returns true if passed the --reset option.
  */
 const isReset = () => argv[3] === '--reset';
-
-/**
- * Convert the raw html content to plain text.
- */
-const parseContent = ({ content }) => convert(content).replace(/\u00a0/g, ' ');
 
 /**
  * Convert old school js function into es6 named export.
@@ -65,7 +60,7 @@ const wrapInComment = (...lines) => {
  */
 const createSolution = async (problem, problemId) => {
   const contents = [
-    wrapInComment(parseContent(problem), '\n\n', getProblemUrl(getSlug())),
+    wrapInComment(toPlainText(problem.content), '\n\n', getProblemUrl(getSlug())),
     convertToES6(getSnippet(problem)),
   ].join('\n\n\n');
   const formatted = format(contents, { parser: 'babel' });
