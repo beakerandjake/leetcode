@@ -1,10 +1,10 @@
 import { argv, exit } from 'node:process';
-import { writeFile, stat } from 'node:fs/promises';
 import { convert } from 'html-to-text';
 import { format } from 'prettier';
 import { openFiles } from './util/vscode.js';
 import { commitFilesToGit } from './util/git.js';
 import { getProblem, getProblemId, getSnippet } from './util/leetcode.js';
+import { alreadyTouched, createFile, srcFilePath, testFilePath } from './util/fs.js';
 
 /**
  * Parse the slug argument from the command line.
@@ -24,21 +24,6 @@ const getSlug = () => {
  * Returns true if passed the --reset option.
  */
 const isReset = () => argv[3] === '--reset';
-
-/**
- * Does a file exist at the path?
- */
-const fileExists = async (filePath) => !!(await stat(filePath).catch(() => false));
-
-/**
- * Returns the path to the source file.
- */
-const srcFilePath = (problemId) => `src/${problemId}.js`;
-
-/**
- * Returns true if a file has already been created for this problem.
- */
-const alreadyTouched = (problem) => fileExists(srcFilePath(getProblemId(problem)));
 
 /**
  * Convert the raw html content to plain text.
@@ -84,7 +69,7 @@ const createSolution = async (problem, problemId) => {
     convertToES6(getSnippet(problem)),
   ].join('\n\n\n');
   const formatted = format(contents, { parser: 'babel' });
-  await writeFile(srcFilePath(problemId), formatted);
+  await createFile(srcFilePath(problemId), formatted);
 };
 
 /**
@@ -96,11 +81,6 @@ const getSolutionFunction = (problem) => /var ([\w]+)/.exec(getSnippet(problem))
  * Returns the title of the problem.
  */
 const getTitle = ({ title }) => title;
-
-/**
- * Returns the path to the test file.
- */
-const testFilePath = (problemId) => `tests/${problemId}.test.js`;
 
 /**
  * Returns an new string with each matching character escaped by a backslash.
@@ -136,17 +116,18 @@ const createTest = async (problem, problemId) => {
     ].join('\n'),
   ].join('\n\n');
   const formatted = format(contents, { parser: 'babel' });
-  await writeFile(testFilePath(problemId), formatted);
+  await createFile(testFilePath(problemId), formatted);
 };
 
 const touch = async (problem) => {
+  const problemId = getProblemId(problem);
+
   // bail if already created a file for this problem.
-  if (await alreadyTouched(problem)) {
+  if (await alreadyTouched(problemId)) {
     throw new Error('problem already exists');
   }
 
   // create the files.
-  const problemId = getProblemId(problem);
   const src = srcFilePath(problemId);
   const test = testFilePath(problemId);
   await Promise.all([createSolution(problem, problemId), createTest(problem, problemId)]);
