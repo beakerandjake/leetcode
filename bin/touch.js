@@ -1,9 +1,10 @@
 import { argv, exit } from 'node:process';
-import { exec } from 'node:child_process';
 import { writeFile, stat } from 'node:fs/promises';
-import { LeetCode } from 'leetcode-query';
 import { convert } from 'html-to-text';
 import { format } from 'prettier';
+import { openFiles } from './util/vscode.js';
+import { commitFilesToGit } from './util/git.js';
+import { getProblem, getProblemId, getSnippet } from './util/leetcode.js';
 
 /**
  * Parse the slug argument from the command line.
@@ -25,25 +26,9 @@ const getSlug = () => {
 const isReset = () => argv[3] === '--reset';
 
 /**
- * Download the leetcode problem.
- */
-const getProblem = async (slug) => {
-  const problem = await new LeetCode().problem(slug);
-  if (!problem) {
-    throw new Error('problem not found');
-  }
-  return problem;
-};
-
-/**
  * Does a file exist at the path?
  */
 const fileExists = async (filePath) => !!(await stat(filePath).catch(() => false));
-
-/**
- * Returns the id of the problem.
- */
-const getProblemId = ({ questionFrontendId }) => questionFrontendId;
 
 /**
  * Returns the path to the source file.
@@ -53,23 +38,12 @@ const srcFilePath = (problemId) => `src/${problemId}.js`;
 /**
  * Returns true if a file has already been created for this problem.
  */
-const alreadyTouched = async (problem) => fileExists(srcFilePath(getProblemId(problem)));
+const alreadyTouched = (problem) => fileExists(srcFilePath(getProblemId(problem)));
 
 /**
  * Convert the raw html content to plain text.
  */
 const parseContent = ({ content }) => convert(content).replace(/\u00a0/g, ' ');
-
-/**
- * Get the JS code snippet for the problem
- */
-const getSnippet = ({ codeSnippets }) => {
-  const code = codeSnippets.find((x) => x.lang.toLowerCase() === 'javascript')?.code;
-  if (!code) {
-    throw new Error('js snippet not found');
-  }
-  return code;
-};
 
 /**
  * Convert old school js function into es6 named export.
@@ -165,24 +139,6 @@ const createTest = async (problem, problemId) => {
   await writeFile(testFilePath(problemId), formatted);
 };
 
-/**
- * Open the newly created files in VS code.
- */
-const openFilesInVsCode = (...files) => {
-  exec(`code -r ${files.map((file) => `'${file}'`).join(' ')}`);
-};
-
-/**
- * Add the new files and commit them to the git repository.
- */
-const commitFilesToGit = (problemId, ...files) => {
-  exec(
-    `git add ${files
-      .map((file) => `'${file}'`)
-      .join(' ')} && git commit -m 'touch ${problemId}'`
-  );
-};
-
 const touch = async (problem) => {
   // bail if already created a file for this problem.
   if (await alreadyTouched(problem)) {
@@ -194,8 +150,8 @@ const touch = async (problem) => {
   const src = srcFilePath(problemId);
   const test = testFilePath(problemId);
   await Promise.all([createSolution(problem, problemId), createTest(problem, problemId)]);
-  openFilesInVsCode(src, test);
-  commitFilesToGit(problemId, src, test);
+  openFiles(src, test);
+  commitFilesToGit(`touch ${problemId}`, src, test);
   console.log(`created src: ${src}, test: ${test}`);
 };
 
@@ -209,7 +165,7 @@ const reset = async (problem) => {
   const problemId = getProblemId(problem);
   const src = srcFilePath(problemId);
   await createSolution(problem, problemId);
-  openFilesInVsCode(src, testFilePath(problemId));
+  openFiles(src, testFilePath(problemId));
 };
 
 const main = async () => {
