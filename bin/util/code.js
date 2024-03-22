@@ -31,6 +31,7 @@ export const wrapInComment = (...lines) => {
 /**
  * Applies project standard formatting to the code.
  * @param {string} code - The code to format.
+ * @returns {string}
  */
 export const format = (code) => prettier(code, { parser: 'babel' });
 
