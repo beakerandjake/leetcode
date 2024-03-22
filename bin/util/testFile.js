@@ -63,6 +63,16 @@ const getArgNames = (examples) =>
   examples.length ? examples[0].args.map(({ name }) => name).join(',') : '';
 
 /**
+ * Returns the correct jest assertion based on the type the function should return.
+ */
+const getAssertionFn = (examples) => {
+  if (!examples.length) {
+    return 'toBe';
+  }
+  return Array.isArray(examples.at(0).expected) ? 'toEqual' : 'toBe';
+};
+
+/**
  * Generates and returns the code for the problems test file.
  * @param {import('leetcode-query').Problem} problem - The LeetCode problem object.
  * @returns {string}
@@ -83,7 +93,7 @@ export const testFileContents = (problem) => {
         const [${fnArgs}, expected] = args;
         test(generateTestName(${fnName}, ...args), () => {
           const result = ${fnName}(${fnArgs});
-          expect(result).toBe(expected);
+          expect(result).${getAssertionFn(examples)}(expected);
         });
       });
     });
