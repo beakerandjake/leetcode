@@ -24,16 +24,21 @@ const getSlug = () => {
  */
 const isReset = () => argv[3] === '--reset';
 
+/**
+ * Creates a source and test file for the problem.
+ * Commits the new files to source control.
+ * Attempts to open the new files in vscode.
+ * Bails if the source file for the problem already exists.
+ * @param {import('leetcode-query').Problem} problem - The problem
+ */
 const touch = async (problem) => {
   const problemId = getProblemId(problem);
   const solutionPath = solutionFilePath(problemId);
   const testPath = testFilePath(problemId);
-
   // bail if already created a file for this problem.
   if (await fileExists(solutionPath)) {
     throw new Error('problem already exists');
   }
-  // create the files.
   await Promise.all([
     createFile(solutionPath, solutionFileContents(problem)),
     createFile(testPath, testFileContents(problem)),
@@ -44,11 +49,14 @@ const touch = async (problem) => {
 };
 
 /**
- * Clear the implementation of an existing problem, good for practice
+ * Resets the source file of an existing problem, good for practice.
+ * Bails if the source file does not exist.
+ * @param {import('leetcode-query').Problem} problem - The problem
  */
 const reset = async (problem) => {
   const problemId = getProblemId(problem);
   const solutionPath = solutionFilePath(problemId);
+  // can't reset if not touched.
   if (!(await fileExists(solutionPath))) {
     throw new Error('cannot rest problem, does not exit');
   }
