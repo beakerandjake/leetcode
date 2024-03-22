@@ -1,7 +1,7 @@
 import { argv, exit } from 'node:process';
 import { openFiles } from './util/vscode.js';
 import { commitFilesToGit } from './util/git.js';
-import { getProblem, getProblemId, getSnippet } from './util/leetcode.js';
+import { getProblem, getProblemId, getProblemUrl, getSnippet } from './util/leetcode.js';
 import { alreadyTouched, createFile, srcFilePath, testFilePath } from './util/fs.js';
 import { toPlainText } from './util/html.js';
 import { convertSolutionSnippet, format, wrapInComment } from './util/code.js';
@@ -24,11 +24,6 @@ const getSlug = () => {
  * Returns true if passed the --reset option.
  */
 const isReset = () => argv[3] === '--reset';
-
-/**
- * Returns a url to the problem.
- */
-const getProblemUrl = (slug) => `https://leetcode.com/problems/${slug}`;
 
 /**
  * Create the solution file.

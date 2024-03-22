@@ -1,6 +1,11 @@
 import { LeetCode } from 'leetcode-query';
 
 /**
+ * Returns a url to the problem.
+ */
+export const getProblemUrl = (slug) => `https://leetcode.com/problems/${slug}`;
+
+/**
  * Download the leetcode problem.
  * @param {string} slug - The problem slug
  */
