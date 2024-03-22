@@ -44,7 +44,7 @@ const touch = async (problem) => {
     createFile(testPath, testFileContents(problem)),
   ]);
   openFiles(solutionPath, testPath);
-  commitFilesToGit(`touch ${problemId}`, solutionPath, testPath);
+  // commitFilesToGit(`touch ${problemId}`, solutionPath, testPath);
   console.log(`created solution: ${solutionPath}, test: ${testPath}`);
 };
 

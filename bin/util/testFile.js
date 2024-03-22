@@ -17,22 +17,19 @@ export const testFileContents = (problem) => {
   const problemId = getProblemId(problem);
   const fnName = functionName(getSnippet(problem));
   return format(
-    [
-      [
-        `import { ${fnName} } from '../${solutionFilePath(problemId)}'`,
-        "import { generateTestName } from './util.js'",
-      ].join('\n'),
-      [
-        `describe('${problemId}. ${problem.title.replace("'", "\\'")}', () => {`,
-        '\t[].forEach((args) => {',
-        '\t\tconst [input, expected] = args;',
-        `\t\ttest(generateTestName(${fnName}, ...args), () => {`,
-        `\t\t\tconst result = ${fnName}(input);`,
-        '\t\t\texpect(result).toBe(expected);',
-        '\t\t});',
-        ' \t});',
-        '});',
-      ].join('\n'),
-    ].join('\n\n')
+    `
+    import { ${fnName} } from '../${solutionFilePath(problemId)}';
+    import { generateTestName } from './util.js';
+
+    describe('${problemId}. ${problem.title.replace("'", "\\'")}', () => {
+      [].forEach((args) => {
+        const [input, expected] = args;
+        test(generateTestName(${fnName}, ...args), () => {
+          const result = ${fnName}(input);
+          expect(result).toBe(expected);
+        });
+      });
+    });
+    `
   );
 };
