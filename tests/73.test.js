@@ -1,5 +1,5 @@
 import { setZeroes } from '../src/73.js';
-import { arrToStr } from './util.js';
+import { generateTestName } from './util.js';
 
 describe('73. Set Matrix Zeroes', () => {
   [
@@ -27,10 +27,11 @@ describe('73. Set Matrix Zeroes', () => {
         [0, 3, 1, 0],
       ],
     ],
-  ].forEach(([input, expected]) => {
-    test(`${arrToStr(input)} -> ${arrToStr(expected)}`, () => {
-      setZeroes(input);
-      expect(input).toEqual(expected);
+  ].forEach((args) => {
+    const [matrix, expected] = args;
+    test(generateTestName(setZeroes, ...args), () => {
+      setZeroes(matrix);
+      expect(matrix).toEqual(expected);
     });
   });
 });
