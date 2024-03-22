@@ -97,22 +97,6 @@ const usingHashMap = (() => {
   return (root) => modes(toArray(root));
 })();
 
-const usingCounting = (root) => {
-  const results = [];
-  const traverse = (node, currentStreak, maxStreak) => {
-    if (!root) {
-      return;
-    }
-    const equalsLeft = node.left && node.left.val === node.val;
-    const equalsRight = node.right && node.right.val === node.val;
-    return Math.max(
-      traverse(node.left, equalsLeft ? currentStreak + 1 : 0, equalsLeft ? Math.max(maxStreak, currentStreak + 1))
-    )
-  };
-  traverse(root, 0, Number.MIN_SAFE_INTEGER);
-  return results;
-};
-
 /**
  * @param {TreeNode} root
  * @return {number[]}
