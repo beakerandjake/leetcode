@@ -48,8 +48,26 @@
  * https://leetcode.com/problems/maximum-score-after-splitting-a-string
  */
 
+const split = (s, index, hasSplit, zeros, ones) => {
+  if (index >= s.length) {
+    // if haven't split then result is invalid, we are required to have split somewhere.
+    return hasSplit ? zeros + ones : 0;
+  }
+
+  // if have already split, can only continue the split.
+  if (hasSplit) {
+    return split(s, index + 1, true, zeros, s[index] === '1' ? ones + 1 : ones);
+  }
+
+  // either start a new split at this index, or don't.
+  return Math.max(
+    split(s, index + 1, true, zeros, s[index] === '1' ? 1 : 0),
+    split(s, index + 1, false, s[index] === '0' ? zeros + 1 : zeros, 0)
+  );
+};
+
 /**
  * @param {string} s
  * @return {number}
  */
-export const maxScore = (s) => {};
+export const maxScore = (s) => split(s, 1, false, s?.at(0) === '0' ? 1 : 0, 0);
