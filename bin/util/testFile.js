@@ -35,14 +35,13 @@ export const extractExamples = (() => {
   return (content) => {
     try {
       const results = [];
-      const examples = content.matchAll(/Example \d+:\s+(Input:.*)\s+(Output:.*)/gm);
+      const examples = content.matchAll(/(Input:.*)\s+(Output:.*)/gm);
       for (const [, rawInput, rawOutput] of examples) {
         results.push({
           args: parseInput(rawInput),
           expected: parseOutput(rawOutput),
         });
       }
-      // console.log(formatTestCases(results));
       return results;
     } catch (err) {
       console.error('Failed to parse test cases from Problem content.', err);
