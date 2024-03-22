@@ -1,12 +1,6 @@
 import { writeFile, stat } from 'node:fs/promises';
 
 /**
- * Returns the path to the test file.
- * @param {string} problemId - The id of the LeetCode Problem.
- */
-export const testFilePath = (problemId) => `tests/${problemId}.test.js`;
-
-/**
  * Does a file exist at the path?
  * @param {string} filePath - The path of the file.
  */

@@ -1,11 +1,10 @@
 import { argv, exit } from 'node:process';
 import { openFiles } from './util/vscode.js';
 import { commitFilesToGit } from './util/git.js';
-import { getProblem, getProblemId, getSnippet } from './util/leetcode.js';
-import { createFile, fileExists, testFilePath } from './util/fs.js';
-import { format, functionName } from './util/code.js';
-import { solutionFileContents, solutionFilePath } from './util/solutionFIle.js';
-
+import { getProblem, getProblemId } from './util/leetcode.js';
+import { createFile, fileExists } from './util/fs.js';
+import { solutionFileContents, solutionFilePath } from './util/solutionFile.js';
+import { testFileContents, testFilePath } from './util/testFile.js';
 /**
  * Parse the slug argument from the command line.
  */
@@ -25,64 +24,23 @@ const getSlug = () => {
  */
 const isReset = () => argv[3] === '--reset';
 
-/**
- * Returns the title of the problem.
- */
-const getTitle = ({ title }) => title;
-
-/**
- * Returns an new string with each matching character escaped by a backslash.
- */
-const escape = (string, ...chars) => {
-  let result = string;
-  for (const char of chars) {
-    result = result.replace(char, `\\${char}`);
-  }
-  return result;
-};
-
-/**
- * Create the test file.
- */
-const createTest = async (problem, problemId) => {
-  const fnName = functionName(getSnippet(problem));
-  const contents = [
-    [
-      `import { ${fnName} } from '../${solutionFilePath(problemId)}'`,
-      "import { generateTestName } from './util.js'",
-    ].join('\n'),
-    [
-      `describe('${problemId}. ${escape(getTitle(problem), "'")}', () => {`,
-      '\t[].forEach((args) => {',
-      '\t\tconst [input, expected] = args;',
-      `\t\ttest(generateTestName(${fnName}, ...args), () => {`,
-      `\t\t\tconst result = ${fnName}(input);`,
-      '\t\t\texpect(result).toBe(expected);',
-      '\t\t});',
-      ' \t});',
-      '});',
-    ].join('\n'),
-  ].join('\n\n');
-  const formatted = format(contents, { parser: 'babel' });
-  await createFile(testFilePath(problemId), formatted);
-};
-
 const touch = async (problem) => {
   const problemId = getProblemId(problem);
   const solutionPath = solutionFilePath(problemId);
+  const testPath = testFilePath(problemId);
+
   // bail if already created a file for this problem.
   if (await fileExists(solutionPath)) {
     throw new Error('problem already exists');
   }
   // create the files.
-  const test = testFilePath(problemId);
   await Promise.all([
     createFile(solutionPath, solutionFileContents(problem)),
-    createTest(problem, problemId),
+    createFile(testPath, testFileContents(problem)),
   ]);
-  openFiles(solutionPath, test);
-  // commitFilesToGit(`touch ${problemId}`, src, test);
-  console.log(`created src: ${solutionPath}, test: ${test}`);
+  openFiles(solutionPath, testPath);
+  // commitFilesToGit(`touch ${problemId}`, solutionPath, testPath);
+  console.log(`created src: ${solutionPath}, test: ${testPath}`);
 };
 
 /**
