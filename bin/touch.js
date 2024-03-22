@@ -1,10 +1,10 @@
 import { argv, exit } from 'node:process';
-import { format } from 'prettier';
 import { openFiles } from './util/vscode.js';
 import { commitFilesToGit } from './util/git.js';
 import { getProblem, getProblemId, getSnippet } from './util/leetcode.js';
 import { alreadyTouched, createFile, srcFilePath, testFilePath } from './util/fs.js';
 import { toPlainText } from './util/html.js';
+import { convertSolutionSnippet, format, wrapInComment } from './util/code.js';
 
 /**
  * Parse the slug argument from the command line.
@@ -26,45 +26,23 @@ const getSlug = () => {
 const isReset = () => argv[3] === '--reset';
 
 /**
- * Convert old school js function into es6 named export.
- */
-const convertToES6 = (snippet = '') => {
-  const regex = /var\s*(\w+)+\s*=\s*function\s*\(([\w,\s]+)\)\s*{\s*};/;
-  const matches = snippet.match(regex);
-  if (!matches) {
-    console.error('could not format es6');
-    return snippet;
-  }
-  const [line, fn, args] = matches;
-  return snippet.replace(line, `export const ${fn} = (${args}) => {};`);
-};
-
-/**
  * Returns a url to the problem.
  */
 const getProblemUrl = (slug) => `https://leetcode.com/problems/${slug}`;
 
 /**
- * Wrap the lines in a single multi line comment.
- */
-const wrapInComment = (...lines) => {
-  const split = lines
-    .map((line) => line.split('\n'))
-    .flat()
-    .map((line) => ` * ${line}`);
-  return ['/**', ...split, ' */'].join('\n');
-};
-
-/**
  * Create the solution file.
  */
 const createSolution = async (problem, problemId) => {
-  const contents = [
-    wrapInComment(toPlainText(problem.content), '\n\n', getProblemUrl(getSlug())),
-    convertToES6(getSnippet(problem)),
-  ].join('\n\n\n');
-  const formatted = format(contents, { parser: 'babel' });
-  await createFile(srcFilePath(problemId), formatted);
+  await createFile(
+    srcFilePath(problemId),
+    format(
+      [
+        wrapInComment(toPlainText(problem.content), '\n\n', getProblemUrl(getSlug())),
+        convertSolutionSnippet(getSnippet(problem)),
+      ].join('\n\n\n')
+    )
+  );
 };
 
 /**
