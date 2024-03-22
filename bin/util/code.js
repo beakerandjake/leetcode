@@ -33,3 +33,8 @@ export const wrapInComment = (...lines) => {
  * @param {string} code - The code to format.
  */
 export const format = (code) => prettier(code, { parser: 'babel' });
+
+/**
+ * Returns the name of the function exported by the solution file.
+ */
+export const functionName = (code) => /var ([\w]+)/.exec(code)[1];

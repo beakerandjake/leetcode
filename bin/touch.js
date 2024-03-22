@@ -4,7 +4,12 @@ import { commitFilesToGit } from './util/git.js';
 import { getProblem, getProblemId, getProblemUrl, getSnippet } from './util/leetcode.js';
 import { alreadyTouched, createFile, srcFilePath, testFilePath } from './util/fs.js';
 import { toPlainText } from './util/html.js';
-import { convertSolutionSnippet, format, wrapInComment } from './util/code.js';
+import {
+  convertSolutionSnippet,
+  format,
+  functionName,
+  wrapInComment,
+} from './util/code.js';
 
 /**
  * Parse the slug argument from the command line.
@@ -41,11 +46,6 @@ const createSolution = async (problem, problemId) => {
 };
 
 /**
- * Returns the name of the function exported by the solution file.
- */
-const getSolutionFunction = (problem) => /var ([\w]+)/.exec(getSnippet(problem))[1];
-
-/**
  * Returns the title of the problem.
  */
 const getTitle = ({ title }) => title;
@@ -65,7 +65,7 @@ const escape = (string, ...chars) => {
  * Create the test file.
  */
 const createTest = async (problem, problemId) => {
-  const fnName = getSolutionFunction(problem);
+  const fnName = functionName(getSnippet(problem));
   const contents = [
     [
       `import { ${fnName} } from '../${srcFilePath(problemId)}'`,
@@ -100,7 +100,7 @@ const touch = async (problem) => {
   const test = testFilePath(problemId);
   await Promise.all([createSolution(problem, problemId), createTest(problem, problemId)]);
   openFiles(src, test);
-  commitFilesToGit(`touch ${problemId}`, src, test);
+  // commitFilesToGit(`touch ${problemId}`, src, test);
   console.log(`created src: ${src}, test: ${test}`);
 };
 
