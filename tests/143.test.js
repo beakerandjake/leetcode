@@ -1,7 +1,7 @@
-import { reorderList } from "../src/143.js";
-import { generateTestName } from "./util.js";
+import { reorderList } from '../src/143.js';
+import { generateTestName, arrToList, listToArr } from './util.js';
 
-describe("143. Reorder List", () => {
+describe('143. Reorder List', () => {
   [
     [
       [1, 2, 3, 4],
@@ -14,8 +14,8 @@ describe("143. Reorder List", () => {
   ].forEach((args) => {
     const [head, expected] = args;
     test(generateTestName(reorderList, ...args), () => {
-      const result = reorderList(head);
-      expect(result).toEqual(expected);
+      const result = reorderList(arrToList(head));
+      expect(listToArr(result)).toEqual(expected);
     });
   });
 });
