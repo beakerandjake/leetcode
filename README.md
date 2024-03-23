@@ -37,7 +37,9 @@ npm run test 42
 
 Create the source and test file for the specified problem, commits these files to git, and finally opens them in vs code.
 
-The source file is added to `src/` and test file is added to `tests/`. The test file is just a scaffolded test and you will need to update the test. 
+The source file is added to `src/` and test file is added to `tests/`.
+
+ An attempt is made to scrape the inputs and expected outputs from each example in the problem description. If scraping is successful a test case will be generated for each example and will provide the function with the correct inputs and test the result against the expected output. This process is not always successful so be sure to double check the generated test. 
 
 Touch accepts either the problem slug or the full problem url.
 
