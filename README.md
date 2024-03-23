@@ -3,8 +3,8 @@
 Contains my leetcode solutions.
 
 I don't like coding in a browser so I added tools to support local development:
-- Generate the source code file for a problem, with included description.
-- Generate the test file for a problem.
+- Generate a solution file for the problem, with the problem description and blank code snippet. 
+- Generate the test file and test cases for the problem.
 - Minify a problems source code and copy to clipboard so it can be submitted easily.
 - Reset the source of a previously solved problem so it can be practiced.
 
