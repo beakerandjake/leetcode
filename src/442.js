@@ -40,8 +40,51 @@
  * https://leetcode.com/problems/find-all-duplicates-in-an-array
  */
 
+const usingSet = (nums) => {
+  const output = new Set();
+  const set = new Set();
+  for (const num of nums) {
+    if (set.has(num) && !output.has(num)) {
+      output.add(num);
+    } else {
+      set.add(num);
+    }
+  }
+  return [...output];
+};
+
+const usingCycleSort = (() => {
+  // mutates array and swaps elements at index a and index b.
+  const swap = (arr, a, b) => {
+    const temp = arr[a];
+    arr[a] = arr[b];
+    arr[b] = temp;
+  };
+
+  // mutates an array of items 1-N so each item resides at its expectedIndex index (0 based).
+  const rearrange = (nums) => {
+    let i = 0;
+    while (i < nums.length) {
+      const expectedIndex = nums[i] - 1;
+      if (nums[i] !== nums[expectedIndex]) {
+        swap(nums, i, expectedIndex);
+      } else {
+        i++;
+      }
+    }
+  };
+
+  // returns all the unique elements of the array.
+  const unique = (arr) => [...new Set(arr)];
+
+  return (nums) => {
+    rearrange(nums);
+    return unique(nums.filter((x, i) => x !== i + 1));
+  };
+})();
+
 /**
  * @param {number[]} nums
  * @return {number[]}
  */
-export const findDuplicates = (nums) => {};
+export const findDuplicates = usingCycleSort;
