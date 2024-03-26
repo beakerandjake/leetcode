@@ -62,8 +62,26 @@ const usingSet = (nums) => {
   return sorted.at(-1) + 1;
 };
 
+const usingBitVector = (nums) => {
+  // track if seen each number 1 to N.
+  const visited = Array(nums.length + 1).fill(false);
+  for (const num of nums) {
+    if (num > 0 && num < visited.length) {
+      visited[num] = true;
+    }
+  }
+  // find first number not visited between 1 and N.
+  for (let i = 1; i < visited.length; i++) {
+    if (!visited[i]) {
+      return i;
+    }
+  }
+  // nums was range 1 to N. The missing number must be N+1.
+  return visited.length;
+};
+
 /**
  * @param {number[]} nums
  * @return {number}
  */
-export const firstMissingPositive = usingSet;
+export const firstMissingPositive = usingBitVector;
