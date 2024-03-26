@@ -80,8 +80,40 @@ const usingBitVector = (nums) => {
   return visited.length;
 };
 
+const usingCycleSort = (() => {
+  const swap = (arr, a, b) => {
+    const temp = arr[a];
+    arr[a] = arr[b];
+    arr[b] = temp;
+  };
+
+  const cycleSort = (nums) => {
+    let i = 0;
+    while (i < nums.length) {
+      const dest = nums[i] - 1;
+      if (nums[i] > 0 && nums[i] < nums.length && nums[i] !== nums[dest]) {
+        swap(nums, dest, i);
+      } else {
+        i++;
+      }
+    }
+  };
+
+  return (nums) => {
+    cycleSort(nums);
+    // find first num missing from 1 to N.
+    for (let i = 0; i < nums.length; i++) {
+      if (nums[i] !== i + 1) {
+        return i + 1;
+      }
+    }
+    // nums were 1 to N, missing num must be N+1
+    return nums.length + 1;
+  };
+})();
+
 /**
  * @param {number[]} nums
  * @return {number}
  */
-export const firstMissingPositive = usingBitVector;
+export const firstMissingPositive = usingCycleSort;
