@@ -43,8 +43,27 @@
  * https://leetcode.com/problems/first-missing-positive
  */
 
+const usingSet = (nums) => {
+  // find all unique numbers gt 0.
+  const visited = new Set(nums.filter((x) => x > 0));
+  const min = Math.min(...visited);
+  // easy result is if min number in array is gt 1, then result has to be 1.
+  if (min > 1) {
+    return 1;
+  }
+  // after sorting, if two neighbors differ by more than one, there is a missing number between them.
+  const sorted = [...visited].sort((a, b) => a - b);
+  for (let i = 1; i < sorted.length; i++) {
+    if (sorted[i] - sorted[i - 1] > 1) {
+      return sorted[i - 1] + 1;
+    }
+  }
+  // all nums diffed by one, missing num must be 1 + max.
+  return sorted.at(-1) + 1;
+};
+
 /**
  * @param {number[]} nums
  * @return {number}
  */
-export const firstMissingPositive = (nums) => {};
+export const firstMissingPositive = usingSet;
