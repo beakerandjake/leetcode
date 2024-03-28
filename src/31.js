@@ -58,8 +58,45 @@
  * https://leetcode.com/problems/next-permutation
  */
 
+const findPivotIndex = (nums) => {
+  let i = nums.length - 1;
+  while (i > 0 && nums[i] <= nums[i - 1]) {
+    i--;
+  }
+  return i - 1;
+};
+
+const findGtPivot = (nums, pivotIndex) => {
+  let i = nums.length - 1;
+  while (nums[i] <= nums[pivotIndex]) {
+    i--;
+  }
+  return i;
+};
+
+const swap = (arr, a, b) => {
+  const temp = arr[a];
+  arr[a] = arr[b];
+  arr[b] = temp;
+};
+
+const reverse = (arr, left, right) => {
+  if (left >= right) {
+    return;
+  }
+  swap(arr, left, right);
+  reverse(arr, left + 1, right - 1);
+};
+
 /**
  * @param {number[]} nums
  * @return {void} Do not return anything, modify nums in-place instead.
  */
-export const nextPermutation = (nums) => {};
+export const nextPermutation = (nums) => {
+  const pivot = findPivotIndex(nums);
+  if (pivot >= 0) {
+    const swapIndex = findGtPivot(nums, pivot);
+    swap(nums, pivot, swapIndex);
+  }
+  reverse(nums, pivot + 1, nums.length - 1);
+};

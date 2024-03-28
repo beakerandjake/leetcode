@@ -1,7 +1,7 @@
-import { nextPermutation } from "../src/31.js";
-import { generateTestName } from "./util.js";
+import { nextPermutation } from '../src/31.js';
+import { generateTestName } from './util.js';
 
-describe("31. Next Permutation", () => {
+describe('31. Next Permutation', () => {
   [
     [
       [1, 2, 3],
@@ -15,11 +15,15 @@ describe("31. Next Permutation", () => {
       [1, 1, 5],
       [1, 5, 1],
     ],
+    [
+      [1, 2],
+      [2, 1],
+    ],
   ].forEach((args) => {
     const [nums, expected] = args;
     test(generateTestName(nextPermutation, ...args), () => {
-      const result = nextPermutation(nums);
-      expect(result).toEqual(expected);
+      nextPermutation(nums);
+      expect(nums).toEqual(expected);
     });
   });
 });
