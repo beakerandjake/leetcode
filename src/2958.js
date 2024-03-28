@@ -57,4 +57,20 @@
  * @param {number} k
  * @return {number}
  */
-export const maxSubarrayLength = (nums, k) => {};
+export const maxSubarrayLength = (nums, k) => {
+  let maxLength = 0;
+  const counts = new Map();
+  let left = 0;
+  let right = 0;
+  while (right < nums.length) {
+    counts.set(nums[right], (counts.get(nums[right]) || 0) + 1);
+    while (left <= right && counts.get(nums[right]) > k) {
+      const newCount = Math.max(0, (counts.get(nums[left]) || 0) - 1);
+      counts.set(nums[left], newCount);
+      left++;
+    }
+    maxLength = Math.max(maxLength, right - left + 1);
+    right++;
+  }
+  return maxLength;
+};
