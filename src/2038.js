@@ -75,8 +75,45 @@
  * https://leetcode.com/problems/remove-colored-pieces-if-both-neighbors-are-the-same-color
  */
 
+const bruteForce = (() => {
+  const aliceTurn = (colors) => colors.replace('AAA', 'AA');
+  const bobTurn = (colors) => colors.replace('BBB', 'BB');
+  const result = (winner) => winner === 'alice';
+  return (colors) => {
+    let current = colors;
+    while (current.length) {
+      const afterAlice = aliceTurn(current);
+      // if alice couldn't move, bob wins;
+      if (afterAlice === current) {
+        return result('bob');
+      }
+      current = bobTurn(afterAlice);
+      // if bob couldn't move, alice wins
+      if (current === afterAlice) {
+        return result('alice');
+      }
+    }
+    return null;
+  };
+})();
+
+const usingTotalCounts = (() => {
+  const matchCount = (str, piece) => {
+    let result = 0;
+    for (let i = 1; i < str.length - 1; i++) {
+      if (str[i] === piece && str[i - 1] === piece && str[i + 1] === piece) {
+        result += 1;
+      }
+    }
+    return result;
+  };
+  const numAliceTurns = (colors) => matchCount(colors, 'A');
+  const numBobTurns = (colors) => matchCount(colors, 'B');
+  return (colors) => numAliceTurns(colors) > numBobTurns(colors);
+})();
+
 /**
  * @param {string} colors
  * @return {boolean}
  */
-export const winnerOfGame = (colors) => {};
+export const winnerOfGame = usingTotalCounts;
