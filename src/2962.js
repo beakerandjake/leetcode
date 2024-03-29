@@ -37,9 +37,46 @@
  * https://leetcode.com/problems/count-subarrays-where-max-element-appears-at-least-k-times
  */
 
+const usingIndex = (nums, k) => {
+  let result = 0;
+  const max = Math.max(...nums);
+  const maxIndexes = [];
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] === max) {
+      maxIndexes.push(i);
+    }
+    if (maxIndexes.length >= k) {
+      result += maxIndexes.at(-k) + 1;
+    }
+  }
+  return result;
+};
+
+const usingWindow = (nums, k) => {
+  let result = 0;
+  let left = 0;
+  let right = 0;
+  let maxCount = 0;
+  const max = Math.max(...nums);
+  while (right < nums.length) {
+    if (nums[right] === max) {
+      maxCount++;
+    }
+    while (maxCount >= k) {
+      if (nums[left] === max) {
+        maxCount--;
+      }
+      left++;
+    }
+    result += left;
+    right++;
+  }
+  return result;
+};
+
 /**
  * @param {number[]} nums
  * @param {number} k
  * @return {number}
  */
-export const countSubarrays = (nums, k) => {};
+export const countSubarrays = usingIndex;
