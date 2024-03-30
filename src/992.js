@@ -39,9 +39,31 @@
  * https://leetcode.com/problems/subarrays-with-k-different-integers
  */
 
+const countSubarrays = (arr, k) => {
+  let result = 0;
+  const counts = new Map();
+  let left = 0;
+  let right = 0;
+  while (right < arr.length) {
+    counts.set(arr[right], (counts.get(arr[right]) || 0) + 1);
+
+    while (counts.size > k) {
+      counts.set(arr[left], (counts.get(arr[left]) || 0) - 1);
+      if (!counts.get(arr[left])) {
+        counts.delete(arr[left]);
+      }
+      left++;
+    }
+    result += right - left + 1;
+    right++;
+  }
+  return result;
+};
+
 /**
  * @param {number[]} nums
  * @param {number} k
  * @return {number}
  */
-export const subarraysWithKDistinct = (nums, k) => {};
+export const subarraysWithKDistinct = (nums, k) =>
+  countSubarrays(nums, k) - countSubarrays(nums, k - 1);
