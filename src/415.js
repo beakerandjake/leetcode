@@ -42,9 +42,52 @@
  * https://leetcode.com/problems/add-strings
  */
 
+const toDigit = (() => {
+  const digitMap = new Map([
+    ['0', 0],
+    ['1', 1],
+    ['2', 2],
+    ['3', 3],
+    ['4', 4],
+    ['5', 5],
+    ['6', 6],
+    ['7', 7],
+    ['8', 8],
+    ['9', 9],
+  ]);
+  return (char) => digitMap.get(char);
+})();
+
+const toStr = (digit) => `${digit}`;
+
+const reverse = (str) => [...str].reverse().join('');
+
 /**
- * @param {string} num1
- * @param {string} num2
+ * @param {string} a
+ * @param {string} b
  * @return {string}
  */
-export const addStrings = (num1, num2) => {};
+export const addStrings = (a, b) => {
+  const output = Array(Math.max(a.length, b.length)).fill('');
+  let aIndex = 0;
+  let bIndex = 0;
+  let carry = 0;
+  const aRev = reverse(a);
+  const bRev = reverse(b);
+
+  for (let i = 0; i < output.length; i++) {
+    const left = aIndex < aRev.length ? toDigit(aRev[aIndex]) : 0;
+    const right = bIndex < bRev.length ? toDigit(bRev[bIndex]) : 0;
+    const result = left + right + carry;
+    output[i] = result >= 10 ? toStr(result)[1] : toStr(result);
+    carry = result >= 10 ? 1 : 0;
+    aIndex++;
+    bIndex++;
+  }
+
+  if (carry) {
+    output.push('1');
+  }
+
+  return output.reverse().join('');
+};
