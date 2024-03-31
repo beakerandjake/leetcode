@@ -47,4 +47,26 @@
  * @param {number} maxK
  * @return {number}
  */
-export const countSubarrays = (nums, minK, maxK) => {};
+export const countSubarrays = (nums, minK, maxK) => {
+  let result = 0;
+  let lastMin = -1;
+  let lastMax = -1;
+  let left = -1;
+  let right = 0;
+
+  while (right < nums.length) {
+    if (nums[right] < minK || nums[right] > maxK) {
+      left = right;
+    }
+    if (nums[right] === minK) {
+      lastMin = right;
+    } 
+    if (nums[right] === maxK) {
+      lastMax = right;
+    }
+    result += Math.max(0, Math.min(lastMax, lastMin) - left);
+    right++;
+  }
+
+  return result;
+};
