@@ -15,7 +15,6 @@ describe('1171. Remove Zero Sum Consecutive Nodes from Linked List', () => {
   ].forEach(([input, expected]) => {
     test(`${arrToStr(input)} -> ${arrToStr(expected)}`, () => {
       const result = removeZeroSumSublists(arrToList(input));
-      console.log('got result', arrToStr(listToArr(result)));
       expect(listToArr(result)).toEqual(expected);
     });
   });
