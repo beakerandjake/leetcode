@@ -56,8 +56,28 @@
  * https://leetcode.com/problems/make-the-string-great
  */
 
+const sameChar = (a, b) => a.toLowerCase() === b.toLowerCase();
+
+const isLowerCase = (char) => char === char.toLowerCase();
+
+const isUpperCase = (char) => char === char.toUpperCase();
+
+const checkCase = (a, b) => isLowerCase(a) && isUpperCase(b);
+
+const isBad = (a, b) => sameChar(a, b) && (checkCase(a, b) || checkCase(b, a));
+
 /**
  * @param {string} s
  * @return {string}
  */
-export const makeGood = (s) => {};
+export const makeGood = (s) => {
+  if (s.length < 2) {
+    return s;
+  }
+  for (let i = 0; i < s.length - 1; i++) {
+    if (isBad(s[i], s[i + 1])) {
+      return makeGood(s.slice(0, i) + s.slice(i + 2));
+    }
+  }
+  return s;
+};
