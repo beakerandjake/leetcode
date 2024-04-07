@@ -42,8 +42,6 @@
  * https://leetcode.com/problems/valid-parenthesis-string
  */
 
-const empty = (m, n) => [...Array(m)].map(() => Array(n).fill(0));
-
 /**
  * @param {string} s
  * @return {boolean}
