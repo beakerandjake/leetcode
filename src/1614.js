@@ -53,4 +53,16 @@
  * @param {string} s
  * @return {number}
  */
-export const maxDepth = (s) => {};
+export const maxDepth = (s) => {
+  let max = 0;
+  const openingStack = [];
+  for (let i = 0; i < s.length; i++) {
+    if (s[i] === '(') {
+      openingStack.push('(');
+    } else if (s[i] === ')') {
+      max = Math.max(openingStack.length, max);
+      openingStack.pop();
+    }
+  }
+  return max;
+};
