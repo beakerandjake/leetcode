@@ -42,8 +42,35 @@
  * https://leetcode.com/problems/valid-parenthesis-string
  */
 
+const empty = (m, n) => [...Array(m)].map(() => Array(n).fill(0));
+
 /**
  * @param {string} s
  * @return {boolean}
  */
-export const checkValidString = (s) => {};
+export const checkValidString = (s) => {
+  const memo = new Map();
+  const recurse = (str, index, openCount) => {
+    if (!str.length || index >= str.length) {
+      return openCount ? 0 : 1;
+    }
+    const hash = `${index}_${openCount}`;
+    if (!memo.has(hash)) {
+      let result;
+      if (str[index] === '(') {
+        result = recurse(str, index + 1, openCount + 1);
+      } else if (str[index] === ')') {
+        result = openCount ? recurse(str, index + 1, openCount - 1) : 0;
+      } else {
+        result = Math.max(
+          recurse(str, index + 1, openCount + 1),
+          openCount ? recurse(str, index + 1, openCount - 1) : 0,
+          recurse(str, index + 1, openCount)
+        );
+      }
+      memo.set(hash, result);
+    }
+    return memo.get(hash);
+  };
+  return !!recurse(s, 0, 0);
+};
