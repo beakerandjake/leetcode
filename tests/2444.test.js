@@ -1,7 +1,7 @@
-import { countSubarrays } from "../src/2444.js";
-import { generateTestName } from "./util.js";
+import { countSubarrays } from '../src/2444.js';
+import { generateTestName } from './util.js';
 
-describe("2444. Count Subarrays With Fixed Bounds", () => {
+describe('2444. Count Subarrays With Fixed Bounds', () => {
   [
     [[1, 3, 5, 2, 7, 5], 1, 5, 2],
     [[1, 1, 1, 1], 1, 1, 10],

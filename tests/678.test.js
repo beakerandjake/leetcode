@@ -1,11 +1,11 @@
-import { checkValidString } from "../src/678.js";
-import { generateTestName } from "./util.js";
+import { checkValidString } from '../src/678.js';
+import { generateTestName } from './util.js';
 
-describe("678. Valid Parenthesis String", () => {
+describe('678. Valid Parenthesis String', () => {
   [
-    ["()", true],
-    ["(*)", true],
-    ["(*))", true],
+    ['()', true],
+    ['(*)', true],
+    ['(*))', true],
   ].forEach((args) => {
     const [s, expected] = args;
     test(generateTestName(checkValidString, ...args), () => {

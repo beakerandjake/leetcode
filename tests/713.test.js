@@ -1,7 +1,7 @@
-import { numSubarrayProductLessThanK } from "../src/713.js";
-import { generateTestName } from "./util.js";
+import { numSubarrayProductLessThanK } from '../src/713.js';
+import { generateTestName } from './util.js';
 
-describe("713. Subarray Product Less Than K", () => {
+describe('713. Subarray Product Less Than K', () => {
   [
     [[10, 5, 2, 6], 100, 8],
     [[1, 2, 3], 0, 0],

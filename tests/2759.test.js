@@ -7,7 +7,7 @@ describe('1160. Find Words That Can Be Formed by Characters', () => {
     ['true', true],
     ['[1,5,"false",{"a":2}]', [1, 5, 'false', { a: 2 }]],
     ['null', null],
-    ['-500', -500]
+    ['-500', -500],
   ].forEach((args) => {
     const [str, expected] = args;
     test(generateTestName(jsonParse, ...args), () => {

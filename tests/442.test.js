@@ -1,7 +1,7 @@
-import { findDuplicates } from "../src/442.js";
-import { generateTestName } from "./util.js";
+import { findDuplicates } from '../src/442.js';
+import { generateTestName } from './util.js';
 
-describe("442. Find All Duplicates in an Array", () => {
+describe('442. Find All Duplicates in an Array', () => {
   [
     [
       [4, 3, 2, 7, 8, 2, 3, 1],

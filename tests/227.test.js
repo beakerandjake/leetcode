@@ -8,7 +8,7 @@ describe('227. Basic Calculator II', () => {
     [' 3+5 / 2 ', 5],
     ['1-1+1', 1],
     ['0-2147483647', -2147483647],
-    ['1-1-1', -1]
+    ['1-1-1', -1],
   ].forEach(([input, expected]) => {
     test(`${input} -> ${expected}`, () => {
       const result = calculate(input);

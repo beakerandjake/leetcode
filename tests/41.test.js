@@ -1,7 +1,7 @@
-import { firstMissingPositive } from "../src/41.js";
-import { generateTestName } from "./util.js";
+import { firstMissingPositive } from '../src/41.js';
+import { generateTestName } from './util.js';
 
-describe("41. First Missing Positive", () => {
+describe('41. First Missing Positive', () => {
   [
     [[1, 2, 0], 3],
     [[3, 4, -1, 1], 2],

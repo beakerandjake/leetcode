@@ -1,7 +1,7 @@
-import { findShortestSubArray } from "../src/697.js";
-import { generateTestName } from "./util.js";
+import { findShortestSubArray } from '../src/697.js';
+import { generateTestName } from './util.js';
 
-describe("697. Degree of an Array", () => {
+describe('697. Degree of an Array', () => {
   [
     [[1, 2, 2, 3, 1], 2],
     [[1, 2, 2, 3, 1, 4, 2], 6],
