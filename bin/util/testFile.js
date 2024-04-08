@@ -75,7 +75,7 @@ const getAssertionFn = (examples) => {
 /**
  * Generates and returns the code for the problems test file.
  * @param {import('leetcode-query').Problem} problem - The LeetCode problem object.
- * @returns {string}
+ * @returns {Promise<string>}
  */
 export const testFileContents = (problem) => {
   const problemId = getProblemId(problem);

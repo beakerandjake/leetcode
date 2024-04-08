@@ -1,4 +1,4 @@
-import { format as prettier } from 'prettier';
+import * as prettier from 'prettier';
 
 /**
  * Converts the original LeetCode snippet into one which can be used by this project.
@@ -31,9 +31,12 @@ export const wrapInComment = (...lines) => {
 /**
  * Applies project standard formatting to the code.
  * @param {string} code - The code to format.
- * @returns {string}
+ * @returns {Promise<string>}
  */
-export const format = (code) => prettier(code, { parser: 'babel' });
+export const format = async (code) => {
+  const config = await prettier.resolveConfig(import.meta.filename);
+  return prettier.format(code, { ...config, parser: 'babel' });
+};
 
 /**
  * Returns the name of the function exported by the solution file.

@@ -11,7 +11,7 @@ export const solutionFilePath = (problemId) => `src/${problemId}.js`;
 /**
  * Generates and returns the code for the problems solution file.
  * @param {import('leetcode-query').Problem} problem - The LeetCode problem object.
- * @returns {string}
+ * @returns {Promise<string>}
  */
 export const solutionFileContents = (problem) =>
   format(

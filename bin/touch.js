@@ -40,8 +40,8 @@ const touch = async (problem) => {
     throw new Error('problem already exists');
   }
   await Promise.all([
-    createFile(solutionPath, solutionFileContents(problem)),
-    createFile(testPath, testFileContents(problem)),
+    createFile(solutionPath, await solutionFileContents(problem)),
+    createFile(testPath, await testFileContents(problem)),
   ]);
   openFiles(solutionPath, testPath);
   commitFilesToGit(`touch ${problemId}`, solutionPath, testPath);
