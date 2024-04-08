@@ -30,8 +30,8 @@ describe('289. Game of Life', () => {
   ].forEach((args) => {
     const [board, expected] = args;
     test(generateTestName(gameOfLife, ...args), () => {
-      const result = gameOfLife(board);
-      expect(result).toEqual(expected);
+      gameOfLife(board);
+      expect(board).toEqual(expected);
     });
   });
 });
