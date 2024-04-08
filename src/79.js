@@ -1,82 +1,63 @@
-/* eslint-disable no-param-reassign */
 /**
- * Given an m x n grid of characters board and a string word, return true if word exists in the grid.
- * The word can be constructed from letters of sequentially adjacent cells, where adjacent cells are horizontally or vertically neighboring. The same letter cell may not be used more than once.
+ * Given an m x n grid of characters board and a string word, return true if word
+ * exists in the grid.
+ *
+ * The word can be constructed from letters of sequentially adjacent cells, where
+ * adjacent cells are horizontally or vertically neighboring. The same letter cell
+ * may not be used more than once.
+ *
+ *
+ *
+ * Example 1:
+ *
+ * [https://assets.leetcode.com/uploads/2020/11/04/word2.jpg]
+ *
+ *
+ * Input: board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "ABCCED"
+ * Output: true
+ *
+ *
+ * Example 2:
+ *
+ * [https://assets.leetcode.com/uploads/2020/11/04/word-1.jpg]
+ *
+ *
+ * Input: board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "SEE"
+ * Output: true
+ *
+ *
+ * Example 3:
+ *
+ * [https://assets.leetcode.com/uploads/2020/10/15/word3.jpg]
+ *
+ *
+ * Input: board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "ABCB"
+ * Output: false
+ *
+ *
+ *
+ *
+ * Constraints:
+ *
+ *  * m == board.length
+ *  * n = board[i].length
+ *  * 1 <= m, n <= 6
+ *  * 1 <= word.length <= 15
+ *  * board and word consists of only lowercase and uppercase English letters.
+ *
+ *
+ *
+ * Follow up: Could you use search pruning to make your solution faster with a
+ * larger board?
+ *
+ *
+ *
+ * https://leetcode.com/problems/word-search
  */
-
-const getShape = (board) => ({
-  height: board.length,
-  width: board.length ? board[0].length : 0,
-});
-
-const zeros = ({ width, height }) => [...Array(height)].map(() => Array(width).fill(0));
-
-const cardinalDirections = [
-  // up
-  { x: 0, y: -1 },
-  // right,
-  { x: 1, y: 0 },
-  // down
-  { x: 0, y: 1 },
-  // left
-  { x: -1, y: 0 },
-];
-
-const add = (lhs, rhs) => ({ x: lhs.x + rhs.x, y: lhs.y + rhs.y });
-
-const inBounds = ({ width, height }, { x, y }) =>
-  x >= 0 && x < width && y >= 0 && y < height;
-
-const getNeighbors = (shape, position) =>
-  cardinalDirections.reduce((acc, direction) => {
-    const neighbor = add(position, direction);
-    if (inBounds(shape, neighbor)) {
-      acc.push(neighbor);
-    }
-    return acc;
-  }, []);
-
-const formsWord = (board, shape, word, position, wordIndex, visited) => {
-  if (wordIndex === word.length - 1) {
-    return true;
-  }
-  for (const neighbor of getNeighbors(shape, position)) {
-    const { x, y } = neighbor;
-    if (board[y][x] === word[wordIndex + 1] && !visited[y][x]) {
-      visited[y][x] = 1;
-      if (formsWord(board, shape, word, neighbor, wordIndex + 1, visited)) {
-        return true;
-      }
-      visited[y][x] = 0;
-    }
-  }
-  return false;
-};
 
 /**
  * @param {character[][]} board
  * @param {string} word
  * @return {boolean}
  */
-export const exist = (board, word) => {
-  const shape = getShape(board);
-
-  if (word.length > shape.width * shape.height) {
-    return false;
-  }
-
-  const visited = zeros(shape);
-  for (let y = 0; y < shape.height; y++) {
-    for (let x = 0; x < shape.width; x++) {
-      if (board[y][x] === word[0]) {
-        visited[y][x] = 1;
-        if (formsWord(board, shape, word, { y, x }, 0, visited)) {
-          return true;
-        }
-        visited[y][x] = 0;
-      }
-    }
-  }
-
-  return false;
-};
+export const exist = (board, word) => {};

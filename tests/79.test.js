@@ -1,5 +1,5 @@
 import { exist } from '../src/79.js';
-import { arrToStr } from './util.js';
+import { generateTestName } from './util.js';
 
 describe('79. Word Search', () => {
   [
@@ -30,9 +30,9 @@ describe('79. Word Search', () => {
       'ABCB',
       false,
     ],
-    [[['a', 'a']], 'aa', true],
-  ].forEach(([board, word, expected]) => {
-    test(`${arrToStr(board)},${word} -> ${expected}`, () => {
+  ].forEach((args) => {
+    const [board, word, expected] = args;
+    test(generateTestName(exist, ...args), () => {
       const result = exist(board, word);
       expect(result).toBe(expected);
     });
