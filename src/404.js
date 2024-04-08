@@ -43,8 +43,17 @@
  *     this.right = (right===undefined ? null : right)
  * }
  */
+
+const isLeaf = (node) => node && !node.right && !node.left;
+
 /**
  * @param {TreeNode} root
  * @return {number}
  */
-export const sumOfLeftLeaves = (root) => {};
+export const sumOfLeftLeaves = (root) => {
+  if (!root) {
+    return 0;
+  }
+  const leftVal = isLeaf(root.left) ? root.left.val : 0;
+  return leftVal + sumOfLeftLeaves(root.left) + sumOfLeftLeaves(root.right);
+};
