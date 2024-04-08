@@ -30,6 +30,7 @@ describe('79. Word Search', () => {
       'ABCB',
       false,
     ],
+    [[['A']], 'A', true],
   ].forEach((args) => {
     const [board, word, expected] = args;
     test(generateTestName(exist, ...args), () => {

@@ -55,9 +55,74 @@
  * https://leetcode.com/problems/word-search
  */
 
+// returns a new matrix filled with the value.
+const fill = (height, width, value) =>
+  [...Array(height)].map(() => Array(width).fill(value));
+
+// returns the number of rows in the matrix.
+const height = (matrix) => matrix?.length || 0;
+
+// returns the number of columns in the matrix.
+const width = (matrix) => matrix[0]?.length || 0;
+
+// returns true if the point is out of bounds of the matrix.
+const outOfBounds = (matrix, y, x) =>
+  y < 0 || y >= height(matrix) || x < 0 || x >= width(matrix);
+
+// array containing the offsets of each neighboring point.
+const neighborOffsets = [
+  [-1, 0],
+  [1, 0],
+  [0, -1],
+  [0, 1],
+];
+
 /**
  * @param {character[][]} board
  * @param {string} word
  * @return {boolean}
  */
-export const exist = (board, word) => {};
+export const exist = (board, word) => {
+  const visited = fill(height(board), width(board), false);
+
+  // returns true if the word can be formed from the specified cell of the matrix.
+  const formsWord = (index, y, x) => {
+    // word was formed if every char of the word was found.
+    if (index >= word.length) {
+      return true;
+    }
+    // can't form word if cell is off board.
+    if (outOfBounds(board, y, x)) {
+      return false;
+    }
+    // can't form word if using already visited cell.
+    if (visited[y][x]) {
+      return false;
+    }
+    // can't form word if cell doesn't match required character.
+    if (board[y][x] !== word[index]) {
+      return false;
+    }
+    visited[y][x] = true;
+    // attempt to form the word with each neighbor.
+    for (const [nY, nX] of neighborOffsets) {
+      if (formsWord(index + 1, nY + y, nX + x)) {
+        return true;
+      }
+    }
+    // backtrack, this cell didn't form word but might be used in the final solution.
+    visited[y][x] = false;
+    return false;
+  };
+
+  // iterate every cell of the board and see if the word can be formed from this cell.
+  for (let y = 0; y < height(board); y++) {
+    for (let x = 0; x < width(board); x++) {
+      if (formsWord(0, y, x)) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+};
