@@ -58,9 +58,42 @@
  * https://leetcode.com/problems/number-of-students-unable-to-eat-lunch
  */
 
+// returns the head of the stack/queue
+const head = (arr) => arr[0];
+
+// returns a copy of the array with the first element removed.
+const pop = (arr) => {
+  const [, ...rest] = arr;
+  return rest;
+};
+
+// returns a copy of the queue with the head element placed at the tail.
+const pass = (queue) => {
+  if (queue.length <= 1) {
+    return queue;
+  }
+  const [prevHead, ...rest] = queue;
+  return [...rest, prevHead];
+};
+
 /**
  * @param {number[]} students
  * @param {number[]} sandwiches
  * @return {number}
  */
-export const countStudents = (students, sandwiches) => {};
+export const countStudents = (students, sandwiches) => {
+  let remainingStudents = students;
+  let remainingSandwiches = sandwiches;
+  let passCount = 0;
+  while (remainingStudents.length && passCount < remainingStudents.length) {
+    if (head(remainingStudents) === head(remainingSandwiches)) {
+      remainingStudents = pop(remainingStudents);
+      remainingSandwiches = pop(remainingSandwiches);
+      passCount = 0;
+    } else {
+      remainingStudents = pass(remainingStudents);
+      passCount++;
+    }
+  }
+  return remainingStudents.length;
+};
