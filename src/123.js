@@ -51,4 +51,33 @@
  * @param {number[]} prices
  * @return {number}
  */
-export const maxProfit = (prices) => {};
+export const maxProfit = (prices) => {
+  const memo = new Map();
+  const dp = (day, holding, remainingBuy) => {
+    if (day >= prices.length || remainingBuy < 0) {
+      return 0;
+    }
+    const hash = `${day}_${holding}_${remainingBuy}`;
+    if (!memo.has(hash)) {
+      let result;
+      if (holding) {
+        result = Math.max(
+          // sell today and don't re buy
+          dp(day + 1, false, remainingBuy) + prices[day],
+          // don't sell today
+          dp(day + 1, true, remainingBuy),
+        );
+      } else {
+        result = Math.max(
+          // buy today
+          dp(day + 1, true, remainingBuy - 1) - prices[day],
+          // don't buy today
+          dp(day + 1, false, remainingBuy),
+        );
+      }
+      memo.set(hash, result);
+    }
+    return memo.get(hash);
+  };
+  return dp(0, false, 2);
+};
