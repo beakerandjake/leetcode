@@ -66,4 +66,18 @@
  * @param {string} s3
  * @return {boolean}
  */
-export const isInterleave = (s1, s2, s3) => {};
+export const isInterleave = (s1, s2, s3) => {
+  const dp = (aIndex, bIndex, result) => {
+    if (aIndex > s1.length || bIndex > s2.length) {
+      return false;
+    }
+    if (aIndex === s1.length && bIndex === s2.length) {
+      return result === s3;
+    }
+    return (
+      dp(aIndex + 1, bIndex, result + s1[aIndex]) ||
+      dp(aIndex, bIndex + 1, result + s2[bIndex])
+    );
+  };
+  return dp(0, 0, '');
+};
