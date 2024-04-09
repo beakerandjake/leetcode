@@ -52,32 +52,35 @@
  * @return {number}
  */
 export const maxProfit = (prices) => {
-  const memo = new Map();
-  const dp = (day, holding, remainingBuy) => {
-    if (day >= prices.length || remainingBuy < 0) {
+  const memo = [...Array(prices.length)].map(() => Array(4).fill(null));
+  const dp = (day, remaining) => {
+    if (day >= prices.length || remaining <= 0) {
       return 0;
     }
-    const hash = `${day}_${holding}_${remainingBuy}`;
-    if (!memo.has(hash)) {
+    if (memo[day][remaining] == null) {
       let result;
-      if (holding) {
+      // currently holding stock
+      if (remaining % 2 !== 0) {
         result = Math.max(
           // sell today and don't re buy
-          dp(day + 1, false, remainingBuy) + prices[day],
+          dp(day + 1, remaining - 1) + prices[day],
           // don't sell today
-          dp(day + 1, true, remainingBuy),
-        );
-      } else {
-        result = Math.max(
-          // buy today
-          dp(day + 1, true, remainingBuy - 1) - prices[day],
-          // don't buy today
-          dp(day + 1, false, remainingBuy),
+          dp(day + 1, remaining),
         );
       }
-      memo.set(hash, result);
+      // not currently holding stock
+      else {
+        result = Math.max(
+          // buy today
+          dp(day + 1, remaining - 1) - prices[day],
+          // don't buy today
+          dp(day + 1, remaining),
+        );
+      }
+      memo[day][remaining] = result;
     }
-    return memo.get(hash);
+    return memo[day][remaining];
   };
-  return dp(0, false, 2);
+  // remaining = 4, represents the four possibilities (not holding -> holding -> not holding -> holding)
+  return dp(0, 4);
 };
