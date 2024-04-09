@@ -37,9 +37,11 @@
  * https://leetcode.com/problems/hamming-distance
  */
 
+const popCount = (number) => (number > 0 ? popCount(number >> 1) + (number & 1) : 0);
+
 /**
  * @param {number} x
  * @param {number} y
  * @return {number}
  */
-export const hammingDistance = (x, y) => {};
+export const hammingDistance = (x, y) => popCount(x ^ y);
