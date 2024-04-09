@@ -53,8 +53,50 @@
  * https://leetcode.com/problems/third-maximum-number
  */
 
+class ThirdMaxHeap {
+  #items = [];
+  #lookup = new Set();
+
+  constructor(nums) {
+    for (const num of nums) {
+      this.push(num);
+    }
+  }
+
+  push(value) {
+    if (this.#lookup.has(value)) {
+      return;
+    }
+    this.#lookup.add(value);
+    this.#items.push(value);
+    this.#bubbleDown();
+
+    if (this.#items.length > 3) {
+      this.#lookup.delete(this.#items.shift());
+    }
+  }
+
+  peek() {
+    return this.#items.length === 3 ? this.#items[0] : this.#items.at(-1);
+  }
+
+  #bubbleDown() {
+    for (let i = this.#items.length - 1; i > 0; i--) {
+      if (this.#items[i] < this.#items[i - 1]) {
+        this.#swap(i, i - 1);
+      }
+    }
+  }
+
+  #swap(a, b) {
+    const temp = this.#items[a];
+    this.#items[a] = this.#items[b];
+    this.#items[b] = temp;
+  }
+}
+
 /**
  * @param {number[]} nums
  * @return {number}
  */
-export const thirdMax = (nums) => {};
+export const thirdMax = (nums) => new ThirdMaxHeap(nums).peek();
