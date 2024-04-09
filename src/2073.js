@@ -56,4 +56,18 @@
  * @param {number} k
  * @return {number}
  */
-export const timeRequiredToBuy = (tickets, k) => {};
+export const timeRequiredToBuy = (tickets, k) => {
+  let time = 0;
+  for (;;) {
+    for (let i = 0; i < tickets.length; i++) {
+      if (tickets[i] > 0) {
+        tickets[i]--;
+        time++;
+      }
+
+      if (i === k && tickets[k] === 0) {
+        return time;
+      }
+    }
+  }
+};
