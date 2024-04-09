@@ -38,4 +38,7 @@
  * @param {string} s
  * @return {number}
  */
-export const countSegments = (s) => {};
+export const countSegments = (s) => {
+  const trimmed = s.trim();
+  return trimmed.length ? trimmed.split(/\s+/).length : 0;
+};
