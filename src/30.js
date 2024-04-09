@@ -61,9 +61,41 @@
  * https://leetcode.com/problems/substring-with-concatenation-of-all-words
  */
 
+const bruteForce = (() => {
+  const frequencyCounts = (arr) =>
+    arr.reduce((acc, x) => acc.set(x, (acc.get(x) || 0) + 1), new Map());
+
+  const isPermutation = (str, startIndex, words) => {
+    const remaining = frequencyCounts(words);
+    const wordSize = words[0].length;
+    const subStringSize = wordSize * words.length;
+    let wordsUsed = 0;
+    for (let i = startIndex; i < startIndex + subStringSize; i += wordSize) {
+      const slice = str.slice(i, i + wordSize);
+      if (!remaining.has(slice) || remaining.get(slice) <= 0) {
+        return false;
+      }
+      remaining.set(slice, (remaining.get(slice) || 0) - 1);
+      wordsUsed++;
+    }
+    return wordsUsed === words.length;
+  };
+
+  return (s, words) => {
+    const results = [];
+    const windowSize = words[0].length;
+    for (let i = 0; i <= s.length - windowSize; i++) {
+      if (isPermutation(s, i, words)) {
+        results.push(i);
+      }
+    }
+    return results;
+  };
+})();
+
 /**
  * @param {string} s
  * @param {string[]} words
  * @return {number[]}
  */
-export const findSubstring = (s, words) => {};
+export const findSubstring = bruteForce;
