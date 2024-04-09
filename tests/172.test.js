@@ -6,6 +6,7 @@ describe('172. Factorial Trailing Zeroes', () => {
     [3, 0],
     [5, 1],
     [0, 0],
+    [30, 7],
   ].forEach((args) => {
     const [n, expected] = args;
     test(generateTestName(trailingZeroes, ...args), () => {

@@ -43,8 +43,24 @@
  * https://leetcode.com/problems/factorial-trailing-zeroes
  */
 
+const bruteForce = (() => {
+  const factorial = (n) => (n > 2n ? n * factorial(n - 1n) : n);
+
+  const trailingZeroCount = (n) => {
+    if (n <= 0n) {
+      return 0;
+    }
+    if (n % 10n !== 0n) {
+      return 0;
+    }
+    return 1 + trailingZeroCount(n / 10n);
+  };
+
+  return (n) => trailingZeroCount(factorial(BigInt(n)));
+})();
+
 /**
  * @param {number} n
  * @return {number}
  */
-export const trailingZeroes = (n) => {};
+export const trailingZeroes = bruteForce;
