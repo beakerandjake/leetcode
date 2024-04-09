@@ -51,8 +51,45 @@
  * https://leetcode.com/problems/unique-paths-ii
  */
 
+// returns an m x n matrix filled with the value.
+const fill = (m, n, value) => [...Array(m)].map(() => Array(n).fill(value));
+
+// returns the height of the matrix.
+const height = (matrix) => matrix.length;
+
+// returns the width of the matrix.
+const width = (matrix) => matrix[0].length;
+
+// returns true if the position is within the bounds of the matrix.
+const inBounds = (matrix, y, x) =>
+  y >= 0 && y < height(matrix) && x >= 0 && x < width(matrix);
+
 /**
- * @param {number[][]} obstacleGrid
+ * @param {number[][]} world
  * @return {number}
  */
-export const uniquePathsWithObstacles = (obstacleGrid) => {};
+export const uniquePathsWithObstacles = (world) => {
+  const memo = fill(height(world), width(world), -1);
+  const targetY = height(world) - 1;
+  const targetX = width(world) - 1;
+  const dp = (y, x) => {
+    // no path to target if out of bounds.
+    if (!inBounds(world, y, x)) {
+      return 0;
+    }
+    // no path to target if at obstacle
+    if (world[y][x] === 1) {
+      return 0;
+    }
+    // we found one path to target if at target.
+    if (y === targetY && x === targetX) {
+      return 1;
+    }
+    if (memo[y][x] === -1) {
+      // calculate the number of paths to target by moving down or moving right.
+      memo[y][x] = dp(y + 1, x) + dp(y, x + 1);
+    }
+    return memo[y][x];
+  };
+  return dp(0, 0);
+};
