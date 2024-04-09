@@ -63,4 +63,14 @@ const bruteForce = (() => {
  * @param {number} n
  * @return {number}
  */
-export const trailingZeroes = bruteForce;
+export const trailingZeroes = (n) => {
+  let fives = 0;
+  for (let i = 5; i <= n; i += 5) {
+    let remaining = i;
+    while (remaining % 5 === 0) {
+      fives++;
+      remaining = Math.floor(remaining / 5);
+    }
+  }
+  return fives;
+};
