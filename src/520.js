@@ -34,8 +34,16 @@
  * https://leetcode.com/problems/detect-capital
  */
 
+const isUpperCase = (word) => /^[A-Z]+$/.test(word);
+
+const isLowerCase = (word) => /^[a-z]+$/.test(word);
+
+const isCapitalCase = (word) => /^[A-Z][a-z]*$/.test(word);
+
+const rules = [isUpperCase, isLowerCase, isCapitalCase];
+
 /**
  * @param {string} word
  * @return {boolean}
  */
-export const detectCapitalUse = (word) => {};
+export const detectCapitalUse = (word) => rules.some((ruleFn) => ruleFn(word));
