@@ -39,8 +39,15 @@
  * https://leetcode.com/problems/arranging-coins
  */
 
+const doArrange = (n, i) => {
+  if (n <= 0 || n < i) {
+    return 0;
+  }
+  return 1 + doArrange(n - i, i + 1);
+};
+
 /**
  * @param {number} n
  * @return {number}
  */
-export const arrangeCoins = (n) => {};
+export const arrangeCoins = (n) => doArrange(n, 1);
