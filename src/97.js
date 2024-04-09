@@ -60,13 +60,7 @@
  * https://leetcode.com/problems/interleaving-string
  */
 
-/**
- * @param {string} s1
- * @param {string} s2
- * @param {string} s3
- * @return {boolean}
- */
-export const isInterleave = (s1, s2, s3) => {
+const bruteForce = (s1, s2, s3) => {
   const dp = (aIndex, bIndex, result) => {
     if (aIndex > s1.length || bIndex > s2.length) {
       return false;
@@ -81,3 +75,34 @@ export const isInterleave = (s1, s2, s3) => {
   };
   return dp(0, 0, '');
 };
+
+const usingMemoization = (s1, s2, s3) => {
+  if (s1.length + s2.length !== s3.length) {
+    return false;
+  }
+
+  const memo = [...Array(s1.length + 1)].map(() => Array(s2.length + 1).fill(null));
+  const dp = (aIndex, bIndex) => {
+    if (aIndex > s1.length || bIndex > s2.length) {
+      return false;
+    }
+    if (aIndex === s1.length && bIndex === s2.length) {
+      return true;
+    }
+    if (memo[aIndex][bIndex] == null) {
+      const aResult = s1[aIndex] === s3[aIndex + bIndex] ? dp(aIndex + 1, bIndex) : false;
+      const bResult = s2[bIndex] === s3[aIndex + bIndex] ? dp(aIndex, bIndex + 1) : false;
+      memo[aIndex][bIndex] = aResult || bResult;
+    }
+    return memo[aIndex][bIndex];
+  };
+  return dp(0, 0);
+};
+
+/**
+ * @param {string} s1
+ * @param {string} s2
+ * @param {string} s3
+ * @return {boolean}
+ */
+export const isInterleave = usingMemoization;
