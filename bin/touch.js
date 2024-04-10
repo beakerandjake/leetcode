@@ -60,7 +60,7 @@ const reset = async (problem) => {
   if (!(await fileExists(solutionPath))) {
     throw new Error('cannot rest problem, does not exit');
   }
-  await createFile(solutionPath, solutionFileContents(problem));
+  await createFile(solutionPath, await solutionFileContents(problem));
   openFiles(solutionPath, testFilePath(problemId));
   console.log(`reset solution: ${solutionPath}`);
 };
