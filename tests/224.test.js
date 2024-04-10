@@ -9,6 +9,7 @@ describe('224. Basic Calculator', () => {
     ['22345+0', 22345],
     ['-1234 + 10', -1224],
     ['(-1234 + 10) - 10', -1234],
+    ['(7-8+9)', 8],
   ].forEach((args) => {
     const [s, expected] = args;
     test(generateTestName(calculate, ...args), () => {

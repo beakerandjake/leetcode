@@ -154,8 +154,65 @@ const usingShuntingYard = (() => {
   return (str) => evaluateExpression(shuntingYard(tokenize(str)));
 })();
 
+const usingRecursion = (() => {
+  // returns true if the character is a digit.
+  const isDigit = (char) => /[0-9]/.test(char);
+
+  // converts the string to a number.
+  const toDigit = (str) => Number(str);
+
+  // parses and returns the tokens of the expression.
+  const tokenize = (expression) => {
+    const tokens = [];
+    const sanitized = expression.replace(/\s/g, '');
+    let index = 0;
+    while (index < sanitized.length) {
+      if (isDigit(sanitized[index])) {
+        const digits = [];
+        while (index < sanitized.length && isDigit(sanitized[index])) {
+          digits.push(sanitized[index++]);
+        }
+        tokens.push(toDigit(digits.join('')));
+      } else {
+        tokens.push(sanitized[index++]);
+      }
+    }
+    // reverse the tokens to form a stack, with head at last index.
+    // this makes consuming head (pop) an o(1) operation
+    // instead of an o(n) operation with a queue (shift)
+    return tokens.reverse();
+  };
+
+  // returns true if the value is a number.
+  const isNumber = (x) => Number.isFinite(x);
+
+  // evaluates the token stack and returns the value.
+  const evaluate = (tokens) => {
+    let result = 0;
+    let number = 0;
+    let sign = 1;
+    while (tokens.length) {
+      const token = tokens.pop();
+      if (isNumber(token)) {
+        number = token;
+      } else if (token === '(') {
+        number = evaluate(tokens);
+      } else if (token === ')') {
+        return result + number * sign;
+      } else {
+        result += number * sign;
+        number = 0;
+        sign = token === '-' ? -1 : 1;
+      }
+    }
+    return result + number * sign;
+  };
+
+  return (str) => evaluate(tokenize(str), 0);
+})();
+
 /**
  * @param {string} s
  * @return {number}
  */
-export const calculate = usingShuntingYard;
+export const calculate = usingRecursion;
