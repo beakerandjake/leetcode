@@ -14,8 +14,8 @@ describe('75. Sort Colors', () => {
   ].forEach((args) => {
     const [nums, expected] = args;
     test(generateTestName(sortColors, ...args), () => {
-      const result = sortColors(nums);
-      expect(result).toEqual(expected);
+      sortColors(nums);
+      expect(nums).toEqual(expected);
     });
   });
 });
