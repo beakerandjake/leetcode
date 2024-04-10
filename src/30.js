@@ -93,9 +93,71 @@ const bruteForce = (() => {
   };
 })();
 
+const usingSlidingWindow = (() => {
+  // returns a new map which maps each element in the array to the number of times it occurs.
+  const frequencyCounts = (arr) =>
+    arr.reduce((acc, x) => acc.set(x, (acc.get(x) || 0) + 1), new Map());
+
+  // returns true if the two maps are equal
+  const mapsAreEqual = (a, b) => {
+    if (!a && !b) {
+      return true;
+    }
+    if (!a || !b) {
+      return false;
+    }
+    if (a.size !== b.size) {
+      return false;
+    }
+    for (const [key, value] of a.entries()) {
+      if (!b.has(key) || b.get(key) !== value) {
+        return false;
+      }
+    }
+    return true;
+  };
+
+  return (str, words) => {
+    const result = [];
+    const lenWord = words[0].length;
+    const lenSubstr = lenWord * words.length;
+    const leftMax = str.length - lenSubstr;
+    const requiredWords = frequencyCounts(words);
+
+    for (let left = 0; left < lenWord; left++) {
+      // expand right one word at a time until formed substring of required length.
+      const windowWords = new Map();
+      for (let i = 0; i < words.length; i++) {
+        const word = str.slice(left + i * lenWord, left + i * lenWord + lenWord);
+        windowWords.set(word, (windowWords.get(word) || 0) + 1);
+      }
+      if (mapsAreEqual(requiredWords, windowWords)) {
+        result.push(left);
+      }
+      // now expand and contract window until reached end of the string.
+      for (let lNext = left + lenWord; lNext <= leftMax; lNext += lenWord) {
+        // shrink window from left by one word
+        const leftWord = str.slice(lNext - lenWord, lNext);
+        windowWords.set(leftWord, windowWords.get(leftWord) - 1);
+        if (windowWords.get(leftWord) === 0) {
+          windowWords.delete(leftWord);
+        }
+        // expand window right by one word
+        const rightWord = str.slice(lNext + lenSubstr - lenWord, lNext + lenSubstr);
+        windowWords.set(rightWord, (windowWords.get(rightWord) || 0) + 1);
+
+        if (mapsAreEqual(requiredWords, windowWords)) {
+          result.push(lNext);
+        }
+      }
+    }
+    return result;
+  };
+})();
+
 /**
  * @param {string} s
  * @param {string[]} words
  * @return {number[]}
  */
-export const findSubstring = bruteForce;
+export const findSubstring = usingSlidingWindow;
