@@ -60,4 +60,13 @@
  * @param {number[]} deck
  * @return {number[]}
  */
-export const deckRevealedIncreasing = (deck) => {};
+export const deckRevealedIncreasing = (deck) => {
+  const result = [];
+  const queue = [...Array(deck.length)].map((_, i) => i);
+  const sorted = [...deck].sort((a, b) => a - b);
+  for (const card of sorted) {
+    result[queue.shift()] = card;
+    queue.push(queue.shift());
+  }
+  return result;
+};
