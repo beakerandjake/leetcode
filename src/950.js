@@ -66,7 +66,9 @@ export const deckRevealedIncreasing = (deck) => {
   const sorted = [...deck].sort((a, b) => a - b);
   for (const card of sorted) {
     result[queue.shift()] = card;
-    queue.push(queue.shift());
+    if (queue.length) {
+      queue.push(queue.shift());
+    }
   }
   return result;
 };
