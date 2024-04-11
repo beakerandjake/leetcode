@@ -37,8 +37,35 @@
  * https://leetcode.com/problems/next-greater-element-ii
  */
 
+const bruteForce = (nums) => {
+  const result = Array(nums.length).fill(-1);
+  for (let i = 0; i < nums.length; i++) {
+    for (let j = 1; j < nums.length; j++) {
+      const next = (i + j) % nums.length;
+      if (nums[next] > nums[i]) {
+        result[i] = nums[next];
+        break;
+      }
+    }
+  }
+  return result;
+};
+
+const usingStack = (nums) => {
+  const result = Array(nums.length).fill(-1);
+  const stack = [];
+  for (let i = 2 * nums.length - 1; i >= 0; i--) {
+    while (stack.length && nums[stack.at(-1)] <= nums[i % nums.length]) {
+      stack.pop();
+    }
+    result[i % nums.length] = stack.length ? nums[stack.at(-1)] : -1;
+    stack.push(i % nums.length);
+  }
+  return result;
+};
+
 /**
  * @param {number[]} nums
  * @return {number[]}
  */
-export const nextGreaterElements = (nums) => {};
+export const nextGreaterElements = usingStack;
