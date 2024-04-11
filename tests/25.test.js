@@ -1,5 +1,5 @@
 import { reverseKGroup } from '../src/25.js';
-import { generateTestName } from './util.js';
+import { arrToList, listToArr, generateTestName } from './util.js';
 
 describe('25. Reverse Nodes in k-Group', () => {
   [
@@ -8,8 +8,8 @@ describe('25. Reverse Nodes in k-Group', () => {
   ].forEach((args) => {
     const [head, k, expected] = args;
     test(generateTestName(reverseKGroup, ...args), () => {
-      const result = reverseKGroup(head, k);
-      expect(result).toEqual(expected);
+      const result = reverseKGroup(arrToList(head), k);
+      expect(listToArr(result)).toEqual(expected);
     });
   });
 });

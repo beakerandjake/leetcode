@@ -53,9 +53,86 @@
  *     this.next = (next===undefined ? null : next)
  * }
  */
+
+// const forEach = (node, visitFn) => {
+//   if (!node) {
+//     return;
+//   }
+//   visitFn(node.val);
+//   forEach(node.next, visitFn);
+// };
+
+// const toString = (node) => {
+//   const values = [];
+//   forEach(node, (value) => {
+//     values.push(value);
+//   });
+//   return `[${values.join(',')}]`;
+// };
+
+const divideAndReverse = (() => {
+  // returns the length of the list.
+  const length = (list) => (list ? 1 + length(list.next) : 0);
+
+  // reverses the list in place and returns the new head.
+  const reverse = (node) => {
+    if (!node?.next) {
+      return node;
+    }
+    const newHead = reverse(node.next);
+    node.next.next = node;
+    node.next = null;
+    return newHead;
+  };
+
+  // removes the first x nodes of the list and returns the new head of the list.
+  const take = (node, count) => {
+    if (!node) {
+      return node;
+    }
+    if (count === 1) {
+      const toReturn = node.next;
+      node.next = null;
+      return toReturn;
+    }
+    return take(node.next, count - 1);
+  };
+
+  // divides the list into k groups.
+  const divide = (head, k) => {
+    const results = [];
+    let current = head;
+    while (current) {
+      const next = take(current, k);
+      results.push(length(current) === k ? reverse(current) : current);
+      current = next;
+    }
+    return results;
+  };
+
+  // returns the last node of the list.
+  const tail = (node) => {
+    if (!node?.next) {
+      return node;
+    }
+    return tail(node.next);
+  };
+
+  return (head, k) => {
+    if (length(head) === k) {
+      return reverse(head);
+    }
+    const groups = divide(head, k);
+    for (let i = 0; i < groups.length - 1; i++) {
+      tail(groups[i]).next = groups[i + 1];
+    }
+    return groups[0];
+  };
+})();
+
 /**
  * @param {ListNode} head
  * @param {number} k
  * @return {ListNode}
  */
-export const reverseKGroup = (head, k) => {};
+export const reverseKGroup = divideAndReverse;
