@@ -141,7 +141,7 @@ export const graphToArr = (graph) => {
 
 const argToStr = (arg) => {
   if (Array.isArray(arg)) {
-    return `[${arg.map((x) => argToStr(x)).join('')}]`;
+    return `[${arg.map((x) => argToStr(x)).join(',')}]`;
   }
   if (typeof arg === 'string') {
     return `'${arg}'`;
