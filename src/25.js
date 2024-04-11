@@ -54,7 +54,7 @@
  * }
  */
 
-const divideAndReverse = (() => {
+const usingExtraSpace = (() => {
   // returns the length of the list.
   const length = (list) => (list ? 1 + length(list.next) : 0);
 
@@ -115,9 +115,44 @@ const divideAndReverse = (() => {
   };
 })();
 
+const withoutExtraSpace = (() => {
+  // reverses the list in place and returns the new head.
+  const reverse = (node) => {
+    if (!node?.next) {
+      return node;
+    }
+    const newHead = reverse(node.next);
+    node.next.next = node;
+    node.next = null;
+    return newHead;
+  };
+
+  return (head, k) => {
+    const divideAndReverse = (headOfGroup, current, remaining) => {
+      if (!current || !remaining) {
+        return headOfGroup;
+      }
+      // at the end of a k-group
+      if (remaining === 1) {
+        // break the link to the next k-group
+        const next = current.next;
+        current.next = null;
+        // reverse k-group, current -> the new head and old head -> new tail.
+        reverse(headOfGroup);
+        // attach new tail to new k-group
+        headOfGroup.next = divideAndReverse(next, next, k);
+        return current;
+      }
+      // still in a k-group, keep iterating.
+      return divideAndReverse(headOfGroup, current.next, remaining - 1);
+    };
+    return divideAndReverse(head, head, k);
+  };
+})();
+
 /**
  * @param {ListNode} head
  * @param {number} k
  * @return {ListNode}
  */
-export const reverseKGroup = divideAndReverse;
+export const reverseKGroup = withoutExtraSpace;
