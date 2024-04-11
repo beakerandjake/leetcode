@@ -55,4 +55,17 @@
  * @param {TreeNode} root
  * @return {number}
  */
-export const maxPathSum = (root) => {};
+export const maxPathSum = (root) => {
+  let max = Number.MIN_SAFE_INTEGER;
+  const exploreSubtree = (node) => {
+    if (!node) {
+      return 0;
+    }
+    const left = Math.max(exploreSubtree(node.left), 0);
+    const right = Math.max(exploreSubtree(node.right), 0);
+    max = Math.max(max, left + right + node.val);
+    return Math.max(left + node.val, right + node.val);
+  };
+  exploreSubtree(root);
+  return max;
+};

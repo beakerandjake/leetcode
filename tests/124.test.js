@@ -1,5 +1,5 @@
 import { maxPathSum } from '../src/124.js';
-import { generateTestName } from './util.js';
+import { arrToBst, generateTestName } from './util.js';
 
 describe('124. Binary Tree Maximum Path Sum', () => {
   [
@@ -8,7 +8,7 @@ describe('124. Binary Tree Maximum Path Sum', () => {
   ].forEach((args) => {
     const [root, expected] = args;
     test(generateTestName(maxPathSum, ...args), () => {
-      const result = maxPathSum(root);
+      const result = maxPathSum(arrToBst(root));
       expect(result).toBe(expected);
     });
   });
