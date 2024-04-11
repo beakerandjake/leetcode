@@ -137,7 +137,7 @@ const withoutExtraSpace = (() => {
         // break the link to the next k-group
         const next = current.next;
         current.next = null;
-        // reverse k-group, current -> the new head and old head -> new tail.
+        // reverse k-group, making current -> the new head and old head -> new tail.
         reverse(headOfGroup);
         // attach new tail to new k-group
         headOfGroup.next = divideAndReverse(next, next, k);
