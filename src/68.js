@@ -77,9 +77,55 @@
  * https://leetcode.com/problems/text-justification
  */
 
+// returns the sum of the numbers in the array.
+const sum = (arr) => arr.reduce((acc, x) => acc + x, 0);
+
+// formats a (non-last) line according to the justification rules.
+// remaining space is distributed evenly between words.
+const formatLine = (line, maxWidth) => {
+  if (line.length === 1) {
+    return line[0].padEnd(maxWidth, ' ');
+  }
+  const result = [];
+  const remaining = maxWidth - sum(line.map((x) => x.length));
+  const spaces = [...Array(line.length - 1)].map(() => 0);
+  for (let i = 0; i < remaining; i++) {
+    spaces[i % spaces.length]++;
+  }
+  for (const word of line) {
+    result.push(word);
+    if (spaces.length) {
+      result.push(' '.repeat(spaces.shift()));
+    }
+  }
+  return result.join('');
+};
+
+// returns a string formatted according to the last line rules.
+// words are left justified with no extra spaces, padding the end to reach max width.
+const formatLastLine = (line, maxWidth) => line.join(' ').padEnd(maxWidth, ' ');
+
 /**
  * @param {string[]} words
  * @param {number} maxWidth
  * @return {string[]}
  */
-export const fullJustify = (words, maxWidth) => {};
+export const fullJustify = (words, maxWidth) => {
+  const result = [];
+  let currentLine = [];
+  let charsInCurrentLine = 0;
+  while (words.length) {
+    const word = words.shift();
+    if (charsInCurrentLine + word.length + currentLine.length > maxWidth) {
+      result.push(formatLine(currentLine, maxWidth));
+      currentLine = [];
+      charsInCurrentLine = 0;
+    }
+    currentLine.push(word);
+    charsInCurrentLine += word.length;
+  }
+  if (currentLine.length) {
+    result.push(formatLastLine(currentLine, maxWidth));
+  }
+  return result;
+};
