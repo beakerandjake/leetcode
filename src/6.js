@@ -59,9 +59,37 @@
  * https://leetcode.com/problems/zigzag-conversion
  */
 
+// returns a function which returns a value each time called
+// the value will oscillate between 0 (inclusive) and n (exclusive)
+const oscillator = (n) => {
+  if (n <= 1) {
+    throw new RangeError('min value to oscillate between is 2');
+  }
+  let current = -1;
+  let direction = 1;
+  return () => {
+    const next = current + direction;
+    if (next === n || next === -1) {
+      direction *= -1;
+    }
+    current += direction;
+    return current;
+  };
+};
+
 /**
  * @param {string} s
  * @param {number} numRows
  * @return {string}
  */
-export const convert = (s, numRows) => {};
+export const convert = (s, numRows) => {
+  if (numRows === 1) {
+    return s;
+  }
+  const rows = [...Array(numRows)].map(() => []);
+  const zigZagIndex = oscillator(numRows);
+  for (let i = 0; i < s.length; i++) {
+    rows[zigZagIndex()].push(s[i]);
+  }
+  return rows.map((row) => row.join('')).join('');
+};
