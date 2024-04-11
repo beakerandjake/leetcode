@@ -41,9 +41,57 @@
  * https://leetcode.com/problems/remove-k-digits
  */
 
+// const bruteForce = (num, k) => {
+//   const recurse = (current, index, removals) => {
+//     if (removals <= 0) {
+//       return current + num.slice(index);
+//     }
+//     if (index >= num.length) {
+//       return current;
+//     }
+//     // remove char at index, or don't
+//     return Math.min(
+//       Number(recurse(current, index + 1, removals - 1)),
+//       Number(recurse(current + num[index], index + 1, removals)),
+//     );
+//   };
+//   return `${recurse('', 0, k)}` || '0';
+// };
+
+const usingStack = (() => {
+  const trimLeadingZeros = (num) => {
+    if (num.length <= 1) {
+      return num;
+    }
+    let i = 0;
+    while (i < num.length && num[i] === '0') {
+      i++;
+    }
+    return num.slice(i);
+  };
+
+  return (num, k) => {
+    const stack = [];
+    let deletes = k;
+    for (let i = 0; i < num.length; i++) {
+      while (stack.length && deletes && stack.at(-1) > num[i]) {
+        stack.pop();
+        deletes--;
+      }
+      stack.push(num[i]);
+    }
+
+    while (deletes--) {
+      stack.pop();
+    }
+
+    return trimLeadingZeros(stack).join('') || '0';
+  };
+})();
+
 /**
  * @param {string} num
  * @param {number} k
  * @return {string}
  */
-export const removeKdigits = (num, k) => {};
+export const removeKdigits = usingStack;
