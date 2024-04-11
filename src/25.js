@@ -54,22 +54,6 @@
  * }
  */
 
-// const forEach = (node, visitFn) => {
-//   if (!node) {
-//     return;
-//   }
-//   visitFn(node.val);
-//   forEach(node.next, visitFn);
-// };
-
-// const toString = (node) => {
-//   const values = [];
-//   forEach(node, (value) => {
-//     values.push(value);
-//   });
-//   return `[${values.join(',')}]`;
-// };
-
 const divideAndReverse = (() => {
   // returns the length of the list.
   const length = (list) => (list ? 1 + length(list.next) : 0);
@@ -104,7 +88,7 @@ const divideAndReverse = (() => {
     let current = head;
     while (current) {
       const next = take(current, k);
-      results.push(length(current) === k ? reverse(current) : current);
+      results.push(current);
       current = next;
     }
     return results;
@@ -119,10 +103,11 @@ const divideAndReverse = (() => {
   };
 
   return (head, k) => {
-    if (length(head) === k) {
-      return reverse(head);
-    }
-    const groups = divide(head, k);
+    // divide into k lists and reverse each according to rules
+    const groups = divide(head, k).map((group) =>
+      length(group) === k ? reverse(group) : group,
+    );
+    // stitch the groups back together.
     for (let i = 0; i < groups.length - 1; i++) {
       tail(groups[i]).next = groups[i + 1];
     }
