@@ -41,66 +41,9 @@
  * https://leetcode.com/problems/remove-k-digits
  */
 
-const bruteForce = (() => {
-  const toNumber = (str) => Number.parseInt(str, 10);
-
-  const removeAt = (str, index) =>
-    [...str.slice(0, index), ...str.slice(index + 1)].join('');
-
-  return (num, k) => {
-    if (!num || num.length <= k) {
-      return '0';
-    }
-    let smallest = toNumber(num);
-    const recurse = (str, index, remaining) => {
-      if (remaining <= 0 || index >= str.length) {
-        smallest = Math.min(smallest, toNumber(str));
-        return;
-      }
-      // only two options, remove digit at index or don't
-      recurse(str, index + 1, remaining);
-      recurse(removeAt(str, index), index, remaining - 1);
-    };
-    recurse(num, 0, k);
-    return `${smallest}`;
-  };
-})();
-
-const usingStack = (() => {
-  const trimLeadingZeros = (arr) => {
-    let start = 0;
-    while (arr[start] === '0') {
-      start++;
-    }
-    return start > 0 ? arr.slice(start) : arr;
-  };
-
-  return (num, k) => {
-    if (!num || num.length <= k) {
-      return '0';
-    }
-    const stack = [];
-    let deletes = k;
-    for (const char of num) {
-      // maintain monotonically increasing stack, this removes largest leading digits.
-      while (stack.length && deletes && stack.at(-1) > char) {
-        stack.pop();
-        deletes--;
-      }
-      stack.push(char);
-    }
-    // ensure all deletes are used.
-    while (deletes > 0) {
-      stack.pop();
-      deletes--;
-    }
-    return trimLeadingZeros(stack).join('') || '0';
-  };
-})();
-
 /**
  * @param {string} num
  * @param {number} k
  * @return {string}
  */
-export const removeKdigits = usingStack;
+export const removeKdigits = (num, k) => {};
