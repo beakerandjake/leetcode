@@ -86,12 +86,15 @@ const formatLine = (line, maxWidth) => {
   if (line.length === 1) {
     return line[0].padEnd(maxWidth, ' ');
   }
-  const result = [];
+  // find the unused space on the line..
   const remaining = maxWidth - sum(line.map((x) => x.length));
+  // distribute the unused space evenly between words.
   const spaces = [...Array(line.length - 1)].map(() => 0);
   for (let i = 0; i < remaining; i++) {
     spaces[i % spaces.length]++;
   }
+  // form final line by continually appending a word then a space (while there are spaces).
+  const result = [];
   for (const word of line) {
     result.push(word);
     if (spaces.length) {
@@ -116,6 +119,7 @@ export const fullJustify = (words, maxWidth) => {
   let charsInCurrentLine = 0;
   while (words.length) {
     const word = words.shift();
+    // if this word won't fit onto the line then start a new line.
     if (charsInCurrentLine + word.length + currentLine.length > maxWidth) {
       result.push(formatLine(currentLine, maxWidth));
       currentLine = [];
@@ -124,6 +128,7 @@ export const fullJustify = (words, maxWidth) => {
     currentLine.push(word);
     charsInCurrentLine += word.length;
   }
+  // ensure the last line is formatted according to the special rules.
   if (currentLine.length) {
     result.push(formatLastLine(currentLine, maxWidth));
   }
