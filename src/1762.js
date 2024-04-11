@@ -38,13 +38,11 @@
  * @return {number[]}
  */
 export const findBuildings = (heights) => {
-  const toReturn = [];
-  let maxHeight = Number.MIN_SAFE_INTEGER;
+  const stack = [];
   for (let i = heights.length - 1; i >= 0; i--) {
-    if (heights[i] > maxHeight) {
-      toReturn.push(i);
-      maxHeight = heights[i];
+    if (!stack.length || heights[stack.at(-1)] < heights[i]) {
+      stack.push(i);
     }
   }
-  return toReturn.reverse();
+  return stack.reverse();
 };
