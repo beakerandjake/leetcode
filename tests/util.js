@@ -150,7 +150,8 @@ const argToStr = (arg) => {
 };
 
 //
-const fnToStr = (fn, args, expected) => `${fn.name}(${args?.join(',')}) -> ${expected}`;
+const fnToStr = (fn, args, expected) =>
+  `${typeof fn === 'function' ? fn.name : fn}(${args?.join(',')}) -> ${expected}`;
 
 /**
  * Generates a test name like:
