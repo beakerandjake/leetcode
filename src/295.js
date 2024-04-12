@@ -57,22 +57,188 @@
  * https://leetcode.com/problems/find-median-from-data-stream
  */
 
-var MedianFinder = function () {};
+// =============================================================
+// USING BIT VECTOR
+// =============================================================
 
-/**
- * @param {number} num
- * @return {void}
- */
-MedianFinder.prototype.addNum = function (num) {};
+// const offset = 10 ** 5;
+// const toIndex = (num) => num + offset;
+// const toNum = (index) => index - offset;
 
-/**
- * @return {number}
- */
-MedianFinder.prototype.findMedian = function () {};
+// export class MedianFinder {
+//   #lookup = Array(offset * 2 + 1).fill(0);
+//   #itemCount = 0;
 
-/**
- * Your MedianFinder object will be instantiated and called as such:
- * var obj = new MedianFinder()
- * obj.addNum(num)
- * var param_2 = obj.findMedian()
- */
+//   addNum(num) {
+//     const index = toIndex(num);
+//     this.#lookup[index] += 1;
+//     this.#itemCount++;
+//   }
+
+//   #numAtIndex(index) {
+//     let nums = -1;
+//     let current = 0;
+//     while (nums !== index) {
+//       while (this.#lookup[current] === 0) {
+//         current++;
+//       }
+//       if (nums + this.#lookup[current] >= index) {
+//         break;
+//       }
+//       nums += this.#lookup[current];
+//       current++;
+//     }
+//     return toNum(current);
+//   }
+
+//   findMedian() {
+//     if (this.#itemCount % 2 !== 0) {
+//       return this.#numAtIndex(Math.floor(this.#itemCount / 2));
+//     }
+
+//     const m = this.#itemCount / 2;
+//     const right = this.#numAtIndex(m);
+//     const left = this.#numAtIndex(m - 1);
+//     return (left + right) / 2;
+//   }
+// }
+
+// =============================================================
+// USING BINARY SEARCH
+// =============================================================
+
+// export class MedianFinder {
+//   #numbers = [];
+
+//   #findInsertIndex(num) {
+//     let low = 0;
+//     let high = this.#numbers.length - 1;
+//     while (low <= high) {
+//       const m = Math.floor(low + (high - low) / 2);
+//       if (this.#numbers[m] <= num) {
+//         low = m + 1;
+//       } else {
+//         high = m - 1;
+//       }
+//     }
+//     return low;
+//   }
+
+//   addNum(num) {
+//     if (!this.#numbers.length) {
+//       this.#numbers.push(num);
+//       return;
+//     }
+//     this.#numbers.splice(this.#findInsertIndex(num), 0, num);
+//   }
+
+//   findMedian() {
+//     if (this.#numbers.length % 2 !== 0) {
+//       return this.#numbers[Math.floor(this.#numbers.length / 2)];
+//     }
+//     const m = Math.floor(this.#numbers.length / 2);
+//     return (this.#numbers[m - 1] + this.#numbers[m]) / 2;
+//   }
+// }
+
+class Heap {
+  #items = [];
+  #size = 0;
+  #compare;
+
+  constructor(isMax) {
+    this.#compare = isMax ? (a, b) => a > b : (a, b) => a < b;
+  }
+
+  get size() {
+    return this.#size;
+  }
+
+  push(value) {
+    this.#size++;
+    this.#items[this.#size] = value;
+    this.#bubbleUp();
+  }
+
+  peek() {
+    return this.#items[1];
+  }
+
+  #bubbleUp() {
+    const parent = (i) => Math.floor(i / 2);
+
+    let i = this.#size;
+    while (i > 1 && this.#compare(this.#items[i], this.#items[parent(i)])) {
+      this.#swap(i, parent(i));
+      i = parent(i);
+    }
+  }
+
+  pop() {
+    if (!this.#size) {
+      return undefined;
+    }
+    this.#swap(1, this.#size);
+    const toReturn = this.#items.pop();
+    this.#size--;
+    this.#bubbleDown();
+    return toReturn;
+  }
+
+  #bubbleDown() {
+    const left = (i) => i * 2;
+    const right = (i) => i * 2 + 1;
+    let i = 1;
+    while (left(i) <= this.#size) {
+      // choose higher priority child
+      const child =
+        right(i) <= this.#size &&
+        this.#compare(this.#items[right(i)], this.#items[left(i)])
+          ? right(i)
+          : left(i);
+      // stop if child is in right place.
+      if (this.#compare(this.#items[i], this.#items[child])) {
+        break;
+      }
+      this.#swap(i, child);
+      i = child;
+    }
+  }
+
+  #swap(a, b) {
+    [this.#items[a], this.#items[b]] = [this.#items[b], this.#items[a]];
+  }
+
+  toArray() {
+    const toReturn = [];
+    for (let i = 1; i < this.#items.length; i++) {
+      toReturn.push(this.#items[i]);
+    }
+    return toReturn;
+  }
+}
+
+export class MedianFinder {
+  #left = new Heap(true);
+  #right = new Heap(false);
+
+  get #count() {
+    return this.#left.size + this.#right.size;
+  }
+
+  addNum(num) {
+    if (this.#count % 2 === 0) {
+      this.#right.push(num, num);
+      this.#left.push(this.#right.pop());
+    } else {
+      this.#left.push(num, num);
+      this.#right.push(this.#left.pop());
+    }
+  }
+
+  findMedian() {
+    return this.#count % 2 !== 0
+      ? this.#left.peek()
+      : (this.#left.peek() + this.#right.peek()) / 2;
+  }
+}
