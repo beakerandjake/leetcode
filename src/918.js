@@ -49,8 +49,37 @@
  * https://leetcode.com/problems/maximum-sum-circular-subarray
  */
 
+const bruteForce = (nums) => {
+  let maxSum = Number.MIN_SAFE_INTEGER;
+  for (let i = 0; i < nums.length; i++) {
+    let currentSum = nums[i];
+    maxSum = Math.max(currentSum, maxSum);
+    for (let j = 1; j < nums.length; j++) {
+      currentSum += nums[(i + j) % nums.length];
+      maxSum = Math.max(currentSum, maxSum);
+    }
+  }
+  return maxSum;
+};
+
+const modifiedKadane = (nums) => {
+  let max = Number.MIN_SAFE_INTEGER;
+  let min = Number.MAX_SAFE_INTEGER;
+  let currentMax = 0;
+  let currentMin = 0;
+  let totalSum = 0;
+  for (const num of nums) {
+    currentMax = Math.max(num, currentMax + num);
+    max = Math.max(max, currentMax);
+    currentMin = Math.min(num, currentMin + num);
+    min = Math.min(min, currentMin);
+    totalSum += num;
+  }
+  return max > 0 ? Math.max(max, totalSum - min) : max;
+};
+
 /**
  * @param {number[]} nums
  * @return {number}
  */
-export const maxSubarraySumCircular = (nums) => {};
+export const maxSubarraySumCircular = modifiedKadane;
