@@ -94,8 +94,26 @@ const usingScanning = (() => {
   };
 })();
 
+const usingStack = (heights) => {
+  let result = 0;
+  const stack = [];
+  for (let i = 0; i < heights.length; i++) {
+    while (stack.length && heights[i] > heights[stack.at(-1)]) {
+      const top = stack.pop();
+      if (!stack.length) {
+        break;
+      }
+      const distance = i - stack.at(-1) - 1;
+      const height = Math.min(heights[i], heights[stack.at(-1)]) - heights[top];
+      result += height * distance;
+    }
+    stack.push(i);
+  }
+  return result;
+};
+
 /**
  * @param {number[]} height
  * @return {number}
  */
-export const trap = usingScanning;
+export const trap = usingStack;
