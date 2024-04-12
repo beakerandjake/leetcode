@@ -34,8 +34,68 @@
  * https://leetcode.com/problems/trapping-rain-water
  */
 
+const bruteForce = (() => {
+  const maxRight = (arr, index) => {
+    if (index >= arr.length) {
+      return 0;
+    }
+    return Math.max(arr[index], maxRight(arr, index + 1));
+  };
+
+  const maxLeft = (arr, index) => {
+    if (index < 0) {
+      return 0;
+    }
+    return Math.max(arr[index], maxLeft(arr, index - 1));
+  };
+
+  return (heights) => {
+    let result = 0;
+    for (let i = 1; i < heights.length - 1; i++) {
+      const left = maxLeft(heights, i);
+      const right = maxRight(heights, i);
+      result += Math.min(left, right) - heights[i];
+    }
+    return result;
+  };
+})();
+
+const usingScanning = (() => {
+  // returns array which stores the maximum value at the given index when looking left.
+  const scanRight = (heights) => {
+    const result = Array(heights.length).fill(0);
+    let max = 0;
+    for (let i = 0; i < heights.length; i++) {
+      max = Math.max(max, heights[i]);
+      result[i] = max;
+    }
+    return result;
+  };
+
+  // returns array which stores the maximum value at the given index when looking right.
+  const scanLeft = (heights) => {
+    const result = Array(heights.length).fill(0);
+    let max = 0;
+    for (let i = heights.length - 1; i >= 0; i--) {
+      max = Math.max(max, heights[i]);
+      result[i] = max;
+    }
+    return result;
+  };
+
+  return (heights) => {
+    const maxRight = scanRight(heights);
+    const maxLeft = scanLeft(heights);
+    let result = 0;
+    for (let i = 0; i < heights.length; i++) {
+      result += Math.min(maxRight[i], maxLeft[i]) - heights[i];
+    }
+    return result;
+  };
+})();
+
 /**
  * @param {number[]} height
  * @return {number}
  */
-export const trap = (height) => {};
+export const trap = usingScanning;
