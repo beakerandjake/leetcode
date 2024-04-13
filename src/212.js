@@ -71,40 +71,15 @@ class Trie {
     current.isWord = true;
   }
 
-  contains(word) {
-    let current = this.#root;
-    for (const char of word) {
-      if (!current.children.has(char)) {
-        return false;
-      }
-      current = current.children.get(char);
-    }
-    return current.isWord;
-  }
-
-  hasPrefix(prefix) {
-    if (!prefix?.length) {
-      return false;
-    }
-    let current = this.#root;
-    for (const char of prefix) {
-      if (!current.children.has(char)) {
-        return false;
-      }
-      current = current.children.get(char);
-    }
-    return true;
-  }
-
-  query(str) {
+  search(str) {
     let current = this.#root;
     for (const char of str) {
       if (!current.children.has(char)) {
-        return { includes: false, isWord: false };
+        return null;
       }
       current = current.children.get(char);
     }
-    return { includes: true, isWord: current.isWord };
+    return current;
   }
 }
 
@@ -117,9 +92,11 @@ const height = (matrix) => matrix.length;
 // returns the width of the matrix.
 const width = (matrix) => matrix[0].length;
 
+// returns true if the point lies within the matrix
 const inBounds = (matrix, y, x) =>
   y >= 0 && y < height(matrix) && x >= 0 && x < width(matrix);
 
+// array which contains deltas pointing to each neighbor on the board.
 const neighborDirections = [
   [-1, 0],
   [0, 1],
@@ -128,26 +105,30 @@ const neighborDirections = [
 ];
 
 // returns an array of all words which can be formed from this cell.
-const explore = (matrix, y, x, current, lookup, words, visited) => {
-  const formed = current + matrix[y][x];
-  const { includes, isWord } = lookup.query(formed);
-  if (!includes) {
+const explore = (matrix, y, x, current, trieNode, words, visited) => {
+  if (!trieNode) {
     return;
   }
-  if (isWord) {
-    words.delete(formed);
-    if (!words.size) {
-      return;
-    }
+  if (trieNode.isWord) {
+    words.delete(current);
   }
   visited[y][x] = true;
   for (const [dY, dX] of neighborDirections) {
     const nY = y + dY;
     const nX = x + dX;
     if (inBounds(matrix, nY, nX) && !visited[nY][nX]) {
-      explore(matrix, nY, nX, formed, lookup, words, visited);
+      explore(
+        matrix,
+        nY,
+        nX,
+        current + matrix[nY][nX],
+        trieNode.children.get(matrix[nY][nX]),
+        words,
+        visited,
+      );
     }
   }
+  // backtrack and un-explore this node
   visited[y][x] = false;
 };
 
@@ -162,15 +143,13 @@ export const findWords = (board, words) => {
   const visited = empty(height(board), width(board));
   for (let y = 0; y < height(board); y++) {
     for (let x = 0; x < width(board); x++) {
-      // ignore cell if isn't the start of a word.
-      if (!trie.hasPrefix(board[y][x])) {
-        continue;
-      }
-      // remove all words which can be formed by starting at this cell
-      explore(board, y, x, '', trie, remaining, visited);
-      // attempt to end early if all words found.
-      if (!remaining.size) {
-        return words;
+      if (trie.search(board[y][x])) {
+        // remove all words which can be formed by starting at this cell
+        explore(board, y, x, board[y][x], trie.search(board[y][x]), remaining, visited);
+        // attempt to end early if all words found.
+        if (!remaining.size) {
+          return words;
+        }
       }
     }
   }
