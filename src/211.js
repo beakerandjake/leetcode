@@ -96,16 +96,60 @@
  * https://leetcode.com/problems/design-add-and-search-words-data-structure
  */
 
+class TrieNode {
+  constructor(isWord) {
+    this.isWord = !!isWord;
+    this.children = new Map();
+  }
+}
+
 export class WordDictionary {
-  constructor() {}
+  #root = new TrieNode();
+
   /**
    * @param {string} word
    * @return {void}
    */
-  addWord(word) {}
+  addWord(word) {
+    let current = this.#root;
+    for (const char of word) {
+      if (!current.children.has(char)) {
+        current.children.set(char, new TrieNode());
+      }
+      current = current.children.get(char);
+    }
+    current.isWord = true;
+  }
   /**
    * @param {string} word
    * @return {boolean}
    */
-  search(word) {}
+  search(word) {
+    if (!word.length) {
+      return false;
+    }
+    return this.#searchRecursive(this.#root, word, 0);
+  }
+
+  #searchRecursive(node, word, index) {
+    if (!node) {
+      return false;
+    }
+    if (index >= word.length) {
+      return node.isWord;
+    }
+
+    if (word[index] !== '.') {
+      return (
+        node.children.has(word[index]) &&
+        this.#searchRecursive(node.children.get(word[index]), word, index + 1)
+      );
+    }
+    for (const child of node.children.values()) {
+      if (this.#searchRecursive(child, word, index + 1)) {
+        return true;
+      }
+    }
+    return false;
+  }
 }

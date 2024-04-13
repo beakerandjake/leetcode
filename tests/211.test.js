@@ -6,7 +6,7 @@ describe('211. Design Add and Search Words Data Structure', () => {
     [['bad', 'dad', 'mad'], 'pad', false],
     [['bad', 'dad', 'mad'], 'dad', true],
     [['bad', 'dad', 'mad'], '.ad', true],
-    [['bad', 'dad', 'mad'], '.dd', true],
+    [['bad', 'dad', 'mad'], 'b..', true],
   ].forEach((args) => {
     const [words, query, expected] = args;
     const dictionary = words.reduce((acc, x) => {
