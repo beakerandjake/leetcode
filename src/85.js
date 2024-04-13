@@ -74,42 +74,31 @@ const consecutiveX = (matrix) => {
   return toReturn;
 };
 
-const largestRect = (heights) => {
-  let maxArea = 0;
-  let minHeight = Number.MAX_SAFE_INTEGER;
-  for (let i = 0; i < heights.length; i++) {
-    const w = i + 1;
-    minHeight = Math.min(minHeight, heights[i]);
-    if (minHeight === 0) {
-      break;
-    }
-    maxArea = Math.max(maxArea, w * minHeight);
-  }
-
-  return maxArea;
-};
-
 /**
  * @param {character[][]} matrix
  * @return {number}
  */
 export const maximalRectangle = (matrix) => {
-  let max = 0;
+  let maxArea = 0;
   const yLookup = consecutiveY(matrix);
   const xLookup = consecutiveX(matrix);
-  for (let y = 0; y < height(matrix); y++) {
-    for (let x = 0; x < width(matrix); x++) {
-      if (matrix[y][x] !== '1') {
+  for (let row = 0; row < height(matrix); row++) {
+    for (let col = 0; col < width(matrix); col++) {
+      if (matrix[row][col] !== '1') {
         continue;
       }
-      max = Math.max(
-        max,
-        yLookup[y][x],
-        xLookup[y][x],
-        largestRect(yLookup[y].slice(x, x + xLookup[y][x])),
-      );
+      let area = Math.max(xLookup[row][col], yLookup[row][col]);
+      let minHeight = yLookup[row][col];
+      for (let x = 0; x < xLookup[row][col]; x++) {
+        if (yLookup[row][col + x] === 0) {
+          break;
+        }
+        minHeight = Math.min(minHeight, yLookup[row][col + x]);
+        area = Math.max(area, (x + 1) * minHeight);
+      }
+      maxArea = Math.max(maxArea, area);
     }
   }
 
-  return max;
+  return maxArea;
 };
