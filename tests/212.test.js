@@ -25,7 +25,7 @@ describe('212. Word Search II', () => {
     const [board, words, expected] = args;
     test(generateTestName(findWords, ...args), () => {
       const result = findWords(board, words);
-      expect(result).toEqual(expected);
+      expect(result).toIncludeSameMembers(expected);
     });
   });
 });
