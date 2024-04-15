@@ -60,8 +60,25 @@
  *     this.right = (right===undefined ? null : right)
  * }
  */
+
 /**
  * @param {TreeNode} root
  * @return {number}
  */
-export const sumNumbers = (root) => {};
+export const sumNumbers = (root) => {
+  let result = 0;
+  const preOrder = (node, branchSum) => {
+    if (!node) {
+      return;
+    }
+    const newSum = branchSum * 10 + node.val;
+    if (!node.left && !node.right) {
+      result += newSum;
+      return;
+    }
+    preOrder(node.left, newSum);
+    preOrder(node.right, newSum);
+  };
+  preOrder(root, 0);
+  return result;
+};
