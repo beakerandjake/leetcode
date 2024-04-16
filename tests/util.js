@@ -37,6 +37,22 @@ export const listToArr = (list) => {
   return toReturn;
 };
 
+// returns a new array with trailing nulls removed.
+export const trimEnd = (arr) => {
+  if (!arr?.length) {
+    return [];
+  }
+
+  let endIndex;
+  for (let i = arr.length - 1; i >= 0; i--) {
+    if (arr[i] !== null) {
+      endIndex = i + 1;
+      break;
+    }
+  }
+  return arr.slice(0, endIndex);
+};
+
 // creates a new leetcode tree node.
 const treeNode = (value) => ({ val: value, left: null, right: null });
 
@@ -81,8 +97,8 @@ export const bstToArr = (root) => {
   while (queue.length) {
     const node = queue.shift();
 
-    toReturn.push(node.left?.val === undefined ? null : node.left.val);
-    toReturn.push(node.right?.val === undefined ? null : node.right.val);
+    toReturn.push(node.left?.val == null ? null : node.left.val);
+    toReturn.push(node.right?.val == null ? null : node.right.val);
 
     if (node.left) {
       queue.push(node.left);
@@ -91,23 +107,7 @@ export const bstToArr = (root) => {
       queue.push(node.right);
     }
   }
-  return toReturn;
-};
-
-// returns a new array with trailing nulls removed.
-export const trimEnd = (arr) => {
-  if (!arr?.length) {
-    return [];
-  }
-
-  let endIndex;
-  for (let i = arr.length - 1; i >= 0; i--) {
-    if (arr[i] !== null) {
-      endIndex = i + 1;
-      break;
-    }
-  }
-  return arr.slice(0, endIndex);
+  return trimEnd(toReturn);
 };
 
 export const arrToGraph = (arr) => {
