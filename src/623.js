@@ -60,10 +60,38 @@
  *     this.right = (right===undefined ? null : right)
  * }
  */
+
+class TreeNode {
+  constructor(val, left, right) {
+    this.val = val === undefined ? 0 : val;
+    this.left = left === undefined ? null : left;
+    this.right = right === undefined ? null : right;
+  }
+}
+
+const insert = (node, val, depth) => {
+  if (!node) {
+    return;
+  }
+  if (depth <= 1) {
+    node.left = new TreeNode(val, node.left, null);
+    node.right = new TreeNode(val, null, node.right);
+    return;
+  }
+  insert(node.left, val, depth - 1);
+  insert(node.right, val, depth - 1);
+};
+
 /**
  * @param {TreeNode} root
  * @param {number} val
  * @param {number} depth
  * @return {TreeNode}
  */
-export const addOneRow = (root, val, depth) => {};
+export const addOneRow = (root, val, depth) => {
+  if (depth === 1) {
+    return new TreeNode(val, root, null);
+  }
+  insert(root, val, depth - 1);
+  return root;
+};

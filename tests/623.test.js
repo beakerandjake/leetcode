@@ -1,5 +1,5 @@
 import { addOneRow } from '../src/623.js';
-import { generateTestName } from './util.js';
+import { arrToBst, bstToArr, generateTestName } from './util.js';
 
 describe('623. Add One Row to Tree', () => {
   [
@@ -8,8 +8,8 @@ describe('623. Add One Row to Tree', () => {
   ].forEach((args) => {
     const [root, val, depth, expected] = args;
     test(generateTestName(addOneRow, ...args), () => {
-      const result = addOneRow(root, val, depth);
-      expect(result).toEqual(expected);
+      const result = addOneRow(arrToBst(root), val, depth);
+      expect(bstToArr(result)).toEqual(expected);
     });
   });
 });
