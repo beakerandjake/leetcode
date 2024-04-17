@@ -87,8 +87,30 @@ const bruteForce = (() => {
   return (root) => sorted(rootToLeafPaths(root, []))[0];
 })();
 
+const usingDfs = (() => {
+  const toChar = (code) => String.fromCharCode(Number(code) + 97);
+
+  return (root) => {
+    let min = '';
+    const dfs = (node, path) => {
+      if (!node) {
+        return;
+      }
+      const newPath = toChar(node.val) + path;
+      if (!node.left && !node.right) {
+        min = !min || newPath.localeCompare(min) < 0 ? newPath : min;
+        return;
+      }
+      dfs(node.left, newPath);
+      dfs(node.right, newPath);
+    };
+    dfs(root, '');
+    return min;
+  };
+})();
+
 /**
  * @param {TreeNode} root
  * @return {string}
  */
-export const smallestFromLeaf = bruteForce;
+export const smallestFromLeaf = usingDfs;
