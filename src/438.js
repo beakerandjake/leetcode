@@ -60,9 +60,52 @@ const bruteForce = (() => {
   };
 })();
 
+const usingSlidingWindow = (() => {
+  const charCounts = (str) =>
+    [...str].reduce((acc, x) => acc.set(x, (acc.get(x) || 0) + 1), new Map());
+
+  const equals = (a, b) => {
+    if (a.size !== b.size) {
+      return false;
+    }
+    for (const [k, v] of a.entries()) {
+      if (!b.has(k) || b.get(k) !== v) {
+        return false;
+      }
+    }
+    return true;
+  };
+
+  return (s, p) => {
+    if (p.length > s.length) {
+      return [];
+    }
+    const result = [];
+    const pChars = charCounts(p);
+    const sChars = new Map();
+    for (let i = 0; i < s.length; i++) {
+      // expand right
+      sChars.set(s[i], (sChars.get(s[i]) || 0) + 1);
+      // shrink left
+      if (i >= p.length) {
+        const leftChar = s[i - p.length];
+        sChars.set(leftChar, (sChars.get(leftChar) || 0) - 1);
+        if (sChars.get(leftChar) <= 0) {
+          sChars.delete(leftChar);
+        }
+      }
+      // see if window is a palindrome of p
+      if (equals(pChars, sChars)) {
+        result.push(i - p.length + 1);
+      }
+    }
+    return result;
+  };
+})();
+
 /**
  * @param {string} s
  * @param {string} p
  * @return {number[]}
  */
-export const findAnagrams = bruteForce;
+export const findAnagrams = usingSlidingWindow;
