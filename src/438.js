@@ -40,9 +40,29 @@
  * https://leetcode.com/problems/find-all-anagrams-in-a-string
  */
 
+const bruteForce = (() => {
+  const hash = (str) => [...str].sort((a, b) => a.localeCompare(b)).join('');
+
+  return (s, p) => {
+    const result = [];
+    const pHash = hash(p);
+    const pLen = p.length;
+    const pLookup = new Set(p);
+    for (let i = 0; i <= s.length - pLen; i++) {
+      if (!pLookup.has(s[i])) {
+        continue;
+      }
+      if (hash(s.slice(i, i + pLen)) === pHash) {
+        result.push(i);
+      }
+    }
+    return result;
+  };
+})();
+
 /**
  * @param {string} s
  * @param {string} p
  * @return {number[]}
  */
-export const findAnagrams = (s, p) => {};
+export const findAnagrams = bruteForce;
