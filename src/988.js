@@ -60,8 +60,35 @@
  *     this.right = (right===undefined ? null : right)
  * }
  */
+
+const bruteForce = (() => {
+  const sorted = (arr) => [...arr].sort((a, b) => a.localeCompare(b));
+
+  const toStr = (path) =>
+    [...path]
+      .reverse()
+      .map((x) => String.fromCharCode(Number(x) + 97))
+      .join('');
+
+  const rootToLeafPaths = (node, path) => {
+    if (!node) {
+      return [];
+    }
+    const newPath = [...path, node.val];
+    if (!node.left && !node.right) {
+      return [toStr(newPath)];
+    }
+    return [
+      ...rootToLeafPaths(node.left, newPath),
+      ...rootToLeafPaths(node.right, newPath),
+    ];
+  };
+
+  return (root) => sorted(rootToLeafPaths(root, []))[0];
+})();
+
 /**
  * @param {TreeNode} root
  * @return {string}
  */
-export const smallestFromLeaf = (root) => {};
+export const smallestFromLeaf = bruteForce;
