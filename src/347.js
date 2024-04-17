@@ -35,9 +35,16 @@
  * https://leetcode.com/problems/top-k-frequent-elements
  */
 
+const frequencyCounts = (arr) =>
+  [...arr].reduce((acc, x) => acc.set(x, (acc.get(x) || 0) + 1), new Map());
+
 /**
  * @param {number[]} nums
  * @param {number} k
  * @return {number[]}
  */
-export const topKFrequent = (nums, k) => {};
+export const topKFrequent = (nums, k) =>
+  [...frequencyCounts(nums).entries()]
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, k)
+    .map(([key]) => key);
