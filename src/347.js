@@ -38,6 +38,10 @@
 const frequencyCounts = (arr) =>
   [...arr].reduce((acc, x) => acc.set(x, (acc.get(x) || 0) + 1), new Map());
 
+const key = (kvp) => kvp[0];
+
+const value = (kvp) => kvp[1];
+
 /**
  * @param {number[]} nums
  * @param {number} k
@@ -45,6 +49,6 @@ const frequencyCounts = (arr) =>
  */
 export const topKFrequent = (nums, k) =>
   [...frequencyCounts(nums).entries()]
-    .sort((a, b) => b[1] - a[1])
+    .sort((a, b) => value(b) - value(a))
     .slice(0, k)
-    .map(([key]) => key);
+    .map(key);
