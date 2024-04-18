@@ -62,8 +62,6 @@ const y = (p) => p[0];
 
 const x = (p) => p[1];
 
-const hash = (p) => `${y(p)}_${x(p)}`;
-
 const add = (p1, p2) => point(y(p1) + y(p2), x(p1) + x(p2));
 
 // eslint-disable-next-line func-style
@@ -93,20 +91,19 @@ const find = (matrix, predicateFn) => {
   return null;
 };
 
+const empty = (m, n) => [...Array(m)].map(() => Array(n).fill(0));
+
 const traverseIsland = (matrix, startPoint, visitFn) => {
   const queue = [startPoint];
-  const visited = new Set([hash(startPoint)]);
+  const visited = empty(height(matrix), width(matrix));
+  visited[y(startPoint)][x(startPoint)] = 1;
   while (queue.length) {
     const current = queue.shift();
     visitFn(current);
-    for (const neighbor of neighbors(current)) {
-      if (
-        inBounds(matrix, neighbor) &&
-        !isWater(matrix, neighbor) &&
-        !visited.has(hash(neighbor))
-      ) {
-        visited.add(hash(neighbor));
-        queue.push(neighbor);
+    for (const n of neighbors(current)) {
+      if (inBounds(matrix, n) && !isWater(matrix, n) && !visited[y(n)][x(n)]) {
+        visited[y(n)][x(n)] = 1;
+        queue.push(n);
       }
     }
   }
