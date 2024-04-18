@@ -66,10 +66,13 @@ const hash = (p) => `${y(p)}_${x(p)}`;
 
 const add = (p1, p2) => point(y(p1) + y(p2), x(p1) + x(p2));
 
-const neighbors = (() => {
-  const neighborDirections = [point(-1, 0), point(1, 0), point(0, -1), point(0, 1)];
-  return (p) => neighborDirections.map((n) => add(p, n));
-})();
+// eslint-disable-next-line func-style
+function* neighbors(p) {
+  yield add(p, point(-1, 0));
+  yield add(p, point(1, 0));
+  yield add(p, point(0, -1));
+  yield add(p, point(0, 1));
+}
 
 const inBounds = (matrix, p) =>
   y(p) >= 0 && y(p) < height(matrix) && x(p) >= 0 && x(p) < width(matrix);
@@ -77,7 +80,7 @@ const inBounds = (matrix, p) =>
 const isWater = (matrix, p) => matrix[y(p)][x(p)] === 0;
 
 const perimeterSize = (matrix, p) =>
-  neighbors(p).filter((n) => !inBounds(matrix, n) || isWater(matrix, n)).length;
+  [...neighbors(p)].filter((n) => !inBounds(matrix, n) || isWater(matrix, n)).length;
 
 const find = (matrix, predicateFn) => {
   for (let row = 0; row < height(matrix); row++) {
