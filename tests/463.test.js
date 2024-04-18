@@ -14,6 +14,13 @@ describe('463. Island Perimeter', () => {
     ],
     [[[1]], 4],
     [[[1, 0]], 4],
+    [
+      [
+        [1, 1],
+        [1, 1],
+      ],
+      8,
+    ],
   ].forEach((args) => {
     const [grid, expected] = args;
     test(generateTestName(islandPerimeter, ...args), () => {

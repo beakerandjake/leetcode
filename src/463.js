@@ -52,8 +52,72 @@
  * https://leetcode.com/problems/island-perimeter
  */
 
+const height = (matrix) => matrix.length;
+
+const width = (matrix) => matrix[0].length;
+
+const point = (y, x) => [y, x];
+
+const y = (p) => p[0];
+
+const x = (p) => p[1];
+
+const hash = (p) => `${y(p)}_${x(p)}`;
+
+const add = (p1, p2) => point(y(p1) + y(p2), x(p1) + x(p2));
+
+const neighbors = (() => {
+  const neighborDirections = [point(-1, 0), point(1, 0), point(0, -1), point(0, 1)];
+  return (p) => neighborDirections.map((n) => add(p, n));
+})();
+
+const inBounds = (matrix, p) =>
+  y(p) >= 0 && y(p) < height(matrix) && x(p) >= 0 && x(p) < width(matrix);
+
+const isWater = (matrix, p) => matrix[y(p)][x(p)] === 0;
+
+const perimeterSize = (matrix, p) =>
+  neighbors(p).filter((n) => !inBounds(matrix, n) || isWater(matrix, n)).length;
+
+const find = (matrix, predicateFn) => {
+  for (let row = 0; row < height(matrix); row++) {
+    for (let col = 0; col < width(matrix); col++) {
+      if (predicateFn(point(row, col)) === true) {
+        return point(row, col);
+      }
+    }
+  }
+  return null;
+};
+
+const traverseIsland = (matrix, startPoint, visitFn) => {
+  const queue = [startPoint];
+  const visited = new Set([hash(startPoint)]);
+  while (queue.length) {
+    const current = queue.shift();
+    visitFn(current);
+    for (const neighbor of neighbors(current)) {
+      if (
+        inBounds(matrix, neighbor) &&
+        !isWater(matrix, neighbor) &&
+        !visited.has(hash(neighbor))
+      ) {
+        visited.add(hash(neighbor));
+        queue.push(neighbor);
+      }
+    }
+  }
+};
+
 /**
  * @param {number[][]} grid
  * @return {number}
  */
-export const islandPerimeter = (grid) => {};
+export const islandPerimeter = (grid) => {
+  let result = 0;
+  const start = find(grid, (t) => !isWater(grid, t));
+  traverseIsland(grid, start, (p) => {
+    result += perimeterSize(grid, p);
+  });
+  return result;
+};
