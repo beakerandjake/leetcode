@@ -25,14 +25,14 @@
   },
   "homepage": "https://github.com/beakerandjake/leetcode#readme",
   "devDependencies": {
-    "@types/jest": "^29.4.0",
-    "eslint": "^8.55.0",
+    "@types/jest": "^29.5.12",
+    "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "html-to-text": "^9.0.5",
-    "jest": "^29.4.3",
+    "jest": "^29.7.0",
     "jest-extended": "^4.0.2",
     "leetcode-query": "^1.2.3",
-    "prettier": "^3.2.5",
+    "prettier": "3.2.5",
     "uglify-js": "^3.17.4"
   }
 }
