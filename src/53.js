@@ -92,7 +92,7 @@ const dynamicProgramming = (nums) => {
         stateHash,
         isSubarray
           ? Math.max(0, nums[index] + dp(index + 1, true))
-          : Math.max(dp(index + 1, false), nums[index] + dp(index + 1, true))
+          : Math.max(dp(index + 1, false), nums[index] + dp(index + 1, true)),
       );
     }
     return memo.get(stateHash);
