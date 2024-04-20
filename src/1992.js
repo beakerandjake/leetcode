@@ -68,8 +68,58 @@
  * https://leetcode.com/problems/find-all-groups-of-farmland
  */
 
+const height = (matrix) => matrix.length;
+
+const width = (matrix) => matrix[0].length;
+
+const isFarmLand = (matrix, y, x) => matrix[y][x] === 1;
+
+const empty = (m, n, value) => [...Array(m)].map(() => Array(n).fill(value));
+
+const inBounds = (matrix, y, x) =>
+  y >= 0 && y < height(matrix) && x >= 0 && x < width(matrix);
+
+// eslint-disable-next-line func-style
+function* neighbors(y, x) {
+  yield [y - 1, x];
+  yield [y + 1, x];
+  yield [y, x - 1];
+  yield [y, x + 1];
+}
+
+const traverseGroup = (matrix, startY, startX, visited) => {
+  const queue = [[startY, startX]];
+  visited[startY][startX] = true;
+  let maxHeight = startY;
+  let maxWidth = startX;
+  while (queue.length) {
+    const [y, x] = queue.shift();
+    maxHeight = Math.max(maxHeight, y);
+    maxWidth = Math.max(maxWidth, x);
+    for (const [ny, nx] of neighbors(y, x)) {
+      if (inBounds(matrix, ny, nx) && !visited[ny][nx] && isFarmLand(matrix, ny, nx)) {
+        visited[ny][nx] = true;
+        queue.push([ny, nx]);
+      }
+    }
+  }
+  return [maxHeight, maxWidth];
+};
+
 /**
  * @param {number[][]} land
  * @return {number[][]}
  */
-export const findFarmland = (land) => {};
+export const findFarmland = (land) => {
+  const results = [];
+  const visited = empty(height(land), width(land), false);
+  for (let y = 0; y < height(land); y++) {
+    for (let x = 0; x < width(land); x++) {
+      if (!visited[y][x] && isFarmLand(land, y, x)) {
+        const [endY, endX] = traverseGroup(land, y, x, visited);
+        results.push([y, x, endY, endX]);
+      }
+    }
+  }
+  return results;
+};
