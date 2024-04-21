@@ -1,5 +1,5 @@
 import { validPath } from '../src/1971.js';
-import { arrToStr } from './util.js';
+import { generateTestName } from './util.js';
 
 describe('1971. Find if Path Exists in Graph', () => {
   [
@@ -27,9 +27,10 @@ describe('1971. Find if Path Exists in Graph', () => {
       5,
       false,
     ],
-  ].forEach(([n, edges, src, dest, expected]) => {
-    test(`${n},${arrToStr(edges)},${src},${dest}  -> ${expected}`, () => {
-      const result = validPath(n, edges, src, dest);
+  ].forEach((args) => {
+    const [n, edges, source, destination, expected] = args;
+    test(generateTestName(validPath, ...args), () => {
+      const result = validPath(n, edges, source, destination);
       expect(result).toBe(expected);
     });
   });
