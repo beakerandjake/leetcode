@@ -53,6 +53,33 @@
  * https://leetcode.com/problems/find-if-path-exists-in-graph
  */
 
+const buildGraph = (n, edges) => {
+  const graph = [...Array(n)].reduce((acc, _, i) => acc.set(i, []), new Map());
+  return edges.reduce((acc, [from, to]) => {
+    acc.get(from).push(to);
+    acc.get(to).push(from);
+    return acc;
+  }, graph);
+};
+
+const bfs = (graph, src, dest) => {
+  const queue = [src];
+  const visited = new Set([src]);
+  while (queue.length) {
+    const current = queue.shift();
+    if (current === dest) {
+      return true;
+    }
+    for (const edge of graph.get(current)) {
+      if (!visited.has(edge)) {
+        visited.add(edge);
+        queue.push(edge);
+      }
+    }
+  }
+  return false;
+};
+
 /**
  * @param {number} n
  * @param {number[][]} edges
@@ -60,4 +87,5 @@
  * @param {number} destination
  * @return {boolean}
  */
-export const validPath = (n, edges, source, destination) => {};
+export const validPath = (n, edges, source, destination) =>
+  bfs(buildGraph(n, edges), source, destination);
