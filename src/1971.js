@@ -53,38 +53,32 @@
  * https://leetcode.com/problems/find-if-path-exists-in-graph
  */
 
-class DisjointSet {
-  constructor(n) {
-    this.nodes = [...Array(n)].map((_, i) => i);
-    this.rank = Array(n).fill(1);
-  }
+const buildGraph = (n, edges) => {
+  const graph = [...Array(n)].reduce((acc, _, i) => acc.set(i, []), new Map());
+  return edges.reduce((acc, [from, to]) => {
+    acc.get(from).push(to);
+    acc.get(to).push(from);
+    return acc;
+  }, graph);
+};
 
-  find(x) {
-    let root = this.nodes[x];
-    while (root !== this.nodes[root]) {
-      root = this.nodes[root];
+const bfs = (graph, src, dest) => {
+  const queue = [src];
+  const visited = new Set([src]);
+  while (queue.length) {
+    const current = queue.shift();
+    if (current === dest) {
+      return true;
     }
-    return root;
-  }
-
-  union(x, y) {
-    const rootX = this.find(x);
-    const rootY = this.find(y);
-    if (rootX !== rootY) {
-      if (this.rank[rootY] < this.rank[rootX]) {
-        this.nodes[rootY] = rootX;
-        this.rank[rootX]++;
-      } else {
-        this.nodes[rootX] = rootY;
-        this.rank[rootY]++;
+    for (const edge of graph.get(current)) {
+      if (!visited.has(edge)) {
+        visited.add(edge);
+        queue.push(edge);
       }
     }
   }
-
-  connected(x, y) {
-    return this.find(x) === this.find(y);
-  }
-}
+  return false;
+};
 
 /**
  * @param {number} n
@@ -93,10 +87,5 @@ class DisjointSet {
  * @param {number} destination
  * @return {boolean}
  */
-export const validPath = (n, edges, source, destination) => {
-  const set = new DisjointSet(n);
-  for (const [from, to] of edges) {
-    set.union(from, to);
-  }
-  return set.connected(source, destination);
-};
+export const validPath = (n, edges, source, destination) =>
+  bfs(buildGraph(n, edges), source, destination);
