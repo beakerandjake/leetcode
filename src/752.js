@@ -59,9 +59,52 @@
  * https://leetcode.com/problems/open-the-lock
  */
 
+const turnUp = (wheel) => {
+  const digit = Number(wheel);
+  return (digit ? digit - 1 : 9).toString();
+};
+
+const turnDown = (wheel) => ((Number(wheel) + 1) % 10).toString();
+
+const splice = (str, index, value) => {
+  const chars = [...str];
+  chars[index] = value;
+  return chars.join('');
+};
+
 /**
  * @param {string[]} deadends
  * @param {string} target
  * @return {number}
  */
-export const openLock = (deadends, target) => {};
+export const openLock = (deadends, target) => {
+  const deadendsLookup = new Set(deadends);
+  const initialState = '0000';
+  // can't reach target if start or target is a dead end.
+  if (deadendsLookup.has(target) || deadendsLookup.has(initialState)) {
+    return -1;
+  }
+  // bfs to target start
+  const queue = [{ state: initialState, steps: 0 }];
+  const visited = new Set([initialState]);
+  while (queue.length) {
+    const { state, steps } = queue.shift();
+    if (state === target) {
+      return steps;
+    }
+    // turn each dial on the lock
+    for (let i = 0; i < state.length; i++) {
+      const up = splice(state, i, turnUp(state[i]));
+      if (!visited.has(up) && !deadendsLookup.has(up)) {
+        visited.add(up);
+        queue.push({ state: up, steps: steps + 1 });
+      }
+      const down = splice(state, i, turnDown(state[i]));
+      if (!visited.has(down) && !deadendsLookup.has(down)) {
+        visited.add(down);
+        queue.push({ state: down, steps: steps + 1 });
+      }
+    }
+  }
+  return -1;
+};
