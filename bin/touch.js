@@ -1,14 +1,15 @@
 import { argv, exit } from 'node:process';
 import { openFiles } from './util/vscode.js';
 import { commitFilesToGit } from './util/git.js';
-import { getProblem, getProblemId } from './util/leetcode.js';
+import * as leetcode from './util/leetcode.js';
 import { createFile, fileExists } from './util/fs.js';
 import { solutionFileContents, solutionFilePath } from './util/solutionFile.js';
 import { testFileContents, testFilePath } from './util/testFile.js';
+
 /**
  * Parse the slug argument from the command line.
  */
-const getSlug = () => {
+const parseSlugArg = () => {
   if (argv.length <= 2) {
     console.error('missing problem slug argument');
     exit(1);
@@ -18,6 +19,16 @@ const getSlug = () => {
   const urlMatch = arg.match(/https:\/\/leetcode\.com\/problems\/([\w-]+)/i);
   return urlMatch ? urlMatch[1] : arg;
 };
+
+/**
+ * Returns the requested problem based on the args passed in.
+ * If invoked with no slug argument, then returns the daily problem
+ * If invoked with a slug argument, then attempts to return the requested problem.
+ */
+const getProblem = async () =>
+  argv.length > 2
+    ? await leetcode.getProblem(parseSlugArg())
+    : await leetcode.getDailyProblem();
 
 /**
  * Returns true if passed the --reset option.
@@ -32,12 +43,14 @@ const isReset = () => argv[3] === '--reset';
  * @param {import('leetcode-query').Problem} problem - The problem
  */
 const touch = async (problem) => {
-  const problemId = getProblemId(problem);
+  const problemId = leetcode.getProblemId(problem);
   const solutionPath = solutionFilePath(problemId);
   const testPath = testFilePath(problemId);
   // bail if already created a file for this problem.
   if (await fileExists(solutionPath)) {
-    throw new Error('problem already exists');
+    throw new Error(
+      `problem: ${problemId} has already been touched: ${solutionPath} ${testPath}`,
+    );
   }
   await Promise.all([
     createFile(solutionPath, await solutionFileContents(problem)),
@@ -54,11 +67,13 @@ const touch = async (problem) => {
  * @param {import('leetcode-query').Problem} problem - The problem
  */
 const reset = async (problem) => {
-  const problemId = getProblemId(problem);
+  const problemId = leetcode.getProblemId(problem);
   const solutionPath = solutionFilePath(problemId);
   // can't reset if not touched.
   if (!(await fileExists(solutionPath))) {
-    throw new Error('cannot rest problem, does not exit');
+    throw new Error(
+      `cannot reset problem: ${problemId}, solution file does not exist: ${solutionPath}`,
+    );
   }
   await createFile(solutionPath, await solutionFileContents(problem));
   openFiles(solutionPath, testFilePath(problemId));
@@ -66,8 +81,8 @@ const reset = async (problem) => {
 };
 
 try {
-  const problem = await getProblem(getSlug());
-  // bail if invalid slug.
+  const problem = await getProblem();
+  // bail if could not load problem.
   if (!problem) {
     throw new Error('problem not found');
   }

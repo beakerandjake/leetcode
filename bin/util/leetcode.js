@@ -36,3 +36,11 @@ export const getSnippet = (problem) => {
   }
   return snippet.code;
 };
+
+/**
+ * Returns information about the problem of the day
+ */
+export const getDailyProblem = async () => {
+  const problem = await new LeetCode().daily();
+  return problem?.question;
+};
