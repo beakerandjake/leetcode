@@ -7,6 +7,11 @@ import { solutionFileContents, solutionFilePath } from './util/solutionFile.js';
 import { testFileContents, testFilePath } from './util/testFile.js';
 
 /**
+ * Returns true if passed the --reset option.
+ */
+const isReset = () => argv.includes('--reset');
+
+/**
  * Parse the slug argument from the command line.
  */
 const parseSlugArg = () => {
@@ -26,15 +31,10 @@ const parseSlugArg = () => {
  * If invoked with a slug argument, then attempts to return the requested problem.
  */
 const getProblem = async () =>
-  argv.length > 2
-    ? await leetcode.getProblem(parseSlugArg())
-    : await leetcode.getDailyProblem();
-
-/**
- * Returns true if passed the --reset option.
- */
-const isReset = () => argv[3] === '--reset';
-
+  // daily can be invoked with no args, or with 1 arg (--reset)
+  argv.length <= 2 || (argv.length === 3 && isReset())
+    ? await leetcode.getDailyProblem()
+    : await leetcode.getProblem(parseSlugArg());
 /**
  * Creates a source and test file for the problem.
  * Commits the new files to source control.
