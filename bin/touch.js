@@ -35,8 +35,9 @@ const getProblem = async () =>
   argv.length <= 2 || (argv.length === 3 && isReset())
     ? await leetcode.getDailyProblem()
     : await leetcode.getProblem(parseSlugArg());
+
 /**
- * Creates a source and test file for the problem.
+ * Creates a source and test file for the problem.F
  * Commits the new files to source control.
  * Attempts to open the new files in vscode.
  * Bails if the source file for the problem already exists.
@@ -57,7 +58,7 @@ const touch = async (problem) => {
     createFile(testPath, await testFileContents(problem)),
   ]);
   openFiles(solutionPath, testPath);
-  commitFilesToGit(`touch ${problemId}`, solutionPath, testPath);
+  // commitFilesToGit(`touch ${problemId}`, solutionPath, testPath);
   console.log(`created solution: ${solutionPath}, test: ${testPath}`);
 };
 
