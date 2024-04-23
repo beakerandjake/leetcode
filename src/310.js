@@ -53,48 +53,95 @@
  * https://leetcode.com/problems/minimum-height-trees
  */
 
-const buildGraph = (n, edges) => {
-  const graph = [...Array(n)].reduce((acc, _, i) => acc.set(i, []), new Map());
-  return edges.reduce((acc, [from, to]) => {
-    acc.get(from).push(to);
-    acc.get(to).push(from);
-    return acc;
-  }, graph);
-};
+const simpleBfs = (() => {
+  const buildGraph = (n, edges) => {
+    const graph = [...Array(n)].reduce((acc, _, i) => acc.set(i, []), new Map());
+    return edges.reduce((acc, [from, to]) => {
+      acc.get(from).push(to);
+      acc.get(to).push(from);
+      return acc;
+    }, graph);
+  };
 
-const findHeight = (graph, root, minHeight) => {
-  let result = 0;
-  const queue = [{ vertex: root, depth: 0 }];
-  const visited = new Set([root]);
-  while (queue.length) {
-    const { vertex, depth } = queue.shift();
-    if (depth > minHeight) {
-      return Number.MAX_SAFE_INTEGER;
-    }
-    result = Math.max(result, depth);
-    for (const edge of graph.get(vertex)) {
-      if (!visited.has(edge)) {
-        visited.add(edge);
-        queue.push({ vertex: edge, depth: depth + 1 });
+  const findHeight = (graph, root, minHeight) => {
+    let result = 0;
+    const queue = [{ vertex: root, depth: 0 }];
+    const visited = new Set([root]);
+    while (queue.length) {
+      const { vertex, depth } = queue.shift();
+      if (depth > minHeight) {
+        return Number.MAX_SAFE_INTEGER;
+      }
+      result = Math.max(result, depth);
+      for (const edge of graph.get(vertex)) {
+        if (!visited.has(edge)) {
+          visited.add(edge);
+          queue.push({ vertex: edge, depth: depth + 1 });
+        }
       }
     }
-  }
-  return result;
-};
+    return result;
+  };
+
+  return (n, edges) => {
+    const heights = [...Array(n)].reduce((acc, _, i) => acc.set(i, 0), new Map());
+    let minHeight = Number.MAX_SAFE_INTEGER;
+    const graph = buildGraph(n, edges);
+    for (const vertex of graph.keys()) {
+      const height = findHeight(graph, vertex, minHeight);
+      minHeight = Math.min(minHeight, height);
+      heights.set(vertex, height);
+    }
+    return [...heights.entries()].filter(([_, v]) => v === minHeight).map(([k, _]) => k);
+  };
+})();
+
+const modifiedBfs = (() => {
+  const buildGraph = (n, edges) => {
+    const graph = [...Array(n)].reduce((acc, _, i) => acc.set(i, []), new Map());
+    return edges.reduce((acc, [from, to]) => {
+      acc.get(from).push(to);
+      acc.get(to).push(from);
+      return acc;
+    }, graph);
+  };
+
+  const findLeaves = (graph) => {
+    const result = [];
+    for (const [vertex, edges] of graph.entries()) {
+      if (edges.length === 1) {
+        result.push(vertex);
+      }
+    }
+    return result;
+  };
+
+  const deleteLeaf = (graph, leaf) => {
+    for (const edge of graph.get(leaf)) {
+      graph.set(
+        edge,
+        graph.get(edge).filter((e) => e !== leaf),
+      );
+    }
+    graph.delete(leaf);
+  };
+
+  return (n, edges) => {
+    const graph = buildGraph(n, edges);
+    let leaves = findLeaves(graph);
+    while (graph.size > 2) {
+      for (const leaf of leaves) {
+        deleteLeaf(graph, leaf);
+      }
+      leaves = findLeaves(graph);
+    }
+    return [...graph.keys()];
+  };
+})();
 
 /**
  * @param {number} n
  * @param {number[][]} edges
  * @return {number[]}
  */
-export const findMinHeightTrees = (n, edges) => {
-  const heights = [...Array(n)].reduce((acc, _, i) => acc.set(i, 0), new Map());
-  let minHeight = Number.MAX_SAFE_INTEGER;
-  const graph = buildGraph(n, edges);
-  for (const vertex of graph.keys()) {
-    const height = findHeight(graph, vertex, minHeight);
-    minHeight = Math.min(minHeight, height);
-    heights.set(vertex, height);
-  }
-  return [...heights.entries()].filter(([_, v]) => v === minHeight).map(([k, _]) => k);
-};
+export const findMinHeightTrees = modifiedBfs;
