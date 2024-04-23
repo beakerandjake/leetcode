@@ -53,9 +53,48 @@
  * https://leetcode.com/problems/minimum-height-trees
  */
 
+const buildGraph = (n, edges) => {
+  const graph = [...Array(n)].reduce((acc, _, i) => acc.set(i, []), new Map());
+  return edges.reduce((acc, [from, to]) => {
+    acc.get(from).push(to);
+    acc.get(to).push(from);
+    return acc;
+  }, graph);
+};
+
+const findHeight = (graph, root, minHeight) => {
+  let result = 0;
+  const queue = [{ vertex: root, depth: 0 }];
+  const visited = new Set([root]);
+  while (queue.length) {
+    const { vertex, depth } = queue.shift();
+    if (depth > minHeight) {
+      return Number.MAX_SAFE_INTEGER;
+    }
+    result = Math.max(result, depth);
+    for (const edge of graph.get(vertex)) {
+      if (!visited.has(edge)) {
+        visited.add(edge);
+        queue.push({ vertex: edge, depth: depth + 1 });
+      }
+    }
+  }
+  return result;
+};
+
 /**
  * @param {number} n
  * @param {number[][]} edges
  * @return {number[]}
  */
-export const findMinHeightTrees = (n, edges) => {};
+export const findMinHeightTrees = (n, edges) => {
+  const heights = [...Array(n)].reduce((acc, _, i) => acc.set(i, 0), new Map());
+  let minHeight = Number.MAX_SAFE_INTEGER;
+  const graph = buildGraph(n, edges);
+  for (const vertex of graph.keys()) {
+    const height = findHeight(graph, vertex, minHeight);
+    minHeight = Math.min(minHeight, height);
+    heights.set(vertex, height);
+  }
+  return [...heights.entries()].filter(([_, v]) => v === minHeight).map(([k, _]) => k);
+};
