@@ -41,4 +41,19 @@
  * @param {number} n
  * @return {number}
  */
-export const tribonacci = (n) => {};
+export const tribonacci = (n) => {
+  const memo = new Map();
+  const dp = (x) => {
+    if (x === 0) {
+      return 0;
+    }
+    if (x <= 2) {
+      return 1;
+    }
+    if (!memo.has(x)) {
+      memo.set(x, dp(x - 1) + dp(x - 2) + dp(x - 3));
+    }
+    return memo.get(x);
+  };
+  return dp(n);
+};
