@@ -43,8 +43,35 @@
  * https://leetcode.com/problems/minimum-falling-path-sum-ii
  */
 
+const height = (matrix) => matrix.length;
+
+const width = (matrix) => matrix[0].length;
+
+const pathToValues = (matrix, path) => path.map((x, i) => matrix[i][x]);
+
+const sum = (arr) => arr.reduce((acc, x) => acc + x, 0);
+
 /**
  * @param {number[][]} grid
  * @return {number}
  */
-export const minFallingPathSum = (grid) => {};
+export const minFallingPathSum = (grid) => {
+  const paths = [];
+  const dp = (y, path) => {
+    if (y === height(grid) - 1) {
+      paths.push([...path]);
+      return;
+    }
+    for (let x = 0; x < width(grid); x++) {
+      if (x !== path.at(-1)) {
+        dp(y + 1, [...path, x]);
+      }
+    }
+  };
+
+  // traverse the grid from each column.
+  for (let x = 0; x < width(grid); x++) {
+    dp(0, [x]);
+  }
+  return Math.min(...paths.map((path) => sum(pathToValues(grid, path))));
+};
