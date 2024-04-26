@@ -47,31 +47,40 @@ const height = (matrix) => matrix.length;
 
 const width = (matrix) => matrix[0].length;
 
-const pathToValues = (matrix, path) => path.map((x, i) => matrix[i][x]);
-
-const sum = (arr) => arr.reduce((acc, x) => acc + x, 0);
+const empty = (m, n, value) => [...Array(m)].map(() => Array(n).fill(value));
 
 /**
  * @param {number[][]} grid
  * @return {number}
  */
 export const minFallingPathSum = (grid) => {
-  const paths = [];
-  const dp = (y, path) => {
+  const memo = empty(height(grid), width(grid), null);
+  const dp = (y, x) => {
+    if (y >= height(grid)) {
+      return 0;
+    }
     if (y === height(grid) - 1) {
-      paths.push([...path]);
-      return;
+      return grid[y][x];
     }
-    for (let x = 0; x < width(grid); x++) {
-      if (x !== path.at(-1)) {
-        dp(y + 1, [...path, x]);
+
+    if (memo[y][x] === null) {
+      // fall to the next column which results in the smallest path.
+      let pathSum = Number.MAX_SAFE_INTEGER;
+      for (let col = 0; col < width(grid); col++) {
+        if (col !== x) {
+          pathSum = Math.min(pathSum, dp(y + 1, col));
+        }
       }
+      memo[y][x] = grid[y][x] + pathSum;
     }
+
+    return memo[y][x];
   };
 
   // traverse the grid from each column.
+  let result = Number.MAX_SAFE_INTEGER;
   for (let x = 0; x < width(grid); x++) {
-    dp(0, [x]);
+    result = Math.min(result, dp(0, x));
   }
-  return Math.min(...paths.map((path) => sum(pathToValues(grid, path))));
+  return result;
 };
