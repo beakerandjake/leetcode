@@ -59,9 +59,43 @@
  * https://leetcode.com/problems/freedom-trail
  */
 
+const empty = (m, n, value) => [...Array(m)].map(() => Array(n).fill(value));
+
+const toIndexLookup = (str) =>
+  [...str].reduce((acc, x, i) => {
+    if (!acc.has(x)) {
+      acc.set(x, [i]);
+    } else {
+      acc.get(x).push(i);
+    }
+    return acc;
+  }, new Map());
+
+// g o d d i n g
+// 0 1 2 3 4 5 6
+
 /**
  * @param {string} ring
  * @param {string} key
  * @return {number}
  */
-export const findRotateSteps = (ring, key) => {};
+export const findRotateSteps = (ring, key) => {
+  const memo = empty(ring.length, key.length, null);
+  const indexLookup = toIndexLookup(ring);
+  const dp = (r, k) => {
+    if (k >= key.length) {
+      return 0;
+    }
+    if (memo[r][k] == null) {
+      let result = Number.MAX_SAFE_INTEGER;
+      for (const i of indexLookup.get(key[k])) {
+        const between = Math.abs(r - i);
+        const around = ring.length - Math.abs(r - i);
+        result = Math.min(result, 1 + Math.min(between, around) + dp(i, k + 1));
+      }
+      memo[r][k] = result;
+    }
+    return memo[r][k];
+  };
+  return dp(0, 0);
+};
