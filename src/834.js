@@ -57,9 +57,46 @@
  * https://leetcode.com/problems/sum-of-distances-in-tree
  */
 
+const bruteForce = (() => {
+  const toGraph = (n, edges) => {
+    const graph = [...Array(n)].reduce((acc, _, i) => acc.set(i, []), new Map());
+    return edges.reduce((acc, [from, to]) => {
+      acc.get(from).push(to);
+      acc.get(to).push(from);
+      return acc;
+    }, graph);
+  };
+
+  const distances = (start, graph) => {
+    let sum = 0;
+    const queue = [{ current: start, distance: 0 }];
+    const visited = new Set([start]);
+    while (queue.length) {
+      const { current, distance } = queue.shift();
+      sum += distance;
+      for (const neighbor of graph.get(current)) {
+        if (!visited.has(neighbor)) {
+          visited.add(neighbor);
+          queue.push({ current: neighbor, distance: distance + 1 });
+        }
+      }
+    }
+    return sum;
+  };
+
+  return (n, edges) => {
+    const results = [];
+    const graph = toGraph(n, edges);
+    for (let i = 0; i < n; i++) {
+      results[i] = distances(i, graph);
+    }
+    return results;
+  };
+})();
+
 /**
  * @param {number} n
  * @param {number[][]} edges
  * @return {number[]}
  */
-export const sumOfDistancesInTree = (n, edges) => {};
+export const sumOfDistancesInTree = bruteForce;
