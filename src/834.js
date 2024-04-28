@@ -57,16 +57,16 @@
  * https://leetcode.com/problems/sum-of-distances-in-tree
  */
 
-const bruteForce = (() => {
-  const toGraph = (n, edges) => {
-    const graph = [...Array(n)].reduce((acc, _, i) => acc.set(i, []), new Map());
-    return edges.reduce((acc, [from, to]) => {
-      acc.get(from).push(to);
-      acc.get(to).push(from);
-      return acc;
-    }, graph);
-  };
+const toGraph = (n, edges) => {
+  const graph = [...Array(n)].reduce((acc, _, i) => acc.set(i, []), new Map());
+  return edges.reduce((acc, [from, to]) => {
+    acc.get(from).push(to);
+    acc.get(to).push(from);
+    return acc;
+  }, graph);
+};
 
+const bruteForce = (() => {
   const distances = (start, graph) => {
     let sum = 0;
     const queue = [{ current: start, distance: 0 }];
@@ -94,9 +94,38 @@ const bruteForce = (() => {
   };
 })();
 
+const doubleDfs = (n, edges) => {
+  const graph = toGraph(n, edges);
+  const counts = [...Array(n)].fill(1);
+  const answer = [...Array(n)].fill(0);
+
+  const dfs = (node, parent) => {
+    for (const child of graph.get(node)) {
+      if (child !== parent) {
+        dfs(child, node);
+        counts[node] += counts[child];
+        answer[node] += answer[child] + counts[child];
+      }
+    }
+  };
+
+  const dfs2 = (node, parent) => {
+    for (const child of graph.get(node)) {
+      if (child !== parent) {
+        answer[child] = answer[node] - counts[child] + (n - counts[child]);
+        dfs2(child, node);
+      }
+    }
+  };
+
+  dfs(0, -1);
+  dfs2(0, -1);
+  return answer;
+};
+
 /**
  * @param {number} n
  * @param {number[][]} edges
  * @return {number[]}
  */
-export const sumOfDistancesInTree = bruteForce;
+export const sumOfDistancesInTree = doubleDfs;
