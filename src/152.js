@@ -36,28 +36,28 @@
  * https://leetcode.com/problems/maximum-product-subarray
  */
 
-// const usingTopDownDp = (nums) => {
-//   const memo = new Map();
-//   const dp = (i, inSubarray, total) => {
-//     if (i >= nums.length) {
-//       return inSubarray ? total : Number.MIN_SAFE_INTEGER;
-//     }
-//     const hash = `${i}_${inSubarray}_${total}`;
-//     if (!memo.has(hash)) {
-//       let result;
-//       if (inSubarray) {
-//         // if start a subarray, either continue it or end it with this element.
-//         result = Math.max(dp(i + 1, true, total * nums[i]), total * nums[i]);
-//       } else {
-//         // use a single element subarray, start a new subarray here, or don't start one.
-//         result = Math.max(nums[i], dp(i + 1, true, nums[i]), dp(i + 1, false, 0));
-//       }
-//       memo.set(hash, result);
-//     }
-//     return memo.get(hash);
-//   };
-//   return dp(0, false, 0);
-// };
+const usingTopDownDp = (nums) => {
+  const memo = new Map();
+  const dp = (i, inSubarray, total) => {
+    if (i >= nums.length) {
+      return inSubarray ? total : Number.MIN_SAFE_INTEGER;
+    }
+    const hash = `${i}_${inSubarray}_${total}`;
+    if (!memo.has(hash)) {
+      let result;
+      if (inSubarray) {
+        // if start a subarray, either continue it or end it with this element.
+        result = Math.max(dp(i + 1, true, total * nums[i]), total * nums[i]);
+      } else {
+        // use a single element subarray, start a new subarray here, or don't start one.
+        result = Math.max(nums[i], dp(i + 1, true, nums[i]), dp(i + 1, false, 0));
+      }
+      memo.set(hash, result);
+    }
+    return memo.get(hash);
+  };
+  return dp(0, false, 0);
+};
 
 /**
  * @param {number[]} nums
