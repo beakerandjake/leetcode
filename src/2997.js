@@ -48,9 +48,23 @@
  * https://leetcode.com/problems/minimum-number-of-operations-to-make-array-xor-equal-to-k
  */
 
+const xor = (nums) => nums.reduce((acc, x) => acc ^ x, 0);
+
+const getBit = (number, index) => (number & (1 << index) ? 1 : 0);
+
+const difference = (a, b) => {
+  let result = 0;
+  for (let i = 0; i < 32; i++) {
+    if (getBit(a, i) ^ getBit(b, i)) {
+      result++;
+    }
+  }
+  return result;
+};
+
 /**
  * @param {number[]} nums
  * @param {number} k
  * @return {number}
  */
-export const minOperations = (nums, k) => {};
+export const minOperations = (nums, k) => difference(xor(nums), k);
