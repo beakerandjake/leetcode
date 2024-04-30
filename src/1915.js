@@ -64,8 +64,58 @@
  * https://leetcode.com/problems/number-of-wonderful-substrings
  */
 
+const bruteForce = (() => {
+  // eslint-disable-next-line func-style
+  function* substrings(word) {
+    for (let i = 0; i < word.length; i++) {
+      for (let j = i; j < word.length; j++) {
+        yield word.slice(i, j + 1);
+      }
+    }
+  }
+
+  const charCounts = (str) =>
+    [...str].reduce((acc, x) => acc.set(x, (acc.get(x) || 0) + 1), new Map());
+
+  const isOdd = (num) => num % 2 !== 0;
+
+  const isWonderful = (str) => [...charCounts(str).values()].filter(isOdd).length <= 1;
+
+  return (word) => {
+    let result = 0;
+    for (const substring of substrings(word)) {
+      if (isWonderful(substring)) {
+        result++;
+      }
+    }
+    return result;
+  };
+})();
+
+const bitMasking = (() => {
+  const bitIndex = (char) => char.charCodeAt(0) - 97;
+
+  const xorBit = (value, index) => value ^ (1 << index);
+
+  return (word) => {
+    const frequency = Array(2 ** 10).fill(0);
+    frequency[0] = 1;
+    let mask = 0;
+    let result = 0;
+    for (let i = 0; i < word.length; i++) {
+      mask = xorBit(mask, bitIndex(word[i]));
+      result += frequency[mask];
+      frequency[mask]++;
+      for (let c = 0; c < 10; c++) {
+        result += frequency[xorBit(mask, c)];
+      }
+    }
+    return result;
+  };
+})();
+
 /**
  * @param {string} word
  * @return {number}
  */
-export const wonderfulSubstrings = (word) => {};
+export const wonderfulSubstrings = bitMasking;
