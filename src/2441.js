@@ -47,4 +47,14 @@
  * @param {number[]} nums
  * @return {number}
  */
-export const findMaxK = (nums) => {};
+export const findMaxK = (nums) => {
+  let result = -1;
+  const lookup = new Set();
+  for (const num of nums) {
+    lookup.add(num);
+    if (lookup.has(-num) && Math.abs(num) > result) {
+      result = Math.abs(num);
+    }
+  }
+  return result;
+};

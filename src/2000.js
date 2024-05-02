@@ -51,9 +51,16 @@
  * https://leetcode.com/problems/reverse-prefix-of-word
  */
 
+const reverse = (str) => [...str].reverse().join('');
+
 /**
  * @param {string} word
  * @param {character} ch
  * @return {string}
  */
-export const reversePrefix = (word, ch) => {};
+export const reversePrefix = (word, ch) => {
+  const indexOf = word.indexOf(ch);
+  return indexOf !== -1
+    ? reverse(word.slice(0, indexOf + 1)) + word.slice(indexOf + 1)
+    : word;
+};
