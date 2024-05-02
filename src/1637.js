@@ -42,8 +42,16 @@
  * https://leetcode.com/problems/widest-vertical-area-between-two-points-containing-no-points
  */
 
+const getX = (p) => p[0];
+
+const sorted = (points) => [...points].sort((a, b) => a - b);
+
 /**
  * @param {number[][]} points
  * @return {number}
  */
-export const maxWidthOfVerticalArea = (points) => {};
+export const maxWidthOfVerticalArea = (points) =>
+  sorted(points.map(getX)).reduce(
+    (acc, x, i, arr) => Math.max(acc, i > 0 ? Math.abs(x - arr[i - 1]) : -1),
+    -1,
+  );
