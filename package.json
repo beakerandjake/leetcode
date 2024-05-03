@@ -26,6 +26,7 @@
   "homepage": "https://github.com/beakerandjake/leetcode#readme",
   "devDependencies": {
     "@types/jest": "^29.5.12",
+    "dotenv": "^16.4.5",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "html-to-text": "^9.0.5",
