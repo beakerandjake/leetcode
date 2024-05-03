@@ -44,8 +44,33 @@
  * https://leetcode.com/problems/high-five
  */
 
+const buildStudentMap = (items) =>
+  items.reduce((acc, [id, score]) => {
+    if (!acc.has(id)) {
+      acc.set(id, [score]);
+    } else {
+      acc.get(id).push(score);
+    }
+    return acc;
+  }, new Map());
+
+const sum = (arr) => arr.reduce((acc, x) => acc + x, 0);
+
+const avg = (arr) => Math.floor(sum(arr) / arr.length);
+
+const topFiveAverage = (scores) => {
+  const take = (arr, count) => arr.slice(0, count);
+  const sorted = () => [...scores].sort((a, b) => b - a);
+  return avg(take(sorted(scores), 5));
+};
+
+const mapStudent = ([id, scores]) => [id, topFiveAverage(scores)];
+
 /**
  * @param {number[][]} items
  * @return {number[][]}
  */
-export const highFive = (items) => {};
+export const highFive = (items) => {
+  const results = [...buildStudentMap(items).entries()].map(mapStudent);
+  return results.sort(([aId], [bId]) => aId - bId);
+};
