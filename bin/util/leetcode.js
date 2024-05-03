@@ -1,4 +1,4 @@
-import { LeetCode } from 'leetcode-query';
+import { LeetCode, Credential } from 'leetcode-query';
 
 /**
  * Returns a url to the problem.
@@ -6,15 +6,26 @@ import { LeetCode } from 'leetcode-query';
 export const getProblemUrl = (slug) => `https://leetcode.com/problems/${slug}`;
 
 /**
+ * Returns a new LeetCode instance.
+ * @param {string} sessionToken - Optional leetcode session token, required if attempting to load a paid problem.
+ */
+const leetcodeFactory = async (sessionToken) => {
+  if (!sessionToken) {
+    return new LeetCode();
+  }
+  const credential = new Credential();
+  await credential.init(sessionToken);
+  return new LeetCode(credential);
+};
+
+/**
  * Download the leetcode problem.
  * @param {string} slug - The problem slug
+ * @param {string} sessionToken - Optional leetcode session token, required if attempting to load a paid problem.
  */
-export const getProblem = async (slug) => {
-  const problem = await new LeetCode().problem(slug);
-  if (!problem) {
-    throw new Error('problem not found');
-  }
-  return problem;
+export const getProblem = async (slug, sessionToken) => {
+  const leetcode = await leetcodeFactory(sessionToken);
+  return await leetcode.problem(slug);
 };
 
 /**
@@ -29,7 +40,7 @@ export const getProblemId = (problem) => problem.questionFrontendId;
  */
 export const getSnippet = (problem) => {
   const snippet = problem.codeSnippets.find(
-    ({ lang }) => lang.toLowerCase() === 'javascript'
+    ({ lang }) => lang.toLowerCase() === 'javascript',
   );
   if (!snippet) {
     throw new Error('js snippet not found');
@@ -39,8 +50,10 @@ export const getSnippet = (problem) => {
 
 /**
  * Returns information about the problem of the day
+ * @param {string} sessionToken - Optional leetcode session token, required if attempting to load a paid problem.
  */
-export const getDailyProblem = async () => {
-  const problem = await new LeetCode().daily();
+export const getDailyProblem = async (sessionToken) => {
+  const leetcode = await leetcodeFactory(sessionToken);
+  const problem = await leetcode.daily();
   return problem?.question;
 };

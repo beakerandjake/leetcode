@@ -116,6 +116,17 @@ Additionally you can pass the `-r` flag to list the remaining problems:
 npm run ctci -- -r
 ```
 
+## Authentication
+
+If you have leetcode premium and wish to use the `touch` command with premium problems, you will need to authenticate. 
+
+Create an `.env` file at the root of the repository. Add an environment variable named `LEETCODE_SESSION_TOKEN` with the value set to your leetcode session cookie. 
+
+```sh
+echo 'LEETCODE_SESSION_TOKEN=YOURTOKENHERE' > .env
+```
+
+This file *should not* be committed to source control. It is ignored by default in the `.gitignore`
 
 # Acknowledgements
 

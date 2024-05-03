@@ -1,4 +1,5 @@
 import { argv, exit } from 'node:process';
+import 'dotenv/config';
 import { openFiles } from './util/vscode.js';
 import { commitFilesToGit } from './util/git.js';
 import * as leetcode from './util/leetcode.js';
@@ -33,8 +34,8 @@ const parseSlugArg = () => {
 const getProblem = async () =>
   // daily can be invoked with no args, or with 1 arg (--reset)
   argv.length <= 2 || (argv.length === 3 && isReset())
-    ? await leetcode.getDailyProblem()
-    : await leetcode.getProblem(parseSlugArg());
+    ? await leetcode.getDailyProblem(process.env.LEETCODE_SESSION_TOKEN)
+    : await leetcode.getProblem(parseSlugArg(), process.env.LEETCODE_SESSION_TOKEN);
 
 /**
  * Creates a source and test file for the problem.F
@@ -87,9 +88,9 @@ try {
   if (!problem) {
     throw new Error('problem not found');
   }
-  // bail if have to sign in to download.
-  if (problem.isPaidOnly) {
-    throw new Error('paid only problem');
+  // bail if problem is premium and authentication failed / user does not have premium.
+  if (problem.isPaidOnly && !problem.content) {
+    throw new Error('premium problem, authentication required.');
   }
   await (!isReset() ? touch(problem) : reset(problem));
 } catch (error) {
