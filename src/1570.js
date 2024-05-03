@@ -52,20 +52,38 @@
  * https://leetcode.com/problems/dot-product-of-two-sparse-vectors
  */
 
-/**
- * @param {number[]} nums
- * @return {SparseVector}
- */
-export const SparseVector = (nums) => {};
+// returns union of two sparseLookups.
+const union = (a, b) => {
+  const result = [];
+  for (const index of a.keys()) {
+    if (b.has(index)) {
+      result.push(index);
+    }
+  }
+  return result;
+};
 
-// Return the dotProduct of two sparse vectors
-/**
- * @param {SparseVector} vec
- * @return {number}
- */
-SparseVector.prototype.dotProduct = function (vec) {};
+const sparseLookup = (nums) =>
+  nums.reduce((acc, x, i) => (x !== 0 ? acc.set(i, x) : acc), new Map());
 
-// Your SparseVector object will be instantiated and called as such:
-// let v1 = new SparseVector(nums1);
-// let v2 = new SparseVector(nums2);
-// let ans = v1.dotProduct(v2);
+export class SparseVector {
+  /**
+   * @param {number[]} nums
+   * @return {SparseVector}
+   */
+  constructor(nums) {
+    this.nums = sparseLookup(nums);
+  }
+
+  /**
+   * Return the dotProduct of two sparse vectors
+   * @param {SparseVector} vec
+   * @return {number}
+   */
+  dotProduct(other) {
+    return union(this.nums, other.nums).reduce(
+      (total, index) => total + this.nums.get(index) * other.nums.get(index),
+      0,
+    );
+  }
+}

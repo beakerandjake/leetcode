@@ -9,7 +9,9 @@ describe('1570. Dot Product of Two Sparse Vectors', () => {
   ].forEach((args) => {
     const [nums1, nums2, expected] = args;
     test(generateTestName(SparseVector, ...args), () => {
-      const result = SparseVector(nums1, nums2);
+      const a = new SparseVector(nums1);
+      const b = new SparseVector(nums2);
+      const result = a.dotProduct(b);
       expect(result).toBe(expected);
     });
   });

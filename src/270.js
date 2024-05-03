@@ -47,4 +47,23 @@
  * @param {number} target
  * @return {number}
  */
-export const closestValue = (root, target) => {};
+export const closestValue = (root, target) => {
+  const recurse = (node, closest) => {
+    if (!node) {
+      return closest;
+    }
+    const dCurrent = Math.abs(target - node.val);
+    const dClosest = Math.abs(target - closest);
+    const newClosest =
+      dCurrent < dClosest || (dCurrent === dClosest && node.val < closest)
+        ? node.val
+        : closest;
+    if (target < node.val) {
+      return recurse(node.left, newClosest);
+    } else if (target > node.val) {
+      return recurse(node.right, newClosest);
+    }
+    return newClosest;
+  };
+  return recurse(root, root.val);
+};
