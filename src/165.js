@@ -61,9 +61,28 @@
  * https://leetcode.com/problems/compare-version-numbers
  */
 
+const toNumber = (version) => Number(version);
+
+const parse = (version) => version.split('.').map(toNumber);
+
+const compare = (a, aIndex, b, bIndex) => {
+  if (aIndex >= a.length && bIndex >= b.length) {
+    return 0;
+  }
+  const aValue = aIndex < a.length ? a[aIndex] : 0;
+  const bValue = bIndex < b.length ? b[bIndex] : 0;
+  if (aValue < bValue) {
+    return -1;
+  } else if (aValue > bValue) {
+    return 1;
+  }
+  return compare(a, aIndex + 1, b, bIndex + 1);
+};
+
 /**
  * @param {string} version1
  * @param {string} version2
  * @return {number}
  */
-export const compareVersion = (version1, version2) => {};
+export const compareVersion = (version1, version2) =>
+  compare(parse(version1), 0, parse(version2), 0);
