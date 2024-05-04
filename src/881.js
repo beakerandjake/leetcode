@@ -49,4 +49,17 @@
  * @param {number} limit
  * @return {number}
  */
-export const numRescueBoats = (people, limit) => {};
+export const numRescueBoats = (people, limit) => {
+  let boatCount = 0;
+  const peopleDesc = [...people].sort((a, b) => b - a);
+  let left = 0;
+  let right = peopleDesc.length - 1;
+  while (left <= right) {
+    if (peopleDesc[left] + peopleDesc[right] <= limit) {
+      right--;
+    }
+    left++;
+    boatCount++;
+  }
+  return boatCount;
+};
