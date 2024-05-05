@@ -66,8 +66,26 @@
  *     this.next = null;
  * }
  */
+
+// const usingLinearTime = (toDelete) => {
+//   const doDelete = (node) => {
+//     if (!node?.next) {
+//       return null;
+//     }
+//     node.val = node.next.val;
+//     node.next = doDelete(node.next);
+//     return node;
+//   };
+//   doDelete(toDelete);
+// };
+
+const usingConstantTime = (toDelete) => {
+  toDelete.val = toDelete.next.val;
+  toDelete.next = toDelete.next.next;
+};
+
 /**
  * @param {ListNode} node
  * @return {void} Do not return anything, modify node in-place instead.
  */
-export const deleteNode = (node) => {};
+export const deleteNode = usingConstantTime;
