@@ -48,8 +48,24 @@
  *     this.next = (next===undefined ? null : next)
  * }
  */
+
 /**
  * @param {ListNode} head
  * @return {ListNode}
  */
-export const removeNodes = (head) => {};
+export const removeNodes = (head) => {
+  let max = Number.MIN_SAFE_INTEGER;
+  const recurse = (node) => {
+    if (!node?.next) {
+      return node;
+    }
+    const next = recurse(node.next);
+    max = Math.max(max, next.val);
+    if (node.val < max) {
+      return next;
+    }
+    node.next = next;
+    return node;
+  };
+  return recurse(head);
+};

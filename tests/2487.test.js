@@ -1,5 +1,5 @@
 import { removeNodes } from '../src/2487.js';
-import { generateTestName } from './util.js';
+import { arrToList, generateTestName, listToArr } from './util.js';
 
 describe('2487. Remove Nodes From Linked List', () => {
   [
@@ -14,8 +14,8 @@ describe('2487. Remove Nodes From Linked List', () => {
   ].forEach((args) => {
     const [head, expected] = args;
     test(generateTestName(removeNodes, ...args), () => {
-      const result = removeNodes(head);
-      expect(result).toEqual(expected);
+      const result = removeNodes(arrToList(head));
+      expect(listToArr(result)).toEqual(expected);
     });
   });
 });
