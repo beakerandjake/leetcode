@@ -47,8 +47,37 @@
  *     this.next = (next===undefined ? null : next)
  * }
  */
+
+class ListNode {
+  constructor(val, next) {
+    this.val = val === undefined ? 0 : val;
+    this.next = next === undefined ? null : next;
+  }
+}
+
+// traverses the list in reverse order invoking the visit fn on each node.
+const traverseR = (node, visitFn) => {
+  if (!node) {
+    return;
+  }
+  traverseR(node.next, visitFn);
+  visitFn(node.val);
+};
+
 /**
  * @param {ListNode} head
  * @return {ListNode}
  */
-export const doubleIt = (head) => {};
+export const doubleIt = (head) => {
+  const sentinel = new ListNode();
+  let carry = 0;
+  traverseR(head, (val) => {
+    const doubled = val * 2 + carry;
+    carry = doubled >= 10 ? 1 : 0;
+    sentinel.next = new ListNode(doubled % 10, sentinel.next);
+  });
+  if (carry) {
+    sentinel.next = new ListNode(1, sentinel.next);
+  }
+  return sentinel.next;
+};

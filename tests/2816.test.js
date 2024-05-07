@@ -1,5 +1,5 @@
 import { doubleIt } from '../src/2816.js';
-import { generateTestName } from './util.js';
+import { arrToList, generateTestName, listToArr } from './util.js';
 
 describe('2816. Double a Number Represented as a Linked List', () => {
   [
@@ -14,8 +14,8 @@ describe('2816. Double a Number Represented as a Linked List', () => {
   ].forEach((args) => {
     const [head, expected] = args;
     test(generateTestName(doubleIt, ...args), () => {
-      const result = doubleIt(head);
-      expect(result).toEqual(expected);
+      const result = doubleIt(arrToList(head));
+      expect(listToArr(result)).toEqual(expected);
     });
   });
 });
