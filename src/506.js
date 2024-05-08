@@ -46,8 +46,23 @@
  * https://leetcode.com/problems/relative-ranks
  */
 
+const toStr = (() => {
+  const namedPlaces = ['Gold Medal', 'Silver Medal', 'Bronze Medal'];
+  return (place) => (place < 3 ? namedPlaces[place] : `${place + 1}`);
+})();
+
+const toIndexLookup = (scores) => scores.reduce((acc, x, i) => acc.set(x, i), new Map());
+
+const sorted = (scores) => [...scores].sort((a, b) => b - a);
+
 /**
  * @param {number[]} score
  * @return {string[]}
  */
-export const findRelativeRanks = (score) => {};
+export const findRelativeRanks = (score) => {
+  const indexLookup = toIndexLookup(score);
+  return sorted(score).reduce((acc, x, i) => {
+    acc[indexLookup.get(x)] = toStr(i);
+    return acc;
+  }, []);
+};
