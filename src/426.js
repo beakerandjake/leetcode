@@ -56,8 +56,40 @@
  *  };
  */
 
+class Node {
+  constructor(val, left, right) {
+    this.val = val;
+    this.left = left;
+    this.right = right;
+  }
+}
+
+const inOrder = (node, visitFn) => {
+  if (!node) {
+    return;
+  }
+  inOrder(node.left, visitFn);
+  visitFn(node);
+  inOrder(node.right, visitFn);
+};
+
 /**
  * @param {Node} root
  * @return {Node}
  */
-export const treeToDoublyList = (root) => {};
+export const treeToDoublyList = (root) => {
+  if (!root) {
+    return root;
+  }
+  const sentinel = new Node();
+  let current = sentinel;
+  inOrder(root, (node) => {
+    node.left = current;
+    current.right = node;
+    current = node;
+  });
+  // make circular, link head to tail.
+  sentinel.right.left = current;
+  current.right = sentinel.right;
+  return sentinel.right;
+};
