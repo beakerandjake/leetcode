@@ -59,9 +59,40 @@
  * https://leetcode.com/problems/maximize-happiness-of-selected-children
  */
 
+import { MaxPriorityQueue } from '@datastructures-js/priority-queue';
+
+const usingHeap = (() => {
+  const toHeap = (happiness) =>
+    happiness.reduce((acc, x) => acc.enqueue(x), new MaxPriorityQueue());
+
+  const decreaseHappiness = (heap) => {
+    const newHeap = new MaxPriorityQueue();
+    while (!heap.isEmpty()) {
+      newHeap.enqueue(Math.max(heap.dequeue().element - 1, 0));
+    }
+    return newHeap;
+  };
+
+  return (happiness, k) => {
+    let sum = 0;
+    let heap = toHeap(happiness);
+    let remaining = k;
+    while (remaining && !heap.isEmpty()) {
+      sum += heap.dequeue().element;
+      heap = decreaseHappiness(heap);
+      remaining--;
+    }
+    return sum;
+  };
+})();
+
 /**
  * @param {number[]} happiness
  * @param {number} k
  * @return {number}
  */
-export const maximumHappinessSum = (happiness, k) => {};
+export const maximumHappinessSum = (happiness, k) =>
+  [...happiness]
+    .sort((a, b) => b - a)
+    .slice(0, k)
+    .reduce((acc, x, i) => acc + Math.max(x - i, 0), 0);
