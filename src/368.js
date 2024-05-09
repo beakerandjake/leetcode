@@ -42,4 +42,23 @@
  * @param {number[]} nums
  * @return {number[]}
  */
-export const largestDivisibleSubset = (nums) => {};
+export const largestDivisibleSubset = (nums) => {
+  const memo = new Map();
+  const sorted = [...nums].sort((a, b) => a - b);
+  const dp = (index, previous) => {
+    if (index >= sorted.length) {
+      return [];
+    }
+    const hash = `${index}_${previous}`;
+    if (!memo.has(hash)) {
+      const skip = dp(index + 1, previous);
+      const take =
+        sorted[index] % previous === 0
+          ? [sorted[index], ...dp(index + 1, sorted[index])]
+          : [];
+      memo.set(hash, skip.length > take.length ? skip : take);
+    }
+    return memo.get(hash);
+  };
+  return dp(0, 1);
+};
