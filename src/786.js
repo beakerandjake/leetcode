@@ -47,6 +47,8 @@
  * https://leetcode.com/problems/k-th-smallest-prime-fraction
  */
 
+import { MinPriorityQueue } from '@datastructures-js/priority-queue';
+
 const bruteForce = (() => {
   // eslint-disable-next-line func-style
   function* enumerateFractions(arr) {
@@ -64,9 +66,23 @@ const bruteForce = (() => {
   return (arr, k) => sorted([...enumerateFractions(arr)])[k - 1];
 })();
 
+const usingHeap = (arr, k) => {
+  const heap = MinPriorityQueue.from(
+    arr.map((x, i) => [[i, arr.length - 1], x / arr.at(-1)]),
+  );
+  let remaining = k;
+  while (remaining > 1) {
+    const [nI, dI] = heap.dequeue().element;
+    heap.enqueue([nI, dI - 1], arr[nI] / arr[dI - 1]);
+    remaining--;
+  }
+  const [numIndex, denomIndex] = heap.dequeue().element;
+  return [arr[numIndex], arr[denomIndex]];
+};
+
 /**
  * @param {number[]} arr
  * @param {number} k
  * @return {number[]}
  */
-export const kthSmallestPrimeFraction = bruteForce;
+export const kthSmallestPrimeFraction = usingHeap;
