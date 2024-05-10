@@ -47,9 +47,26 @@
  * https://leetcode.com/problems/k-th-smallest-prime-fraction
  */
 
+const bruteForce = (() => {
+  // eslint-disable-next-line func-style
+  function* enumerateFractions(arr) {
+    for (let i = 0; i < arr.length; i++) {
+      for (let j = i + 1; j < arr.length; j++) {
+        yield [arr[i], arr[j]];
+      }
+    }
+  }
+
+  const value = ([numer, denom]) => numer / denom;
+
+  const sorted = (fractions) => [...fractions].sort((a, b) => value(a) - value(b));
+
+  return (arr, k) => sorted([...enumerateFractions(arr)])[k - 1];
+})();
+
 /**
  * @param {number[]} arr
  * @param {number} k
  * @return {number[]}
  */
-export const kthSmallestPrimeFraction = (arr, k) => {};
+export const kthSmallestPrimeFraction = bruteForce;
