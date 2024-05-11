@@ -47,10 +47,42 @@
  * https://leetcode.com/problems/minimum-cost-to-hire-k-workers
  */
 
+import { MaxPriorityQueue } from '@datastructures-js/priority-queue';
+
+const zip = (a, b) => a.map((x, i) => [x, b[i]]);
+
+const quality = (candidate) => candidate[0];
+
+const wage = (candidate) => candidate[1];
+
+const wageToQualityRatio = (candidate) => wage(candidate) / quality(candidate);
+
+const sorted = (candidates) =>
+  [...candidates].sort((a, b) => wageToQualityRatio(a) - wageToQualityRatio(b));
+
 /**
- * @param {number[]} quality
- * @param {number[]} wage
+ * @param {number[]} qualities
+ * @param {number[]} wages
  * @param {number} k
  * @return {number}
  */
-export const mincostToHireWorkers = (quality, wage, k) => {};
+export const mincostToHireWorkers = (qualities, wages, k) => {
+  let result = Number.MAX_SAFE_INTEGER;
+  const candidates = sorted(zip(qualities, wages));
+  const heap = new MaxPriorityQueue();
+  let qSum = 0;
+  for (const candidate of candidates) {
+    const cRatio = wageToQualityRatio(candidate);
+    heap.enqueue(cRatio, quality(candidate));
+    qSum += quality(candidate);
+    // when queue is full remove candidates who are too high of quality.
+    if (heap.size() > k) {
+      qSum -= heap.dequeue().priority;
+    }
+    // see if these candidates result in the smallest sum
+    if (heap.size() === k) {
+      result = Math.min(result, qSum * cRatio);
+    }
+  }
+  return result;
+};

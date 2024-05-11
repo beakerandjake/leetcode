@@ -9,7 +9,7 @@ describe('857. Minimum Cost to Hire K Workers', () => {
     const [quality, wage, k, expected] = args;
     test(generateTestName(mincostToHireWorkers, ...args), () => {
       const result = mincostToHireWorkers(quality, wage, k);
-      expect(result).toBe(expected);
+      expect(result).toBeCloseTo(expected);
     });
   });
 });
