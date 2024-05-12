@@ -46,8 +46,40 @@
  * https://leetcode.com/problems/largest-local-values-in-a-matrix
  */
 
+// returns a new 2d array of size (m x n)
+const empty = (m, n) => [...Array(m)].map(() => Array(n).fill(0));
+
+// returns the height of the matrix.
+const height = (matrix) => matrix.length;
+
+// returns the width of the matrix.
+const width = (matrix) => matrix[0].length;
+
+// eslint-disable-next-line func-style
+function* kernelOrigins(matrix, kSize) {
+  for (let y = 0; y <= height(matrix) - kSize; y++) {
+    for (let x = 0; x <= width(matrix) - kSize; x++) {
+      yield [y, x];
+    }
+  }
+}
+
+// returns a kernel of size which originates at the origin <y,x>
+const kernel = (matrix, y, x, size) =>
+  matrix.slice(y, y + size).map((row) => row.slice(x, x + size));
+
+// returns the max value of the matrix.
+const max = (matrix) => Math.max(...matrix.flat());
+
 /**
  * @param {number[][]} grid
  * @return {number[][]}
  */
-export const largestLocal = (grid) => {};
+export const largestLocal = (grid) =>
+  [...kernelOrigins(grid, 3)].reduce(
+    (acc, [y, x]) => {
+      acc[y][x] = max(kernel(grid, y, x, 3));
+      return acc;
+    },
+    empty(height(grid) - 2, width(grid) - 2),
+  );
