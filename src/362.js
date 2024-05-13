@@ -56,23 +56,25 @@
  * https://leetcode.com/problems/design-hit-counter
  */
 
-var HitCounter = function () {};
+export class HitCounter {
+  #hits = [];
 
-/**
- * @param {number} timestamp
- * @return {void}
- */
-HitCounter.prototype.hit = function (timestamp) {};
+  hit(timestamp) {
+    this.#hits.push(timestamp);
+  }
 
-/**
- * @param {number} timestamp
- * @return {number}
- */
-HitCounter.prototype.getHits = function (timestamp) {};
-
-/**
- * Your HitCounter object will be instantiated and called as such:
- * var obj = new HitCounter()
- * obj.hit(timestamp)
- * var param_2 = obj.getHits(timestamp)
- */
+  getHits(timestamp) {
+    const target = Math.max(0, timestamp - 300);
+    let low = 0;
+    let high = this.#hits.length - 1;
+    while (low <= high) {
+      const m = low + Math.floor((high - low) / 2);
+      if (this.#hits[m] <= target) {
+        low = m + 1;
+      } else {
+        high = m - 1;
+      }
+    }
+    return this.#hits.length - low;
+  }
+}
