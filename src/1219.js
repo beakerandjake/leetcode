@@ -55,8 +55,74 @@
  * https://leetcode.com/problems/path-with-maximum-gold
  */
 
+// returns a new matrix of size (m x n) filled with the specified value.
+const fill = (m, n, value) => [...Array(m)].map(() => Array(n).fill(value));
+
+// returns the height of the matrix
+const height = (matrix) => matrix.length;
+
+// returns the width of the matrix.
+const width = (matrix) => matrix[0].length;
+
+// returns true if the point has gold.
+const hasGold = (matrix, y, x) => matrix[y][x] > 0;
+
+// returns true if the point is within the matrix.
+const inBounds = (matrix, y, x) =>
+  y >= 0 && y < height(matrix) && x >= 0 && x < width(matrix);
+
+// eslint-disable-next-line func-style
+function* neighbors(matrix, y, x) {
+  const directions = [
+    [-1, 0],
+    [1, 0],
+    [0, -1],
+    [0, 1],
+  ];
+
+  // yield each neighbor that is in bounds of the matrix.
+  for (const [dY, dX] of directions) {
+    const nY = y + dY;
+    const nX = x + dX;
+    if (inBounds(matrix, nY, nX)) {
+      yield [nY, nX];
+    }
+  }
+}
+
+// explores all paths originating from the specified point and returns the max path value.
+const backtrack = (matrix, y, x, visited) => {
+  if (!hasGold(matrix, y, x)) {
+    return 0;
+  }
+  let max = 0;
+  for (const [nY, nX] of neighbors(matrix, y, x)) {
+    if (!visited[nY][nX]) {
+      // visit, explore, then un-visit the path going through this neighbor.
+      visited[nY][nX] = true;
+      max = Math.max(max, backtrack(matrix, nY, nX, visited));
+      visited[nY][nX] = false;
+    }
+  }
+  return matrix[y][x] + max;
+};
+
 /**
  * @param {number[][]} grid
  * @return {number}
  */
-export const getMaximumGold = (grid) => {};
+export const getMaximumGold = (grid) => {
+  let max = 0;
+  const visited = fill(height(grid, width(grid), false));
+  for (let y = 0; y < height(grid); y++) {
+    for (let x = 0; x < width(grid); x++) {
+      // find the max value which can be obtained starting from this cell.
+      if (hasGold(grid, y, x)) {
+        visited[y][x] = true;
+        max = Math.max(max, backtrack(grid, y, x, visited));
+        visited[y][x] = false;
+      }
+    }
+  }
+  return max;
+};
