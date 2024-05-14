@@ -92,12 +92,9 @@ function* neighbors(matrix, y, x) {
 
 // explores all paths originating from the specified point and returns the max path value.
 const backtrack = (matrix, y, x, visited) => {
-  if (!hasGold(matrix, y, x)) {
-    return 0;
-  }
   let max = 0;
   for (const [nY, nX] of neighbors(matrix, y, x)) {
-    if (!visited[nY][nX]) {
+    if (!visited[nY][nX] && hasGold(matrix, nY, nX)) {
       // visit, explore, then un-visit the path going through this neighbor.
       visited[nY][nX] = true;
       max = Math.max(max, backtrack(matrix, nY, nX, visited));
