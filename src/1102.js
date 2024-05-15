@@ -91,21 +91,19 @@ const dijkstra = (matrix, pStart, pTarget) => {
   const queue = new MaxPriorityQueue();
   queue.enqueue(pStart, get(matrix, pStart));
   set(visited, pStart, true);
-  let max = get(matrix, pStart);
   while (!queue.isEmpty()) {
-    const { element: p, priority: score } = queue.dequeue();
+    const { element: p, priority: maxScore } = queue.dequeue();
     if (equals(p, pTarget)) {
-      break;
+      return maxScore;
     }
-    max = Math.min(max, score);
-    for (const neighbor of neighbors(matrix, p)) {
-      if (!get(visited, neighbor)) {
-        set(visited, neighbor, true);
-        queue.enqueue(neighbor, get(matrix, neighbor));
+    if (!get(visited, p)) {
+      set(visited, p, true);
+      for (const neighbor of neighbors(matrix, p)) {
+        queue.enqueue(neighbor, Math.min(maxScore, get(matrix, neighbor)));
       }
     }
   }
-  return max;
+  return -1;
 };
 
 /**
