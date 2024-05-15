@@ -26,6 +26,7 @@
   "homepage": "https://github.com/beakerandjake/leetcode#readme",
   "devDependencies": {
     "@datastructures-js/priority-queue": "^5.4.0",
+    "@datastructures-js/queue": "^4.2.3",
     "@types/jest": "^29.5.12",
     "dotenv": "^16.4.5",
     "eslint": "^8.57.0",
