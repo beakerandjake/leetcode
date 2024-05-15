@@ -111,3 +111,10 @@ Certain problems I like to practice to stay fresh in basic concepts. This docume
 
 ## Divide and Conquer
 - [maximum-subarray #53](https://leetcode.com/problems/maximum-subarray)
+
+
+## Dijkstra
+- [path-with-minimum-effort #1631](https://leetcode.com/problems/path-with-minimum-effort)
+- [path-with-maximum-minimum-value #1102](https://leetcode.com/problems/path-with-maximum-minimum-value)
+- [network-delay-time #743](https://leetcode.com/problems/network-delay-time)
+- [find-the-city-with-the-smallest-number-of-neighbors-at-a-threshold-distance #1334](https://leetcode.com/problems/find-the-city-with-the-smallest-number-of-neighbors-at-a-threshold-distance)
