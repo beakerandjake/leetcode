@@ -50,8 +50,67 @@
  * https://leetcode.com/problems/path-with-maximum-minimum-value
  */
 
+import { MaxPriorityQueue } from '@datastructures-js/priority-queue';
+
+const fill = (m, n, value) => [...Array(m)].map(() => Array(n).fill(value));
+
+const height = (matrix) => matrix.length;
+
+const width = (matrix) => matrix[0].length;
+
+const point = (y, x) => [y, x];
+
+const x = (p) => p[1];
+
+const y = (p) => p[0];
+
+const add = (p1, p2) => point(y(p1) + y(p2), x(p1) + x(p2));
+
+const inBounds = (matrix, p) =>
+  y(p) >= 0 && y(p) < height(matrix) && x(p) >= 0 && x(p) < width(matrix);
+
+// eslint-disable-next-line func-style
+function* neighbors(matrix, p) {
+  const dirs = [point(-1, 0), point(1, 0), point(0, -1), point(0, 1)];
+  for (const d of dirs) {
+    const neighbor = add(p, d);
+    if (inBounds(matrix, neighbor)) {
+      yield neighbor;
+    }
+  }
+}
+
+const get = (matrix, p) => matrix[y(p)][x(p)];
+
+const set = (matrix, p, value) => (matrix[y(p)][x(p)] = value);
+
+const equals = (p1, p2) => y(p1) === y(p2) && x(p1) === x(p2);
+
+const dijkstra = (matrix, pStart, pTarget) => {
+  const visited = fill(height(matrix), width(matrix), false);
+  const queue = new MaxPriorityQueue();
+  queue.enqueue(pStart, get(matrix, pStart));
+  set(visited, pStart, true);
+  let max = get(matrix, pStart);
+  while (!queue.isEmpty()) {
+    const { element: p, priority: score } = queue.dequeue();
+    if (equals(p, pTarget)) {
+      break;
+    }
+    max = Math.min(max, score);
+    for (const neighbor of neighbors(matrix, p)) {
+      if (!get(visited, neighbor)) {
+        set(visited, neighbor, true);
+        queue.enqueue(neighbor, get(matrix, neighbor));
+      }
+    }
+  }
+  return max;
+};
+
 /**
  * @param {number[][]} grid
  * @return {number}
  */
-export const maximumMinimumPath = (grid) => {};
+export const maximumMinimumPath = (grid) =>
+  dijkstra(grid, point(0, 0), point(height(grid) - 1, width(grid) - 1));
