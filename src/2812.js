@@ -118,56 +118,45 @@ const get = (matrix, p) => matrix[y(p)][x(p)];
 const isThief = (value) => value === 1;
 
 const safetyMap = (matrix) => {
-  const result = matrix.map((row) =>
-    row.map((val) => (isThief(val) ? 0 : Number.MAX_SAFE_INTEGER)),
-  );
-
-  const bfs = (startPoint) => {
-    const queue = [[startPoint, 0]];
-    const visited = fill(height(result), width(result), false);
-    set(visited, startPoint, true);
-    while (queue.length) {
-      const [p, distance] = queue.shift();
-      if (get(result, p) < distance) {
-        continue;
-      }
-      set(result, p, distance);
-      for (const neighbor of neighbors(result, p)) {
-        if (!get(visited, neighbor)) {
-          set(visited, neighbor, true);
-          queue.push([neighbor, distance + 1]);
-        }
-      }
-    }
-  };
-
-  for (const p of iterate(result)) {
+  const result = fill(height(matrix), width(matrix), Number.MAX_SAFE_INTEGER);
+  const queue = [];
+  for (const p of iterate(matrix)) {
     if (isThief(get(matrix, p))) {
-      bfs(p);
+      set(result, p, 0);
+      queue.push(p);
     }
   }
-
+  while (queue.length) {
+    const p = queue.shift();
+    for (const neighbor of neighbors(matrix, p)) {
+      if (get(result, neighbor) > get(result, p) + 1) {
+        set(result, neighbor, get(result, p) + 1);
+        queue.push(neighbor);
+      }
+    }
+  }
   return result;
 };
 
 const dijkstras = (matrix, pStart, pTarget) => {
-  const visited = fill(height(matrix), width(matrix), false);
-  const queue = new MaxPriorityQueue();
-  queue.enqueue(pStart, get(matrix, pStart));
-  set(visited, pStart, true);
-  while (!queue.isEmpty()) {
-    const { element: p, priority } = queue.dequeue();
-    if (equal(p, pTarget)) {
-      return priority;
-    }
-    for (const neighbor of neighbors(matrix, p)) {
-      if (!get(visited, neighbor)) {
-        set(visited, neighbor, true);
-        queue.enqueue(neighbor, Math.min(priority, get(matrix, neighbor)));
-      }
-    }
-  }
   return -1;
+  // const visited = fill(height(matrix), width(matrix), false);
+  // const queue = new MaxPriorityQueue();
+  // queue.enqueue(pStart, get(matrix, pStart));
+  // set(visited, pStart, true);
+  // while (!queue.isEmpty()) {
+  //   const { element: p, priority } = queue.dequeue();
+  //   if (equal(p, pTarget)) {
+  //     return priority;
+  //   }
+  //   for (const neighbor of neighbors(matrix, p)) {
+  //     if (!get(visited, neighbor)) {
+  //       set(visited, neighbor, true);
+  //       queue.enqueue(neighbor, Math.min(priority, get(matrix, neighbor)));
+  //     }
+  //   }
+  // }
+  // return -1;
 };
 
 /**
