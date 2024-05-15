@@ -52,23 +52,32 @@
 
 import { MaxPriorityQueue } from '@datastructures-js/priority-queue';
 
+// returns a new matrix of sized (m x n) filled with the value.
 const fill = (m, n, value) => [...Array(m)].map(() => Array(n).fill(value));
 
+// returns the height of the matrix.
 const height = (matrix) => matrix.length;
 
+// returns the width of the matrix.
 const width = (matrix) => matrix[0].length;
 
+// creates a new point
 const point = (y, x) => [y, x];
 
+// returns the x value of the point.
 const x = (p) => p[1];
 
+// returns the y value of the point.
 const y = (p) => p[0];
 
+// adds the two points and returns a new point.
 const add = (p1, p2) => point(y(p1) + y(p2), x(p1) + x(p2));
 
+// does the point lie within the matrix.
 const inBounds = (matrix, p) =>
   y(p) >= 0 && y(p) < height(matrix) && x(p) >= 0 && x(p) < width(matrix);
 
+// returns an iterator which iterates over the neighboring points.
 // eslint-disable-next-line func-style
 function* neighbors(matrix, p) {
   const dirs = [point(-1, 0), point(1, 0), point(0, -1), point(0, 1)];
@@ -80,26 +89,29 @@ function* neighbors(matrix, p) {
   }
 }
 
+// returns the value of the point on the matrix.
 const get = (matrix, p) => matrix[y(p)][x(p)];
 
+// updates the point of the matrix with the value.
 const set = (matrix, p, value) => (matrix[y(p)][x(p)] = value);
 
+// returns true if the two points are equal.
 const equals = (p1, p2) => y(p1) === y(p2) && x(p1) === x(p2);
 
+// returns the max min path score.
 const dijkstra = (matrix, pStart, pTarget) => {
   const visited = fill(height(matrix), width(matrix), false);
   const queue = new MaxPriorityQueue();
   queue.enqueue(pStart, get(matrix, pStart));
-  set(visited, pStart, true);
   while (!queue.isEmpty()) {
-    const { element: p, priority: maxScore } = queue.dequeue();
+    const { element: p, priority: maxMinScore } = queue.dequeue();
     if (equals(p, pTarget)) {
-      return maxScore;
+      return maxMinScore;
     }
     if (!get(visited, p)) {
       set(visited, p, true);
       for (const neighbor of neighbors(matrix, p)) {
-        queue.enqueue(neighbor, Math.min(maxScore, get(matrix, neighbor)));
+        queue.enqueue(neighbor, Math.min(maxMinScore, get(matrix, neighbor)));
       }
     }
   }
