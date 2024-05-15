@@ -70,23 +70,33 @@
  */
 
 import { MaxPriorityQueue } from '@datastructures-js/priority-queue';
+import { Queue } from '@datastructures-js/queue';
 
+// returns a new (m x n) matrix filled with the value.
 const fill = (m, n, value) => [...Array(m)].map(() => Array(n).fill(value));
 
+// returns the height of the 2d matrix.
 const height = (matrix) => matrix.length;
 
+// returns the width of the 2d matrix.
 const width = (matrix) => matrix[0].length;
 
+// creates a new point.
 const point = (y, x) => [y, x];
 
+// returns the y value of the point.
 const y = (p) => p[0];
 
+// returns the x value of the point.
 const x = (p) => p[1];
 
+// adds the two points together and returns a new point.
 const add = (p1, p2) => point(y(p1) + y(p2), x(p1) + x(p2));
 
+// returns true if the two points are equal.
 const equal = (p1, p2) => y(p1) === y(p2) && x(p1) === x(p2);
 
+// generator function which returns an iterator which iterates over all points of the matrix.
 // eslint-disable-next-line func-style
 function* iterate(matrix) {
   for (let row = 0; row < height(matrix); row++) {
@@ -96,14 +106,14 @@ function* iterate(matrix) {
   }
 }
 
+// returns true if the point lies within the matrix.
 const inBounds = (matrix, p) =>
   y(p) >= 0 && y(p) < height(matrix) && x(p) >= 0 && x(p) < width(matrix);
 
-const NEIGHBOR_DIRECTIONS = [point(-1, 0), point(1, 0), point(0, -1), point(0, 1)];
-
+// generator function which returns an iterator which iterates over all of the points neighbors.
 // eslint-disable-next-line func-style
 function* neighbors(matrix, p) {
-  for (const d of NEIGHBOR_DIRECTIONS) {
+  for (const d of [point(-1, 0), point(1, 0), point(0, -1), point(0, 1)]) {
     const neighbor = add(p, d);
     if (inBounds(matrix, neighbor)) {
       yield neighbor;
@@ -111,33 +121,39 @@ function* neighbors(matrix, p) {
   }
 }
 
+// sets the value at the point on the matrix.
 const set = (matrix, p, value) => (matrix[y(p)][x(p)] = value);
 
+// gets the value at the point on the matrix.
 const get = (matrix, p) => matrix[y(p)][x(p)];
 
+// returns true if the value represents a thief.
 const isThief = (value) => value === 1;
 
+// returns a new matrix where the value of each cell is the shortest manhattan distance to a thief.
 const safetyMap = (matrix) => {
   const result = fill(height(matrix), width(matrix), Number.MAX_SAFE_INTEGER);
-  const queue = [];
+  const queue = new Queue();
   for (const p of iterate(matrix)) {
     if (isThief(get(matrix, p))) {
       set(result, p, 0);
-      queue.push(p);
+      queue.enqueue(p);
     }
   }
-  while (queue.length) {
-    const p = queue.shift();
+  // simple bfs from each thief.
+  while (!queue.isEmpty()) {
+    const p = queue.dequeue();
     for (const neighbor of neighbors(matrix, p)) {
       if (get(result, neighbor) > get(result, p) + 1) {
         set(result, neighbor, get(result, p) + 1);
-        queue.push(neighbor);
+        queue.enqueue(neighbor);
       }
     }
   }
   return result;
 };
 
+// returns the maximum safeness factor when traveling between start and target points.
 const dijkstras = (matrix, pStart, pTarget) => {
   const visited = fill(height(matrix), width(matrix), false);
   const queue = new MaxPriorityQueue();
