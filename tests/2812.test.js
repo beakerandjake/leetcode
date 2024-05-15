@@ -28,6 +28,14 @@ describe('2812. Find the Safest Path in a Grid', () => {
       ],
       2,
     ],
+    [
+      [
+        [0, 0, 1],
+        [0, 1, 1],
+        [0, 0, 0],
+      ],
+      1,
+    ],
   ].forEach((args) => {
     const [grid, expected] = args;
     test(generateTestName(maximumSafenessFactor, ...args), () => {

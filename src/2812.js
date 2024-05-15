@@ -69,8 +69,110 @@
  * https://leetcode.com/problems/find-the-safest-path-in-a-grid
  */
 
+import { MaxPriorityQueue } from '@datastructures-js/priority-queue';
+
+const fill = (m, n, value) => [...Array(m)].map(() => Array(n).fill(value));
+
+const height = (matrix) => matrix.length;
+
+const width = (matrix) => matrix[0].length;
+
+const point = (y, x) => [y, x];
+
+const y = (p) => p[0];
+
+const x = (p) => p[1];
+
+const add = (p1, p2) => point(y(p1) + y(p2), x(p1) + x(p2));
+
+const equal = (p1, p2) => y(p1) === y(p2) && x(p1) === x(p2);
+
+// eslint-disable-next-line func-style
+function* iterate(matrix) {
+  for (let row = 0; row < height(matrix); row++) {
+    for (let col = 0; col < width(matrix); col++) {
+      yield point(row, col);
+    }
+  }
+}
+
+const inBounds = (matrix, p) =>
+  y(p) >= 0 && y(p) < height(matrix) && x(p) >= 0 && x(p) < width(matrix);
+
+const NEIGHBOR_DIRECTIONS = [point(-1, 0), point(1, 0), point(0, -1), point(0, 1)];
+
+// eslint-disable-next-line func-style
+function* neighbors(matrix, p) {
+  for (const d of NEIGHBOR_DIRECTIONS) {
+    const neighbor = add(p, d);
+    if (inBounds(matrix, neighbor)) {
+      yield neighbor;
+    }
+  }
+}
+
+const set = (matrix, p, value) => (matrix[y(p)][x(p)] = value);
+
+const get = (matrix, p) => matrix[y(p)][x(p)];
+
+const isThief = (value) => value === 1;
+
+const safetyMap = (matrix) => {
+  const result = matrix.map((row) =>
+    row.map((val) => (isThief(val) ? 0 : Number.MAX_SAFE_INTEGER)),
+  );
+
+  const bfs = (startPoint) => {
+    const queue = [[startPoint, 0]];
+    const visited = fill(height(result), width(result), false);
+    set(visited, startPoint, true);
+    while (queue.length) {
+      const [p, distance] = queue.shift();
+      if (get(result, p) < distance) {
+        continue;
+      }
+      set(result, p, distance);
+      for (const neighbor of neighbors(result, p)) {
+        if (!get(visited, neighbor)) {
+          set(visited, neighbor, true);
+          queue.push([neighbor, distance + 1]);
+        }
+      }
+    }
+  };
+
+  for (const p of iterate(result)) {
+    if (isThief(get(matrix, p))) {
+      bfs(p);
+    }
+  }
+
+  return result;
+};
+
+const dijkstras = (matrix, pStart, pTarget) => {
+  const visited = fill(height(matrix), width(matrix), false);
+  const queue = new MaxPriorityQueue();
+  queue.enqueue(pStart, get(matrix, pStart));
+  set(visited, pStart, true);
+  while (!queue.isEmpty()) {
+    const { element: p, priority } = queue.dequeue();
+    if (equal(p, pTarget)) {
+      return priority;
+    }
+    for (const neighbor of neighbors(matrix, p)) {
+      if (!get(visited, neighbor)) {
+        set(visited, neighbor, true);
+        queue.enqueue(neighbor, Math.min(priority, get(matrix, neighbor)));
+      }
+    }
+  }
+  return -1;
+};
+
 /**
  * @param {number[][]} grid
  * @return {number}
  */
-export const maximumSafenessFactor = (grid) => {};
+export const maximumSafenessFactor = (grid) =>
+  dijkstras(safetyMap(grid), point(0, 0), point(height(grid) - 1, width(grid) - 1));
