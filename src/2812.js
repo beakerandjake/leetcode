@@ -139,24 +139,23 @@ const safetyMap = (matrix) => {
 };
 
 const dijkstras = (matrix, pStart, pTarget) => {
+  const visited = fill(height(matrix), width(matrix), false);
+  const queue = new MaxPriorityQueue();
+  queue.enqueue(pStart, get(matrix, pStart));
+  set(visited, pStart, true);
+  while (!queue.isEmpty()) {
+    const { element: p, priority } = queue.dequeue();
+    if (equal(p, pTarget)) {
+      return priority;
+    }
+    for (const neighbor of neighbors(matrix, p)) {
+      if (!get(visited, neighbor)) {
+        set(visited, neighbor, true);
+        queue.enqueue(neighbor, Math.min(priority, get(matrix, neighbor)));
+      }
+    }
+  }
   return -1;
-  // const visited = fill(height(matrix), width(matrix), false);
-  // const queue = new MaxPriorityQueue();
-  // queue.enqueue(pStart, get(matrix, pStart));
-  // set(visited, pStart, true);
-  // while (!queue.isEmpty()) {
-  //   const { element: p, priority } = queue.dequeue();
-  //   if (equal(p, pTarget)) {
-  //     return priority;
-  //   }
-  //   for (const neighbor of neighbors(matrix, p)) {
-  //     if (!get(visited, neighbor)) {
-  //       set(visited, neighbor, true);
-  //       queue.enqueue(neighbor, Math.min(priority, get(matrix, neighbor)));
-  //     }
-  //   }
-  // }
-  // return -1;
 };
 
 /**
