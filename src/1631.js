@@ -61,23 +61,32 @@
 
 import { MinPriorityQueue } from '@datastructures-js/priority-queue';
 
+// returns a new matrix of size (m x n) filled with the value.
 const fill = (m, n, value) => [...Array(m)].map(() => Array(n).fill(value));
 
+// returns the height of the matrix.
 const height = (matrix) => matrix.length;
 
+// returns the width of the matrix.
 const width = (matrix) => matrix[0].length;
 
+// creates a new 2d point.
 const point = (y, x) => [y, x];
 
+// returns the y component of the point.
 const y = (p) => p[0];
 
+// returns the x component of the point.
 const x = (p) => p[1];
 
+// adds the two points together and returns a new point.
 const add = (p1, p2) => point(y(p1) + y(p2), x(p1) + x(p2));
 
+// returns true if the point is in bounds of the matrix.
 const inBounds = (matrix, p) =>
   y(p) >= 0 && y(p) < height(matrix) && x(p) >= 0 && x(p) < width(matrix);
 
+// returns the neighbors of the point.
 // eslint-disable-next-line func-style
 function* neighbors(matrix, p) {
   const dirs = [point(-1, 0), point(1, 0), point(0, -1), point(0, 1)];
@@ -89,11 +98,17 @@ function* neighbors(matrix, p) {
   }
 }
 
+// returns the value of element at the point of the matrix.
 const get = (matrix, p) => matrix[y(p)][x(p)];
 
+// updates the value of element at the point of the matrix.
 const set = (matrix, p, value) => (matrix[y(p)][x(p)] = value);
 
+// returns true if the two points are equal.
 const equals = (p1, p2) => y(p1) === y(p2) && x(p1) === x(p2);
+
+// returns the effort it takes to traverse the two points.
+const effort = (matrix, p1, p2) => Math.abs(get(matrix, p1) - get(matrix, p2));
 
 const dijkstras = (matrix, start, target) => {
   const queue = MinPriorityQueue.from([[start, 0]]);
@@ -105,10 +120,7 @@ const dijkstras = (matrix, start, target) => {
       return maxEffort;
     }
     for (const neighbor of neighbors(matrix, p)) {
-      const newEffort = Math.max(
-        maxEffort,
-        Math.abs(get(matrix, p) - get(matrix, neighbor)),
-      );
+      const newEffort = Math.max(maxEffort, effort(matrix, p, neighbor));
       if (newEffort < get(dist, neighbor)) {
         set(dist, neighbor, newEffort);
         queue.enqueue(neighbor, newEffort);
