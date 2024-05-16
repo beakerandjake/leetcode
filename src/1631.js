@@ -110,6 +110,7 @@ const equals = (p1, p2) => y(p1) === y(p2) && x(p1) === x(p2);
 // returns the effort it takes to traverse the two points.
 const effort = (matrix, p1, p2) => Math.abs(get(matrix, p1) - get(matrix, p2));
 
+// returns the minimum effort needed to traverse from start to target.
 const dijkstras = (matrix, start, target) => {
   const queue = MinPriorityQueue.from([[start, 0]]);
   const dist = fill(height(matrix), width(matrix), Number.MAX_SAFE_INTEGER);
