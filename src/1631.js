@@ -59,8 +59,68 @@
  * https://leetcode.com/problems/path-with-minimum-effort
  */
 
+import { MinPriorityQueue } from '@datastructures-js/priority-queue';
+
+const fill = (m, n, value) => [...Array(m)].map(() => Array(n).fill(value));
+
+const height = (matrix) => matrix.length;
+
+const width = (matrix) => matrix[0].length;
+
+const point = (y, x) => [y, x];
+
+const y = (p) => p[0];
+
+const x = (p) => p[1];
+
+const add = (p1, p2) => point(y(p1) + y(p2), x(p1) + x(p2));
+
+const inBounds = (matrix, p) =>
+  y(p) >= 0 && y(p) < height(matrix) && x(p) >= 0 && x(p) < width(matrix);
+
+// eslint-disable-next-line func-style
+function* neighbors(matrix, p) {
+  const dirs = [point(-1, 0), point(1, 0), point(0, -1), point(0, 1)];
+  for (const dir of dirs) {
+    const neighbor = add(p, dir);
+    if (inBounds(matrix, neighbor)) {
+      yield neighbor;
+    }
+  }
+}
+
+const get = (matrix, p) => matrix[y(p)][x(p)];
+
+const set = (matrix, p, value) => (matrix[y(p)][x(p)] = value);
+
+const equals = (p1, p2) => y(p1) === y(p2) && x(p1) === x(p2);
+
+const dijkstras = (matrix, start, target) => {
+  const queue = MinPriorityQueue.from([[start, 0]]);
+  const dist = fill(height(matrix), width(matrix), Number.MAX_SAFE_INTEGER);
+  set(dist, start, 0);
+  while (!queue.isEmpty()) {
+    const { element: p, priority: maxEffort } = queue.dequeue();
+    if (equals(p, target)) {
+      return maxEffort;
+    }
+    for (const neighbor of neighbors(matrix, p)) {
+      const newEffort = Math.max(
+        maxEffort,
+        Math.abs(get(matrix, p) - get(matrix, neighbor)),
+      );
+      if (newEffort < get(dist, neighbor)) {
+        set(dist, neighbor, newEffort);
+        queue.enqueue(neighbor, newEffort);
+      }
+    }
+  }
+  return -1;
+};
+
 /**
  * @param {number[][]} heights
  * @return {number}
  */
-export const minimumEffortPath = (heights) => {};
+export const minimumEffortPath = (heights) =>
+  dijkstras(heights, point(0, 0), point(height(heights) - 1, width(heights) - 1));
