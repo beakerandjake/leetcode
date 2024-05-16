@@ -58,12 +58,47 @@
  * https://leetcode.com/problems/path-with-maximum-probability
  */
 
+import { MaxPriorityQueue } from '@datastructures-js/priority-queue';
+
+const toEdge = (dest, weight) => [dest, weight];
+
+const emptyGraph = (n) => [...Array(n)].reduce((acc, _, i) => acc.set(i, []), new Map());
+
+const toGraph = (n, edges, success) =>
+  edges.reduce((acc, [from, to], i) => {
+    acc.get(from).push(toEdge(to, success[i]));
+    acc.get(to).push(toEdge(from, success[i]));
+    return acc;
+  }, emptyGraph(n));
+
+const dijkstra = (graph, start, target) => {
+  const dist = [...Array(graph.size)].map((_, i) => (i === start ? 1 : 0));
+  const queue = MaxPriorityQueue.from([[start, 1]]);
+  while (!queue.isEmpty()) {
+    const { element: node, priority: probability } = queue.dequeue();
+    if (node === target) {
+      return probability;
+    }
+    for (const [dest, weight] of graph.get(node)) {
+      if (weight * probability > dist[dest]) {
+        dist[dest] = weight * probability;
+        queue.enqueue(dest, weight * probability);
+      }
+    }
+  }
+  return 0;
+};
+
 /**
  * @param {number} n
  * @param {number[][]} edges
- * @param {number[]} succProb
- * @param {number} start_node
- * @param {number} end_node
+ * @param {number[]} success
+ * @param {number} start
+ * @param {number} target
  * @return {number}
  */
-export const maxProbability = (n, edges, succProb, start_node, end_node) => {};
+export const maxProbability = (n, edges, success, start, target) => {
+  const graph = toGraph(n, edges, success);
+  console.log(graph);
+  return dijkstra(graph, start, target);
+};
