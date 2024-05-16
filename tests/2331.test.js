@@ -1,5 +1,5 @@
 import { evaluateTree } from '../src/2331.js';
-import { generateTestName } from './util.js';
+import { arrToBst, generateTestName } from './util.js';
 
 describe('2331. Evaluate Boolean Binary Tree', () => {
   [
@@ -8,7 +8,7 @@ describe('2331. Evaluate Boolean Binary Tree', () => {
   ].forEach((args) => {
     const [root, expected] = args;
     test(generateTestName(evaluateTree, ...args), () => {
-      const result = evaluateTree(root);
+      const result = evaluateTree(arrToBst(root));
       expect(result).toBe(expected);
     });
   });

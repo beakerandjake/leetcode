@@ -64,8 +64,20 @@
  *     this.right = (right===undefined ? null : right)
  * }
  */
+
+const or = (a, b) => a || b;
+
+const and = (a, b) => a && b;
+
+const operation = (key) => (key === 2 ? or : and);
+
 /**
  * @param {TreeNode} root
  * @return {boolean}
  */
-export const evaluateTree = (root) => {};
+export const evaluateTree = (root) => {
+  if (!root?.left && !root?.right) {
+    return !!root?.val;
+  }
+  return operation(root.val)(evaluateTree(root.left), evaluateTree(root.right));
+};
