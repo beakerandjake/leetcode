@@ -58,9 +58,17 @@
  *     this.right = (right===undefined ? null : right)
  * }
  */
+
 /**
  * @param {TreeNode} root
  * @param {number} target
  * @return {TreeNode}
  */
-export const removeLeafNodes = (root, target) => {};
+export const removeLeafNodes = (root, target) => {
+  if (!root) {
+    return null;
+  }
+  root.left = removeLeafNodes(root.left, target);
+  root.right = removeLeafNodes(root.right, target);
+  return !root.left && !root.right && root.val === target ? null : root;
+};

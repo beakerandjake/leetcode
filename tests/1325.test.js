@@ -1,5 +1,5 @@
 import { removeLeafNodes } from '../src/1325.js';
-import { generateTestName } from './util.js';
+import { arrToBst, bstToArr, generateTestName } from './util.js';
 
 describe('1325. Delete Leaves With a Given Value', () => {
   [
@@ -9,8 +9,8 @@ describe('1325. Delete Leaves With a Given Value', () => {
   ].forEach((args) => {
     const [root, target, expected] = args;
     test(generateTestName(removeLeafNodes, ...args), () => {
-      const result = removeLeafNodes(root, target);
-      expect(result).toEqual(expected);
+      const result = removeLeafNodes(arrToBst(root), target);
+      expect(bstToArr(result)).toEqual(expected);
     });
   });
 });
