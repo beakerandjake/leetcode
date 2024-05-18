@@ -1,5 +1,5 @@
 import { distributeCoins } from '../src/979.js';
-import { generateTestName } from './util.js';
+import { arrToBst, generateTestName } from './util.js';
 
 describe('979. Distribute Coins in Binary Tree', () => {
   [
@@ -8,7 +8,7 @@ describe('979. Distribute Coins in Binary Tree', () => {
   ].forEach((args) => {
     const [root, expected] = args;
     test(generateTestName(distributeCoins, ...args), () => {
-      const result = distributeCoins(root);
+      const result = distributeCoins(arrToBst(root));
       expect(result).toBe(expected);
     });
   });

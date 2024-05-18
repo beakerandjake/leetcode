@@ -52,8 +52,32 @@
  *     this.right = (right===undefined ? null : right)
  * }
  */
+
+// creates a new state holding the coins and moves.
+const state = (coins, moves) => [coins, moves];
+
+// returns the number of coins in a state.
+const coins = (s) => s[0];
+
+// returns the number of moves in a state.
+const moves = (s) => s[1];
+
+const distribute = (node) => {
+  if (!node) {
+    return state(0, 0);
+  }
+  // post order traversal, figure out leaves first.
+  const left = distribute(node.left);
+  const right = distribute(node.right);
+  // offer parent all of the coins available in our subtree save 1 which we keep for ourself.
+  const newCoins = coins(left) + coins(right) + node.val - 1;
+  // account for moves made by subtree plus the moves needed by this node.
+  const newMoves = Math.abs(newCoins) + moves(left) + moves(right);
+  return state(newCoins, newMoves);
+};
+
 /**
  * @param {TreeNode} root
  * @return {number}
  */
-export const distributeCoins = (root) => {};
+export const distributeCoins = (root) => moves(distribute(root));
