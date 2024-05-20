@@ -63,8 +63,30 @@
  * https://leetcode.com/problems/sum-of-all-subset-xor-totals
  */
 
+const bruteForce = (() => {
+  // eslint-disable-next-line func-style
+  function* subsets(arr) {
+    const max = 2 ** arr.length;
+    for (let subset = 1; subset < max; subset++) {
+      const values = [];
+      for (let bit = 0; bit < arr.length; bit++) {
+        if (subset & (1 << bit)) {
+          values.push(arr[bit]);
+        }
+      }
+      yield values;
+    }
+  }
+
+  const xor = (nums) => nums.reduce((acc, x) => acc ^ x, 0);
+
+  const sum = (nums) => nums.reduce((acc, x) => acc + x, 0);
+
+  return (nums) => sum([...subsets(nums)].map(xor));
+})();
+
 /**
  * @param {number[]} nums
  * @return {number}
  */
-export const subsetXORSum = (nums) => {};
+export const subsetXORSum = bruteForce;
