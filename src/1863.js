@@ -85,8 +85,18 @@ const bruteForce = (() => {
   return (nums) => sum([...subsets(nums)].map(xor));
 })();
 
+const usingBacktracking = (nums) => {
+  const recurse = (index, sum) => {
+    if (index >= nums.length) {
+      return sum;
+    }
+    return recurse(index + 1, sum) + recurse(index + 1, sum ^ nums[index]);
+  };
+  return recurse(0, 0);
+};
+
 /**
  * @param {number[]} nums
  * @return {number}
  */
-export const subsetXORSum = bruteForce;
+export const subsetXORSum = usingBacktracking;
