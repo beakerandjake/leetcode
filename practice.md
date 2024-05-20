@@ -118,3 +118,6 @@ Certain problems I like to practice to stay fresh in basic concepts. This docume
 - [path-with-maximum-minimum-value #1102](https://leetcode.com/problems/path-with-maximum-minimum-value)
 - [network-delay-time #743](https://leetcode.com/problems/network-delay-time)
 - [find-the-city-with-the-smallest-number-of-neighbors-at-a-threshold-distance #1334](https://leetcode.com/problems/find-the-city-with-the-smallest-number-of-neighbors-at-a-threshold-distance)
+
+# Subsets
+- [sum-of-all-subset-xor-totals #1863](https://leetcode.com/problems/sum-of-all-subset-xor-totals/)
