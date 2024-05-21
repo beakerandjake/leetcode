@@ -38,4 +38,20 @@
  * @param {number[]} nums
  * @return {number[][]}
  */
-export const subsets = (nums) => {};
+export const subsets = (nums) => {
+  const result = [];
+  const backtrack = (index, subset) => {
+    if (index >= nums.length) {
+      result.push([...subset]);
+      return;
+    }
+    // take number.
+    subset.push(nums[index]);
+    backtrack(index + 1, subset);
+    subset.pop();
+    // do not take number.
+    backtrack(index + 1, subset);
+  };
+  backtrack(0, []);
+  return result;
+};
