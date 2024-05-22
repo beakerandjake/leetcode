@@ -1,5 +1,5 @@
 import { partition } from '../src/131.js';
-import { arrToStr } from './util.js';
+import { generateTestName } from './util.js';
 
 describe('131. Palindrome Partitioning', () => {
   [
@@ -11,9 +11,10 @@ describe('131. Palindrome Partitioning', () => {
       ],
     ],
     ['a', [['a']]],
-  ].forEach(([input, expected]) => {
-    test(`${input} -> ${arrToStr(expected)}`, () => {
-      const result = partition(input);
+  ].forEach((args) => {
+    const [s, expected] = args;
+    test(generateTestName(partition, ...args), () => {
+      const result = partition(s);
       expect(result).toEqual(expected);
     });
   });
