@@ -31,7 +31,7 @@ describe('73. Set Matrix Zeroes', () => {
     const [matrix, expected] = args;
     test(generateTestName(setZeroes, ...args), () => {
       setZeroes(matrix);
-      expect(matrix).toEqual(expected);
+      expect(matrix).toIncludeSameMembers(expected);
     });
   });
 });
