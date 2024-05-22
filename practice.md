@@ -121,3 +121,5 @@ Certain problems I like to practice to stay fresh in basic concepts. This docume
 
 # Subsets
 - [sum-of-all-subset-xor-totals #1863](https://leetcode.com/problems/sum-of-all-subset-xor-totals/)
+- [subsets #78](https://leetcode.com/problems/subsets/)
+- [palindrome-partitioning #131](https://leetcode.com/problems/palindrome-partitioning)
