@@ -97,8 +97,5 @@ const dijkstra = (graph, start, target) => {
  * @param {number} target
  * @return {number}
  */
-export const maxProbability = (n, edges, success, start, target) => {
-  const graph = toGraph(n, edges, success);
-  console.log(graph);
-  return dijkstra(graph, start, target);
-};
+export const maxProbability = (n, edges, success, start, target) =>
+  dijkstra(toGraph(n, edges, success), start, target);
