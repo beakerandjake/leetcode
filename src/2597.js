@@ -53,22 +53,23 @@ const isBeautiful = (number, subset, k) =>
  * @return {number}
  */
 export const beautifulSubsets = (nums, k) => {
-  let result = 0;
+  // let result = 0;
   const recurse = (index, subset) => {
     if (index >= nums.length) {
-      result += subset.length ? 1 : 0;
-      return;
+      // result += subset.length ? 1 : 0;
+      return Number(!!subset.length);
     }
+    let take = 0;
     // take item if possible
     if (isBeautiful(nums[index], subset, k)) {
       subset.push(nums[index]);
-      recurse(index + 1, subset);
+      take = recurse(index + 1, subset);
       subset.pop();
     }
 
     // don't take item
-    recurse(index + 1, subset);
+    return take + recurse(index + 1, subset);
   };
-  recurse(0, []);
-  return result;
+
+  return recurse(0, []);
 };
