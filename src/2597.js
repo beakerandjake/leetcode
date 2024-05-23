@@ -42,10 +42,9 @@
  * https://leetcode.com/problems/the-number-of-beautiful-subsets
  */
 
-const difference = (a, b) => Math.abs(a - b);
-
+// returns true if the number can be added to the subset and maintain the beautiful property.
 const isBeautiful = (number, subset, k) =>
-  subset.map((x) => difference(number, x)).every((x) => x !== k);
+  subset.map((x) => Math.abs(number - x)).every((x) => x !== k);
 
 /**
  * @param {number[]} nums
@@ -53,10 +52,8 @@ const isBeautiful = (number, subset, k) =>
  * @return {number}
  */
 export const beautifulSubsets = (nums, k) => {
-  // let result = 0;
   const recurse = (index, subset) => {
     if (index >= nums.length) {
-      // result += subset.length ? 1 : 0;
       return Number(!!subset.length);
     }
     let take = 0;
@@ -66,10 +63,10 @@ export const beautifulSubsets = (nums, k) => {
       take = recurse(index + 1, subset);
       subset.pop();
     }
-
     // don't take item
-    return take + recurse(index + 1, subset);
+    const skip = recurse(index + 1, subset);
+    // result is number of beautiful subsets from using or skipping this element.
+    return take + skip;
   };
-
   return recurse(0, []);
 };
