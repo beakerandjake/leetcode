@@ -44,7 +44,7 @@
 
 // returns true if the number can be added to the subset and maintain the beautiful property.
 const isBeautiful = (number, subset, k) =>
-  subset.map((x) => Math.abs(number - x)).every((x) => x !== k);
+  subset.every((x) => Math.abs(number - x) !== k);
 
 /**
  * @param {number[]} nums
