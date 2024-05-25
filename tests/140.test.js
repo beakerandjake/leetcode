@@ -18,7 +18,7 @@ describe('140. Word Break II', () => {
     const [s, wordDict, expected] = args;
     test(generateTestName(wordBreak, ...args), () => {
       const result = wordBreak(s, wordDict);
-      expect(result).toEqual(expected);
+      expect(result).toIncludeSameMembers(expected);
     });
   });
 });

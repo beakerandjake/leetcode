@@ -46,9 +46,35 @@
  * https://leetcode.com/problems/word-break-ii
  */
 
+// returns the number of characters in the sentence.
+const length = (sentence) => sentence.reduce((acc, word) => acc + word.length, 0);
+
 /**
- * @param {string} s
- * @param {string[]} wordDict
+ * @param {string} str
+ * @param {string[]} words
  * @return {string[]}
  */
-export const wordBreak = (s, wordDict) => {};
+export const wordBreak = (str, words) => {
+  const wordLookup = new Set(words);
+  const result = [];
+  const backtrack = (pStart, index, sentence) => {
+    if (index >= str.length) {
+      // only use sentence if consumed the entire input string.
+      if (length(sentence) === str.length) {
+        result.push(sentence.join(' '));
+      }
+      return;
+    }
+    const word = str.slice(pStart, index + 1);
+    // attempt to partition here if the current word is valid.
+    if (wordLookup.has(word)) {
+      sentence.push(word);
+      backtrack(index + 1, index + 1, sentence);
+      sentence.pop();
+    }
+    // skip this word
+    backtrack(pStart, index + 1, sentence);
+  };
+  backtrack(0, 0, []);
+  return result;
+};
