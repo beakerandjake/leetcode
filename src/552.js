@@ -54,8 +54,39 @@
  * https://leetcode.com/problems/student-attendance-record-ii
  */
 
+const fill = (depth, height, width, value) => {
+  const fill2d = () => [...Array(height)].map(() => Array(width).fill(value));
+  return [...Array(depth)].map(() => fill2d());
+};
+
 /**
  * @param {number} n
  * @return {number}
  */
-export const checkRecord = (n) => {};
+export const checkRecord = (n) => {
+  const mod = 10 ** 9 + 7;
+  const memo = fill(n + 1, 2, 3, null);
+  const dp = (day, absentCount, lateCount) => {
+    if (absentCount > 1 || lateCount > 2) {
+      return 0;
+    }
+    if (day >= n) {
+      return 1;
+    }
+
+    if (memo[day][absentCount][lateCount] === null) {
+      // be absent
+      const absent = dp(day + 1, absentCount + 1, 0);
+      // be present
+      const present = dp(day + 1, absentCount, 0);
+      // be late
+      const late = dp(day + 1, absentCount, lateCount + 1);
+
+      memo[day][absentCount][lateCount] = (absent + present + late) % mod;
+    }
+
+    return memo[day][absentCount][lateCount];
+  };
+
+  return dp(0, 0, 0);
+};
