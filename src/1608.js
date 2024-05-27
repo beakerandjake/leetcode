@@ -50,8 +50,42 @@
  * https://leetcode.com/problems/special-array-with-x-elements-greater-than-or-equal-x
  */
 
+const bruteForce = (arr) => {
+  const candidates = [...Array(arr.length)].map((_, i) => i + 1);
+  const isSpecial = (value) => arr.filter((x) => x >= value).length === value;
+  return candidates.find(isSpecial) || -1;
+};
+
+const usingSorting = (arr) => {
+  const sorted = [...arr].sort((a, b) => a - b);
+
+  const findIndex = (value) => {
+    let first = sorted.length;
+    let left = 0;
+    let right = sorted.length - 1;
+    while (left <= right) {
+      const m = left + Math.floor((right - left) / 2);
+      if (sorted[m] >= value) {
+        first = m;
+        right = m - 1;
+      } else {
+        left = m + 1;
+      }
+    }
+    return first;
+  };
+
+  for (let i = 1; i <= arr.length; i++) {
+    const firstIndexGte = findIndex(i);
+    if (arr.length - firstIndexGte === i) {
+      return i;
+    }
+  }
+  return -1;
+};
+
 /**
  * @param {number[]} nums
  * @return {number}
  */
-export const specialArray = (nums) => {};
+export const specialArray = usingSorting;
