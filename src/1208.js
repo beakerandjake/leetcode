@@ -51,10 +51,27 @@
  * https://leetcode.com/problems/get-equal-substrings-within-budget
  */
 
+const cost = (a, b) => Math.abs(a.charCodeAt() - b.charCodeAt());
+
 /**
  * @param {string} s
  * @param {string} t
  * @param {number} maxCost
  * @return {number}
  */
-export const equalSubstring = (s, t, maxCost) => {};
+export const equalSubstring = (s, t, maxCost) => {
+  let maxLength = 0;
+  let left = 0;
+  let right = 0;
+  let currentCost = 0;
+  while (right < s.length) {
+    currentCost += cost(s[right], t[right]);
+    while (currentCost > maxCost) {
+      currentCost -= cost(s[left], t[left]);
+      left++;
+    }
+    maxLength = Math.max(maxLength, right - left + 1);
+    right++;
+  }
+  return maxLength;
+};
