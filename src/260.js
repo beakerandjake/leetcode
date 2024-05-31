@@ -43,8 +43,28 @@
  * https://leetcode.com/problems/single-number-iii
  */
 
+// returns the index of the first non zero bit (from right)
+const indexOfFirstNonZeroBit = (number) => {
+  for (let i = 0; i < 32; i++) {
+    if ((number & (1 << i)) !== 0) {
+      return i;
+    }
+  }
+  return -1;
+};
+
 /**
  * @param {number[]} nums
  * @return {number[]}
  */
-export const singleNumber = (nums) => {};
+export const singleNumber = (nums) => {
+  const xorTotal = nums.reduce((acc, x) => acc ^ x, 0);
+  const xorBitmask = 1 << indexOfFirstNonZeroBit(xorTotal);
+  // split nums into two groups based on if they have the xorBitmask bit set.
+  // taking the xor of these two groups provides the two unique numbers.
+  return nums.reduce(
+    ([zeroGroup, oneGroup], num) =>
+      num & xorBitmask ? [zeroGroup, oneGroup ^ num] : [zeroGroup ^ num, oneGroup],
+    [0, 0],
+  );
+};

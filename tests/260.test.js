@@ -19,7 +19,7 @@ describe('260. Single Number III', () => {
     const [nums, expected] = args;
     test(generateTestName(singleNumber, ...args), () => {
       const result = singleNumber(nums);
-      expect(result).toEqual(expected);
+      expect(result).toIncludeSameMembers(expected);
     });
   });
 });
