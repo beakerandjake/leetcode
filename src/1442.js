@@ -65,8 +65,29 @@ const bruteForce = (() => {
     );
 })();
 
+const usingPrefixSum = (arr) => {
+  const prefixSum = () => {
+    const result = [0, ...arr];
+    for (let i = 1; i < result.length; i++) {
+      result[i] ^= result[i - 1];
+    }
+    return result;
+  };
+
+  let result = 0;
+  const xorLookup = prefixSum();
+  for (let i = 0; i <= arr.length; i++) {
+    for (let k = i + 1; k <= arr.length; k++) {
+      if (xorLookup[i] === xorLookup[k]) {
+        result += k - i - 1;
+      }
+    }
+  }
+  return result;
+};
+
 /**
  * @param {number[]} arr
  * @return {number}
  */
-export const countTriplets = bruteForce;
+export const countTriplets = usingPrefixSum;
