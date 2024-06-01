@@ -42,7 +42,10 @@
  */
 
 /**
- * @param {string} s
+ * @param {string} str
  * @return {number}
  */
-export const scoreOfString = (s) => {};
+export const scoreOfString = (str) =>
+  [...str]
+    .map((x) => x.charCodeAt())
+    .reduce((acc, x, i, arr) => (i > 0 ? acc + Math.abs(x - arr[i - 1]) : 0), 0);
