@@ -121,5 +121,9 @@ Certain problems I like to practice to stay fresh in basic concepts. This docume
 
 # Subsets
 - [sum-of-all-subset-xor-totals #1863](https://leetcode.com/problems/sum-of-all-subset-xor-totals/)
+- [word-break-ii #140](https://leetcode.com/problems/word-break-ii)
 - [subsets #78](https://leetcode.com/problems/subsets/)
 - [palindrome-partitioning #131](https://leetcode.com/problems/palindrome-partitioning)
+
+# Sliding Window
+- [get-equal-substrings-within-budget #1208](https://leetcode.com/problems/get-equal-substrings-within-budget)
