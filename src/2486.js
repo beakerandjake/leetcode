@@ -49,9 +49,47 @@
  * https://leetcode.com/problems/append-characters-to-string-to-make-subsequence
  */
 
+const bruteForce = (() => {
+  const consume = (source, sourceIndex, target, targetIndex) => {
+    if (sourceIndex >= source.length || targetIndex >= target.length) {
+      return 0;
+    }
+    return source[sourceIndex] === target[targetIndex]
+      ? 1 + consume(source, sourceIndex + 1, target, targetIndex + 1)
+      : consume(source, sourceIndex + 1, target, targetIndex);
+  };
+
+  return (s, t) => {
+    let max = 0;
+    let i = 0;
+    while (i < s.length) {
+      let consumed = 1;
+      if (s[i] === t[0]) {
+        const subsequenceLength = consume(s, i, t, 0);
+        max = Math.max(max, subsequenceLength);
+        consumed = Math.max(consumed, subsequenceLength);
+      }
+      i += consumed;
+    }
+    return t.length - max;
+  };
+})();
+
+const usingTwoPointers = (source, target) => {
+  let sIndex = 0;
+  let tIndex = 0;
+  while (sIndex < source.length && tIndex < target.length) {
+    if (source[sIndex] === target[tIndex]) {
+      tIndex++;
+    }
+    sIndex++;
+  }
+  return target.length - tIndex;
+};
+
 /**
  * @param {string} s
  * @param {string} t
  * @return {number}
  */
-export const appendCharacters = (s, t) => {};
+export const appendCharacters = usingTwoPointers;

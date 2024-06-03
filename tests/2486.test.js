@@ -6,6 +6,7 @@ describe('2486. Append Characters to String to Make Subsequence', () => {
     ['coaching', 'coding', 4],
     ['abcde', 'a', 0],
     ['z', 'abcde', 5],
+    ['vrykt', 'rkge', 2],
   ].forEach((args) => {
     const [s, t, expected] = args;
     test(generateTestName(appendCharacters, ...args), () => {
