@@ -34,8 +34,51 @@
  * https://leetcode.com/problems/longest-palindrome
  */
 
+const frequencyMap = (str) =>
+  [...str].reduce((acc, x) => acc.set(x, (acc.get(x) || 0) + 1), new Map());
+
+const maxChar = (map) => {
+  let maxKey;
+  let maxValue = 0;
+  for (const [k, v] of map.entries()) {
+    if (v > maxValue) {
+      maxKey = k;
+      maxValue = v;
+    }
+  }
+  return maxKey;
+};
+
 /**
- * @param {string} s
+ * @param {string} str
  * @return {number}
  */
-export const longestPalindrome = (s) => {};
+export const longestPalindrome = (str) => {
+  let result = 0;
+  const charCounts = frequencyMap(str);
+
+  // use all of the chars with an even count.
+  for (const [k, v] of charCounts.entries()) {
+    if (v % 2 === 0) {
+      result += v;
+      charCounts.delete(k);
+    }
+  }
+
+  // use the char with the maximum odd count
+  if (charCounts.size) {
+    const maxOddChar = maxChar(charCounts);
+    result += charCounts.get(maxOddChar);
+    charCounts.delete(maxOddChar);
+  }
+
+  // use any remaining odd chars
+  for (const count of charCounts.values()) {
+    // don't use all instances of the char because that would break palindrome
+    if (count >= 3) {
+      result += count - 1;
+    }
+  }
+
+  return result;
+};
