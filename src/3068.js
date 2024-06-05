@@ -72,34 +72,6 @@
  * https://leetcode.com/problems/find-the-maximum-sum-of-node-values
  */
 
-const toGraph = (edges) => {
-  const empty = [...Array(edges.length + 1)].reduce(
-    (acc, _, i) => acc.set(i, []),
-    new Map(),
-  );
-  return edges.reduce((acc, [from, to]) => {
-    acc.get(from).push(to);
-    acc.get(to).push(from);
-    return acc;
-  }, empty);
-  // 0 1 0
-  // 1 0 1
-  // ------
-  // 1 1 1
-
-  /**
-   * 010
-   * 111
-   * ---
-   * 101
-   *
-   * 101
-   * 111
-   * 010
-   *
-   */
-};
-
 /**
  * @param {number[]} nums
  * @param {number} k
