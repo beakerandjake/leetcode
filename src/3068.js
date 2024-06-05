@@ -72,10 +72,54 @@
  * https://leetcode.com/problems/find-the-maximum-sum-of-node-values
  */
 
+const toGraph = (edges) => {
+  const empty = [...Array(edges.length + 1)].reduce(
+    (acc, _, i) => acc.set(i, []),
+    new Map(),
+  );
+  return edges.reduce((acc, [from, to]) => {
+    acc.get(from).push(to);
+    acc.get(to).push(from);
+    return acc;
+  }, empty);
+  // 0 1 0
+  // 1 0 1
+  // ------
+  // 1 1 1
+
+  /**
+   * 010
+   * 111
+   * ---
+   * 101
+   *
+   * 101
+   * 111
+   * 010
+   *
+   */
+};
+
 /**
  * @param {number[]} nums
  * @param {number} k
  * @param {number[][]} edges
  * @return {number}
  */
-export const maximumValueSum = (nums, k, edges) => {};
+export const maximumValueSum = (nums, k, edges) => {
+  const memo = [...Array(nums.length + 1)].map(() => Array(2).fill(null));
+
+  const dp = (index, evenNumXor) => {
+    if (index >= nums.length) {
+      return evenNumXor ? 0 : Number.MIN_SAFE_INTEGER;
+    }
+    if (memo[index][evenNumXor] == null) {
+      const skipXor = nums[index] + dp(index + 1, evenNumXor);
+      const useXor = (nums[index] ^ k) + dp(index + 1, Number(!evenNumXor));
+      memo[index][evenNumXor] = Math.max(skipXor, useXor);
+    }
+    return memo[index][evenNumXor];
+  };
+
+  return dp(0, 1);
+};
