@@ -45,9 +45,56 @@
  * https://leetcode.com/problems/hand-of-straights
  */
 
+const sorted = (arr) => [...arr].sort((a, b) => a - b);
+
+const chunk = (arr, size) => {
+  const cardMap = arr.reduce((acc, x) => acc.set(x, (acc.get(x) || 0) + 1), new Map());
+
+  const useCard = (card) => {
+    cardMap.set(card, cardMap.get(card) - 1);
+    if (cardMap.get(card) <= 0) {
+      cardMap.delete(card);
+    }
+  };
+
+  // eslint-disable-next-line func-style
+  function* pullCards() {
+    const keyIter = cardMap.keys();
+    for (let i = 0; i < size; i++) {
+      yield keyIter.next().value;
+    }
+  }
+
+  const result = [];
+  for (let i = arr.length / size; i > 0; i--) {
+    const group = [...pullCards()];
+    group.forEach((card) => useCard(card));
+    result.push(group);
+  }
+  return result;
+};
+
+const maxDifference = (arr) => {
+  let max = 0;
+  for (let i = 1; i < arr.length; i++) {
+    max = Math.max(max, Math.abs(arr[i] - arr[i - 1]));
+  }
+  return max;
+};
+
 /**
  * @param {number[]} hand
  * @param {number} groupSize
  * @return {boolean}
  */
-export const isNStraightHand = (hand, groupSize) => {};
+export const isNStraightHand = (hand, groupSize) => {
+  if (hand.length % groupSize !== 0) {
+    return false;
+  }
+
+  if (groupSize === 1) {
+    return true;
+  }
+
+  return chunk(sorted(hand), groupSize).every((group) => maxDifference(group) === 1);
+};

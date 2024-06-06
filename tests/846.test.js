@@ -5,6 +5,7 @@ describe('846. Hand of Straights', () => {
   [
     [[1, 2, 3, 6, 2, 3, 4, 7, 8], 3, true],
     [[1, 2, 3, 4, 5], 4, false],
+    [[1, 2, 3], 1, true],
   ].forEach((args) => {
     const [hand, groupSize, expected] = args;
     test(generateTestName(isNStraightHand, ...args), () => {
