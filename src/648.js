@@ -47,9 +47,69 @@
  * https://leetcode.com/problems/replace-words
  */
 
+class TrieNode {
+  constructor(isWord) {
+    this.isWord = isWord;
+    this.children = new Map();
+  }
+
+  has(char) {
+    return this.children.has(char);
+  }
+
+  set(char, node) {
+    this.children.set(char, node);
+  }
+
+  get(char) {
+    return this.children.get(char);
+  }
+}
+
+class Trie {
+  #root = null;
+  constructor() {
+    this.#root = new TrieNode(false);
+  }
+
+  insert(word) {
+    let current = this.#root;
+    for (const char of word) {
+      if (!current.has(char)) {
+        current.set(char, new TrieNode());
+      }
+      current = current.get(char);
+    }
+    current.isWord = true;
+    return this;
+  }
+
+  findPrefix(word) {
+    let index = 0;
+    let current = this.#root;
+    for (const char of word) {
+      if (!current.has(char)) {
+        return null;
+      }
+      current = current.get(char);
+      if (current.isWord) {
+        return word.slice(0, index + 1);
+      }
+      index++;
+    }
+    return null;
+  }
+}
+
 /**
  * @param {string[]} dictionary
  * @param {string} sentence
  * @return {string}
  */
-export const replaceWords = (dictionary, sentence) => {};
+export const replaceWords = (dictionary, sentence) => {
+  const trie = dictionary.reduce((acc, x) => acc.insert(x), new Trie());
+  return sentence
+    .split(/\s+/)
+    .map((word) => trie.findPrefix(word) || word)
+    .join(' ');
+};

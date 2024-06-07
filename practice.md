@@ -105,6 +105,7 @@ Certain problems I like to practice to stay fresh in basic concepts. This docume
 - [number-of-provinces #547](https://leetcode.com/problems/number-of-provinces)
 
 ## Trie
+- [replace-words #648](https://leetcode.com/problems/replace-words)
 
 ## Heap
 - [find-k-pairs-with-smallest-sums #373](https://leetcode.com/problems/find-k-pairs-with-smallest-sums)
