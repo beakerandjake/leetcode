@@ -53,9 +53,67 @@
  * https://leetcode.com/problems/continuous-subarray-sum
  */
 
+const bruteForce = (nums, k) => {
+  const recurse = (current, start, sum) => {
+    if (current >= nums.length) {
+      return false;
+    }
+    // if currently in subarray, continue with it
+    if (start != null) {
+      const newSum = nums[current] + sum;
+      if (newSum === 0 || newSum % k === 0) {
+        return true;
+      }
+      return recurse(current + 1, start, newSum);
+    }
+    // not currently in subarray, can skip this num or start a subarray here
+    return recurse(current + 1, null, 0) || recurse(current + 1, current, nums[current]);
+  };
+  return recurse(0, null, 0);
+};
+
+const bruteForceWithPrefixSum = (() => {
+  const prefixSum = (arr) => [
+    0,
+    ...arr.reduce((acc, x, i) => {
+      acc[i] = i > 0 ? x + acc[i - 1] : x;
+      return acc;
+    }, []),
+  ];
+
+  return (nums, k) => {
+    const sums = prefixSum(nums);
+    for (let start = 0; start < nums.length; start++) {
+      for (let end = start + 1; end < nums.length; end++) {
+        const sum = sums[end + 1] - sums[start];
+        if (sum === 0 || sum % k === 0) {
+          return true;
+        }
+      }
+    }
+    return false;
+  };
+})();
+
+const usingMap = (nums, k) => {
+  const modLookup = new Map([[0, -1]]);
+  let mod = 0;
+  for (const [i, num] of nums.entries()) {
+    mod = (mod + num) % k;
+    if (!modLookup.has(mod)) {
+      modLookup.set(mod, i);
+      continue;
+    }
+    if (i - modLookup.get(mod) > 1) {
+      return true;
+    }
+  }
+  return false;
+};
+
 /**
  * @param {number[]} nums
  * @param {number} k
  * @return {boolean}
  */
-export const checkSubarraySum = (nums, k) => {};
+export const checkSubarraySum = usingMap;
