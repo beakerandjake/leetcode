@@ -61,4 +61,7 @@
  * @param {number[]} heights
  * @return {number}
  */
-export const heightChecker = (heights) => {};
+export const heightChecker = (heights) => {
+  const sorted = [...heights].sort((a, b) => a - b);
+  return heights.reduce((acc, x, i) => (x !== sorted[i] ? acc + 1 : acc), 0);
+};
