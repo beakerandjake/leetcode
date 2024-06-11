@@ -13,6 +13,11 @@ describe('1122. Relative Sort Array', () => {
       [22, 28, 8, 6],
       [22, 28, 8, 6, 17, 44],
     ],
+    [
+      [28,6,22,8,44,17],
+      [22,28,8,6],
+      [22,28,8,6,17,44]
+    ]
   ].forEach((args) => {
     const [arr1, arr2, expected] = args;
     test(generateTestName(relativeSortArray, ...args), () => {
