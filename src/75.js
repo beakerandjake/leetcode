@@ -42,8 +42,37 @@
  * https://leetcode.com/problems/sort-colors
  */
 
+const usingSort = (nums) => nums.sort((a, b) => a - b);
+
+const usingCounting = (() => {
+  const countColors = (nums) =>
+    nums.reduce(
+      (acc, x) => {
+        acc[x] += 1;
+        return acc;
+      },
+      [0, 0, 0],
+    );
+
+  const replace = (arr, from, to, value) => {
+    for (let i = from; i < to; i++) {
+      arr[i] = value;
+    }
+  };
+
+  return (nums) => {
+    const counts = countColors(nums);
+    let index = 0;
+    for (const [color, count] of counts.entries()) {
+      replace(nums, index, index + count, color);
+      index += count;
+    }
+    return nums;
+  };
+})();
+
 /**
  * @param {number[]} nums
  * @return {void} Do not return anything, modify nums in-place instead.
  */
-export const sortColors = (nums) => {};
+export const sortColors = usingCounting;
