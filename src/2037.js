@@ -68,6 +68,7 @@
  *
  * https://leetcode.com/problems/minimum-number-of-moves-to-seat-everyone
  */
+
 // returns a copy of the array sorted asc
 const sorted = (arr) => [...arr].sort((a, b) => a - b);
 
