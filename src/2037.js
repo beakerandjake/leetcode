@@ -68,19 +68,19 @@
  *
  * https://leetcode.com/problems/minimum-number-of-moves-to-seat-everyone
  */
+// returns a copy of the array sorted asc
+const sorted = (arr) => [...arr].sort((a, b) => a - b);
+
+// returns an array containing the differences at each index i (a[i] - b[i])
+const zipDiff = (a, b) => a.map((x, i) => Math.abs(x - b[i]));
+
+// sums all of the elements in the array
+const sum = (arr) => arr.reduce((acc, x) => acc + x, 0);
 
 /**
  * @param {number[]} seats
  * @param {number[]} students
  * @return {number}
  */
-export const minMovesToSeat = (seats, students) => {
-  // returns a copy of the array sorted asc
-  const sorted = (arr) => [...arr].sort((a, b) => a - b);
-  // returns an array containing the differences at each index i (a[i] - b[i])
-  const zipDiff = (a, b) => a.map((x, i) => Math.abs(x - b[i]));
-  // sums all of the elements in the array
-  const sum = (arr) => arr.reduce((acc, x) => acc + x, 0);
-  // sorting each array provides the minimum number of moves.
-  return sum(zipDiff(sorted(students), sorted(seats)));
-};
+export const minMovesToSeat = (seats, students) =>
+  sum(zipDiff(sorted(students), sorted(seats)));
