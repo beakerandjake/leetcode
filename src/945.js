@@ -46,11 +46,11 @@ const toBitVector = (arr, range) =>
   }, Array(range).fill(0));
 
 // returns the number of increments needed to make the final element in the bit vector unique
-const pushOverflow = (remaining) => {
+const carryOverflow = (remaining) => {
   if (remaining <= 1) {
     return 0;
   }
-  return remaining - 1 + pushOverflow(remaining - 1);
+  return remaining - 1 + carryOverflow(remaining - 1);
 };
 
 /**
@@ -74,5 +74,5 @@ export const minIncrementForUnique = (nums) => {
     result += carry;
   }
   // ensure that any overflow is handled
-  return result + pushOverflow(bitVector.at(-1));
+  return result + carryOverflow(bitVector.at(-1));
 };
