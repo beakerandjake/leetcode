@@ -53,4 +53,18 @@
  * @param {number} n
  * @return {number}
  */
-export const minPatches = (nums, n) => {};
+export const minPatches = (nums, n) => {
+  let result = 0;
+  let i = 0;
+  let miss = 1;
+  while (miss <= n) {
+    if (i < nums.length && nums[i] <= miss) {
+      miss += nums[i];
+      i++;
+    } else {
+      miss += miss;
+      result++;
+    }
+  }
+  return result;
+};
