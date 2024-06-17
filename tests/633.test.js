@@ -5,6 +5,7 @@ describe('633. Sum of Square Numbers', () => {
   [
     [5, true],
     [3, false],
+    [2, true],
   ].forEach((args) => {
     const [c, expected] = args;
     test(generateTestName(judgeSquareSum, ...args), () => {
