@@ -49,10 +49,45 @@
  * https://leetcode.com/problems/most-profit-assigning-work
  */
 
+// zips every item of equal length arrays a and b together.
+const zip = (a, b) => a.map((x, i) => [x, b[i]]);
+
+// returns the difficulty of a job
+const difficulty = (job) => job[0];
+
+// returns the profit of a job
+const profit = (job) => job[1];
+
+// sort fn which orders jobs by difficulty (asc), then by profit (desc)
+const jobSortFn = (a, b) =>
+  difficulty(a) === difficulty(b) ? profit(b) - profit(a) : difficulty(a) - difficulty(b);
+
+// returns a fn that returns the max profit that can be achieved with the given ability.
+const maxProfitIterator = (jobs) => {
+  let index = 0;
+  let max = 0;
+  return (ability) => {
+    while (index < jobs.length && difficulty(jobs[index]) <= ability) {
+      max = Math.max(max, profit(jobs[index]));
+      index++;
+    }
+    return max;
+  };
+};
+
+// sort fn which orders workers by ability ascending.
+const workerSortFn = (a, b) => a - b;
+
+// returns the sum of all of the numbers in the array.
+const sum = (arr) => arr.reduce((acc, x) => acc + x, 0);
+
 /**
- * @param {number[]} difficulty
- * @param {number[]} profit
- * @param {number[]} worker
+ * @param {number[]} d
+ * @param {number[]} p
+ * @param {number[]} w
  * @return {number}
  */
-export const maxProfitAssignment = (difficulty, profit, worker) => {};
+export const maxProfitAssignment = (d, p, w) => {
+  const maxProfit = maxProfitIterator(zip(d, p).sort(jobSortFn));
+  return sum([...w].sort(workerSortFn).map(maxProfit));
+};
