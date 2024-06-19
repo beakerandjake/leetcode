@@ -60,10 +60,40 @@
  * https://leetcode.com/problems/minimum-number-of-days-to-make-m-bouquets
  */
 
+// returns the number of bouquets which can be created on the day.
+const bouquetCount = (bloomDay, day, required) => {
+  let bouquets = 0;
+  let adjacentCount = 0;
+  for (let i = 0; i < bloomDay.length; i++) {
+    adjacentCount = bloomDay[i] <= day ? adjacentCount + 1 : 0;
+    if (adjacentCount === required) {
+      bouquets += 1;
+      adjacentCount = 0;
+    }
+  }
+  return bouquets;
+};
+
+
 /**
  * @param {number[]} bloomDay
  * @param {number} m
  * @param {number} k
  * @return {number}
  */
-export const minDays = (bloomDay, m, k) => {};
+export const minDays = (bloomDay, m, k) => {
+  let result = -1;
+  let lo = 1;
+  let hi = Math.max(...bloomDay);
+  while (lo <= hi) {
+    const mid = lo + Math.floor((hi - lo) / 2);
+    const bouquets = bouquetCount(bloomDay, mid, k);
+    if (bouquets < m) {
+      lo = mid + 1;
+    } else {
+      result = mid;
+      hi = mid - 1;
+    }
+  }
+  return result;
+};
