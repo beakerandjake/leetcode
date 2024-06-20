@@ -50,4 +50,32 @@
  * @param {number} m
  * @return {number}
  */
-export const maxDistance = (position, m) => {};
+export const maxDistance = (position, m) => {
+  const sorted = [...position].sort((a, b) => a - b);
+
+  const canPlace = (current, last, remaining, gap) => {
+    if (remaining === 0) {
+      return true;
+    }
+    if (current >= position.length) {
+      return false;
+    }
+    return sorted[current] - sorted[last] >= gap
+      ? canPlace(current + 1, current, remaining - 1, gap)
+      : canPlace(current + 1, last, remaining, gap);
+  };
+
+  let result = 0;
+  let lo = 1;
+  let hi = sorted.at(-1);
+  while (lo <= hi) {
+    const mid = lo + Math.floor((hi - lo) / 2);
+    if (canPlace(1, 0, m - 1, mid)) {
+      result = mid;
+      lo = mid + 1;
+    } else {
+      hi = mid - 1;
+    }
+  }
+  return result;
+};
