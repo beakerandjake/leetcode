@@ -49,10 +49,58 @@
  * https://leetcode.com/problems/grumpy-bookstore-owner
  */
 
+const usingDp = (customers, grumpy, minutes) => {
+  const memo = new Map();
+
+  const satisfied = (minute) => (!grumpy[minute] ? customers[minute] : 0);
+
+  const dp = (minute, streak) => {
+    if (minute >= customers.length) {
+      return 0;
+    }
+    const hash = `${minute}_${streak}`;
+    if (!memo.has(hash)) {
+      let result;
+      // if not currently using the technique
+      if (streak == null) {
+        result = Math.max(
+          // start a streak here
+          customers[minute] + dp(minute + 1, minutes - 1),
+          // do not start the streak here
+          satisfied(minute) + dp(minute + 1, null),
+        );
+      } else {
+        // if already inside the streak then keep it going
+        result =
+          streak > 0
+            ? customers[minute] + dp(minute + 1, streak - 1)
+            : satisfied(minute) + dp(minute + 1, 0);
+      }
+      memo.set(hash, result);
+    }
+    return memo.get(hash);
+  };
+
+  return dp(0, null);
+};
+
 /**
  * @param {number[]} customers
  * @param {number[]} grumpy
  * @param {number} minutes
  * @return {number}
  */
-export const maxSatisfied = (customers, grumpy, minutes) => {};
+export const maxSatisfied = (customers, grumpy, minutes) => {
+  //returns the sum of all of the numbers in the array
+  const sum = (arr) => arr.reduce((acc, x) => acc + x, 0);
+  // returns an array where each index contains the sum i and the next 'length - 1' numbers.
+  const rollingSums = (arr, length) => arr.map((_, i) => sum(arr.slice(i, i + length)));
+
+  // leave only the minutes with satisfied customers, with unsatisfied zeroed out
+  const satisfied = customers.map((x, i) => (!grumpy[i] ? x : 0));
+  // leave only the minutes with unsatisfied customers, with satisfied zeroed out
+  const unsatisfied = customers.map((x, i) => (grumpy[i] ? x : 0));
+
+  // find the best possible window to use the technique
+  return sum(satisfied) + Math.max(...rollingSums(unsatisfied, minutes));
+};
