@@ -50,9 +50,57 @@
  * https://leetcode.com/problems/minimum-number-of-k-consecutive-bit-flips
  */
 
+const bruteForce = (() => {
+  const flip = (value) => Number(!value);
+
+  const flipNext = (arr, start, length) => {
+    for (let i = 0; i < length; i++) {
+      if (i >= arr.length) {
+        break;
+      }
+      arr[start + i] = flip(arr[start + i]);
+    }
+  };
+
+  const allOnes = (arr) => arr.every((x) => x === 1);
+
+  return (nums, k) => {
+    let result = 0;
+    const flipped = [...nums];
+    for (let i = 0; i <= flipped.length - k; i++) {
+      if (flipped[i] === 1) {
+        continue;
+      }
+      flipNext(flipped, i, k);
+      result++;
+    }
+    return allOnes(flipped) ? result : -1;
+  };
+})();
+
+const usingLookupArray = (nums, k) => {
+  let result = 0;
+  let flipCount = 0;
+  const flipLookup = Array(nums.length).fill(0);
+  for (let i = 0; i < nums.length; i++) {
+    if ((!nums[i] && flipCount % 2 === 0) || (nums[i] && flipCount % 2 !== 0)) {
+      if (i + k - 1 >= nums.length) {
+        return -1;
+      }
+      result++;
+      flipCount++;
+      flipLookup[i + k - 1] = 1;
+    }
+    if (flipLookup[i]) {
+      flipCount--;
+    }
+  }
+  return result;
+};
+
 /**
  * @param {number[]} nums
  * @param {number} k
  * @return {number}
  */
-export const minKBitFlips = (nums, k) => {};
+export const minKBitFlips = usingLookupArray;
