@@ -56,8 +56,30 @@
  *     this.right = (right===undefined ? null : right)
  * }
  */
+
+const usingReverseInOrderTraversal = (() => {
+  // eslint-disable-next-line func-style
+  function* reverseInOrder(node) {
+    if (!node) {
+      return;
+    }
+    yield* reverseInOrder(node.right);
+    yield node;
+    yield* reverseInOrder(node.left);
+  }
+
+  return (root) => {
+    let sum = 0;
+    for (const node of reverseInOrder(root)) {
+      sum += node.val;
+      node.val = sum;
+    }
+    return root;
+  };
+})();
+
 /**
  * @param {TreeNode} root
  * @return {TreeNode}
  */
-export const bstToGst = (root) => {};
+export const bstToGst = usingReverseInOrderTraversal;

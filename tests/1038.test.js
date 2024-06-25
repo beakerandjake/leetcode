@@ -1,5 +1,5 @@
 import { bstToGst } from '../src/1038.js';
-import { generateTestName } from './util.js';
+import { arrToBst, bstToArr, generateTestName } from './util.js';
 
 describe('1038. Binary Search Tree to Greater Sum Tree', () => {
   [
@@ -14,8 +14,8 @@ describe('1038. Binary Search Tree to Greater Sum Tree', () => {
   ].forEach((args) => {
     const [root, expected] = args;
     test(generateTestName(bstToGst, ...args), () => {
-      const result = bstToGst(root);
-      expect(result).toEqual(expected);
+      const result = bstToGst(arrToBst(root));
+      expect(bstToArr(result)).toEqual(expected);
     });
   });
 });
