@@ -46,8 +46,40 @@
  *     this.right = (right===undefined ? null : right)
  * }
  */
+
+class TreeNode {
+  constructor(val, left, right) {
+    this.val = val === undefined ? 0 : val;
+    this.left = left === undefined ? null : left;
+    this.right = right === undefined ? null : right;
+  }
+}
+
+// eslint-disable-next-line func-style
+function* inOrder(root) {
+  if (!root) {
+    return;
+  }
+  yield* inOrder(root.left);
+  yield root.val;
+  yield* inOrder(root.right);
+}
+
+// recursively builds a balanced tree from the values.
+const buildTree = (values) => {
+  if (!values.length) {
+    return null;
+  }
+  const m = Math.floor(values.length / 2);
+  return new TreeNode(
+    values[m],
+    buildTree(values.slice(0, m)),
+    buildTree(values.slice(m + 1)),
+  );
+};
+
 /**
  * @param {TreeNode} root
  * @return {TreeNode}
  */
-export const balanceBST = (root) => {};
+export const balanceBST = (root) => buildTree([...inOrder(root)]);
