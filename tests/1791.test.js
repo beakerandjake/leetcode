@@ -1,5 +1,5 @@
 import { findCenter } from '../src/1791.js';
-import { arrToStr } from './util.js';
+import { generateTestName } from './util.js';
 
 describe('1791. Find Center of Star Graph', () => {
   [
@@ -20,9 +20,10 @@ describe('1791. Find Center of Star Graph', () => {
       ],
       1,
     ],
-  ].forEach(([input, expected]) => {
-    test(`${arrToStr(input)} -> ${expected}`, () => {
-      const result = findCenter(input);
+  ].forEach((args) => {
+    const [edges, expected] = args;
+    test(generateTestName(findCenter, ...args), () => {
+      const result = findCenter(edges);
       expect(result).toBe(expected);
     });
   });
