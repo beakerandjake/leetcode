@@ -52,9 +52,85 @@
  * https://leetcode.com/problems/longest-continuous-subarray-with-absolute-diff-less-than-or-equal-to-limit
  */
 
+import { MaxPriorityQueue, MinPriorityQueue } from '@datastructures-js/priority-queue';
+
+const bruteForce = (() => {
+  // iterates each subarray of the given array.
+  // eslint-disable-next-line func-style
+  function* subarrays(arr) {
+    for (let i = 0; i < arr.length; i++) {
+      for (let j = i; j < arr.length; j++) {
+        yield arr.slice(i, j + 1);
+      }
+    }
+  }
+
+  // returns the absolute difference of the array.
+  const absoluteDiff = (arr) => Math.max(...arr) - Math.min(...arr);
+
+  return (nums, limit) =>
+    Math.max(
+      ...[...subarrays(nums)]
+        .filter((x) => absoluteDiff(x) <= limit)
+        .map((x) => x.length),
+    );
+})();
+
+const bruteForceTwoPointers = (() => {
+  const findMax = (arr, start, end) =>
+    start <= end
+      ? Math.max(arr[start], findMax(arr, start + 1, end))
+      : Number.MIN_SAFE_INTEGER;
+
+  const findMin = (arr, start, end) =>
+    start <= end
+      ? Math.min(arr[start], findMin(arr, start + 1, end))
+      : Number.MAX_SAFE_INTEGER;
+
+  return (nums, limit) => {
+    let result = 0;
+    let left = 0;
+    let min = Number.MAX_SAFE_INTEGER;
+    let max = Number.MIN_SAFE_INTEGER;
+    for (let right = 0; right < nums.length; right++) {
+      min = Math.min(min, nums[right]);
+      max = Math.max(max, nums[right]);
+      while (left < right && max - min > limit) {
+        left++;
+        min = findMin(nums, left, right);
+        max = findMax(nums, left, right);
+      }
+      result = Math.max(result, right - left + 1);
+    }
+    return result;
+  };
+})();
+
+const usingTwoHeaps = (nums, limit) => {
+  let result = 0;
+  const min = new MinPriorityQueue();
+  const max = new MaxPriorityQueue();
+  let left = 0;
+  for (let right = 0; right < nums.length; right++) {
+    max.enqueue(right, nums[right]);
+    min.enqueue(right, nums[right]);
+    while (left <= right && max.front().priority - min.front().priority > limit) {
+      left++;
+      while (!max.isEmpty() && max.front().element < left) {
+        max.dequeue();
+      }
+      while (!min.isEmpty() && min.front().element < left) {
+        min.dequeue();
+      }
+    }
+    result = Math.max(result, right - left + 1);
+  }
+  return result;
+};
+
 /**
  * @param {number[]} nums
  * @param {number} limit
  * @return {number}
  */
-export const longestSubarray = (nums, limit) => {};
+export const longestSubarray = usingTwoHeaps;
