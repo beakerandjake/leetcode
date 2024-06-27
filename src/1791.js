@@ -42,8 +42,38 @@
  * https://leetcode.com/problems/find-center-of-star-graph
  */
 
+// converts the edges array to an adjacency list representation of the graph
+const toGraph = (edges) => {
+  const empty = [...Array(edges.length + 1).keys()].reduce(
+    (acc, x) => acc.set(x + 1, []),
+    new Map(),
+  );
+  return edges.reduce((acc, [from, to]) => {
+    acc.get(from).push(to);
+    acc.get(to).push(from);
+    return acc;
+  }, empty);
+};
+
+// returns the vertex of the node.
+const vertex = (node) => node[0];
+
+// returns the edges of the node.
+const edges = (node) => node[1];
+
+// returns the first vertex which matches the predicate fn.
+const findVertex = (graph, predicateFn) => {
+  for (const node of graph) {
+    if (predicateFn(node)) {
+      return vertex(node);
+    }
+  }
+  return null;
+};
+
 /**
- * @param {number[][]} edges
+ * @param {number[][]} allEdges
  * @return {number}
  */
-export const findCenter = (edges) => {};
+export const findCenter = (allEdges) =>
+  findVertex(toGraph(allEdges), (node) => edges(node).length === allEdges.length);
