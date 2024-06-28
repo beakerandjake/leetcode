@@ -63,9 +63,40 @@
  * https://leetcode.com/problems/maximum-total-importance-of-roads
  */
 
+// returns a function which returns the value of the vertex (city)
+const cityValueCalculator = (n, roads) => {
+  // returns an adjacency list representation of the graph formed by the data.
+  const toGraph = (size, edges) => {
+    const empty = [...Array(size).keys()].reduce((acc, x) => acc.set(x, 0), new Map());
+    return edges.reduce((acc, [from, to]) => {
+      acc.set(from, acc.get(from) + 1);
+      acc.set(to, acc.get(to) + 1);
+      return acc;
+    }, empty);
+  };
+  // returns an array of vertexes sorted by their in degree (descending)
+  const vertexesByInDegree = (graph) =>
+    [...graph.keys()].sort((a, b) => graph.get(b) - graph.get(a));
+
+  // assign a score to each vertex based on its in degree.
+  const values = vertexesByInDegree(toGraph(n, roads)).reduce((acc, v, i) => {
+    acc[v] = n - i;
+    return acc;
+  }, Array(n).fill(0));
+
+  // return the calculated value of the vertex (city).
+  return (vertex) => values[vertex];
+};
+
+// returns the sum of all the elements in the array.
+const sum = (arr) => arr.reduce((acc, x) => acc + x, 0);
+
 /**
  * @param {number} n
  * @param {number[][]} roads
  * @return {number}
  */
-export const maximumImportance = (n, roads) => {};
+export const maximumImportance = (n, roads) => {
+  const cityValue = cityValueCalculator(n, roads);
+  return sum(roads.map(([from, to]) => cityValue(from) + cityValue(to)));
+};
