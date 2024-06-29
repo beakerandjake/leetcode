@@ -63,9 +63,79 @@
  * https://leetcode.com/problems/all-ancestors-of-a-node-in-a-directed-acyclic-graph
  */
 
+const bruteForce = (() => {
+  const toGraph = (n, edges) => {
+    const empty = [...Array(n).keys()].reduce((acc, x) => acc.set(x, []), new Map());
+    return edges.reduce((acc, [from, to]) => {
+      acc.get(from).push(to);
+      return acc;
+    }, empty);
+  };
+
+  const dfs = (graph, vertex, ancestors, result) => {
+    ancestors.push(vertex);
+    for (const edge of graph.get(vertex)) {
+      ancestors.forEach((a) => result[edge].add(a));
+      dfs(graph, edge, ancestors, result);
+    }
+    ancestors.pop();
+  };
+
+  const sorted = (arr) => arr.sort((a, b) => a - b);
+
+  return (n, edges) => {
+    const result = [...Array(n)].map(() => new Set());
+    const graph = toGraph(n, edges);
+    for (const vertex of graph.keys()) {
+      dfs(graph, vertex, [], result);
+    }
+    return result.map((ancestors) => sorted([...ancestors]));
+  };
+})();
+
+const reverseBruteForce = (() => {
+  // returns an adjacency list representation of the DAG with the edge directions reversed.
+  const toGraph = (n, edges) => {
+    const empty = [...Array(n).keys()].reduce((acc, x) => acc.set(x, []), new Map());
+    return edges.reduce((acc, [from, to]) => {
+      acc.get(to).push(from);
+      return acc;
+    }, empty);
+  };
+
+  // explores every edge connected to the start vertex and returns the visited vertexes.
+  const bfs = (graph, start) => {
+    const ancestors = [];
+    const visited = new Set([start]);
+    const queue = [start];
+    while (queue.length) {
+      const vertex = queue.shift();
+      for (const edge of graph.get(vertex)) {
+        if (!visited.has(edge)) {
+          visited.add(edge);
+          queue.push(edge);
+          ancestors.push(edge);
+        }
+      }
+    }
+    return ancestors;
+  };
+
+  // returns a copy of the array sorted asc
+  const sorted = (arr) => [...arr].sort((a, b) => a - b);
+
+  return (n, edges) => {
+    const graph = toGraph(n, edges);
+    return [...graph.keys()].reduce((acc, vertex) => {
+      acc[vertex] = sorted(bfs(graph, vertex));
+      return acc;
+    }, Array(n));
+  };
+})();
+
 /**
  * @param {number} n
  * @param {number[][]} edges
  * @return {number[][]}
  */
-export const getAncestors = (n, edges) => {};
+export const getAncestors = reverseBruteForce;
