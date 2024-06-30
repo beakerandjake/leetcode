@@ -34,6 +34,14 @@ describe('1579. Remove Max Number of Edges to Keep Graph Fully Traversable', () 
       ],
       -1,
     ],
+    [
+      2,
+      [
+        [1, 1, 2],
+        [2, 1, 2],
+      ],
+      0,
+    ],
   ].forEach((args) => {
     const [n, edges, expected] = args;
     test(generateTestName(maxNumEdgesToRemove, ...args), () => {

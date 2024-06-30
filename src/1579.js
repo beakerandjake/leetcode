@@ -63,9 +63,78 @@
  * https://leetcode.com/problems/remove-max-number-of-edges-to-keep-graph-fully-traversable
  */
 
+class DisjointSet {
+  constructor(n) {
+    this.nodes = [...Array(n)].map((_, i) => i);
+    this.components = n - 1;
+  }
+
+  find(x) {
+    return this.nodes[x] === x ? x : (this.nodes[x] = this.find(this.nodes[x]));
+  }
+
+  union(x, y) {
+    const rootX = this.find(x);
+    const rootY = this.find(y);
+    if (rootX !== rootY) {
+      this.nodes[rootX] = rootY;
+      this.components -= 1;
+    }
+    return rootX !== rootY;
+  }
+
+  get size() {
+    return this.components;
+  }
+}
+
+const type = (edge) => edge[0];
+
+const from = (edge) => edge[1];
+
+const to = (edge) => edge[2];
+
+// eslint-disable-next-line func-style
+function* iterateEdges(edges, edgeType) {
+  for (const edge of edges) {
+    if (type(edge) === edgeType) {
+      yield edge;
+    }
+  }
+}
+
 /**
  * @param {number} n
  * @param {number[][]} edges
  * @return {number}
  */
-export const maxNumEdgesToRemove = (n, edges) => {};
+export const maxNumEdgesToRemove = (n, edges) => {
+  let deletes = 0;
+  const aliceGraph = new DisjointSet(n + 1);
+  const bobGraph = new DisjointSet(n + 1);
+
+  // build the graphs using as many type 3 edges as possible.
+  for (const edge of iterateEdges(edges, 3)) {
+    const a = aliceGraph.union(from(edge), to(edge));
+    const b = bobGraph.union(from(edge), to(edge));
+    if (!a && !b) {
+      deletes++;
+    }
+  }
+
+  // build the alice graph using alice specific nodes.
+  for (const edge of iterateEdges(edges, 1)) {
+    if (!aliceGraph.union(from(edge), to(edge))) {
+      deletes++;
+    }
+  }
+
+  // build the bob graph using bob specific nodes.
+  for (const edge of iterateEdges(edges, 2)) {
+    if (!bobGraph.union(from(edge), to(edge))) {
+      deletes++;
+    }
+  }
+
+  return aliceGraph.size === 1 && bobGraph.size === 1 ? deletes : -1;
+};

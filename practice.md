@@ -103,6 +103,7 @@ Certain problems I like to practice to stay fresh in basic concepts. This docume
 - [number-of-connected-components-in-an-undirected-graph #323](https://leetcode.com/problems/number-of-connected-components-in-an-undirected-graph)
 - [graph-valid-tree #261](https://leetcode.com/problems/graph-valid-tree/)
 - [number-of-provinces #547](https://leetcode.com/problems/number-of-provinces)
+- [remove-max-number-of-edges-to-keep-graph-fully-traversable #1579](https://leetcode.com/problems/remove-max-number-of-edges-to-keep-graph-fully-traversable)
 
 ## Trie
 - [replace-words #648](https://leetcode.com/problems/replace-words)
