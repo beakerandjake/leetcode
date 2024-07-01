@@ -65,12 +65,14 @@ const usingSlidingWindow = (() => {
     let right = 0;
     let matchCount = 0;
     while (right < arr.length) {
+      // expand window
       matchCount += predicateFn(arr[right]) ? 1 : 0;
       // contract window when greater than window size.
       while (right - left + 1 > windowSize) {
         matchCount -= predicateFn(arr[left]) ? 1 : 0;
         left++;
       }
+      // check if all elements in the window satisfied the predicate
       if (matchCount === windowSize) {
         return true;
       }
