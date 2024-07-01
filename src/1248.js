@@ -42,9 +42,67 @@
  * https://leetcode.com/problems/count-number-of-nice-subarrays
  */
 
+const bruteForce = (() => {
+  // eslint-disable-next-line func-style
+  function* subarrays(arr, k) {
+    for (let i = 0; i < arr.length; i++) {
+      for (let j = i; j < arr.length; j++) {
+        if (j - i + 1 >= k) {
+          yield arr.slice(i, j + 1);
+        }
+      }
+    }
+  }
+
+  // returns true if the number is odd.
+  const isOdd = (num) => num % 2 !== 0;
+
+  // returns the number of elements in the array which satisfy the predicate.
+  const count = (arr, predicateFn) =>
+    arr.reduce((acc, x) => acc + (predicateFn(x) ? 1 : 0), 0);
+
+  return (nums, k) => {
+    let result = 0;
+    for (const subarray of subarrays(nums, k)) {
+      result += count(subarray, isOdd) === k ? 1 : 0;
+    }
+    return result;
+  };
+})();
+
+const usingSlidingWindow = (() => {
+  // returns the number of subarrays which have 'targetCount' items matching the predicate
+  const slidingWindow = (arr, predicateFn, targetCount) => {
+    let result = 0;
+    let left = 0;
+    let right = 0;
+    let windowCount = 0;
+    let subarrays = 0;
+    while (right < arr.length) {
+      if (predicateFn(arr[right])) {
+        windowCount++;
+        subarrays = 0;
+      }
+      while (windowCount === targetCount) {
+        subarrays++;
+        windowCount -= predicateFn(arr[left]) ? 1 : 0;
+        left++;
+      }
+      result += subarrays;
+      right++;
+    }
+    return result;
+  };
+
+  // returns true if the number is odd.
+  const isOdd = (num) => num % 2 !== 0;
+
+  return (nums, k) => slidingWindow(nums, isOdd, k);
+})();
+
 /**
  * @param {number[]} nums
  * @param {number} k
  * @return {number}
  */
-export const numberOfSubarrays = (nums, k) => {};
+export const numberOfSubarrays = usingSlidingWindow;
