@@ -71,7 +71,7 @@ const usingSlidingWindow = (() => {
         matchCount -= predicateFn(arr[left]) ? 1 : 0;
         left++;
       }
-      if (matchCount === 3) {
+      if (matchCount === windowSize) {
         return true;
       }
       right++;
