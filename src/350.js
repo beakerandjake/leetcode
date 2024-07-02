@@ -43,9 +43,27 @@
  * https://leetcode.com/problems/intersection-of-two-arrays-ii
  */
 
+// maps each unique element in the array to the number of times it occurs.
+const frequencyMap = (arr) =>
+  arr.reduce((acc, x) => acc.set(x, (acc.get(x) || 0) + 1), new Map());
+
+// returns the intersection of the two frequency maps
+const intersection = (a, b) =>
+  [...a].reduce(
+    (acc, [k, v]) => (b.has(k) ? acc.set(k, Math.min(v, b.get(k))) : acc),
+    new Map(),
+  );
+
+// returns an array where x is repeated n times.
+const repeat = ([value, times]) => Array(times).fill(value);
+
+// expands the frequency map into an array where each element occurs 'value' times
+const expand = (map) => [...map].flatMap(repeat);
+
 /**
  * @param {number[]} nums1
  * @param {number[]} nums2
  * @return {number[]}
  */
-export const intersect = (nums1, nums2) => {};
+export const intersect = (nums1, nums2) =>
+  expand(intersection(frequencyMap(nums1), frequencyMap(nums2)));
