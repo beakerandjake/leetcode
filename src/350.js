@@ -43,23 +43,9 @@
  * https://leetcode.com/problems/intersection-of-two-arrays-ii
  */
 
-const frequencyMap = (arr) =>
-  arr.reduce((acc, x) => acc.set(x, (acc.get(x) || 0) + 1), new Map());
-
 /**
- * @param {number[]} a
- * @param {number[]} b
+ * @param {number[]} nums1
+ * @param {number[]} nums2
  * @return {number[]}
  */
-export const intersect = (a, b) => {
-  const results = [];
-  const aCounts = frequencyMap(a);
-  const bCounts = frequencyMap(b);
-  for (const [aKey, aValue] of aCounts) {
-    if (bCounts.has(aKey)) {
-      const count = Math.min(aValue, bCounts.get(aKey));
-      results.push(...Array(count).fill(aKey));
-    }
-  }
-  return results;
-};
+export const intersect = (nums1, nums2) => {};
