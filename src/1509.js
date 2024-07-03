@@ -58,43 +58,71 @@
 
 import { MaxPriorityQueue, MinPriorityQueue } from '@datastructures-js/priority-queue';
 
-const nLargest = (arr, n) => {
-  const heap = arr.reduce(
-    (acc, x) => {
-      acc.enqueue(x);
-      return acc;
-    },
-    new MaxPriorityQueue({ priority: (x) => x }),
-  );
-  return [...Array(n)].map(() => heap.dequeue().element);
-};
+const usingHeaps = (() => {
+  const nLargest = (arr, n) => {
+    const heap = arr.reduce(
+      (acc, x) => {
+        acc.enqueue(x);
+        return acc;
+      },
+      new MaxPriorityQueue({ priority: (x) => x }),
+    );
+    return [...Array(n)].map(() => heap.dequeue().element);
+  };
 
-const nSmallest = (arr, n) => {
-  const heap = arr.reduce(
-    (acc, x) => {
-      acc.enqueue(x);
-      return acc;
-    },
-    new MinPriorityQueue({ priority: (x) => x }),
-  );
-  return [...Array(n)].map(() => heap.dequeue().element);
-};
+  const nSmallest = (arr, n) => {
+    const heap = arr.reduce(
+      (acc, x) => {
+        acc.enqueue(x);
+        return acc;
+      },
+      new MinPriorityQueue({ priority: (x) => x }),
+    );
+    return [...Array(n)].map(() => heap.dequeue().element);
+  };
+
+  return (nums) => {
+    if (nums.length <= 4) {
+      return 0;
+    }
+    const smallest = nSmallest(nums, 4);
+    const largest = nLargest(nums, 4);
+    const choices = [
+      [smallest[0], largest[3]],
+      [smallest[1], largest[2]],
+      [smallest[2], largest[1]],
+      [smallest[3], largest[0]],
+    ];
+    return Math.min(...choices.map(([a, b]) => Math.abs(a - b)));
+  };
+})();
+
+const usingSorting = (() => {
+  const N = 4;
+
+  // returns an array of pairs which represent all possible moves.
+  // each pair contains the index offsets of the max and min number
+  const pairs = (n) => {
+    const result = [];
+    for (let i = 0; i < n; i++) {
+      result.push([n - i, i]);
+    }
+    return result;
+  };
+
+  return (nums) => {
+    if (nums.length <= N) {
+      return 0;
+    }
+    const sorted = [...nums].sort((a, b) => a - b);
+    return Math.min(
+      ...pairs(N).map(([hi, lo]) => sorted[sorted.length - hi] - sorted[lo]),
+    );
+  };
+})();
 
 /**
  * @param {number[]} nums
  * @return {number}
  */
-export const minDifference = (nums) => {
-  if (nums.length <= 4) {
-    return 0;
-  }
-  const smallest = nSmallest(nums, 4);
-  const largest = nLargest(nums, 4);
-  const choices = [
-    [smallest[0], largest[3]],
-    [smallest[1], largest[2]],
-    [smallest[2], largest[1]],
-    [smallest[3], largest[0]],
-  ];
-  return Math.min(...choices.map(([a, b]) => Math.abs(a - b)));
-};
+export const minDifference = usingSorting;
