@@ -56,8 +56,45 @@
  * https://leetcode.com/problems/minimum-difference-between-largest-and-smallest-value-in-three-moves
  */
 
+import { MaxPriorityQueue, MinPriorityQueue } from '@datastructures-js/priority-queue';
+
+const nLargest = (arr, n) => {
+  const heap = arr.reduce(
+    (acc, x) => {
+      acc.enqueue(x);
+      return acc;
+    },
+    new MaxPriorityQueue({ priority: (x) => x }),
+  );
+  return [...Array(n)].map(() => heap.dequeue().element);
+};
+
+const nSmallest = (arr, n) => {
+  const heap = arr.reduce(
+    (acc, x) => {
+      acc.enqueue(x);
+      return acc;
+    },
+    new MinPriorityQueue({ priority: (x) => x }),
+  );
+  return [...Array(n)].map(() => heap.dequeue().element);
+};
+
 /**
  * @param {number[]} nums
  * @return {number}
  */
-export const minDifference = (nums) => {};
+export const minDifference = (nums) => {
+  if (nums.length <= 4) {
+    return 0;
+  }
+  const smallest = nSmallest(nums, 4);
+  const largest = nLargest(nums, 4);
+  const choices = [
+    [smallest[0], largest[3]],
+    [smallest[1], largest[2]],
+    [smallest[2], largest[1]],
+    [smallest[3], largest[0]],
+  ];
+  return Math.min(...choices.map(([a, b]) => Math.abs(a - b)));
+};
