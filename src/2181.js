@@ -59,8 +59,26 @@
  *     this.next = (next===undefined ? null : next)
  * }
  */
+
+// class ListNode {
+//   constructor(val, next) {
+//     this.val = val === undefined ? 0 : val;
+//     this.next = next === undefined ? null : next;
+//   }
+// }
+
 /**
  * @param {ListNode} head
  * @return {ListNode}
  */
-export const mergeNodes = (head) => {};
+export const mergeNodes = (head) => {
+  const doMerge = (node, sum) => {
+    if (!node) {
+      return null;
+    }
+    return node.val === 0
+      ? new ListNode(sum, doMerge(node.next, 0))
+      : doMerge(node.next, sum + node.val);
+  };
+  return doMerge(head.next, 0);
+};

@@ -1,5 +1,5 @@
 import { mergeNodes } from '../src/2181.js';
-import { generateTestName } from './util.js';
+import { arrToList, generateTestName, listToArr } from './util.js';
 
 describe('2181. Merge Nodes in Between Zeros', () => {
   [
@@ -14,8 +14,8 @@ describe('2181. Merge Nodes in Between Zeros', () => {
   ].forEach((args) => {
     const [head, expected] = args;
     test(generateTestName(mergeNodes, ...args), () => {
-      const result = mergeNodes(head);
-      expect(result).toEqual(expected);
+      const result = mergeNodes(arrToList(head));
+      expect(listToArr(result)).toEqual(expected);
     });
   });
 });
