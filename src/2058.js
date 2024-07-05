@@ -77,8 +77,59 @@
  *     this.next = (next===undefined ? null : next)
  * }
  */
+
+// iterates each node of the list which has a previous and next node.
+// eslint-disable-next-line func-style
+function* triplesIterator(node) {
+  let current = node.next;
+  let previous = node;
+  while (current.next) {
+    yield [previous.val, current.val, current.next.val];
+    previous = current;
+    current = current.next;
+  }
+}
+
+// returns true if the current node is a local maxima
+const localMaxima = (previous, current, next) => current > previous && current > next;
+
+// returns true if the current node is a local minima
+const localMinima = (previous, current, next) => current < previous && current < next;
+
+// returns true if the current node is a local maxima or minima
+const criticalPoint = (previous, current, next) =>
+  localMaxima(previous, current, next) || localMinima(previous, current, next);
+
+// returns an array of the index of each critical point in the list.
+const criticalPoints = (head) => {
+  const result = [];
+  let index = 1;
+  for (const [p, c, n] of triplesIterator(head)) {
+    if (criticalPoint(p, c, n)) {
+      result.push(index);
+    }
+    index++;
+  }
+  return result;
+};
+
+// returns the minimum distance between any two consecutive items in the array.
+const minDistance = (arr) => {
+  let result = Number.MAX_SAFE_INTEGER;
+  for (let i = 1; i < arr.length; i++) {
+    result = Math.min(result, arr[i] - arr[i - 1]);
+  }
+  return result;
+};
+
+// returns the distance between the smallest and largest items in the sorted array.
+const maxDistance = (points) => points.at(-1) - points[0];
+
 /**
  * @param {ListNode} head
  * @return {number[]}
  */
-export const nodesBetweenCriticalPoints = (head) => {};
+export const nodesBetweenCriticalPoints = (head) => {
+  const critical = criticalPoints(head);
+  return critical.length > 1 ? [minDistance(critical), maxDistance(critical)] : [-1, -1];
+};

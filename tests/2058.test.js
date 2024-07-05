@@ -1,5 +1,5 @@
 import { nodesBetweenCriticalPoints } from '../src/2058.js';
-import { generateTestName } from './util.js';
+import { arrToList, generateTestName } from './util.js';
 
 describe('2058. Find the Minimum and Maximum Number of Nodes Between Critical Points', () => {
   [
@@ -18,7 +18,7 @@ describe('2058. Find the Minimum and Maximum Number of Nodes Between Critical Po
   ].forEach((args) => {
     const [head, expected] = args;
     test(generateTestName(nodesBetweenCriticalPoints, ...args), () => {
-      const result = nodesBetweenCriticalPoints(head);
+      const result = nodesBetweenCriticalPoints(arrToList(head));
       expect(result).toEqual(expected);
     });
   });
