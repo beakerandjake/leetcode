@@ -43,9 +43,36 @@
  * https://leetcode.com/problems/pass-the-pillow
  */
 
+// iterator that forever oscillates between 1 and n
+// eslint-disable-next-line func-style
+function* oscillate(n) {
+  let i = 1;
+  let dir = 1;
+  while (true) {
+    i += dir;
+    yield i;
+    if (i === 1 || i === n) {
+      dir *= -1;
+    }
+  }
+}
+
+// executes the fn n times and returns the result from the last execution.
+const times = (fn, n) => {
+  let remaining = n;
+  while (remaining > 1) {
+    fn();
+    remaining--;
+  }
+  return fn();
+};
+
 /**
  * @param {number} n
  * @param {number} time
  * @return {number}
  */
-export const passThePillow = (n, time) => {};
+export const passThePillow = (n, time) => {
+  const pass = oscillate(n);
+  return times(() => pass.next().value, time);
+};
