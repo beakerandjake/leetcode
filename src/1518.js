@@ -49,4 +49,13 @@
  * @param {number} numExchange
  * @return {number}
  */
-export const numWaterBottles = (numBottles, numExchange) => {};
+export const numWaterBottles = (numBottles, numExchange) => {
+  let result = numBottles;
+  let empty = numBottles;
+  while (empty >= numExchange) {
+    result++;
+    empty++;
+    empty -= numExchange;
+  }
+  return result;
+};
