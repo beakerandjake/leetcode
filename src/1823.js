@@ -63,9 +63,44 @@
  * https://leetcode.com/problems/find-the-winner-of-the-circular-game
  */
 
+// a doubly linked list node.
+class Node {
+  constructor(value, previous, next) {
+    this.value = value;
+    this.previous = previous;
+    this.next = next;
+  }
+}
+
+// builds a circular doubly linked list with node values ranging from 1 to n.
+const buildList = (n) => {
+  const head = new Node(1);
+  let tail = head;
+  for (let i = 2; i <= n; i++) {
+    const node = new Node(i, tail, head);
+    tail.next = node;
+    tail = node;
+  }
+  head.previous = tail;
+  return head;
+};
+
+// returns the node which is n nodes away from the current node.
+const nFrom = (current, n) => (n === 0 ? current : nFrom(current.next, n - 1));
+
 /**
  * @param {number} n
  * @param {number} k
  * @return {number}
  */
-export const findTheWinner = (n, k) => {};
+export const findTheWinner = (n, k) => {
+  let head = buildList(n);
+  let remaining = n;
+  while (--remaining) {
+    const removed = nFrom(head, k - 1);
+    removed.previous.next = removed.next;
+    removed.next.previous = removed.previous;
+    head = removed.next;
+  }
+  return head.value;
+};
