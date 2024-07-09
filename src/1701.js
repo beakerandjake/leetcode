@@ -55,8 +55,32 @@
  * https://leetcode.com/problems/average-waiting-time
  */
 
+// returns the arrival time of the customer
+const arrivalTime = (customer) => customer[0];
+
+// returns the amount of time the chef needs to prepare the customers order
+const prepareTime = (customer) => customer[1];
+
+// returns a new array containing the amount of time the customer waited for their order
+const waitTimes = (customers) => {
+  let currentTime = 1;
+  return customers.map((customer) => {
+    currentTime = Math.max(
+      currentTime + prepareTime(customer),
+      arrivalTime(customer) + prepareTime(customer),
+    );
+    return currentTime - arrivalTime(customer);
+  });
+};
+
+// returns the sum of all of the elements in the array.
+const sum = (arr) => arr.reduce((acc, x) => acc + x, 0);
+
+// returns the average of all of the elements in the array.
+const average = (arr) => sum(arr) / arr.length;
+
 /**
  * @param {number[][]} customers
  * @return {number}
  */
-export const averageWaitingTime = (customers) => {};
+export const averageWaitingTime = (customers) => average(waitTimes(customers));
