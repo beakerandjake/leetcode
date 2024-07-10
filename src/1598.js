@@ -62,8 +62,30 @@
  * https://leetcode.com/problems/crawler-log-folder
  */
 
+const parse = (command) => {
+  const parentDir = (level) => Math.max(level - 1, 0);
+
+  const currentDir = (level) => level;
+
+  const childDir = (level) => level + 1;
+
+  const commandMap = new Map([
+    [(x) => x === '../', parentDir],
+    [(x) => x === './', currentDir],
+    [(x) => /^\w+\/$/.test(x), childDir],
+  ]);
+
+  for (const [predicate, fn] of commandMap) {
+    if (predicate(command)) {
+      return fn;
+    }
+  }
+  throw new Error(`unable to parse command: '${command}'`);
+};
+
 /**
  * @param {string[]} logs
  * @return {number}
  */
-export const minOperations = (logs) => {};
+export const minOperations = (logs) =>
+  logs.reduce((dir, command) => parse(command)(dir), 0);
