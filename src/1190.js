@@ -49,4 +49,22 @@
  * @param {string} s
  * @return {string}
  */
-export const reverseParentheses = (s) => {};
+export const reverseParentheses = (s) => {
+  const stack = [];
+  for (let i = 0; i < s.length; i++) {
+    if (s[i] !== ')') {
+      stack.push(s[i]);
+    } else {
+      // hit a closing paren, need to reverse all chars between open and close.
+      // use temp stack to re-push the chars on the stack, having the effect of reversing them
+      const temp = [];
+      while (stack.at(-1) !== '(') {
+        temp.push(stack.pop());
+      }
+      // ensure the opening paren is discarded.
+      stack.pop();
+      stack.push(...temp);
+    }
+  }
+  return stack.join('');
+};
