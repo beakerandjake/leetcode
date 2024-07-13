@@ -78,4 +78,6 @@
  * @param {string} directions
  * @return {number[]}
  */
-export const survivedRobotsHealths = (positions, healths, directions) => {};
+export const survivedRobotsHealths = (positions, healths, directions) => {
+  
+};
