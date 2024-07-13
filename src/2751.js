@@ -72,6 +72,85 @@
  * https://leetcode.com/problems/robot-collisions
  */
 
+const translateDirections = (directions) =>
+  [...directions].map((direction) => (direction === 'R' ? 1 : -1));
+
+const zip = (...arrays) => {
+  const length = Math.max(0, ...arrays.map((array) => array.length));
+  return [...Array(length)].map((_, i) => arrays.map((array) => array[i]));
+};
+
+const newRobot = (position, health, direction, originalPosition) => [
+  position,
+  health,
+  direction,
+  originalPosition,
+];
+
+const position = (robot) => robot[0];
+
+const health = (robot) => robot[1];
+
+const direction = (robot) => robot[2];
+
+const simulate = (() => {
+  const move = (robot) => position(robot) + direction(robot);
+
+  const collide = (left, right) => {
+    if (health(left) === health(right)) {
+      return null;
+    }
+    const survivor = health(left) > health(right) ? left : right;
+    return newRobot(
+      position(survivor),
+      health(survivor) - 1,
+      direction(survivor),
+      survivor[3],
+    );
+  };
+
+  return (robots) => {
+    const stack = [];
+    for (const robot of robots) {
+      // always push right facing robot since they might collide with a future robot going left.
+      if (direction(robot) === 'R') {
+        stack.push(robot);
+      }
+      // ignore left most robot going left, will never collide with any other robot.
+      else if (
+        direction(robot) === 'L' &&
+        (!stack.length || direction(stack.at(-1)) === 'L')
+      ) {
+        stack.push(robot);
+      }
+      // resolve the collision
+      else {
+        let rightmost = robot;
+        while (stack.length && direction(stack.at(-1)) === 'R') {
+          const survivor = collide(stack.pop(), rightmost);
+          if (!survivor) {
+            break;
+          }
+          if (
+            direction(survivor) === 'L' &&
+            (!stack.length || direction(stack.at(-1)) === 'L')
+          ) {
+            stack.push(survivor);
+          }
+
+          if (direction(survivor) === 'R') {
+            stack.push(survivor);
+            break;
+          }
+          rightmost = survivor;
+        }
+      }
+    }
+    console.log(stack);
+    return stack;
+  };
+})();
+
 /**
  * @param {number[]} positions
  * @param {number[]} healths
@@ -79,5 +158,10 @@
  * @return {number[]}
  */
 export const survivedRobotsHealths = (positions, healths, directions) => {
-  
+  const robots = zip(positions, healths, directions, [
+    ...Array(positions.length).keys(),
+  ]).sort((a, b) => position(a) - position(b));
+  console.log('robots', robots);
+  const results = simulate(robots);
+  return results.sort((a, b) => a[3] - b[3]).map(health);
 };
