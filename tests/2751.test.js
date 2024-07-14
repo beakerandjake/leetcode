@@ -11,6 +11,7 @@ describe('2751. Robot Collisions', () => {
     [[13, 3], [17, 2], 'LR', [16]],
     [[5, 46, 12], [3, 27, 43], 'RLL', [27, 42]],
     [[17, 24, 18], [1, 39, 30], 'LLR', [1, 38]],
+    [[4, 37, 23], [50, 15, 49], 'RLR', [50, 48]],
   ].forEach((args) => {
     const [positions, healths, directions, expected] = args;
     test(generateTestName(survivedRobotsHealths, ...args), () => {

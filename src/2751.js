@@ -72,84 +72,83 @@
  * https://leetcode.com/problems/robot-collisions
  */
 
-const translateDirections = (directions) =>
-  [...directions].map((direction) => (direction === 'R' ? 1 : -1));
-
-const zip = (...arrays) => {
-  const length = Math.max(0, ...arrays.map((array) => array.length));
-  return [...Array(length)].map((_, i) => arrays.map((array) => array[i]));
-};
-
-const newRobot = (position, health, direction, originalPosition) => [
+// returns a new robot
+const newRobot = (position, health, direction, index) => [
   position,
   health,
   direction,
-  originalPosition,
+  index,
 ];
 
-const position = (robot) => robot[0];
+// converts the direction character to a scalar value
+const scalar = (dir) => (dir === 'R' ? 1 : -1);
 
-const health = (robot) => robot[1];
+// zips the input arrays together to form the robot array.
+const zip = (positions, healths, directions) =>
+  positions.map((p, i) => newRobot(p, healths[i], scalar(directions[i]), i));
 
-const direction = (robot) => robot[2];
+// returns the original position of the robot.
+const position = (r) => r[0];
 
-const simulate = (() => {
-  const move = (robot) => position(robot) + direction(robot);
+// returns the health of the robot.
+const health = (r) => r[1];
 
-  const collide = (left, right) => {
-    if (health(left) === health(right)) {
-      return null;
+// returns the direction the robot is moving in.
+const direction = (r) => r[2];
+
+// returns the original index of the robot.
+const index = (r) => r[3];
+
+// returns true if the two robots are on a course for collision.
+const willCollide = (left, right) => direction(left) > direction(right);
+
+// returns a new robot with the health decremented by one.
+const decrementHealth = (r) =>
+  newRobot(position(r), health(r) - 1, direction(r), index(r));
+
+// returns the surviving robot after the collision (if no robot would survive returns null.)
+const collide = (a, b) => {
+  if (health(a) === health(b)) {
+    return null;
+  }
+  return health(a) > health(b) ? decrementHealth(a) : decrementHealth(b);
+};
+
+// simulates the results and returns the surviving robots.
+const simulate = (robots) => {
+  // problem is simplified by ignoring positions of robots.
+  // only direction matters, as two robots facing each other will collide.
+  // this reduces the problem to a more complicated version of parenthesis matching
+  // use a stack and each time an "opening and closing paren" is found, simulate a collision.\
+  const stack = [];
+  for (const robot of robots) {
+    // nothing to do if this robot won't collide with it's left neighbor (the robot top of the stack)
+    if (!stack.length || !willCollide(stack.at(-1), robot)) {
+      stack.push(robot);
+      continue;
     }
-    const survivor = health(left) > health(right) ? left : right;
-    return newRobot(
-      position(survivor),
-      health(survivor) - 1,
-      direction(survivor),
-      survivor[3],
-    );
-  };
-
-  return (robots) => {
-    const stack = [];
-    for (const robot of robots) {
-      // always push right facing robot since they might collide with a future robot going left.
-      if (direction(robot) === 'R') {
-        stack.push(robot);
+    // the current robot and it's leftmost neighbor will collide.
+    // however, the survivor of this collision could result in more collisions.
+    // continually resolve collisions until no more are possible.
+    let rightMost = robot;
+    while (stack.length && willCollide(stack.at(-1), robot)) {
+      const survivor = collide(stack.pop(), rightMost);
+      if (!survivor) {
+        break;
       }
-      // ignore left most robot going left, will never collide with any other robot.
-      else if (
-        direction(robot) === 'L' &&
-        (!stack.length || direction(stack.at(-1)) === 'L')
-      ) {
-        stack.push(robot);
+      if (!stack.length || !willCollide(stack.at(-1), survivor)) {
+        stack.push(survivor);
+        break;
       }
-      // resolve the collision
-      else {
-        let rightmost = robot;
-        while (stack.length && direction(stack.at(-1)) === 'R') {
-          const survivor = collide(stack.pop(), rightmost);
-          if (!survivor) {
-            break;
-          }
-          if (
-            direction(survivor) === 'L' &&
-            (!stack.length || direction(stack.at(-1)) === 'L')
-          ) {
-            stack.push(survivor);
-          }
-
-          if (direction(survivor) === 'R') {
-            stack.push(survivor);
-            break;
-          }
-          rightmost = survivor;
-        }
-      }
+      rightMost = survivor;
     }
-    console.log(stack);
-    return stack;
-  };
-})();
+  }
+  return stack;
+};
+
+// returns a copy of the robot array sorted by a specific property of the robot (asc).
+const sortedBy = (robots, propertyFn) =>
+  [...robots].sort((a, b) => propertyFn(a) - propertyFn(b));
 
 /**
  * @param {number[]} positions
@@ -158,10 +157,8 @@ const simulate = (() => {
  * @return {number[]}
  */
 export const survivedRobotsHealths = (positions, healths, directions) => {
-  const robots = zip(positions, healths, directions, [
-    ...Array(positions.length).keys(),
-  ]).sort((a, b) => position(a) - position(b));
-  console.log('robots', robots);
-  const results = simulate(robots);
-  return results.sort((a, b) => a[3] - b[3]).map(health);
+  // ensure robots are ordered by their position
+  const robots = sortedBy(zip(positions, healths, directions), position);
+  // after simulating, ensure the survivors are ordered by their original index.
+  return sortedBy(simulate(robots), index).map(health);
 };
