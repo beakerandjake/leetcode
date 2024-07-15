@@ -57,8 +57,56 @@
  *     this.right = (right===undefined ? null : right)
  * }
  */
+
+class TreeNode {
+  constructor(val, left, right) {
+    this.val = val === undefined ? 0 : val;
+    this.left = left === undefined ? null : left;
+    this.right = right === undefined ? null : right;
+  }
+}
+
+// returns the parent node key of the description.
+const parent = (description) => description[0];
+
+// returns the child node key of the description.
+const child = (description) => description[1];
+
+// returns true if the child is the left node, false if the child is the right node.
+const isLeft = (description) => description[2];
+
+// if a node with the key is present in the map it is returned
+// otherwise a new node is created and added to the map, then the new node is returned.
+const getOrInsert = (key, nodeMap) => {
+  if (!nodeMap.has(key)) {
+    nodeMap.set(key, new TreeNode(key));
+  }
+  return nodeMap.get(key);
+};
+
+// returns the key of the node which is not present in the child set.
+const findRootNodeKey = (nodeMap, childSet) =>
+  [...nodeMap.keys()].find((key) => !childSet.has(key));
+
 /**
  * @param {number[][]} descriptions
  * @return {TreeNode}
  */
-export const createBinaryTree = (descriptions) => {};
+export const createBinaryTree = (descriptions) => {
+  const childSet = new Set();
+  const nodeMap = new Map();
+
+  for (const description of descriptions) {
+    const childNode = getOrInsert(child(description), nodeMap);
+    const parentNode = getOrInsert(parent(description), nodeMap);
+
+    if (isLeft(description)) {
+      parentNode.left = childNode;
+    } else {
+      parentNode.right = childNode;
+    }
+
+    childSet.add(childNode.val);
+  }
+  return nodeMap.get(findRootNodeKey(nodeMap, childSet));
+};

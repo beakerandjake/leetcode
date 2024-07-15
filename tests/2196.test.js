@@ -1,5 +1,5 @@
 import { createBinaryTree } from '../src/2196.js';
-import { generateTestName } from './util.js';
+import { bstToArr, generateTestName } from './util.js';
 
 describe('2196. Create Binary Tree From Descriptions', () => {
   [
@@ -25,7 +25,7 @@ describe('2196. Create Binary Tree From Descriptions', () => {
     const [descriptions, expected] = args;
     test(generateTestName(createBinaryTree, ...args), () => {
       const result = createBinaryTree(descriptions);
-      expect(result).toEqual(expected);
+      expect(bstToArr(result)).toEqual(expected);
     });
   });
 });
