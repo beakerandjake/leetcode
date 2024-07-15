@@ -131,7 +131,7 @@ const simulate = (robots) => {
     // however, the survivor of this collision could result in more collisions.
     // continually resolve collisions until no more are possible.
     let rightMost = robot;
-    while (stack.length && willCollide(stack.at(-1), robot)) {
+    while (stack.length && willCollide(stack.at(-1), rightMost)) {
       const survivor = collide(stack.pop(), rightMost);
       if (!survivor) {
         break;
