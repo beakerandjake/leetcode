@@ -38,6 +38,7 @@ Certain problems I like to practice to stay fresh in basic concepts. This docume
 - [maximum-depth-of-binary-tree #104](https://leetcode.com/problems/maximum-depth-of-binary-tree)
 - [flatten-binary-tree-to-linked-list #114](https://leetcode.com/problems/flatten-binary-tree-to-linked-list)
 - [construct-binary-tree-from-preorder-and-inorder-traversal #105](https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal)
+- [lowest-common-ancestor-of-a-binary-tree #236](https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree)
 
 ## Binary Search Tree
 - [delete-node-in-a-bst #450](https://leetcode.com/problems/delete-node-in-a-bst)
