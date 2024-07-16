@@ -60,10 +60,45 @@
  *     this.right = (right===undefined ? null : right)
  * }
  */
+
+// returns the node which is the lowest common ancestor of nodes with values a and b
+const lowestCommonAncestor = (root, a, b) => {
+  if (!root) {
+    return null;
+  }
+  if (root.val === a || root.val === b) {
+    return root;
+  }
+  const inLeft = lowestCommonAncestor(root.left, a, b);
+  const inRight = lowestCommonAncestor(root.right, a, b);
+  return inLeft && inRight ? root : inLeft || inRight;
+};
+
+// returns a string containing directions (L or R) from the root node to the node with the target value
+const path = (root, targetValue) => {
+  const search = (node, history) => {
+    if (!node) {
+      return '';
+    }
+    if (node.val === targetValue) {
+      return history;
+    }
+    const leftPath = search(node.left, `${history}L`);
+    const rightPath = search(node.right, `${history}R`);
+    return leftPath || rightPath;
+  };
+  return search(root, '');
+};
+
+const reversePathToStart = (p) => 'U'.repeat(p.length);
+
 /**
  * @param {TreeNode} root
  * @param {number} startValue
  * @param {number} destValue
  * @return {string}
  */
-export const getDirections = (root, startValue, destValue) => {};
+export const getDirections = (root, startValue, destValue) => {
+  const lca = lowestCommonAncestor(root, startValue, destValue);
+  return reversePathToStart(path(lca, startValue)) + path(lca, destValue);
+};

@@ -1,5 +1,5 @@
 import { getDirections } from '../src/2096.js';
-import { generateTestName } from './util.js';
+import { arrToBst, generateTestName } from './util.js';
 
 describe('2096. Step-By-Step Directions From a Binary Tree Node to Another', () => {
   [
@@ -8,7 +8,7 @@ describe('2096. Step-By-Step Directions From a Binary Tree Node to Another', () 
   ].forEach((args) => {
     const [root, startValue, destValue, expected] = args;
     test(generateTestName(getDirections, ...args), () => {
-      const result = getDirections(root, startValue, destValue);
+      const result = getDirections(arrToBst(root), startValue, destValue);
       expect(result).toBe(expected);
     });
   });
