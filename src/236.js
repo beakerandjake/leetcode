@@ -65,4 +65,14 @@
  * @param {TreeNode} q
  * @return {TreeNode}
  */
-export const lowestCommonAncestor = (root, p, q) => {};
+export const lowestCommonAncestor = (root, p, q) => {
+  if (!root) {
+    return null;
+  }
+  if (root.val === p || root.val === q) {
+    return root;
+  }
+  const inLeft = lowestCommonAncestor(root.left, p, q);
+  const inRight = lowestCommonAncestor(root.right, p, q);
+  return inLeft && inRight ? root : inLeft || inRight;
+};
