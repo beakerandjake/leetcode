@@ -1,5 +1,5 @@
 import { delNodes } from '../src/1110.js';
-import { generateTestName } from './util.js';
+import { arrToBst, bstToArr, generateTestName } from './util.js';
 
 describe('1110. Delete Nodes And Return Forest', () => {
   [
@@ -10,10 +10,10 @@ describe('1110. Delete Nodes And Return Forest', () => {
     ],
     [[1, 2, 4, null, 3], [3], [[1, 2, 4]]],
   ].forEach((args) => {
-    const [root, to_delete, expected] = args;
+    const [root, toDelete, expected] = args;
     test(generateTestName(delNodes, ...args), () => {
-      const result = delNodes(root, to_delete);
-      expect(result).toEqual(expected);
+      const result = delNodes(arrToBst(root), toDelete);
+      expect(result.map(bstToArr)).toIncludeSameMembers(expected);
     });
   });
 });

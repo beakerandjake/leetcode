@@ -47,9 +47,45 @@
  *     this.right = (right===undefined ? null : right)
  * }
  */
+
+// iterate which traverses the tree in post order
+// eslint-disable-next-line func-style
+function* postOrder(root) {
+  if (!root) {
+    return;
+  }
+  yield* postOrder(root.left);
+  yield* postOrder(root.right);
+  yield root;
+}
+
+// returns a new array containing all of the non null/undefined elements from the original array.
+const nonEmpty = (arr) => arr.filter((x) => x != null);
+
+// returns an array of children of the node (if any)
+const children = (node) => nonEmpty([node.left, node.right]);
+
 /**
  * @param {TreeNode} root
- * @param {number[]} to_delete
+ * @param {number[]} toDelete
  * @return {TreeNode[]}
  */
-export const delNodes = (root, to_delete) => {};
+export const delNodes = (root, toDelete) => {
+  const result = [];
+  const deleteSet = new Set(toDelete);
+  // iterate in post order so children are processed before being deleted
+  for (const node of postOrder(root)) {
+    // delete left child if marked for delete, adding its children to the forest.
+    if (deleteSet.has(node.left?.val)) {
+      result.push(...children(node.left));
+      node.left = null;
+    }
+    // delete right child if marked for delete, adding its children to the forest.
+    if (deleteSet.has(node.right?.val)) {
+      result.push(...children(node.right));
+      node.right = null;
+    }
+  }
+  // add roots children to the forest if root is marked for delete, otherwise just add root to forest.
+  return deleteSet.has(root.val) ? [...result, ...children(root)] : [...result, root];
+};
