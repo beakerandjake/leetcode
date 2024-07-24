@@ -57,9 +57,24 @@
  * https://leetcode.com/problems/sort-the-jumbled-numbers
  */
 
+// returns an array containing the digits of the number from left to right
+const toDigits = (number) => [...String(number)].map(Number);
+
+// converts an array of digits to a number.
+const toNumber = (digitArr) =>
+  digitArr.reduce((acc, x, i) => acc + x * 10 ** (digitArr.length - i), 0);
+
+// converts the number to a new number by mapping every digit using the mapping.
+const map = (number, mapping) => toNumber(toDigits(number).map((x) => mapping[x]));
+
 /**
  * @param {number[]} mapping
  * @param {number[]} nums
  * @return {number[]}
  */
-export const sortJumbled = (mapping, nums) => {};
+export const sortJumbled = (mapping, nums) => {
+  // map the numbers to pairs of [mappedValue, originalIndex]
+  const mapped = nums.map((x, i) => [map(x, mapping), i]);
+  // sort asc based on the mappedValue, then return the num at originalIndex.
+  return mapped.sort((a, b) => a[0] - b[0]).map(([_, i]) => nums[i]);
+};
