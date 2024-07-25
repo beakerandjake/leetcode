@@ -46,8 +46,52 @@
  * https://leetcode.com/problems/lucky-numbers-in-a-matrix
  */
 
+// returns the height of the matrix.
+const height = (matrix) => matrix.length;
+
+// returns the width of the matrix
+const width = (matrix) => matrix[0].length;
+
+// iterates the rows of the matrix.
+// eslint-disable-next-line func-style
+function* rows(matrix) {
+  for (let y = 0; y < height(matrix); y++) {
+    yield matrix[y];
+  }
+}
+
+// iterates the cols of the matrix.
+// eslint-disable-next-line func-style
+function* cols(matrix) {
+  for (let x = 0; x < width(matrix); x++) {
+    yield matrix.map((r) => r[x]);
+  }
+}
+
+// iterates every value in the matrix.
+// eslint-disable-next-line func-style
+function* iterate(matrix) {
+  for (let y = 0; y < height(matrix); y++) {
+    for (let x = 0; x < width(matrix); x++) {
+      yield [matrix[y][x], y, x];
+    }
+  }
+}
+
+// returns the largest number in the array.
+const max = (arr) => Math.max(...arr);
+
+// returns the smallest number in the array.
+const min = (arr) => Math.min(...arr);
+
 /**
  * @param {number[][]} matrix
  * @return {number[]}
  */
-export const luckyNumbers = (matrix) => {};
+export const luckyNumbers = (matrix) => {
+  const rowMins = [...rows(matrix)].map(min);
+  const colMax = [...cols(matrix)].map(max);
+  return [...iterate(matrix)]
+    .filter(([value, y, x]) => rowMins[y] === value && colMax[x] === value)
+    .map(([value]) => value);
+};
