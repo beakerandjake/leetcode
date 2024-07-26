@@ -61,26 +61,48 @@
  * https://leetcode.com/problems/find-the-city-with-the-smallest-number-of-neighbors-at-a-threshold-distance
  */
 
-const fill = (n) => [...Array(n).keys()];
+import { MinPriorityQueue } from '@datastructures-js/priority-queue';
 
-const toEdge = (to, weight) => [to, weight];
-
-const to = (e) => e[0];
-
-const weight = (e) => e[1];
-
+// builds an adjacency list for nodes 0 to n-1 with defined edges.
 const toGraph = (n, edges) =>
   edges.reduce(
     (acc, [f, t, w]) => {
-      acc.get(f).push(toEdge(t, w));
-      acc.get(t).push(toEdge(f, w));
+      acc.get(f).push([t, w]);
+      acc.get(t).push([f, w]);
       return acc;
     },
-    new Map(fill(n).map((i) => [i, []])),
+    new Map([...Array(n)].map((_, i) => [i, []])),
   );
 
+// returns the destination of an edge.
+const to = (edge) => edge[0];
+
+// returns the weight of an edge.
+const weight = (edge) => edge[1];
+
+// returns the number of cities which can be reached from the start city while staying under the distance limit.
 const dijkstra = (graph, start, limit) => {
-  return 0;
+  const queue = new MinPriorityQueue();
+  const distances = Array(graph.size).fill(Number.MAX_SAFE_INTEGER);
+
+  queue.enqueue(start, 0);
+  distances[start] = 0;
+
+  while (queue.size()) {
+    const { element: city, priority: distance } = queue.dequeue();
+    // if past limit, not possible to ever go under it again.
+    if (distance > limit) {
+      break;
+    }
+    for (const edge of graph.get(city)) {
+      const alt = distances[city] + weight(edge);
+      if (alt < distances[to(edge)]) {
+        distances[to(edge)] = alt;
+        queue.enqueue(to(edge), alt);
+      }
+    }
+  }
+  return distances.filter((x) => x <= limit).length;
 };
 
 /**
@@ -91,10 +113,10 @@ const dijkstra = (graph, start, limit) => {
  */
 export const findTheCity = (n, edges, distanceThreshold) => {
   const graph = toGraph(n, edges);
-  const cities = fill(n);
+  const cities = [...Array(n).keys()];
   const reachable = cities.map((city) => dijkstra(graph, city, distanceThreshold));
+  // sort by # reachable (asc), if tie then sort by city key (desc)
   cities.sort((cityA, cityB) =>
-    // if # reachable is equal take larger city, otherwise take smaller # reachable
     reachable[cityA] === reachable[cityB]
       ? cityB - cityA
       : reachable[cityA] - reachable[cityB],
