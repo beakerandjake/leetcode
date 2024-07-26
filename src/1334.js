@@ -61,10 +61,43 @@
  * https://leetcode.com/problems/find-the-city-with-the-smallest-number-of-neighbors-at-a-threshold-distance
  */
 
+const fill = (n) => [...Array(n).keys()];
+
+const toEdge = (to, weight) => [to, weight];
+
+const to = (e) => e[0];
+
+const weight = (e) => e[1];
+
+const toGraph = (n, edges) =>
+  edges.reduce(
+    (acc, [f, t, w]) => {
+      acc.get(f).push(toEdge(t, w));
+      acc.get(t).push(toEdge(f, w));
+      return acc;
+    },
+    new Map(fill(n).map((i) => [i, []])),
+  );
+
+const dijkstra = (graph, start, limit) => {
+  return 0;
+};
+
 /**
  * @param {number} n
  * @param {number[][]} edges
  * @param {number} distanceThreshold
  * @return {number}
  */
-export const findTheCity = (n, edges, distanceThreshold) => {};
+export const findTheCity = (n, edges, distanceThreshold) => {
+  const graph = toGraph(n, edges);
+  const cities = fill(n);
+  const reachable = cities.map((city) => dijkstra(graph, city, distanceThreshold));
+  cities.sort((cityA, cityB) =>
+    // if # reachable is equal take larger city, otherwise take smaller # reachable
+    reachable[cityA] === reachable[cityB]
+      ? cityB - cityA
+      : reachable[cityA] - reachable[cityB],
+  );
+  return cities[0];
+};

@@ -27,6 +27,19 @@ describe('1334. Find the City With the Smallest Number of Neighbors at a Thresho
       2,
       0,
     ],
+    [
+      6,
+      [
+        [0, 1, 10],
+        [0, 2, 1],
+        [2, 3, 1],
+        [1, 3, 1],
+        [1, 4, 1],
+        [4, 5, 10],
+      ],
+      20,
+      5,
+    ],
   ].forEach((args) => {
     const [n, edges, distanceThreshold, expected] = args;
     test(generateTestName(findTheCity, ...args), () => {
