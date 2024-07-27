@@ -64,6 +64,68 @@
  * https://leetcode.com/problems/minimum-cost-to-convert-string-i
  */
 
+import { MinPriorityQueue } from '@datastructures-js/priority-queue';
+
+// zips all of the arrays into one
+const zip = (...arrays) => {
+  const maxLength = Math.max(...arrays.map(({ length }) => length));
+  return [...Array(maxLength).keys()].map((i) => arrays.map((x) => x[i]));
+};
+
+// returns an array of characters from 'a' to 'z'
+const aToZ = () => [...Array(26).keys()].map((x) => String.fromCharCode(x + 97));
+
+// converts an array of edges [from, to, weight] to an adjacency list.
+const toGraph = (edges) =>
+  edges.reduce(
+    (acc, [from, to, weight]) => {
+      acc.get(from).push([to, weight]);
+      return acc;
+    },
+    new Map(aToZ().map((x) => [x, []])),
+  );
+
+// returns the destination of the edge.
+const to = (edge) => edge[0];
+
+// returns the weight of the edge.
+const weight = (edge) => edge[1];
+
+// returns the min cost to travel from source to target (-1 if no path is possible)
+const dijkstra = (graph, source, target) => {
+  // short circuit if already at target.
+  if (source === target) {
+    return 0;
+  }
+  
+  const queue = MinPriorityQueue.from([[source, 0]]);
+  const distances = new Map(
+    [...graph.keys()].map((key) => [key, Number.MAX_SAFE_INTEGER]),
+  );
+  distances.set(source, 0);
+
+  while (queue.size()) {
+    const { element: currentKey, priority: currentCost } = queue.dequeue();
+    if (currentKey === target) {
+      return currentCost;
+    }
+    for (const edge of graph.get(currentKey)) {
+      const alt = distances.get(currentKey) + weight(edge);
+      if (alt < distances.get(to(edge))) {
+        distances.set(to(edge), alt);
+        queue.enqueue(to(edge), alt);
+      }
+    }
+  }
+  return -1;
+};
+
+// returns the sum of the numbers in the array.
+const sum = (arr) => arr.reduce((acc, x) => acc + x, 0);
+
+// returns a string hash of the source / target combination.
+const hash = (source, target) => `${source}.${target}`;
+
 /**
  * @param {string} source
  * @param {string} target
@@ -72,4 +134,18 @@
  * @param {number[]} cost
  * @return {number}
  */
-export const minimumCost = (source, target, original, changed, cost) => {};
+export const minimumCost = (source, target, original, changed, cost) => {
+  const graph = toGraph(zip(original, changed, cost));
+  const cache = new Map();
+  // calculate the min cost of changing each source char to target char.
+  const costs = [...source].map((sourceChar, i) => {
+    // cache costs in case character transformations are duplicated.
+    if (!cache.has(hash(sourceChar, target[i]))) {
+      const minCost = dijkstra(graph, sourceChar, target[i]);
+      cache.set(hash(sourceChar, target[i]), minCost);
+    }
+    return cache.get(hash(sourceChar, target[i]));
+  });
+  // changing from source to target is not possible if any char failed to map.
+  return costs.every((x) => x !== -1) ? sum(costs) : -1;
+};
