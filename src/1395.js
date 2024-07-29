@@ -74,8 +74,35 @@ const bruteForce = (() => {
   };
 })();
 
+const usingBacktracking = (() => {
+  const isDescending = (team) => team[0] < team[1] && team[1] < team[2];
+
+  const isAscending = (team) => team[0] > team[1] && team[1] > team[2];
+
+  const isValid = (team) => isAscending(team) || isDescending(team);
+
+  return (rating) => {
+    let result = 0;
+    const backtrack = (start, team) => {
+      if (team.length === 3) {
+        if (isValid(team)) {
+          result++;
+        }
+        return;
+      }
+      for (let i = start; i < rating.length; i++) {
+        team.push(rating[i]);
+        backtrack(i + 1, team);
+        team.pop();
+      }
+    };
+    backtrack(0, []);
+    return result;
+  };
+})();
+
 /**
  * @param {number[]} rating
  * @return {number}
  */
-export const numTeams = bruteForce;
+export const numTeams = usingBacktracking;
