@@ -52,6 +52,7 @@
  */
 
 const bruteForce = (() => {
+  // iterates each triplet combination of the array.`
   // eslint-disable-next-line func-style
   function* triplets(arr) {
     for (let i = 0; i < arr.length; i++) {
@@ -74,35 +75,62 @@ const bruteForce = (() => {
   };
 })();
 
-const usingBacktracking = (() => {
-  const isDescending = (team) => team[0] < team[1] && team[1] < team[2];
-
-  const isAscending = (team) => team[0] > team[1] && team[1] > team[2];
-
-  const isValid = (team) => isAscending(team) || isDescending(team);
-
-  return (rating) => {
-    let result = 0;
-    const backtrack = (start, team) => {
-      if (team.length === 3) {
-        if (isValid(team)) {
-          result++;
-        }
-        return;
+const usingBacktracking = (rating) => {
+  let result = 0;
+  const backtrack = (start, team) => {
+    if (team.length === 3) {
+      if (
+        (team[0] < team[1] && team[1] < team[2]) ||
+        (team[0] > team[1] && team[1] > team[2])
+      ) {
+        result++;
       }
-      for (let i = start; i < rating.length; i++) {
-        team.push(rating[i]);
-        backtrack(i + 1, team);
-        team.pop();
-      }
-    };
-    backtrack(0, []);
-    return result;
+      return;
+    }
+    for (let i = start; i < rating.length; i++) {
+      team.push(rating[i]);
+      backtrack(i + 1, team);
+      team.pop();
+    }
   };
-})();
+  backtrack(0, []);
+  return result;
+};
+
+const usingDp = (rating) => {
+  // returns a function which can count the number of teams which satisfy the predicate
+  const buildCountFn = (predicateFn) => {
+    const memo = new Map();
+    const dp = (index, teamSize) => {
+      if (index >= rating.length) {
+        return 0;
+      }
+      if (teamSize === 3) {
+        return 1;
+      }
+      const hash = `${index}.${teamSize}`;
+      if (!memo.has(hash)) {
+        let result = 0;
+        for (let next = index + 1; next < rating.length; next++) {
+          if (predicateFn(rating[index], rating[next])) {
+            result += dp(next, teamSize + 1);
+          }
+        }
+        memo.set(hash, result);
+      }
+      return memo.get(hash);
+    };
+    return dp;
+  };
+
+  const increasing = buildCountFn((previous, current) => current > previous);
+  const decreasing = buildCountFn((previous, current) => current < previous);
+  // count the number of teams which start at each index.
+  return rating.reduce((acc, _, i) => acc + increasing(i, 1) + decreasing(i, 1), 0);
+};
 
 /**
  * @param {number[]} rating
  * @return {number}
  */
-export const numTeams = usingBacktracking;
+export const numTeams = usingDp;
