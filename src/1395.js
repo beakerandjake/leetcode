@@ -51,8 +51,31 @@
  * https://leetcode.com/problems/count-number-of-teams
  */
 
+const bruteForce = (() => {
+  // eslint-disable-next-line func-style
+  function* triplets(arr) {
+    for (let i = 0; i < arr.length; i++) {
+      for (let j = i + 1; j < arr.length; j++) {
+        for (let k = j + 1; k < arr.length; k++) {
+          yield [arr[i], arr[j], arr[k]];
+        }
+      }
+    }
+  }
+
+  return (rating) => {
+    let result = 0;
+    for (const [a, b, c] of triplets(rating)) {
+      if ((a < b && b < c) || (a > b && b > c)) {
+        result++;
+      }
+    }
+    return result;
+  };
+})();
+
 /**
  * @param {number[]} rating
  * @return {number}
  */
-export const numTeams = (rating) => {};
+export const numTeams = bruteForce;
