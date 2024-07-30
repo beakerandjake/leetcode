@@ -43,4 +43,25 @@
  * @param {string} s
  * @return {number}
  */
-export const minimumDeletions = (s) => {};
+export const minimumDeletions = (s) => {
+  const memo = [...Array(s.length)].map(() => Array(2).fill(null));
+  const dp = (index, bPrev) => {
+    if (index >= s.length) {
+      return 0;
+    }
+    if (memo[index][bPrev] == null) {
+      let result;
+      if (s[index] === 'a') {
+        // must delete this char if already encountered a 'b'.
+        result = bPrev ? 1 + dp(index + 1, bPrev) : dp(index + 1, 0);
+      } else {
+        // if current is a 'b', can either delete or keep it.
+        result = Math.min(1 + dp(index + 1, bPrev), dp(index + 1, 1));
+      }
+      memo[index][bPrev] = result;
+    }
+    return memo[index][bPrev];
+  };
+
+  return dp(0, 0);
+};
