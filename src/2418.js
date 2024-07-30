@@ -41,9 +41,21 @@
  * https://leetcode.com/problems/sort-the-people
  */
 
+// returns a new array formed by zipping the two arrays.
+const zip = (names, heights) => names.map((name, i) => [name, heights[i]]);
+
+// returns the name of the person pair.
+const name = (person) => person[0];
+
+// returns the height of the person pair.
+const height = (person) => person[1];
+
 /**
  * @param {string[]} names
  * @param {number[]} heights
  * @return {string[]}
  */
-export const sortPeople = (names, heights) => {};
+export const sortPeople = (names, heights) =>
+  zip(names, heights)
+    .sort((a, b) => height(b) - height(a))
+    .map(name);
