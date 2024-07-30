@@ -41,8 +41,20 @@
  * https://leetcode.com/problems/sort-array-by-increasing-frequency
  */
 
+// maps each element of the array to the number of times it appears
+const frequencyMap = (arr) =>
+  arr.reduce((acc, x) => acc.set(x, (acc.get(x) || 0) + 1), new Map());
+
+// returns a copy of the array, sorted based on the sortFn
+const sorted = (arr, sortFn) => [...arr].sort(sortFn);
+
 /**
  * @param {number[]} nums
  * @return {number[]}
  */
-export const frequencySort = (nums) => {};
+export const frequencySort = (nums) => {
+  const counts = frequencyMap(nums);
+  return sorted(nums, (a, b) =>
+    counts.get(a) === counts.get(b) ? b - a : counts.get(a) - counts.get(b),
+  );
+};
