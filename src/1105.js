@@ -56,9 +56,38 @@
  * https://leetcode.com/problems/filling-bookcase-shelves
  */
 
+// returns the thickness of the book.
+const thickness = (book) => book[0];
+
+// returns the height of the book.
+const height = (book) => book[1];
+
 /**
  * @param {number[][]} books
  * @param {number} shelfWidth
  * @return {number}
  */
-export const minHeightShelves = (books, shelfWidth) => {};
+export const minHeightShelves = (books, shelfWidth) => {
+  const memo = [...Array(books.length)].map(() => Array(shelfWidth).fill(null));
+  const dp = (i, t, h) => {
+    if (i >= books.length) {
+      return h;
+    }
+    if (memo[i][t] == null) {
+      let result;
+      // have to start new row if past max allowed thickness.
+      if (t + thickness(books[i]) > shelfWidth) {
+        result = h + dp(i + 1, thickness(books[i]), height(books[i]));
+      } else {
+        // can add this book to current row or start a new row.
+        result = Math.min(
+          dp(i + 1, t + thickness(books[i]), Math.max(h, height(books[i]))),
+          h + dp(i + 1, thickness(books[i]), height(books[i])),
+        );
+      }
+      memo[i][t] = result;
+    }
+    return memo[i][t];
+  };
+  return dp(0, 0, 0);
+};
