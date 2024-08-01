@@ -43,8 +43,18 @@
  * https://leetcode.com/problems/number-of-senior-citizens
  */
 
+// returns true if the age qualifies as senior
+const isSenior = (age) => age > 60;
+
+// returns the age of the person
+const age = (person) => Number(person.slice(11, 13));
+
+// returns the number of items in the array which satisfy the predicate function.
+const count = (arr, predicateFn) =>
+  arr.reduce((acc, x) => acc + (predicateFn(x) ? 1 : 0), 0);
+
 /**
  * @param {string[]} details
  * @return {number}
  */
-export const countSeniors = (details) => {};
+export const countSeniors = (details) => count(details.map(age), isSenior);
