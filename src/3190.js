@@ -39,8 +39,15 @@
  * https://leetcode.com/problems/find-minimum-operations-to-make-all-elements-divisible-by-three
  */
 
+// returns the count of items which satisfies the predicate function
+const count = (arr, predicateFn) =>
+  arr.reduce((acc, x) => acc + (predicateFn(x) ? 1 : 0), 0);
+
+// does the number need an operation to be converted to a multiple of 3?
+const needsOperation = (x) => x % 3 !== 0;
+
 /**
  * @param {number[]} nums
  * @return {number}
  */
-export const minimumOperations = (nums) => {};
+export const minimumOperations = (nums) => count(nums, needsOperation);
