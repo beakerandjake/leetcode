@@ -36,4 +36,4 @@
  * @param {number[]} nums
  * @return {number}
  */
-export const singleNonDuplicate = (nums) => {};
+export const singleNonDuplicate = (nums) => nums.reduce((acc, x) => acc ^ x, 0);
