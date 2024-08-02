@@ -39,8 +39,35 @@
  * https://leetcode.com/problems/pairs-of-songs-with-total-durations-divisible-by-60
  */
 
+const bruteForce = (() => {
+  // iterates each pair of the array and yields their sum
+  // eslint-disable-next-line func-style
+  function* pairSums(arr) {
+    for (let i = 0; i < arr.length; i++) {
+      for (let j = i + 1; j < arr.length; j++) {
+        yield arr[i] + arr[j];
+      }
+    }
+  }
+
+  // returns the number of elements in the array which satisfy the predicate
+  const count = (arr, predicateFn) =>
+    arr.reduce((acc, x) => acc + (predicateFn(x) ? 1 : 0), 0);
+
+  return (time) => count([...pairSums(time)], (x) => x % 60 === 0);
+})();
+
+const twoSum = (times) => {
+  const remainders = Array(60).fill(0);
+  return times.reduce((acc, time) => {
+    const pairs = time % 60 === 0 ? remainders[0] : remainders[60 - (time % 60)];
+    remainders[time % 60]++;
+    return acc + pairs;
+  }, 0);
+};
+
 /**
  * @param {number[]} time
  * @return {number}
  */
-export const numPairsDivisibleBy60 = (time) => {};
+export const numPairsDivisibleBy60 = twoSum;
