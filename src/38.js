@@ -58,8 +58,25 @@
  * https://leetcode.com/problems/count-and-say
  */
 
+// returns the run length encoding of the string
+const rle = (str) => {
+  const result = [];
+  let stack = [];
+  for (let i = 0; i < str.length; i++) {
+    if (stack.length && stack.at(-1) !== str[i]) {
+      result.push(`${stack.length}${stack.at(-1)}`);
+      stack = [];
+    }
+    stack.push(str[i]);
+  }
+  if (stack.length) {
+    result.push(`${stack.length}${stack.at(-1)}`);
+  }
+  return result.join('');
+};
+
 /**
  * @param {number} n
  * @return {string}
  */
-export const countAndSay = (n) => {};
+export const countAndSay = (n) => (n > 1 ? rle(countAndSay(n - 1)) : '1');
