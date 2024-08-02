@@ -56,8 +56,45 @@
  * https://leetcode.com/problems/minimum-swaps-to-group-all-1s-together-ii
  */
 
+// returns the number of items in the array which satisfy the predicate
+const count = (arr, predicateFn) =>
+  arr.reduce((acc, x) => acc + (predicateFn(x) ? 1 : 0), 0);
+
+// returns true if the number is equal to one.
+const isOne = (x) => x === 1;
+
+// performs sliding window iteration on the circular array
+// yields the number of items in each window which satisfy the predicate
+// eslint-disable-next-line func-style
+function* slidingCircularWindow(arr, windowSize, predicateFn) {
+  const buffered = [...arr, ...arr];
+  let matching = 0;
+  for (let i = 0; i < windowSize; i++) {
+    matching += predicateFn(buffered[i]) ? 1 : 0;
+  }
+  yield matching;
+  for (let i = 1; i < arr.length; i++) {
+    matching -= predicateFn(buffered[i - 1]) ? 1 : 0;
+    matching += predicateFn(buffered[i + windowSize - 1]) ? 1 : 0;
+    yield matching;
+  }
+}
+
 /**
  * @param {number[]} nums
  * @return {number}
  */
-export const minSwaps = (nums) => {};
+export const minSwaps = (nums) => {
+  const targetGroupSize = count(nums, isOne);
+  // no swaps needed under certain edge cases.
+  if (targetGroupSize <= 1 || targetGroupSize === nums.length) {
+    return 0;
+  }
+  // find the max number of ones grouped together.
+  let maxGrouping = 0;
+  for (const ones of slidingCircularWindow(nums, targetGroupSize, isOne)) {
+    maxGrouping = Math.max(maxGrouping, ones);
+  }
+  // swap out zeros (if any)
+  return targetGroupSize - maxGrouping;
+};
