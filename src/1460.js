@@ -49,9 +49,11 @@
  * https://leetcode.com/problems/make-two-arrays-equal-by-reversing-subarrays
  */
 
+// returns a dictionary which maps each element to the number of times it occurs.
 const frequencyMap = (arr) =>
   arr.reduce((acc, x) => acc.set(x, (acc.get(x) || 0) + 1), new Map());
 
+// returns true if the two maps are equal.
 const equals = (aMap, bMap) => {
   if (aMap.size !== bMap.size) {
     return false;
@@ -69,9 +71,5 @@ const equals = (aMap, bMap) => {
  * @param {number[]} arr
  * @return {boolean}
  */
-export const canBeEqual = (target, arr) => {
-  if (target.length !== arr.length) {
-    return false;
-  }
-  return equals(frequencyMap(target), frequencyMap(arr));
-};
+export const canBeEqual = (target, arr) =>
+  target.length === arr.length && equals(frequencyMap(target), frequencyMap(arr));
