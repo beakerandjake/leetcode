@@ -49,9 +49,29 @@
  * https://leetcode.com/problems/make-two-arrays-equal-by-reversing-subarrays
  */
 
+const frequencyMap = (arr) =>
+  arr.reduce((acc, x) => acc.set(x, (acc.get(x) || 0) + 1), new Map());
+
+const equals = (aMap, bMap) => {
+  if (aMap.size !== bMap.size) {
+    return false;
+  }
+  for (const [k, v] of aMap.entries()) {
+    if (!bMap.has(k) || bMap.get(k) !== v) {
+      return false;
+    }
+  }
+  return true;
+};
+
 /**
  * @param {number[]} target
  * @param {number[]} arr
  * @return {boolean}
  */
-export const canBeEqual = (target, arr) => {};
+export const canBeEqual = (target, arr) => {
+  if (target.length !== arr.length) {
+    return false;
+  }
+  return equals(frequencyMap(target), frequencyMap(arr));
+};
