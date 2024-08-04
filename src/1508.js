@@ -46,6 +46,37 @@
  * https://leetcode.com/problems/range-sum-of-sorted-subarray-sums
  */
 
+const bruteForce = (() => {
+  // iterates each subarray and yields its sum
+  // eslint-disable-next-line func-style
+  function* subarraySums(arr) {
+    for (let i = 0; i < arr.length; i++) {
+      let sum = 0;
+      for (let j = i; j < arr.length; j++) {
+        sum += arr[j];
+        yield sum;
+      }
+    }
+  }
+
+  // returns the sum of array elements from index 'from' to 'to' (exclusive)
+  const partialSum = (arr, from, to) => {
+    let result = 0;
+    for (let i = from; i < to; i++) {
+      result += arr[i];
+    }
+    return result;
+  };
+
+  // returns a copy of the array sorted ascending
+  const sorted = (arr) => [...arr].sort((a, b) => a - b);
+
+  return (arr, n, left, right) => {
+    const sums = sorted([...subarraySums(arr)]);
+    return partialSum(sums, left - 1, right) % (10 ** 9 + 7);
+  };
+})();
+
 /**
  * @param {number[]} nums
  * @param {number} n
@@ -53,4 +84,4 @@
  * @param {number} right
  * @return {number}
  */
-export const rangeSum = (nums, n, left, right) => {};
+export const rangeSum = bruteForce;
