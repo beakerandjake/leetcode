@@ -70,8 +70,23 @@
  *     this.right = (right===undefined ? null : right)
  * }
  */
+
 /**
  * @param {TreeNode} root
  * @return {string}
  */
-export const tree2str = (root) => {};
+export const tree2str = (root) => {
+  if (!root) {
+    return '';
+  }
+  if (!root.left && !root.right) {
+    return `${root.val}`;
+  }
+  if (root.left && !root.right) {
+    return `${root.val}(${tree2str(root.left)})`;
+  }
+  if (!root.left && root.right) {
+    return `${root.val}()(${tree2str(root.right)})`;
+  }
+  return `${root.val}(${tree2str(root.left)})(${tree2str(root.right)})`;
+};
