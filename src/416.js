@@ -33,11 +33,29 @@
  * https://leetcode.com/problems/partition-equal-subset-sum
  */
 
+// returns the sum of the elements in the array
+const sum = (arr) => arr.reduce((acc, x) => acc + x, 0);
+
+// returns true if the number is odd
+const isOdd = (num) => num % 2 !== 0;
+
+// returns a 2d array of size (m x n) filled with the value
+const fill2d = (m, n, value) => [...Array(m)].map(() => Array(n).fill(value));
+
 const usingDp = (nums) => {
-  const memo = [...Array(nums.length)].map(() => Array(nums.length * 200).fill(null));
+  const totalSum = sum(nums);
+  if (isOdd(totalSum)) {
+    return false;
+  }
+  const maxSubset = Math.floor(totalSum / 2);
+  const memo = fill2d(nums.length, maxSubset, null);
   const dp = (index, lSum, rSum) => {
     if (index >= nums.length) {
       return lSum === rSum;
+    }
+    // prune branch if not possible to make equal subsets
+    if (lSum > maxSubset || rSum > maxSubset) {
+      return false;
     }
     if (memo[index][lSum] == null) {
       const result =
