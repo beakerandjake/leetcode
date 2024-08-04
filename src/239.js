@@ -44,9 +44,47 @@
  * https://leetcode.com/problems/sliding-window-maximum
  */
 
+import { MaxPriorityQueue } from '@datastructures-js/priority-queue';
+
+const bruteForce = (() => {
+  // eslint-disable-next-line func-style
+  function* slidingWindow(arr, n) {
+    const end = arr.length - n;
+    for (let i = 0; i <= end; i++) {
+      yield arr.slice(i, i + n);
+    }
+  }
+
+  return (nums, k) => [...slidingWindow(nums, k)].map((x) => Math.max(...x));
+})();
+
+const usingHeap = (() => {
+  // iterates a sliding window of size n and yields [startIndex, endIndex] of each window
+  // eslint-disable-next-line func-style
+  function* slidingWindow(arr, n) {
+    const end = arr.length - n;
+    for (let i = 0; i <= end; i++) {
+      yield [i, i + n - 1];
+    }
+  }
+
+  return (nums, k) => {
+    const result = [];
+    const heap = MaxPriorityQueue.from(nums.slice(0, k).map((x, i) => [i, x]));
+    for (const [start, end] of slidingWindow(nums, k)) {
+      heap.enqueue(end, nums[end]);
+      while (heap.front().element < start) {
+        heap.dequeue();
+      }
+      result.push(heap.front().priority);
+    }
+    return result;
+  };
+})();
+
 /**
  * @param {number[]} nums
  * @param {number} k
  * @return {number[]}
  */
-export const maxSlidingWindow = (nums, k) => {};
+export const maxSlidingWindow = usingHeap;

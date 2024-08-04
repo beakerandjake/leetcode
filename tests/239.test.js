@@ -5,6 +5,7 @@ describe('239. Sliding Window Maximum', () => {
   [
     [[1, 3, -1, -3, 5, 3, 6, 7], 3, [3, 3, 5, 5, 6, 7]],
     [[1], 1, [1]],
+    [[1, -1], 1, [1, -1]],
   ].forEach((args) => {
     const [nums, k, expected] = args;
     test(generateTestName(maxSlidingWindow, ...args), () => {
