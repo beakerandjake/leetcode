@@ -42,9 +42,17 @@
  * @param {string} val
  * @return {Object}
  */
-export const expect = (val) => {};
-
-/**
- * expect(5).toBe(5); // true
- * expect(5).notToBe(5); // throws "Equal"
- */
+export const expect = (value) => ({
+  toBe: (rhs) => {
+    if (value === rhs) {
+      return true;
+    }
+    throw new Error('Not Equal');
+  },
+  notToBe: (rhs) => {
+    if (value !== rhs) {
+      return true;
+    }
+    throw new Error('Equal');
+  },
+});
