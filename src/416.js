@@ -33,8 +33,25 @@
  * https://leetcode.com/problems/partition-equal-subset-sum
  */
 
+const usingDp = (nums) => {
+  const memo = [...Array(nums.length)].map(() => Array(nums.length * 200).fill(null));
+  const dp = (index, lSum, rSum) => {
+    if (index >= nums.length) {
+      return lSum === rSum;
+    }
+    if (memo[index][lSum] == null) {
+      const result =
+        dp(index + 1, lSum + nums[index], rSum) ||
+        dp(index + 1, lSum, rSum + nums[index]);
+      memo[index][lSum] = result;
+    }
+    return memo[index][lSum];
+  };
+  return dp(0, 0, 0);
+};
+
 /**
  * @param {number[]} nums
  * @return {boolean}
  */
-export const canPartition = (nums) => {};
+export const canPartition = usingDp;
