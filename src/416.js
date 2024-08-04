@@ -42,7 +42,11 @@ const isOdd = (num) => num % 2 !== 0;
 // returns a 2d array of size (m x n) filled with the value
 const fill2d = (m, n, value) => [...Array(m)].map(() => Array(n).fill(value));
 
-const usingDp = (nums) => {
+/**
+ * @param {number[]} nums
+ * @return {boolean}
+ */
+export const canPartition = (nums) => {
   const totalSum = sum(nums);
   if (isOdd(totalSum)) {
     return false;
@@ -67,9 +71,3 @@ const usingDp = (nums) => {
   };
   return dp(0, 0, 0);
 };
-
-/**
- * @param {number[]} nums
- * @return {boolean}
- */
-export const canPartition = usingDp;
