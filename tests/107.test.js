@@ -1,5 +1,5 @@
 import { levelOrderBottom } from '../src/107.js';
-import { generateTestName } from './util.js';
+import { arrToBst, generateTestName } from './util.js';
 
 describe('107. Binary Tree Level Order Traversal II', () => {
   [
@@ -12,7 +12,7 @@ describe('107. Binary Tree Level Order Traversal II', () => {
   ].forEach((args) => {
     const [root, expected] = args;
     test(generateTestName(levelOrderBottom, ...args), () => {
-      const result = levelOrderBottom(root);
+      const result = levelOrderBottom(arrToBst(root));
       expect(result).toEqual(expected);
     });
   });

@@ -47,8 +47,32 @@
  *     this.right = (right===undefined ? null : right)
  * }
  */
+
+// eslint-disable-next-line func-style
+function* postOrder(root) {
+  // eslint-disable-next-line func-style
+  function* traverse(node, level) {
+    if (!node) {
+      return;
+    }
+    yield* traverse(node.left, level + 1);
+    yield* traverse(node.right, level + 1);
+    yield [node, level];
+  }
+  yield* traverse(root, 0);
+}
+
 /**
  * @param {TreeNode} root
  * @return {number[][]}
  */
-export const levelOrderBottom = (root) => {};
+export const levelOrderBottom = (root) => {
+  const result = [];
+  for (const [node, depth] of postOrder(root)) {
+    if (!result[depth]) {
+      result[depth] = [];
+    }
+    result[depth].push(node.val);
+  }
+  return result.reverse();
+};
