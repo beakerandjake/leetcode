@@ -1,5 +1,5 @@
 import { pathSum } from '../src/113.js';
-import { generateTestName } from './util.js';
+import { arrToBst, generateTestName } from './util.js';
 
 describe('113. Path Sum II', () => {
   [
@@ -16,7 +16,7 @@ describe('113. Path Sum II', () => {
   ].forEach((args) => {
     const [root, targetSum, expected] = args;
     test(generateTestName(pathSum, ...args), () => {
-      const result = pathSum(root, targetSum);
+      const result = pathSum(arrToBst(root), targetSum);
       expect(result).toEqual(expected);
     });
   });

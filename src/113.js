@@ -58,9 +58,33 @@
  *     this.right = (right===undefined ? null : right)
  * }
  */
+
+// iterates the tree and yields the path from root to each leaf node
+// eslint-disable-next-line func-style
+function* rootToLeafPaths(root) {
+  // eslint-disable-next-line func-style
+  function* dfs(node, path) {
+    if (!node) {
+      return;
+    }
+    path.push(node.val);
+    if (!node.left && !node.right) {
+      yield [...path];
+    }
+    yield* dfs(node.left, path);
+    yield* dfs(node.right, path);
+    path.pop();
+  }
+  yield* dfs(root, []);
+}
+
+// returns the sum of all elements of the array.
+const sum = (arr) => arr.reduce((acc, x) => acc + x, 0);
+
 /**
  * @param {TreeNode} root
  * @param {number} targetSum
  * @return {number[][]}
  */
-export const pathSum = (root, targetSum) => {};
+export const pathSum = (root, targetSum) =>
+  [...rootToLeafPaths(root)].filter((path) => sum(path) === targetSum);
