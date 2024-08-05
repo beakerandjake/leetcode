@@ -53,9 +53,22 @@
  * https://leetcode.com/problems/kth-distinct-string-in-an-array
  */
 
+const distinct = (arr) => {
+  const result = new Set(arr);
+  const encountered = new Set();
+  for (const item of arr) {
+    if (encountered.has(item)) {
+      result.delete(item);
+    } else {
+      encountered.add(item);
+    }
+  }
+  return [...result];
+};
+
 /**
  * @param {string[]} arr
  * @param {number} k
  * @return {string}
  */
-export const kthDistinct = (arr, k) => {};
+export const kthDistinct = (arr, k) => distinct(arr)[k - 1] || '';
