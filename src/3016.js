@@ -96,8 +96,8 @@ const keysDesc = (frequencyMap) =>
   [...frequencyMap.keys()].sort((a, b) => frequencyMap.get(b) - frequencyMap.get(a));
 
 // maps an array of characters onto the specified number of keys
-// does not specify they key the char maps to, but the number of presses needed to type the key
-const mapToKeys = (chars, numKeys) =>
+// specifies the number of presses required, not the actual key the char maps to
+const charPressMap = (chars, numKeys) =>
   chars.reduce(
     // the press count goes up every time 'numKeys' chars are mapped
     (acc, char) => acc.set(char, Math.floor(acc.size / numKeys) + 1),
@@ -119,5 +119,5 @@ const totalPresses = (charFrequencies, charPresses) =>
  */
 export const minimumPushes = (word) => {
   const charCounts = charFrequencyMap(word);
-  return totalPresses(charCounts, mapToKeys(keysDesc(charCounts), 8));
+  return totalPresses(charCounts, charPressMap(keysDesc(charCounts), 8));
 };
