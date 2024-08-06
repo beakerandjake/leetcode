@@ -87,8 +87,26 @@
  * https://leetcode.com/problems/minimum-number-of-pushes-to-type-word-ii
  */
 
+const frequencyMap = (str) =>
+  [...str].reduce((acc, x) => acc.set(x, (acc.get(x) || 0) + 1), new Map());
+
 /**
  * @param {string} word
  * @return {number}
  */
-export const minimumPushes = (word) => {};
+export const minimumPushes = (word) => {
+  const charCounts = frequencyMap(word);
+  const charsToMap = [...charCounts.keys()].sort(
+    (a, b) => charCounts.get(a) - charCounts.get(b),
+  );
+  const presses = new Map();
+  while (charsToMap.length) {
+    const char = charsToMap.pop();
+    const press = Math.floor(presses.size / 8) + 1;
+    presses.set(char, press);
+  }
+  return [...charCounts].reduce(
+    (acc, [char, count]) => acc + count * presses.get(char),
+    0,
+  );
+};
