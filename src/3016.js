@@ -87,31 +87,36 @@
  * https://leetcode.com/problems/minimum-number-of-pushes-to-type-word-ii
  */
 
-const frequencyMap = (str) =>
+// maps each character of the string to the number of times it appears
+const charFrequencyMap = (str) =>
   [...str].reduce((acc, x) => acc.set(x, (acc.get(x) || 0) + 1), new Map());
+
+// returns an array of each key of frequency map sorted by it's frequency (descending)
+const keysDesc = (frequencyMap) =>
+  [...frequencyMap.keys()].sort((a, b) => frequencyMap.get(b) - frequencyMap.get(a));
+
+// maps an array of characters onto the specified number of keys
+// does not specify they key the char maps to, but the number of presses needed to type the key
+const mapToKeys = (chars, numKeys) =>
+  chars.reduce(
+    (acc, char) => acc.set(char, Math.floor(acc.size / numKeys) + 1),
+    new Map(),
+  );
+
+// given a character frequency map and a character press map
+// returns the total number of times a key needs to be pressed
+// to spell the word formed by the character frequency map
+const totalPresses = (charFrequencies, charPresses) =>
+  [...charFrequencies].reduce(
+    (acc, [char, count]) => acc + charPresses.get(char) * count,
+    0,
+  );
 
 /**
  * @param {string} word
  * @return {number}
  */
 export const minimumPushes = (word) => {
-  const charCounts = frequencyMap(word);
-  const charsToMap = [...charCounts.keys()].sort(
-    (a, b) => charCounts.get(b) - charCounts.get(a),
-  );
-
-  const presses = charsToMap.reduce((acc, char) => {
-    return acc.set(char, Math.floor(acc.size / 8) + 1);
-  }, new Map());
-
-  // const presses = new Map();
-  // while (charsToMap.length) {
-  //   const char = charsToMap.pop();
-  //   const press = Math.floor(presses.size / 8) + 1;
-  //   presses.set(char, press);
-  // }
-  return [...charCounts].reduce(
-    (acc, [char, count]) => acc + count * presses.get(char),
-    0,
-  );
+  const charCounts = charFrequencyMap(word);
+  return totalPresses(charCounts, mapToKeys(keysDesc(charCounts), 8));
 };
