@@ -55,9 +55,30 @@
  * https://leetcode.com/problems/bulls-and-cows
  */
 
+const frequencyCount = (str) =>
+  [...str].reduce((acc, x) => acc.set(x, (acc.get(x) || 0) + 1), new Map());
+
 /**
  * @param {string} secret
  * @param {string} guess
  * @return {string}
  */
-export const getHint = (secret, guess) => {};
+export const getHint = (secret, guess) => {
+  const secretChars = frequencyCount(secret);
+  let bulls = 0;
+  for (let i = 0; i < guess.length; i++) {
+    if (secret[i] === guess[i]) {
+      secretChars.set(secret[i], secretChars.get(secret[i]) - 1);
+      bulls++;
+    }
+  }
+  let cows = 0;
+  for (let i = 0; i < guess.length; i++) {
+    if (secret[i] !== guess[i] && secretChars.get(guess[i]) > 0) {
+      secretChars.set(guess[i], secretChars.get(guess[i]) - 1);
+      cows++;
+    }
+  }
+
+  return `${bulls}A${cows}B`;
+};

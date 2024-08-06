@@ -5,6 +5,7 @@ describe('299. Bulls and Cows', () => {
   [
     ['1807', '7810', '1A3B'],
     ['1123', '0111', '1A1B'],
+    ['1122', '1222', '3A0B'],
   ].forEach((args) => {
     const [secret, guess, expected] = args;
     test(generateTestName(getHint, ...args), () => {
