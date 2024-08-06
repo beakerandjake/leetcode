@@ -99,6 +99,7 @@ const keysDesc = (frequencyMap) =>
 // does not specify they key the char maps to, but the number of presses needed to type the key
 const mapToKeys = (chars, numKeys) =>
   chars.reduce(
+    // the press count goes up every time 'numKeys' chars are mapped
     (acc, char) => acc.set(char, Math.floor(acc.size / numKeys) + 1),
     new Map(),
   );
