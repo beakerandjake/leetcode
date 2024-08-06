@@ -97,14 +97,19 @@ const frequencyMap = (str) =>
 export const minimumPushes = (word) => {
   const charCounts = frequencyMap(word);
   const charsToMap = [...charCounts.keys()].sort(
-    (a, b) => charCounts.get(a) - charCounts.get(b),
+    (a, b) => charCounts.get(b) - charCounts.get(a),
   );
-  const presses = new Map();
-  while (charsToMap.length) {
-    const char = charsToMap.pop();
-    const press = Math.floor(presses.size / 8) + 1;
-    presses.set(char, press);
-  }
+
+  const presses = charsToMap.reduce((acc, char) => {
+    return acc.set(char, Math.floor(acc.size / 8) + 1);
+  }, new Map());
+
+  // const presses = new Map();
+  // while (charsToMap.length) {
+  //   const char = charsToMap.pop();
+  //   const press = Math.floor(presses.size / 8) + 1;
+  //   presses.set(char, press);
+  // }
   return [...charCounts].reduce(
     (acc, [char, count]) => acc + count * presses.get(char),
     0,
