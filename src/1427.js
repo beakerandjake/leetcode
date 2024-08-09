@@ -49,9 +49,16 @@
  * https://leetcode.com/problems/perform-string-shifts
  */
 
+const leftShift = (str, amount) => str.slice(amount) + str.slice(0, amount);
+
+const rightShift = (str, amount) => str.slice(-amount) + str.slice(0, -amount);
+
+const apply = (str, [dir, amount]) =>
+  dir ? rightShift(str, amount % str.length) : leftShift(str, amount % str.length);
+
 /**
  * @param {string} s
  * @param {number[][]} shift
  * @return {string}
  */
-export const stringShift = (s, shift) => {};
+export const stringShift = (s, shift) => shift.reduce((acc, x) => apply(acc, x), s);
