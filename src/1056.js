@@ -57,8 +57,40 @@
  * https://leetcode.com/problems/confusing-number
  */
 
+// iterates each digit of the number from left to right
+const iterateDigits = function* (number) {
+  const str = `${number}`;
+  for (const digit of str) {
+    yield Number(digit);
+  }
+};
+
+// returns true if every digit can be rotated 180 degrees
+const isValid = (() => {
+  const invalidDigits = new Set([2, 3, 4, 5, 7]);
+  return (digits) => digits.every((digit) => !invalidDigits.has(digit));
+})();
+
+// rotates the digits by 180 degrees and returns a new array of digits
+const rotate180 = (() => {
+  const inverseMap = new Map([
+    [0, 0],
+    [1, 1],
+    [6, 9],
+    [8, 8],
+    [9, 6],
+  ]);
+  return (digits) => digits.reverse().map((digit) => inverseMap.get(digit));
+})();
+
+// converts an array of digits to a number
+const toNumber = (digits) => Number(digits.join(''));
+
 /**
  * @param {number} n
  * @return {boolean}
  */
-export const confusingNumber = (n) => {};
+export const confusingNumber = (n) => {
+  const digits = [...iterateDigits(n)];
+  return isValid(digits) && toNumber(rotate180(digits)) !== n;
+};
