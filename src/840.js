@@ -107,12 +107,5 @@ const isMagicSquare = (grid) => {
  * @param {number[][]} grid
  * @return {number}
  */
-export const numMagicSquaresInside = (grid) => {
-  let result = 0;
-  for (const square of squares(grid, 3)) {
-    if (isMagicSquare(square)) {
-      result++;
-    }
-  }
-  return result;
-};
+export const numMagicSquaresInside = (grid) =>
+  [...squares(grid, 3)].filter(isMagicSquare).length;
