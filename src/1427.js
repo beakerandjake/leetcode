@@ -49,16 +49,30 @@
  * https://leetcode.com/problems/perform-string-shifts
  */
 
-const leftShift = (str, amount) => str.slice(amount) + str.slice(0, amount);
+// returns the direction of the shift.
+const dir = (shift) => shift[0];
 
-const rightShift = (str, amount) => str.slice(-amount) + str.slice(0, -amount);
+// returns the amount of the shift.
+const amount = (shift) => shift[1];
 
-const apply = (str, [dir, amount]) =>
-  dir ? rightShift(str, amount % str.length) : leftShift(str, amount % str.length);
+// sums all of the numbers in the array.
+const sum = (arr) => arr.reduce((acc, x) => acc + x, 0);
+
+// performs a left shift of amount n and returns the new string
+const leftShift = (str, n) => str.slice(n) + str.slice(0, n);
+
+// performs a right shift of amount n and returns the new string.
+const rightShift = (str, n) => str.slice(-n) + str.slice(0, -n);
 
 /**
  * @param {string} s
  * @param {number[][]} shift
  * @return {string}
  */
-export const stringShift = (s, shift) => shift.reduce((acc, x) => apply(acc, x), s);
+export const stringShift = (s, shift) => {
+  const leftShifts = sum(shift.filter((x) => dir(x) === 0).map(amount));
+  const rightShifts = sum(shift.filter((x) => dir(x) === 1).map(amount));
+  return leftShifts > rightShifts
+    ? leftShift(s, (leftShifts - rightShifts) % s.length)
+    : rightShift(s, (rightShifts - leftShifts) % s.length);
+};
