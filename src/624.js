@@ -40,8 +40,28 @@
  * https://leetcode.com/problems/maximum-distance-in-arrays
  */
 
+// returns the smallest value in the sorted (asc) array.
+const minElement = (arr) => arr[0];
+
+// returns the largest value in the sorted (asc) array.
+const maxElement = (arr) => arr.at(-1);
+
 /**
  * @param {number[][]} arrays
  * @return {number}
  */
-export const maxDistance = (arrays) => {};
+export const maxDistance = (arrays) => {
+  let distance = 0;
+  let min = minElement(arrays[0]);
+  let max = maxElement(arrays[0]);
+  for (let i = 1; i < arrays.length; i++) {
+    distance = Math.max(
+      Math.abs(maxElement(arrays[i]) - min),
+      Math.abs(max - minElement(arrays[i])),
+      distance,
+    );
+    min = Math.min(min, minElement(arrays[i]));
+    max = Math.max(max, maxElement(arrays[i]));
+  }
+  return distance;
+};
