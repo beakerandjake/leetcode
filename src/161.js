@@ -38,21 +38,6 @@
  * https://leetcode.com/problems/one-edit-distance
  */
 
-const characterCounts = (str) =>
-  [...str].reduce((acc, x) => acc.set(x, (acc.get(x) || 0) + 1), new Map());
-
-const difference = (aMap, bMap) => {
-  const result = new Map();
-  for (const [k, v] of aMap) {
-    if (!bMap.has(k)) {
-      result.set(k, v);
-    } else if (Math.abs(v - bMap.get(k)) > 0) {
-      result.set(k, Math.abs(v - bMap.get(k)));
-    }
-  }
-  return result;
-};
-
 /**
  * @param {string} s
  * @param {string} t
