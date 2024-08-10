@@ -160,6 +160,7 @@ export const regionsBySlashes = (grid) => {
   const matrix = toMatrix(grid);
   const visited = empty(height(matrix), width(matrix), false);
   // flood fill from each empty space
+  // number of flood fills is the number of regions.
   for (const [cell, y, x] of iterate(matrix)) {
     if (!visited[y][x] && isEmptySpace(cell)) {
       bfs(matrix, y, x, visited);
