@@ -5,6 +5,8 @@ describe('161. One Edit Distance', () => {
   [
     ['ab', 'acb', true],
     ['', '', false],
+    ['cb', 'ab', true],
+    ['ab', 'ba', false],
   ].forEach((args) => {
     const [s, t, expected] = args;
     test(generateTestName(isOneEditDistance, ...args), () => {

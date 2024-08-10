@@ -38,9 +38,61 @@
  * https://leetcode.com/problems/one-edit-distance
  */
 
+const characterCounts = (str) =>
+  [...str].reduce((acc, x) => acc.set(x, (acc.get(x) || 0) + 1), new Map());
+
+const difference = (aMap, bMap) => {
+  const result = new Map();
+  for (const [k, v] of aMap) {
+    if (!bMap.has(k)) {
+      result.set(k, v);
+    } else if (Math.abs(v - bMap.get(k)) > 0) {
+      result.set(k, Math.abs(v - bMap.get(k)));
+    }
+  }
+  return result;
+};
+
 /**
  * @param {string} s
  * @param {string} t
  * @return {boolean}
  */
-export const isOneEditDistance = (s, t) => {};
+export const isOneEditDistance = (s, t) => {
+  // reject any strings which can never be transformed
+  if (s === t || Math.abs(s.length - t.length) > 1) {
+    return false;
+  }
+
+  const recurse = (sIndex, tIndex, edits) => {
+    if (edits < 0) {
+      return false;
+    }
+
+    if (sIndex >= s.length) {
+      // see if enough edits left to handle remaining t chars (if any)
+      return t.length - tIndex <= edits;
+    }
+
+    if (tIndex >= t.length) {
+      // see if enough edits left to handle remaining s chars (if any)
+      return s.length - sIndex <= edits;
+    }
+
+    // no need to edit if same character
+    if (s[sIndex] === t[tIndex]) {
+      return recurse(sIndex + 1, tIndex + 1, edits);
+    }
+
+    return (
+      // delete the current s char
+      recurse(sIndex + 1, tIndex, edits - 1) ||
+      // add the current t char to s
+      recurse(sIndex, tIndex + 1, edits - 1) ||
+      // change the current s char to the t char
+      recurse(sIndex + 1, tIndex + 1, edits - 1)
+    );
+  };
+
+  return recurse(0, 0, 1);
+};
