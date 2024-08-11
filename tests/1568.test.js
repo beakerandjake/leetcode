@@ -12,6 +12,23 @@ describe('1568. Minimum Number of Days to Disconnect Island', () => {
       2,
     ],
     [[[1, 1]], 2],
+    [
+      [
+        [1, 1, 0, 1, 1],
+        [1, 1, 1, 1, 1],
+        [1, 1, 0, 1, 1],
+        [1, 1, 0, 1, 1],
+      ],
+      1,
+    ],
+    [
+      [
+        [1, 1, 0],
+        [1, 1, 1],
+        [0, 1, 0],
+      ],
+      1,
+    ],
   ].forEach((args) => {
     const [grid, expected] = args;
     test(generateTestName(minDays, ...args), () => {
