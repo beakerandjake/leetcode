@@ -47,19 +47,40 @@
  */
 
 /**
+ * [4,5,8,2]
+ * [8,5,4,2]
+ * [2,5,8
+ *
+ */
+
+import { MinPriorityQueue } from '@datastructures-js/priority-queue';
+
+/**
  * @param {number} k
  * @param {number[]} nums
  */
-export const KthLargest = (k, nums) => {};
+export class KthLargest {
+  #heap;
+  #k;
 
-/**
- * @param {number} val
- * @return {number}
- */
-KthLargest.prototype.add = function (val) {};
+  constructor(k, nums) {
+    this.#k = k;
+    this.#heap = new MinPriorityQueue({ priority: (x) => x });
+    for (const num of nums) {
+      this.#heap.enqueue(num);
+    }
+    this.#flushHeap();
+  }
 
-/**
- * Your KthLargest object will be instantiated and called as such:
- * var obj = new KthLargest(k, nums)
- * var param_1 = obj.add(val)
- */
+  add(value) {
+    this.#heap.enqueue(value);
+    this.#flushHeap();
+    return this.#heap.front().element;
+  }
+
+  #flushHeap() {
+    while (this.#heap.size() > this.#k) {
+      this.#heap.dequeue();
+    }
+  }
+}
