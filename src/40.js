@@ -51,4 +51,32 @@
  * @param {number} target
  * @return {number[][]}
  */
-export const combinationSum2 = (candidates, target) => {};
+export const combinationSum2 = (candidates, target) => {
+  const result = [];
+  const sorted = [...candidates].sort((a, b) => a - b);
+  const backtrack = (index, chosen, sum) => {
+    if (sum === target) {
+      result.push([...chosen]);
+      return;
+    }
+
+    for (let i = index; i < sorted.length; i++) {
+      // skip duplicate numbers
+      if (i > index && sorted[i] === sorted[i - 1]) {
+        continue;
+      }
+      // no point continuing if current and remaining elements are bigger than target.
+      if (sorted[i] > target) {
+        break;
+      }
+      const newSum = sum + sorted[i];
+      if (newSum <= target) {
+        chosen.push(sorted[i]);
+        backtrack(i + 1, chosen, newSum);
+        chosen.pop();
+      }
+    }
+  };
+  backtrack(0, [], 0);
+  return result;
+};
