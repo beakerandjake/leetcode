@@ -47,9 +47,60 @@
  * https://leetcode.com/problems/find-k-th-smallest-pair-distance
  */
 
+const bruteForce = (() => {
+  // iterates each pair of the array
+  const pairs = function* (arr) {
+    for (let i = 0; i < arr.length; i++) {
+      for (let j = i + 1; j < arr.length; j++) {
+        yield [arr[i], arr[j]];
+      }
+    }
+  };
+
+  // returns the absolute difference between the pair
+  const difference = ([a, b]) => Math.abs(a - b);
+
+  // returns the kth smallest distance pair.
+  return (nums, k) => [...pairs(nums)].map(difference).sort((a, b) => a - b)[k - 1];
+})();
+
+const usingBinarySearch = (() => {
+  // returns the number of pairs whose difference is greater than the target distance
+  const numberOfPairs = (arr, targetDifference) => {
+    let result = 0;
+    let left = 0;
+    let right = 0;
+    while (right < arr.length) {
+      // shrink window until no longer possible to have difference larger than target
+      while (arr[right] - arr[left] > targetDifference) {
+        left++;
+      }
+      result += right - left;
+      right++;
+    }
+    return result;
+  };
+
+  return (nums, k) => {
+    const sorted = [...nums].sort((a, b) => a - b);
+    let lo = 0;
+    let hi = sorted.at(-1) - sorted[0];
+    // binary search to find the kth difference
+    while (lo <= hi) {
+      const m = Math.floor(lo + (hi - lo) / 2);
+      if (numberOfPairs(sorted, m) < k) {
+        lo = m + 1;
+      } else {
+        hi = m - 1;
+      }
+    }
+    return lo;
+  };
+})();
+
 /**
  * @param {number[]} nums
  * @param {number} k
  * @return {number}
  */
-export const smallestDistancePair = (nums, k) => {};
+export const smallestDistancePair = usingBinarySearch;
