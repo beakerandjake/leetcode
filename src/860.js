@@ -49,8 +49,78 @@
  * https://leetcode.com/problems/lemonade-change
  */
 
+// creates a new purse out of the bills
+const purse = (fives, tens, twenties) => [fives, tens, twenties];
+
+// returns the number of five bills in the purse
+const fives = (p) => p[0];
+
+// returns the number of ten bills in the purse
+const tens = (p) => p[1];
+
+// returns the number of twenty bills in the purse
+const twenties = (p) => p[2];
+
+// returns the purse index of the bill
+const billIndex = (bill) => {
+  switch (bill) {
+    case 5:
+      return 0;
+    case 10:
+      return 1;
+    case 20:
+      return 2;
+    default:
+      throw new Error(`Unknown bill: ${bill}`);
+  }
+};
+
+// returns a new purse with the bill added
+const add = (p, bill) => {
+  const newPurse = [...p];
+  newPurse[billIndex(bill)]++;
+  return newPurse;
+};
+
+// returns a new purse with the bill removed
+const remove = (p, bill) => {
+  const newPurse = [...p];
+  newPurse[billIndex(bill)]--;
+  return newPurse;
+};
+
+// attempts to use the purse to provide the amount specified
+// returns an array containing:
+//  a bool indicating if the purse was able to make change
+//  the new purse that results from making change
+const makeChange = (p, amount) => {
+  if (amount === 0) {
+    return [true, p];
+  }
+
+  if (amount >= 20 && twenties(p) > 0) {
+    return makeChange(remove(p, 20), amount - 20);
+  }
+
+  if (amount >= 10 && tens(p) > 0) {
+    return makeChange(remove(p, 10), amount - 10);
+  }
+
+  return fives(p) > 0 ? makeChange(remove(p, 5), amount - 5) : [false, p];
+};
+
 /**
  * @param {number[]} bills
  * @return {boolean}
  */
-export const lemonadeChange = (bills) => {};
+export const lemonadeChange = (bills) => {
+  let currentPurse = purse(0, 0, 0);
+  for (const bill of bills) {
+    const [haveChange, newPurse] = makeChange(currentPurse, bill - 5);
+    if (!haveChange) {
+      return false;
+    }
+    currentPurse = add(newPurse, bill);
+  }
+  return true;
+};
