@@ -40,8 +40,39 @@
  * https://leetcode.com/problems/2-keys-keyboard
  */
 
+const MAX_STEPS = 1000;
+
 /**
  * @param {number} n
  * @return {number}
  */
-export const minSteps = (n) => {};
+export const minSteps = (n) => {
+  const memo = Array(MAX_STEPS).fill(null);
+  if (n === 1) {
+    return 0;
+  }
+
+  const dp = (chars, buffer) => {
+    if (chars > n) {
+      return MAX_STEPS;
+    }
+    if (chars === n) {
+      return 0;
+    }
+    if (!memo[chars]) {
+      /**
+       * Each step of recursion gives us a choice
+       *  1. Perform a paste and continue on with the current buffer.
+       *  2. Perform a copy and continue with a new buffer equal to the current length of chars.
+       *
+       * The only exception is when the buffer is equal to the current length of the chars, in that
+       * case copying would do nothing, so the only option there is to perform a paste
+       */
+      return buffer === chars
+        ? 1 + dp(chars + buffer, buffer)
+        : 1 + Math.min(dp(chars + buffer, buffer), dp(chars, chars));
+    }
+    return memo[chars];
+  };
+  return 1 + dp(1, 1);
+};
