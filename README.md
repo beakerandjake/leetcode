@@ -84,6 +84,27 @@ For example to tell uglify-js to not mangle quoted property names:
 npm run uglify 42 -- --mangle-props keep_quoted
 ```
 
+### `info [problem-slug|url] [--reset]`
+
+Returns information about the specified problem, including the difficulty and number of likes/dislikes. Can optionally include the tags of the problem.
+
+If provided no arguments, will return information about the problem of the day.
+
+To get the info about a specific problem use the problem slug or url: 
+
+```sh
+npm run info two-sum
+```
+```sh
+npm run info https://leetcode.com/problems/two-sum
+```
+
+To include the tags in the output, use the `--tags` option:
+
+```sh
+run info https://leetcode.com/problems/two-sum -- --tags
+```
+
 ### `count`
 
 Returns the total number of problems that are in the src/ folder. 
@@ -110,10 +131,10 @@ Note this isn't a perfect mapping, and a lot of problems in the book don't map t
 npm run ctci
 ```
 
-Additionally you can pass the `-r` flag to list the remaining problems:
+Additionally you can pass the `--remaining` flag to list the remaining problems:
 
 ```sh
-npm run ctci -- -r
+npm run ctci -- --remaining
 ```
 
 ## Authentication

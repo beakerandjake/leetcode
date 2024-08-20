@@ -12,7 +12,8 @@
     "ctci": "node ./bin/ctci.js",
     "today": "ls ./src -lt --time=birth --time-style='+%b %-d' | grep \"$(date '+%b %-d')\" | wc -l",
     "touch": "node ./bin/touch.js",
-    "uglify": "./bin/uglify.sh"
+    "uglify": "./bin/uglify.sh",
+    "info": "node ./bin/info.js"
   },
   "repository": {
     "type": "git",
