@@ -1,44 +1,15 @@
-import { argv, exit } from 'node:process';
 import 'dotenv/config';
-import { openFiles } from './util/vscode.js';
+import { env, exit } from 'node:process';
+import { getArgs, parseProblemSlug } from './util/args.js';
+import { createFile, fileExists } from './util/fs.js';
 import { commitFilesToGit } from './util/git.js';
 import * as leetcode from './util/leetcode.js';
-import { createFile, fileExists } from './util/fs.js';
 import { solutionFileContents, solutionFilePath } from './util/solutionFile.js';
 import { testFileContents, testFilePath } from './util/testFile.js';
+import { openFiles } from './util/vscode.js';
 
 /**
- * Returns true if passed the --reset option.
- */
-const isReset = () => argv.includes('--reset');
-
-/**
- * Parse the slug argument from the command line.
- */
-const parseSlugArg = () => {
-  if (argv.length <= 2) {
-    console.error('missing problem slug argument');
-    exit(1);
-  }
-  // accept problem slug or whole url, if given whole url then strip out the slug for the user
-  const arg = argv[2];
-  const urlMatch = arg.match(/https:\/\/leetcode\.com\/problems\/([\w-]+)/i);
-  return urlMatch ? urlMatch[1] : arg;
-};
-
-/**
- * Returns the requested problem based on the args passed in.
- * If invoked with no slug argument, then returns the daily problem
- * If invoked with a slug argument, then attempts to return the requested problem.
- */
-const getProblem = async () =>
-  // daily can be invoked with no args, or with 1 arg (--reset)
-  argv.length <= 2 || (argv.length === 3 && isReset())
-    ? await leetcode.getDailyProblem(process.env.LEETCODE_SESSION_TOKEN)
-    : await leetcode.getProblem(parseSlugArg(), process.env.LEETCODE_SESSION_TOKEN);
-
-/**
- * Creates a source and test file for the problem.F
+ * Creates a source and test file for the problem.
  * Commits the new files to source control.
  * Attempts to open the new files in vscode.
  * Bails if the source file for the problem already exists.
@@ -82,8 +53,24 @@ const reset = async (problem) => {
   console.log(`reset solution: ${solutionPath}`);
 };
 
-try {
-  const problem = await getProblem();
+/**
+ * Creates the source code and test file for a specified leetcode problem
+ *
+ * Usage: npm run touch [problem url | problem slug] [--reset]
+ *
+ * Args:
+ *  - [problem url | problem slug] - The url of the leetcode problem or the slug of the problem, if not provided the problem of the day is automatically used.
+ *
+ * Options:
+ *  - [--reset] - Resets an existing problems source code
+ */
+const main = async () => {
+  const { args, options } = getArgs();
+  // if user does not provide a problem slug argument, then load the daily problem instead.
+  const problem = await leetcode.getProblemOrDaily(
+    parseProblemSlug(args[0]),
+    env.LEETCODE_SESSION_TOKEN,
+  );
   // bail if could not load problem.
   if (!problem) {
     throw new Error('problem not found');
@@ -92,7 +79,13 @@ try {
   if (problem.isPaidOnly && !problem.content) {
     throw new Error('premium problem, authentication required.');
   }
-  await (!isReset() ? touch(problem) : reset(problem));
+  // user can optionally reset an existing problem
+  const op = options.reset ? reset : touch;
+  await op(problem);
+};
+
+try {
+  await main();
 } catch (error) {
   console.error(error.message || error);
   exit(1);

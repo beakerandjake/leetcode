@@ -1,18 +1,9 @@
-import { argv, exit } from 'node:process';
+import { exit } from 'node:process';
 import { readFile, readdir } from 'node:fs/promises';
+import { getArgs } from './util/args.js';
 
 const LC_DIR = 'src/';
 const INPUT_FILE = 'bin/ctci-to-lc.txt';
-
-/**
- * Parse the slug argument from the command line.
- */
-const getArg = () => {
-  if (argv.length <= 2) {
-    return;
-  }
-  return argv[2];
-};
 
 /**
  * Load the lines of the mapping file into an array.
@@ -80,15 +71,18 @@ const completion = async () => {
   console.log(`completed ${c}/${b} (${Math.floor((c / b) * 100)})%`);
 };
 
+/**
+ * Returns the number of problems solved out of the book Cracking the Coding Interview
+ *
+ * Usage: npm run ctci [--remaining]
+ *
+ * Options:
+ *  - [--remaining] - Shows the problem id of the remaining problems instead
+ */
 const main = async () => {
-  switch (argv[2]) {
-    case '-r':
-      await remaining();
-      break;
-    default:
-      await completion();
-      break;
-  }
+  const { options } = getArgs();
+  const op = options.remaining ? remaining : completion;
+  await op();
 };
 
 try {

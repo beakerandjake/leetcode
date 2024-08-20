@@ -1,11 +1,6 @@
 import { LeetCode, Credential } from 'leetcode-query';
 
 /**
- * Returns a url to the problem.
- */
-export const getProblemUrl = (slug) => `https://leetcode.com/problems/${slug}`;
-
-/**
  * Returns a new LeetCode instance.
  * @param {string} sessionToken - Optional leetcode session token, required if attempting to load a paid problem.
  */
@@ -19,14 +14,9 @@ const leetcodeFactory = async (sessionToken) => {
 };
 
 /**
- * Download the leetcode problem.
- * @param {string} slug - The problem slug
- * @param {string} sessionToken - Optional leetcode session token, required if attempting to load a paid problem.
+ * Returns a url to the problem.
  */
-export const getProblem = async (slug, sessionToken) => {
-  const leetcode = await leetcodeFactory(sessionToken);
-  return await leetcode.problem(slug);
-};
+export const getProblemUrl = (slug) => `https://leetcode.com/problems/${slug}`;
 
 /**
  * Returns the id of the problem.
@@ -49,6 +39,16 @@ export const getSnippet = (problem) => {
 };
 
 /**
+ * Download the leetcode problem.
+ * @param {string} slug - The problem slug
+ * @param {string} sessionToken - Optional leetcode session token, required if attempting to load a paid problem.
+ */
+export const getProblem = async (slug, sessionToken) => {
+  const leetcode = await leetcodeFactory(sessionToken);
+  return await leetcode.problem(slug);
+};
+
+/**
  * Returns information about the problem of the day
  * @param {string} sessionToken - Optional leetcode session token, required if attempting to load a paid problem.
  */
@@ -57,3 +57,14 @@ export const getDailyProblem = async (sessionToken) => {
   const problem = await leetcode.daily();
   return problem?.question;
 };
+
+/**
+ * Returns the problem with the specified problem slug, or the daily problem if no slug provided
+ * @param {string} problemSlug - The slug of the problem to load
+ * @param {string} token - The leetcode session token used for premium problems
+ * @returns {Promise<import('leetcode-query').Problem>} problem - The problem
+ */
+export const getProblemOrDaily = async (problemSlug, sessionToken) =>
+  problemSlug
+    ? await getProblem(problemSlug, sessionToken)
+    : await getDailyProblem(sessionToken);
