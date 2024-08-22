@@ -42,8 +42,43 @@
  * https://leetcode.com/problems/number-complement
  */
 
+const usingArrays = (() => {
+  // returns an array representing the bits of the number with the msb at index 0 and the lsb at the last index
+  const toBits = (number) => {
+    const result = [];
+    let current = number;
+    while (current) {
+      result.push(current % 2);
+      current = Math.floor(current / 2);
+    }
+    return result.reverse();
+  };
+
+  // flips a 1 bit to 0 and a 0 bit to 1.
+  const flip = (bit) => (bit ? 0 : 1);
+
+  // converts an array of bits to the number it represents
+  const toNumber = (bits) =>
+    bits.reduce((acc, bit, i) => acc + 2 ** (bits.length - i - 1) * bit, 0);
+
+  return (num) => toNumber(toBits(num).map(flip));
+})();
+
+const usingXor = (num) => {
+  let result = 0;
+  let current = num;
+  let mask = 1;
+  while (current) {
+    // only set result bit if current bit is not set (0 -> 1)
+    result |= num & mask ? 0 : mask;
+    mask <<= 1;
+    current >>= 1;
+  }
+  return result;
+};
+
 /**
  * @param {number} num
  * @return {number}
  */
-export const findComplement = (num) => {};
+export const findComplement = usingXor;
