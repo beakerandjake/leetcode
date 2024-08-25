@@ -51,8 +51,18 @@
  *     this.right = (right===undefined ? null : right)
  * }
  */
+
+const postOrder = function* (node) {
+  if (!node) {
+    return;
+  }
+  yield* postOrder(node.left);
+  yield* postOrder(node.right);
+  yield node.val;
+};
+
 /**
  * @param {TreeNode} root
  * @return {number[]}
  */
-export const postorderTraversal = (root) => {};
+export const postorderTraversal = (root) => [...postOrder(root)];

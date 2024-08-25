@@ -1,5 +1,5 @@
 import { postorderTraversal } from '../src/145.js';
-import { generateTestName } from './util.js';
+import { arrToBst, generateTestName } from './util.js';
 
 describe('145. Binary Tree Postorder Traversal', () => {
   [
@@ -12,7 +12,7 @@ describe('145. Binary Tree Postorder Traversal', () => {
   ].forEach((args) => {
     const [root, expected] = args;
     test(generateTestName(postorderTraversal, ...args), () => {
-      const result = postorderTraversal(root);
+      const result = postorderTraversal(arrToBst(root));
       expect(result).toEqual(expected);
     });
   });
