@@ -1,15 +1,18 @@
 import { postorderTraversal } from '../src/145.js';
-import { arrToStr, arrToBst } from './util.js';
+import { generateTestName } from './util.js';
 
-describe('145. Binary Tree Post Order Traversal', () => {
+describe('145. Binary Tree Postorder Traversal', () => {
   [
     [
       [1, null, 2, 3],
       [3, 2, 1],
     ],
-  ].forEach(([input, expected]) => {
-    test(`${arrToStr(input)} -> ${arrToStr(expected)}`, () => {
-      const result = postorderTraversal(arrToBst(input));
+    [[], []],
+    [[1], [1]],
+  ].forEach((args) => {
+    const [root, expected] = args;
+    test(generateTestName(postorderTraversal, ...args), () => {
+      const result = postorderTraversal(root);
       expect(result).toEqual(expected);
     });
   });
