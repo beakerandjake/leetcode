@@ -50,18 +50,39 @@
  * };
  */
 
-const postOrderTraverse = function* (node) {
-  if (!node) {
-    return;
+const recursive = (() => {
+  const traverse = function* (node) {
+    if (!node) {
+      return;
+    }
+    for (const child of node.children) {
+      yield* traverse(child);
+    }
+    yield node.val;
+  };
+
+  return (root) => [...traverse(root)];
+})();
+
+const iterative = (root) => {
+  if (!root) {
+    return [];
   }
-  for (const child of node.children) {
-    yield* postOrderTraverse(child);
+  const result = [];
+  const stack = [root];
+  while (stack.length) {
+    const node = stack.pop();
+    result.push(node.val);
+    for (const child of node.children) {
+      stack.push(child);
+    }
   }
-  yield node.val;
+  console.log(result);
+  return result.reverse();
 };
 
 /**
  * @param {_Node|null} root
  * @return {number[]}
  */
-export const postorder = (root) => [...postOrderTraverse(root)];
+export const postorder = iterative;
