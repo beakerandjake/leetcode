@@ -50,8 +50,18 @@
  * };
  */
 
+const postOrderTraverse = function* (node) {
+  if (!node) {
+    return;
+  }
+  for (const child of node.children) {
+    yield* postOrderTraverse(child);
+  }
+  yield node.val;
+};
+
 /**
  * @param {_Node|null} root
  * @return {number[]}
  */
-export const postorder = (root) => {};
+export const postorder = (root) => [...postOrderTraverse(root)];
