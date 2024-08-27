@@ -77,7 +77,6 @@ const iterative = (root) => {
       stack.push(child);
     }
   }
-  console.log(result);
   return result.reverse();
 };
 
