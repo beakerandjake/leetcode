@@ -20,11 +20,11 @@ ugly=0
 if [ $# -eq 0 ]
     then
         # if no extra args prodivded, just use default uglify
-        ugly=$(uglifyjs $srcFile -c drop_console=true,passes=2 -m)
+        ugly=$(uglifyjs $srcFile -c drop_console=true,toplevel=true,passes=2 -m)
     else 
         # if extra args provided, forward the args to uglify js.
         shift
-        ugly=$(uglifyjs $srcFile -c drop_console=true,passes=2 -m "$@")
+        ugly=$(uglifyjs $srcFile -c drop_console=true,toplevel=true,passes=2 -m "$@")
 fi
 
 # remove the export portion of the uglified output.
