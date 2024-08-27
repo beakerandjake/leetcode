@@ -60,42 +60,41 @@
 
 import { MaxPriorityQueue } from '@datastructures-js/priority-queue';
 
-const toEdge = (dest, weight) => [dest, weight];
+const toGraph = (n, edges, probabilities) =>
+  edges.reduce(
+    (acc, [from, to], i) => {
+      acc.get(from).push([to, probabilities[i]]);
+      acc.get(to).push([from, probabilities[i]]);
+      return acc;
+    },
+    new Map([...Array(n).keys()].map((x) => [x, []])),
+  );
 
-const emptyGraph = (n) => [...Array(n)].reduce((acc, _, i) => acc.set(i, []), new Map());
-
-const toGraph = (n, edges, success) =>
-  edges.reduce((acc, [from, to], i) => {
-    acc.get(from).push(toEdge(to, success[i]));
-    acc.get(to).push(toEdge(from, success[i]));
-    return acc;
-  }, emptyGraph(n));
-
-const dijkstra = (graph, start, target) => {
-  const dist = [...Array(graph.size)].map((_, i) => (i === start ? 1 : 0));
-  const queue = MaxPriorityQueue.from([[start, 1]]);
-  while (!queue.isEmpty()) {
-    const { element: node, priority: probability } = queue.dequeue();
-    if (node === target) {
-      return probability;
-    }
-    for (const [dest, weight] of graph.get(node)) {
-      if (weight * probability > dist[dest]) {
-        dist[dest] = weight * probability;
-        queue.enqueue(dest, weight * probability);
-      }
-    }
-  }
-  return 0;
-};
+const add = (arr) => arr.reduce((acc, x) => acc + x, 0);
 
 /**
  * @param {number} n
  * @param {number[][]} edges
- * @param {number[]} success
+ * @param {number[]} probabilities
  * @param {number} start
- * @param {number} target
+ * @param {number} end
  * @return {number}
  */
-export const maxProbability = (n, edges, success, start, target) =>
-  dijkstra(toGraph(n, edges, success), start, target);
+export const maxProbability = (n, edges, probabilities, start, end) => {
+  const graph = toGraph(n, edges, probabilities);
+  const heap = MaxPriorityQueue.from([[start, 1]]);
+  const visited = new Set([start]);
+  while (heap.size()) {
+    const { element: vertex, priority: probability } = heap.dequeue();
+    if (vertex === end) {
+      return probability;
+    }
+    visited.add(vertex);
+    for (const [dest, weight] of graph.get(vertex)) {
+      if (!visited.has(dest)) {
+        heap.enqueue(dest, weight * probability);
+      }
+    }
+  }
+  return 0.0;
+};
