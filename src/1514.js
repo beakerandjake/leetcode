@@ -70,8 +70,6 @@ const toGraph = (n, edges, probabilities) =>
     new Map([...Array(n).keys()].map((x) => [x, []])),
   );
 
-const add = (arr) => arr.reduce((acc, x) => acc + x, 0);
-
 /**
  * @param {number} n
  * @param {number[][]} edges
