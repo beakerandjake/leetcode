@@ -58,8 +58,79 @@
  * https://leetcode.com/problems/most-stones-removed-with-same-row-or-column
  */
 
+// converts the stones array to an adjacency matrix
+// "compresses" the actual space between stones and creates direct edges between them
+const toGraph = (() => {
+  // maps each stone to its property value extracted by the keyFn
+  const toLookup = (stones, keyFn) =>
+    stones.reduce((acc, stone) => {
+      if (!acc.has(keyFn(stone))) {
+        acc.set(keyFn(stone), []);
+      }
+      acc.get(keyFn(stone)).push(stone);
+      return acc;
+    }, new Map());
+
+  // returns a hash representation of the stone
+  const hash = (stone) => `<${stone}>`;
+
+  // returns the row of the stone
+  const row = (stone) => stone[0];
+
+  // returns the col of the stone
+  const col = (stone) => stone[1];
+
+  // returns all of the stones that the given stone is connected to by row/col
+  const getEdges = (stone, rowLookup, colLookup) => [
+    ...rowLookup.get(row(stone)).filter((x) => x !== stone),
+    ...colLookup.get(col(stone)).filter((x) => x !== stone),
+  ];
+
+  return (stones) => {
+    const rows = toLookup(stones, row);
+    const cols = toLookup(stones, col);
+    return stones.reduce(
+      (acc, stone) => acc.set(hash(stone), getEdges(stone, rows, cols).map(hash)),
+      new Map(),
+    );
+  };
+})();
+
+// explores each vertex connected to the start vertex and returns all vertexes explored
+// mutates the visited set.
+const bfs = (graph, start, visited) => {
+  const result = [];
+  const queue = [start];
+  visited.add(start);
+  while (queue.length) {
+    const vertex = queue.shift();
+    result.push(vertex);
+    for (const edge of graph.get(vertex)) {
+      if (!visited.has(edge)) {
+        queue.push(edge);
+        visited.add(edge);
+      }
+    }
+  }
+  return result;
+};
+
+// yields each component / connected subgraph / disjoint set of the graph
+const components = function* (graph) {
+  const visited = new Set();
+  for (const vertex of graph.keys()) {
+    if (!visited.has(vertex)) {
+      yield bfs(graph, vertex, visited);
+    }
+  }
+};
+
+// returns the sum of all elements in the array
+const sum = (arr) => arr.reduce((acc, x) => acc + x, 0);
+
 /**
  * @param {number[][]} stones
  * @return {number}
  */
-export const removeStones = (stones) => {};
+export const removeStones = (stones) =>
+  sum([...components(toGraph(stones))].map((set) => set.length - 1));
