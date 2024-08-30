@@ -44,8 +44,51 @@
  * https://leetcode.com/problems/restore-ip-addresses
  */
 
+/* eslint-disable prefer-template */
+
 /**
  * @param {string} s
  * @return {string[]}
  */
-export const restoreIpAddresses = (s) => {};
+export const restoreIpAddresses = (s) => {
+  if (s.length < 4 || s.length > 12) {
+    return [];
+  }
+  const result = [];
+  const recurse = (index, dots, ip) => {
+    if (index >= s.length) {
+      // ensure ip has exactly 3 dots appended (number of dots will be 4 in this case)
+      if (dots === 4) {
+        result.push(ip);
+      }
+      return;
+    }
+
+    // prune branches which will be invalid by having more than three dots
+    if (dots > 3) {
+      return;
+    }
+
+    // prevent leading zeros in segments, any time a zero is encountered start a new segment
+    if (s[index] === '0') {
+      recurse(index + 1, dots + 1, ip ? `${ip}.${s[index]}` : s[index]);
+      return;
+    }
+
+    // for current index there are three possibilities
+    // place first character only
+    // place first and second character
+    // place first, second, and third character
+    for (let i = 1; i <= 3; i++) {
+      if (index + i <= s.length) {
+        const segment = s.slice(index, index + i);
+        // ensure segment stays within expected limit.
+        if (Number(segment) <= 255) {
+          recurse(index + i, dots + 1, ip ? `${ip}.${segment}` : segment);
+        }
+      }
+    }
+  };
+  recurse(0, 0, '');
+  return result;
+};
