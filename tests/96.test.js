@@ -5,6 +5,10 @@ describe('96. Unique Binary Search Trees', () => {
   [
     [3, 5],
     [1, 1],
+    [4, 14],
+    [5, 42],
+    [6, 132],
+    [19, 1767263190],
   ].forEach((args) => {
     const [n, expected] = args;
     test(generateTestName(numTrees, ...args), () => {

@@ -35,4 +35,22 @@
  * @param {number} n
  * @return {number}
  */
-export const numTrees = (n) => {};
+export const numTrees = (n) => {
+  const memo = Array(n).fill(null);
+  const dp = (x) => {
+    if (x <= 1) {
+      return 1;
+    }
+    if (memo[x] == null) {
+      let result = 0;
+      for (let i = 1; i <= x; i++) {
+        const left = dp(i - 1);
+        const right = dp(x - i);
+        result += left * right;
+      }
+      memo[x] = result;
+    }
+    return memo[x];
+  };
+  return dp(n);
+};
