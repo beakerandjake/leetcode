@@ -55,10 +55,44 @@
  * https://leetcode.com/problems/convert-1d-array-into-2d-array
  */
 
+const iterative = (() => {
+  const fill = (m, n, value) => [...Array(m)].map(() => Array(n).fill(value));
+
+  const rowMapper = (cols) => (i) => Math.floor(i / cols);
+
+  const colMapper = (cols) => (i) => i % cols;
+
+  return (original, m, n) => {
+    if (m * n !== original.length) {
+      return [];
+    }
+    const row = rowMapper(n);
+    const col = colMapper(n);
+    return original.reduce(
+      (acc, x, i) => {
+        acc[row(i)][col(i)] = x;
+        return acc;
+      },
+      fill(m, n, 0),
+    );
+  };
+})();
+
+const slicing = (original, m, n) => {
+  if (original.length !== m * n) {
+    return [];
+  }
+  const result = [];
+  for (let row = 0, start = 0; row < m; row++, start += n) {
+    result.push(original.slice(start, start + n));
+  }
+  return result;
+};
+
 /**
  * @param {number[]} original
  * @param {number} m
  * @param {number} n
  * @return {number[][]}
  */
-export const construct2DArray = (original, m, n) => {};
+export const construct2DArray = slicing;
