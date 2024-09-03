@@ -61,9 +61,27 @@
  * https://leetcode.com/problems/sum-of-digits-of-string-after-convert
  */
 
+// returns the position (1 indexed) of the letter in the alphabet
+const position = (letter) => letter.charCodeAt() - 96;
+
+// converts the input string to the expected format
+const convert = (input) => [...input].map(position).join('');
+
+// returns the sum of all of the elements in the array.
+const sum = (arr) => arr.reduce((acc, x) => acc + x, 0);
+
+// performs the transformation logic on a string
+const transform = (str) => sum([...str].map(Number)).toString();
+
+// repeatedly transform the input string the specified number of times
+// short circuiting if input string reaches length of 1, because a transform would have no effect.
+const repeatedTransform = (input, times) =>
+  times && input.length > 1 ? repeatedTransform(transform(input), times - 1) : input;
+
 /**
  * @param {string} s
  * @param {number} k
  * @return {number}
  */
-export const getLucky = (s, k) => {};
+
+export const getLucky = (s, k) => Number(repeatedTransform(convert(s), k));
