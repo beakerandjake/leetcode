@@ -76,7 +76,7 @@ const transform = (str) => sum([...str].map(Number)).toString();
 // repeatedly transform the input string the specified number of times
 // short circuiting if input string reaches length of 1, because a transform would have no effect.
 const repeatedTransform = (input, times) =>
-  times && input.length > 1 ? repeatedTransform(transform(input), times - 1) : input;
+  times && input.length ? repeatedTransform(transform(input), times - 1) : input;
 
 /**
  * @param {string} s
