@@ -77,9 +77,79 @@
  * https://leetcode.com/problems/walking-robot-simulation
  */
 
+// returns a new vector2
+const vector2 = (y, x) => [y, x];
+
+// returns the y component of the vector2
+const y = (v) => v[0];
+
+// returns the x component of the vector2
+const x = (v) => v[1];
+
+// adds the two vector2 together and returns a new vector2
+const add = (v1, v2) => vector2(y(v1) + y(v2), x(v1) + x(v2));
+
+// rotates the vector2 90 degrees clockwise
+const rotateClockwise = (dir) => vector2(-x(dir), y(dir));
+
+// rotates the vector2 90 degrees counterclockwise
+const rotateCounterClockwise = (dir) => vector2(x(dir), -y(dir));
+
+// returns the squared distance between the two vector2
+const distanceSquared = (a, b) => (y(a) - y(b)) ** 2 + (x(a) - x(b)) ** 2;
+
+// returns the hashed representation of the vector2
+const hash = (v) => `<${y(v)},${x(v)}>`;
+
+// given an array of vector2, where each item represents an obstacle in the world which cannot be traversed
+// returns a function which takes a vector2 position and returns true if there is an obstacle present at that position
+const collisionChecker = (obstacles) => {
+  const obstacleLookup = new Set(obstacles.map(hash));
+  return (pos) => obstacleLookup.has(hash(pos));
+};
+
+// moves the distance in the direction as long as no collisions take place
+// accepts a collisionCheckFn which returns true if there is a collision at the given position
+// returns a new vector2 representing the location after the movement
+const move = (pos, dir, amount, collisionCheckFn) => {
+  if (amount === 0) {
+    return pos;
+  }
+  return !collisionCheckFn(add(pos, dir))
+    ? move(add(pos, dir), dir, amount - 1, collisionCheckFn)
+    : pos;
+};
+
+// applies each command and returns an array containing the history
+// each history item contains [position, direction] of the robot after the command was applied
+const applyCommands = (startPosition, startDirection, commands, checkCollisionFn) => {
+  let pos = startPosition;
+  let dir = startDirection;
+  return commands.map((command) => {
+    if (command === -2) {
+      dir = rotateCounterClockwise(dir);
+    } else if (command === -1) {
+      dir = rotateClockwise(dir);
+    } else {
+      pos = move(pos, dir, command, checkCollisionFn);
+    }
+    return [pos, dir];
+  });
+};
+
 /**
  * @param {number[]} commands
  * @param {number[][]} obstacles
  * @return {number}
  */
-export const robotSim = (commands, obstacles) => {};
+export const robotSim = (commands, obstacles) => {
+  const origin = vector2(0, 0);
+  const movementHistory = applyCommands(
+    origin,
+    vector2(1, 0),
+    commands,
+    collisionChecker(obstacles.map((o) => vector2(o[1], o[0]))),
+  );
+  // given the history of robot locations, find the furthest distance the robot moved.
+  return Math.max(...movementHistory.map(([pos]) => distanceSquared(origin, pos)));
+};
