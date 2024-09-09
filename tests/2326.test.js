@@ -1,5 +1,5 @@
 import { spiralMatrix } from '../src/2326.js';
-import { generateTestName } from './util.js';
+import { arrToList, generateTestName } from './util.js';
 
 describe('2326. Spiral Matrix IV', () => {
   [
@@ -17,7 +17,7 @@ describe('2326. Spiral Matrix IV', () => {
   ].forEach((args) => {
     const [m, n, head, expected] = args;
     test(generateTestName(spiralMatrix, ...args), () => {
-      const result = spiralMatrix(m, n, head);
+      const result = spiralMatrix(m, n, arrToList(head));
       expect(result).toEqual(expected);
     });
   });
