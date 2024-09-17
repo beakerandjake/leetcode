@@ -40,9 +40,28 @@
  * https://leetcode.com/problems/uncommon-words-from-two-sentences
  */
 
+// returns an array containing all of the words of the sentence.
+const words = (sentence) => sentence.split(' ');
+
+// maps each item of the array to the number of times it occurs.
+const frequencyMap = (arr) =>
+  arr.reduce((acc, x) => acc.set(x, (acc.get(x) || 0) + 1), new Map());
+
+// returns all of the keys of the map which satisfy the filter predicate.
+const filterKeys = (m, predicateFn) => {
+  const result = [];
+  for (const [k, v] of m) {
+    if (predicateFn(k, v)) {
+      result.push(k);
+    }
+  }
+  return result;
+};
+
 /**
  * @param {string} s1
  * @param {string} s2
  * @return {string[]}
  */
-export const uncommonFromSentences = (s1, s2) => {};
+export const uncommonFromSentences = (s1, s2) =>
+  filterKeys(frequencyMap([...words(s1), ...words(s2)]), (_, v) => v === 1);
