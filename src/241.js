@@ -46,44 +46,46 @@
  * https://leetcode.com/problems/different-ways-to-add-parentheses
  */
 
-const isNumeric = (char) => /\d/.test(char);
+const divideAndConquer = (() => {
+  const operatorMap = new Map([
+    ['*', ([a, b]) => a * b],
+    ['+', ([a, b]) => a + b],
+    ['-', ([a, b]) => a - b],
+  ]);
 
-const subExpressionCount = (expression) =>
-  [...expression].filter((x) => !isNumeric(x)).length;
+  const isNumeric = (str) => /^\d+$/.test(str);
+
+  const combinations = (a, b) => {
+    const result = [];
+    for (const a1 of a) {
+      for (const b1 of b) {
+        result.push([a1, b1]);
+      }
+    }
+    return result;
+  };
+
+  return (expression) => {
+    if (isNumeric(expression)) {
+      return [Number(expression)];
+    }
+    const result = [];
+    for (let i = 0; i <= expression.length - 1; i++) {
+      if (isNumeric(expression[i])) {
+        continue;
+      }
+      const ways = combinations(
+        divideAndConquer(expression.slice(0, i)),
+        divideAndConquer(expression.slice(i + 1)),
+      );
+      result.push(...ways.map(operatorMap.get(expression[i])));
+    }
+    return result;
+  };
+})();
 
 /**
  * @param {string} expression
  * @return {number[]}
  */
-export const diffWaysToCompute = (expression) => {
-  const options = [];
-  const backtrack = (index, opening, closing, current) => {
-    if (index >= expression.length) {
-      if (opening === 0 && closing === 0) {
-        options.push(current.join(''));
-      }
-      return;
-    }
-
-    if (!/\d/.test(expression[index])) {
-      backtrack(index + 1, opening, closing, [...current, expression[index]]);
-      return;
-    }
-
-    for (let i = 1; i <= opening; i++) {
-      const added = [...current, ...Array(i).fill('('), expression[index]];
-      backtrack(index + 1, opening - i, closing, added);
-    }
-
-    for (let i = 1; i <= closing; i++) {
-      if (opening <= closing - i) {
-        const added = [...current, expression[index], ...Array(i).fill(')')];
-        backtrack(index + 1, opening, closing - i, added);
-      }
-    }
-  };
-  const expCount = subExpressionCount(expression);
-  console.log(expCount);
-  backtrack(0, expCount, expCount, []);
-  console.log(options);
-};
+export const diffWaysToCompute = divideAndConquer;

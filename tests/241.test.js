@@ -9,7 +9,7 @@ describe('241. Different Ways to Add Parentheses', () => {
     const [expression, expected] = args;
     test(generateTestName(diffWaysToCompute, ...args), () => {
       const result = diffWaysToCompute(expression);
-      expect(result).toEqual(expected);
+      expect(result).toIncludeSameMembers(expected);
     });
   });
 });
