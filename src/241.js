@@ -46,8 +46,44 @@
  * https://leetcode.com/problems/different-ways-to-add-parentheses
  */
 
+const isNumeric = (char) => /\d/.test(char);
+
+const subExpressionCount = (expression) =>
+  [...expression].filter((x) => !isNumeric(x)).length;
+
 /**
  * @param {string} expression
  * @return {number[]}
  */
-export const diffWaysToCompute = (expression) => {};
+export const diffWaysToCompute = (expression) => {
+  const options = [];
+  const backtrack = (index, opening, closing, current) => {
+    if (index >= expression.length) {
+      if (opening === 0 && closing === 0) {
+        options.push(current.join(''));
+      }
+      return;
+    }
+
+    if (!/\d/.test(expression[index])) {
+      backtrack(index + 1, opening, closing, [...current, expression[index]]);
+      return;
+    }
+
+    for (let i = 1; i <= opening; i++) {
+      const added = [...current, ...Array(i).fill('('), expression[index]];
+      backtrack(index + 1, opening - i, closing, added);
+    }
+
+    for (let i = 1; i <= closing; i++) {
+      if (opening <= closing - i) {
+        const added = [...current, expression[index], ...Array(i).fill(')')];
+        backtrack(index + 1, opening, closing - i, added);
+      }
+    }
+  };
+  const expCount = subExpressionCount(expression);
+  console.log(expCount);
+  backtrack(0, expCount, expCount, []);
+  console.log(options);
+};
