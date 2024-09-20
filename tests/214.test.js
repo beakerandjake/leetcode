@@ -5,6 +5,9 @@ describe('214. Shortest Palindrome', () => {
   [
     ['aacecaaa', 'aaacecaaa'],
     ['abcd', 'dcbabcd'],
+    ['ba', 'aba'],
+    ['abbacd', 'dcabbacd'],
+    ['adcba', 'abcdadcba']
   ].forEach((args) => {
     const [s, expected] = args;
     test(generateTestName(shortestPalindrome, ...args), () => {

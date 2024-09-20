@@ -30,8 +30,35 @@
  * https://leetcode.com/problems/shortest-palindrome
  */
 
+// reverses a string
+const reverse = (str) => [...str].reverse().join('');
+
+// returns the length of the longest prefix palindrome
+const prefixPalindromeLength = (str) => {
+  let result = str.length;
+  let left = 0;
+  let right = str.length - 1;
+  while (left < right) {
+    if (str[left] === str[right]) {
+      left++;
+      right--;
+    } else {
+      // "reset" the palindrome search from the start of the string
+      result--;
+      left = 0;
+      right = result - 1;
+    }
+  }
+  return result;
+};
+
 /**
  * @param {string} s
  * @return {string}
  */
-export const shortestPalindrome = (s) => {};
+export const shortestPalindrome = (s) => {
+  if (s.length === 1) {
+    return s;
+  }
+  return reverse(s.slice(prefixPalindromeLength(s))) + s;
+};
