@@ -41,9 +41,35 @@
  * https://leetcode.com/problems/extra-characters-in-a-string
  */
 
+const usingDp = (str, dictionary) => {
+  const memo = new Map();
+  const words = new Set(dictionary);
+  const dp = (index, substr) => {
+    if (index >= str.length) {
+      return 0;
+    }
+    const hash = `${index}_${substr}`;
+    if (!memo.has(hash)) {
+      const newSubstr = substr + str[index];
+      // if substring is valid word then try breaking here
+      const breakHere = words.has(newSubstr) ? newSubstr.length + dp(index + 1, '') : -1;
+      // if not breaking here have two possible choices
+      const isNotWord = Math.max(
+        // continue the substring
+        dp(index + 1, newSubstr),
+        // abandon the current substring and skip this character
+        dp(index + 1, ''),
+      );
+      memo.set(hash, Math.max(breakHere, isNotWord));
+    }
+    return memo.get(hash);
+  };
+  return str.length - dp(0, '');
+};
+
 /**
  * @param {string} s
  * @param {string[]} dictionary
  * @return {number}
  */
-export const minExtraChar = (s, dictionary) => {};
+export const minExtraChar = (s, dictionary) => usingDp(s, dictionary);
