@@ -50,9 +50,53 @@
  * https://leetcode.com/problems/find-the-length-of-the-longest-common-prefix
  */
 
+class TrieNode {
+  children = new Map();
+}
+
+class Trie {
+  #root = new TrieNode();
+
+  insert(value) {
+    let current = this.#root;
+    for (const char of value) {
+      if (!current.children.has(char)) {
+        current.children.set(char, new TrieNode());
+      }
+      current = current.children.get(char);
+    }
+  }
+
+  prefixLength(value) {
+    let length = 0;
+    let current = this.#root;
+    for (const char of value) {
+      if (!current.children.has(char)) {
+        break;
+      }
+      current = current.children.get(char);
+      length++;
+    }
+    return length;
+  }
+
+  toString() {
+    return this.#root.children;
+  }
+}
+
+const toTrie = (arr) =>
+  arr.reduce((acc, x) => {
+    acc.insert(x);
+    return acc;
+  }, new Trie());
+
 /**
  * @param {number[]} arr1
  * @param {number[]} arr2
  * @return {number}
  */
-export const longestCommonPrefix = (arr1, arr2) => {};
+export const longestCommonPrefix = (arr1, arr2) => {
+  const trie = toTrie(arr1.map(String));
+  return Math.max(...arr2.map((x) => trie.prefixLength(`${x}`)));
+};
