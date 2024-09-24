@@ -33,4 +33,22 @@
  * @param {number} n
  * @return {number[]}
  */
-export const lexicalOrder = (n) => {};
+export const lexicalOrder = (n) => {
+  const result = [];
+  const recurse = (num) => {
+    if (num > n) {
+      return;
+    }
+    result.push(num);
+    for (let i = 0; i < 10; i++) {
+      const newNum = num * 10 + i;
+      recurse(newNum);
+    }
+  };
+
+  for (let i = 1; i < 10; i++) {
+    recurse(i);
+  }
+
+  return result;
+};
