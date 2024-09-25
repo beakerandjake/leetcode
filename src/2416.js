@@ -57,8 +57,50 @@
  * https://leetcode.com/problems/sum-of-prefix-scores-of-strings
  */
 
+class TrieNode {
+  score = 0;
+  children = new Map();
+}
+
+class Trie {
+  #root = new TrieNode();
+
+  addWord(word) {
+    let current = this.#root;
+    for (const char of word) {
+      if (!current.children.has(char)) {
+        current.children.set(char, new TrieNode());
+      }
+      current = current.children.get(char);
+      current.score++;
+    }
+  }
+
+  score(word) {
+    let score = 0;
+    let current = this.#root;
+    for (const char of word) {
+      if (!current.children.has(char)) {
+        break;
+      }
+      current = current.children.get(char);
+      score += current.score;
+    }
+    return score;
+  }
+}
+
+const toTrie = (words) =>
+  words.reduce((acc, x) => {
+    acc.addWord(x);
+    return acc;
+  }, new Trie());
+
 /**
  * @param {string[]} words
  * @return {number[]}
  */
-export const sumPrefixScores = (words) => {};
+export const sumPrefixScores = (words) => {
+  const trie = toTrie(words);
+  return words.map((word) => trie.score(word));
+};
