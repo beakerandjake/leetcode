@@ -45,17 +45,20 @@
  * https://leetcode.com/problems/my-calendar-i
  */
 
+// creates an interval from the start and end times
 const interval = (s, e) => [s, e];
 
+// returns the start of the interval
 const start = (i) => i[0];
 
+// returns the end of the interval
 const end = (i) => i[1];
 
+// returns true if interval a ends before interval b starts
 const comesBefore = (a, b) => end(a) <= start(b);
 
+// returns true if interval a starts after interval b ends
 const comesAfter = (a, b) => start(a) >= end(b);
-
-const overlaps = (a, b) => !comesBefore(a, b) && !comesAfter(a, b);
 
 /**
  * Your MyCalendar object will be instantiated and called as such:
@@ -66,8 +69,25 @@ const overlaps = (a, b) => !comesBefore(a, b) && !comesAfter(a, b);
 export class MyCalendar {
   #events = [];
 
-  #conflict(event) {
-    return this.#events.some((x) => overlaps(event, x));
+  #insertIndex(event) {
+    if (!this.#events.length) {
+      return 0;
+    }
+    // binary search to find exact index to insert to maintain sorted order
+    let lo = 0;
+    let hi = this.#events.length - 1;
+    while (lo <= hi) {
+      const m = lo + Math.floor((hi - lo) / 2);
+      if (comesAfter(event, this.#events[m])) {
+        lo = m + 1;
+      } else if (comesBefore(event, this.#events[m])) {
+        hi = m - 1;
+      } else {
+        // cannot insert index if there is an overlap
+        return -1;
+      }
+    }
+    return lo;
   }
 
   /**
@@ -77,10 +97,10 @@ export class MyCalendar {
    */
   book(s, e) {
     const toInsert = interval(s, e);
-    if (this.#conflict(toInsert)) {
-      return false;
+    const index = this.#insertIndex(toInsert);
+    if (index !== -1) {
+      this.#events.splice(index, 0, toInsert);
     }
-    this.#events.push(toInsert);
-    return true;
+    return index !== -1;
   }
 }
