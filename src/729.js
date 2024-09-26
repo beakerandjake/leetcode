@@ -45,17 +45,42 @@
  * https://leetcode.com/problems/my-calendar-i
  */
 
-var MyCalendar = function () {};
+const interval = (s, e) => [s, e];
 
-/**
- * @param {number} start
- * @param {number} end
- * @return {boolean}
- */
-MyCalendar.prototype.book = function (start, end) {};
+const start = (i) => i[0];
+
+const end = (i) => i[1];
+
+const comesBefore = (a, b) => end(a) <= start(b);
+
+const comesAfter = (a, b) => start(a) >= end(b);
+
+const overlaps = (a, b) => !comesBefore(a, b) && !comesAfter(a, b);
 
 /**
  * Your MyCalendar object will be instantiated and called as such:
  * var obj = new MyCalendar()
  * var param_1 = obj.book(start,end)
  */
+
+export class MyCalendar {
+  #events = [];
+
+  #conflict(event) {
+    return this.#events.some((x) => overlaps(event, x));
+  }
+
+  /**
+   * @param {number} start
+   * @param {number} end
+   * @return {boolean}
+   */
+  book(s, e) {
+    const toInsert = interval(s, e);
+    if (this.#conflict(toInsert)) {
+      return false;
+    }
+    this.#events.push(toInsert);
+    return true;
+  }
+}
