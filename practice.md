@@ -46,6 +46,9 @@ Certain problems I like to practice to stay fresh in basic concepts. This docume
 - [delete-node-in-a-bst #450](https://leetcode.com/problems/delete-node-in-a-bst)
 - [validate-binary-search-tree #98](https://leetcode.com/problems/validate-binary-search-tree)
 
+## Binary Search
+- [my-calendar-i](https://leetcode.com/problems/my-calendar-i)
+
 ## DP
 - [longest-increasing-subsequence #300](https://leetcode.com/problems/longest-increasing-subsequence)
 - [jump-game #55](https://leetcode.com/problems/jump-game)
