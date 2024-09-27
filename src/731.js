@@ -55,11 +55,76 @@
  * var param_1 = obj.book(start,end)
  */
 
+class SortedMap {
+  #items = new Map();
+  #keys = [];
 
+  #insertIndex(key) {
+    if (!this.#keys.length) {
+      return 0;
+    }
+    let lo = 0;
+    let hi = this.#keys.length - 1;
+    while (lo <= hi) {
+      const m = lo + Math.floor((hi - lo) / 2);
+      if (key < this.#keys[m]) {
+        hi = m - 1;
+      } else {
+        lo = m + 1;
+      }
+    }
+    return lo;
+  }
+
+  #findIndex(key) {
+    let lo = 0;
+    let hi = this.#keys.length - 1;
+    while (lo <= hi) {
+      const m = lo + Math.floor((hi - lo) / 2);
+      if (key < this.#keys[m]) {
+        hi = m - 1;
+      } else if (key > this.#keys[m]) {
+        lo = m + 1;
+      } else {
+        return m;
+      }
+    }
+    return -1;
+  }
+
+  set(key, value) {
+    if (this.#items.has(key)) {
+      this.#items.set(key, value);
+      return;
+    }
+    this.#items.set(key, value);
+    this.#keys.splice(this.#insertIndex(key), 0, key);
+  }
+
+  get(key) {
+    return this.#items.get(key);
+  }
+
+  getOrDefault(key, defaultValue = 0) {
+    return this.#items.get(key) || defaultValue;
+  }
+
+  delete(key) {
+    if (this.#items.delete(key)) {
+      this.#keys.splice(this.#findIndex(key), 1);
+    }
+  }
+
+  *values() {
+    for (const key of this.#keys) {
+      yield this.#items.get(key);
+    }
+  }
+}
 
 export class MyCalendarTwo {
   #maxBookings;
-  #bookings = new Map();
+  #bookings = new SortedMap();
 
   constructor(maxBookings = 2) {
     this.#maxBookings = maxBookings;
@@ -71,18 +136,18 @@ export class MyCalendarTwo {
    * @return {boolean}
    */
   book(s, e) {
-    this.#bookings.set(s, (this.#bookings.get(s) || 0) + 1);
-    this.#bookings.set(e, (this.#bookings.get(e) || 0) - 1);
+    this.#bookings.set(s, this.#bookings.getOrDefault(s) + 1);
+    this.#bookings.set(e, this.#bookings.getOrDefault(e) - 1);
     let overlaps = 0;
-    for (const time of [...this.#bookings.keys()].sort((a, b) => a - b)) {
-      overlaps += this.#bookings.get(time);
+    for (const bookCount of this.#bookings.values()) {
+      overlaps += bookCount;
       if (overlaps > this.#maxBookings) {
         this.#bookings.set(s, this.#bookings.get(s) - 1);
         this.#bookings.set(e, this.#bookings.get(e) + 1);
-        if (!this.#bookings.get(s)) {
+        if (this.#bookings.get(s) === 0) {
           this.#bookings.delete(s);
         }
-        if (!this.#bookings.get(e)) {
+        if (this.#bookings.get(e) === 0) {
           this.#bookings.delete(e);
         }
         return false;
