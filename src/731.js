@@ -49,17 +49,45 @@
  * https://leetcode.com/problems/my-calendar-ii
  */
 
-var MyCalendarTwo = function () {};
-
-/**
- * @param {number} start
- * @param {number} end
- * @return {boolean}
- */
-MyCalendarTwo.prototype.book = function (start, end) {};
-
 /**
  * Your MyCalendarTwo object will be instantiated and called as such:
  * var obj = new MyCalendarTwo()
  * var param_1 = obj.book(start,end)
  */
+
+
+
+export class MyCalendarTwo {
+  #maxBookings;
+  #bookings = new Map();
+
+  constructor(maxBookings = 2) {
+    this.#maxBookings = maxBookings;
+  }
+
+  /**
+   * @param {number} start
+   * @param {number} end
+   * @return {boolean}
+   */
+  book(s, e) {
+    this.#bookings.set(s, (this.#bookings.get(s) || 0) + 1);
+    this.#bookings.set(e, (this.#bookings.get(e) || 0) - 1);
+    let overlaps = 0;
+    for (const time of [...this.#bookings.keys()].sort((a, b) => a - b)) {
+      overlaps += this.#bookings.get(time);
+      if (overlaps > this.#maxBookings) {
+        this.#bookings.set(s, this.#bookings.get(s) - 1);
+        this.#bookings.set(e, this.#bookings.get(e) + 1);
+        if (!this.#bookings.get(s)) {
+          this.#bookings.delete(s);
+        }
+        if (!this.#bookings.get(e)) {
+          this.#bookings.delete(e);
+        }
+        return false;
+      }
+    }
+    return true;
+  }
+}
