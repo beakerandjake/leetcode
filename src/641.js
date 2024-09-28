@@ -57,62 +57,181 @@
  * https://leetcode.com/problems/design-circular-deque
  */
 
-/**
- * @param {number} k
- */
-export const MyCircularDeque = (k) => {};
+// solving the fun way
 
-/**
- * @param {number} value
- * @return {boolean}
- */
-MyCircularDeque.prototype.insertFront = function (value) {};
+const cons = (a, b) => (dispatch) => {
+  // eslint-disable-next-line no-param-reassign
+  const setA = (x) => (a = x);
+  // eslint-disable-next-line no-param-reassign
+  const setB = (x) => (b = x);
+  switch (dispatch) {
+    case 'car':
+      return a;
+    case 'cdr':
+      return b;
+    case 'setCar':
+      return setA;
+    case 'setCdr':
+      return setB;
+    default:
+      throw new Error('Unknown dispatch', dispatch);
+  }
+};
+const car = (x) => x('car');
+const cdr = (x) => x('cdr');
+const setCar = (x, value) => x('setCar')(value);
+const setCdr = (x, value) => x('setCdr')(value);
 
-/**
- * @param {number} value
- * @return {boolean}
- */
-MyCircularDeque.prototype.insertLast = function (value) {};
+const makeNode = (value, prev, next) => cons(value, cons(prev, cons(next, null)));
+const nodeValue = (n) => car(n);
+const nodePrevious = (n) => car(cdr(n));
+const setNodePrev = (n, value) => setCar(cdr(n), value);
+const nodeNext = (n) => car(cdr(cdr(n)));
+const setNodeNext = (n, value) => setCar(cdr(cdr(n)), value);
 
-/**
- * @return {boolean}
- */
-MyCircularDeque.prototype.deleteFront = function () {};
+export class MyCircularDeque {
+  #maxSize;
+  #headAndTail = cons(null, null);
+  #size = 0;
 
-/**
- * @return {boolean}
- */
-MyCircularDeque.prototype.deleteLast = function () {};
+  /**
+   * @param {number} k
+   */
+  constructor(k) {
+    this.#maxSize = k;
+  }
 
-/**
- * @return {number}
- */
-MyCircularDeque.prototype.getFront = function () {};
+  get #head() {
+    return car(this.#headAndTail);
+  }
 
-/**
- * @return {number}
- */
-MyCircularDeque.prototype.getRear = function () {};
+  set #head(value) {
+    setCar(this.#headAndTail, value);
+  }
 
-/**
- * @return {boolean}
- */
-MyCircularDeque.prototype.isEmpty = function () {};
+  get #tail() {
+    return cdr(this.#headAndTail);
+  }
 
-/**
- * @return {boolean}
- */
-MyCircularDeque.prototype.isFull = function () {};
+  set #tail(value) {
+    setCdr(this.#headAndTail, value);
+  }
 
-/**
- * Your MyCircularDeque object will be instantiated and called as such:
- * var obj = new MyCircularDeque(k)
- * var param_1 = obj.insertFront(value)
- * var param_2 = obj.insertLast(value)
- * var param_3 = obj.deleteFront()
- * var param_4 = obj.deleteLast()
- * var param_5 = obj.getFront()
- * var param_6 = obj.getRear()
- * var param_7 = obj.isEmpty()
- * var param_8 = obj.isFull()
- */
+  /**
+   * @param {number} value
+   * @return {boolean}
+   */
+  insertFront(value) {
+    console.log('insert front', value, 'size', this.#size, 'isFull', this.isFull());
+    if (this.isFull()) {
+      return false;
+    }
+    const toInsert = makeNode(value, null, null);
+    if (this.isEmpty()) {
+      this.#head = toInsert;
+      this.#tail = toInsert;
+    } else {
+      setNodeNext(toInsert, this.#head);
+      setNodePrev(this.#head, toInsert);
+      this.#head = toInsert;
+    }
+    this.#size++;
+    return true;
+  }
+
+  /**
+   * @param {number} value
+   * @return {boolean}
+   */
+  insertLast(value) {
+    if (this.isFull()) {
+      return false;
+    }
+    const toInsert = makeNode(value, null, null);
+    if (this.isEmpty()) {
+      this.#head = toInsert;
+      this.#tail = toInsert;
+    } else {
+      setNodeNext(this.#tail, toInsert);
+      setNodePrev(toInsert, this.#tail);
+      this.#tail = toInsert;
+    }
+    this.#size++;
+    return true;
+  }
+
+  /**
+   * @return {boolean}
+   */
+  deleteFront() {
+    if (this.isEmpty()) {
+      return false;
+    }
+    if (this.#size === 1) {
+      this.#head = null;
+      this.#tail = null;
+    } else {
+      this.#head = nodeNext(this.#head);
+      setNodePrev(this.#head, null);
+    }
+    this.#size--;
+    return true;
+  }
+
+  /**
+   * @return {boolean}
+   */
+  deleteLast() {
+    if (this.isEmpty()) {
+      return false;
+    }
+    if (this.#size === 1) {
+      this.#head = null;
+      this.#tail = null;
+    } else {
+      this.#tail = nodePrevious(this.#tail);
+      setNodeNext(this.#tail, null);
+    }
+    this.#size--;
+    return true;
+  }
+
+  /**
+   * @return {number}
+   */
+  getFront() {
+    return this.#head ? nodeValue(this.#head) : -1;
+  }
+
+  /**
+   * @return {number}
+   */
+  getRear() {
+    return this.#tail ? nodeValue(this.#tail) : -1;
+  }
+
+  /**
+   * @return {boolean}
+   */
+  isEmpty() {
+    return this.#size === 0;
+  }
+
+  /**
+   * @return {boolean}
+   */
+  isFull() {
+    return this.#size === this.#maxSize;
+  }
+
+  *values() {
+    if (this.isEmpty()) {
+      return;
+    }
+    let head = this.#head;
+    while (head) {
+      yield nodeValue(head);
+      head = nodeNext(head);
+    }
+  }
+}
