@@ -25,7 +25,6 @@ describe('641. Design Circular Deque', () => {
       const queue = new MyCircularDeque(k);
       fns.forEach((fn, i) => {
         const result = queue[fn](input[i]);
-        console.log(`f:${fn}, i:${input[i]}, r:${result}, q:${[...queue.values()]}`);
         expect(result).toBe(expected[i]);
       });
     });

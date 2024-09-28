@@ -82,9 +82,10 @@ const cdr = (x) => x('cdr');
 const setCar = (x, value) => x('setCar')(value);
 const setCdr = (x, value) => x('setCdr')(value);
 
+// node is a list of (value, previous, next)
 const makeNode = (value, prev, next) => cons(value, cons(prev, cons(next, null)));
 const nodeValue = (n) => car(n);
-const nodePrevious = (n) => car(cdr(n));
+const nodePrev = (n) => car(cdr(n));
 const setNodePrev = (n, value) => setCar(cdr(n), value);
 const nodeNext = (n) => car(cdr(cdr(n)));
 const setNodeNext = (n, value) => setCar(cdr(cdr(n)), value);
@@ -122,7 +123,6 @@ export class MyCircularDeque {
    * @return {boolean}
    */
   insertFront(value) {
-    console.log('insert front', value, 'size', this.#size, 'isFull', this.isFull());
     if (this.isFull()) {
       return false;
     }
@@ -189,7 +189,7 @@ export class MyCircularDeque {
       this.#head = null;
       this.#tail = null;
     } else {
-      this.#tail = nodePrevious(this.#tail);
+      this.#tail = nodePrev(this.#tail);
       setNodeNext(this.#tail, null);
     }
     this.#size--;
@@ -222,16 +222,5 @@ export class MyCircularDeque {
    */
   isFull() {
     return this.#size === this.#maxSize;
-  }
-
-  *values() {
-    if (this.isEmpty()) {
-      return;
-    }
-    let head = this.#head;
-    while (head) {
-      yield nodeValue(head);
-      head = nodeNext(head);
-    }
   }
 }
