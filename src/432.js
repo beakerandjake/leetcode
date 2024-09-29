@@ -54,29 +54,65 @@
  * https://leetcode.com/problems/all-oone-data-structure
  */
 
-var AllOne = function () {};
+import { MaxPriorityQueue, MinPriorityQueue } from '@datastructures-js/priority-queue';
 
-/**
- * @param {string} key
- * @return {void}
- */
-AllOne.prototype.inc = function (key) {};
+export class AllOne {
+  #counts = new Map();
+  #minKeys = new MinPriorityQueue();
+  #maxKeys = new MaxPriorityQueue();
 
-/**
- * @param {string} key
- * @return {void}
- */
-AllOne.prototype.dec = function (key) {};
+  /**
+   * @param {string} key
+   * @return {void}
+   */
+  inc(key) {
+    this.#counts.set(key, (this.#counts.get(key) || 0) + 1);
+    this.#minKeys.enqueue(key, this.#counts.get(key));
+    this.#maxKeys.enqueue(key, this.#counts.get(key));
+  }
 
-/**
- * @return {string}
- */
-AllOne.prototype.getMaxKey = function () {};
+  /**
+   * @param {string} key
+   * @return {void}
+   */
+  dec(key) {
+    if (this.#counts.get(key) === 1) {
+      this.#counts.delete(key);
+      return;
+    }
+    this.#counts.set(key, (this.#counts.get(key) || 0) - 1);
+    this.#minKeys.enqueue(key, this.#counts.get(key));
+    this.#maxKeys.enqueue(key, this.#counts.get(key));
+  }
 
-/**
- * @return {string}
- */
-AllOne.prototype.getMinKey = function () {};
+  /**
+   * @return {string}
+   */
+  getMaxKey() {
+    while (!this.#maxKeys.isEmpty()) {
+      const { element: key, priority: count } = this.#maxKeys.front();
+      if (this.#counts.get(key) === count) {
+        return key;
+      }
+      this.#maxKeys.dequeue();
+    }
+    return '';
+  }
+
+  /**
+   * @return {string}
+   */
+  getMinKey() {
+    while (!this.#minKeys.isEmpty()) {
+      const { element: key, priority: count } = this.#minKeys.front();
+      if (this.#counts.get(key) === count) {
+        return key;
+      }
+      this.#minKeys.dequeue();
+    }
+    return '';
+  }
+}
 
 /**
  * Your AllOne object will be instantiated and called as such:
