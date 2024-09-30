@@ -52,28 +52,58 @@
  * https://leetcode.com/problems/design-a-stack-with-increment-operation
  */
 
-/**
- * @param {number} maxSize
- */
-export const CustomStack = (maxSize) => {};
+export class CustomStack {
+  #maxSize;
+  #items = [];
 
-/**
- * @param {number} x
- * @return {void}
- */
-CustomStack.prototype.push = function (x) {};
+  /**
+   * @param {number} maxSize
+   */
+  constructor(maxSize = 0) {
+    this.#maxSize = maxSize;
+  }
 
-/**
- * @return {number}
- */
-CustomStack.prototype.pop = function () {};
+  #isFull() {
+    return this.#items.length === this.#maxSize;
+  }
 
-/**
- * @param {number} k
- * @param {number} val
- * @return {void}
- */
-CustomStack.prototype.increment = function (k, val) {};
+  #isEmpty() {
+    return this.#items.length === 0;
+  }
+
+  /**
+   * @param {number} x
+   * @return {void}
+   */
+  push(x) {
+    if (this.#isFull()) {
+      return;
+    }
+    this.#items.push(x);
+  }
+
+  /**
+   * @return {number}
+   */
+  pop() {
+    if (this.#isEmpty()) {
+      return -1;
+    }
+    return this.#items.pop();
+  }
+
+  /**
+   * @param {number} k
+   * @param {number} val
+   * @return {void}
+   */
+  increment(k, val) {
+    const end = Math.min(this.#items.length, k);
+    for (let i = 0; i < end; i++) {
+      this.#items[i] += val;
+    }
+  }
+}
 
 /**
  * Your CustomStack object will be instantiated and called as such:
