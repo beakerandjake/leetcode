@@ -179,7 +179,7 @@ const usingRemainders = (() => {
     arr.reduce((acc, x) => {
       const r = remainder(x, k);
       return acc.set(r, (acc.get(r) || 0) + 1);
-    });
+    }, new Map());
 
   return (arr, k) => {
     const remainders = remainderMap(arr, k);
@@ -188,7 +188,7 @@ const usingRemainders = (() => {
     }
     for (let i = 1; i <= Math.floor(k / 2); i++) {
       const a = remainders.get(i) || 0;
-      const b = remainders.get(k - a) || 0;
+      const b = remainders.get(k - i) || 0;
       if (remainders.get(a) !== remainders.get(b)) {
         return false;
       }
