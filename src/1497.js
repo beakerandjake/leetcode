@@ -172,9 +172,34 @@ const bruteForceTwoSum = (() => {
   return (arr, k) => hasLength(divisiblePairs(arr, k), arr.length / 2);
 })();
 
+const usingRemainders = (() => {
+  const remainder = (a, b) => ((a % b) + b) % b;
+
+  const remainderMap = (arr, k) =>
+    arr.reduce((acc, x) => {
+      const r = remainder(x, k);
+      return acc.set(r, (acc.get(r) || 0) + 1);
+    });
+
+  return (arr, k) => {
+    const remainders = remainderMap(arr, k);
+    if (remainders.has(0) && remainders.get(0) % 2 !== 0) {
+      return false;
+    }
+    for (let i = 1; i <= Math.floor(k / 2); i++) {
+      const a = remainders.get(i) || 0;
+      const b = remainders.get(k - a) || 0;
+      if (remainders.get(a) !== remainders.get(b)) {
+        return false;
+      }
+    }
+    return true;
+  };
+})();
+
 /**
  * @param {number[]} arr
  * @param {number} k
  * @return {boolean}
  */
-export const canArrange = bruteForceTwoSum;
+export const canArrange = usingRemainders;
