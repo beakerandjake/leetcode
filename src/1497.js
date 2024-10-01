@@ -48,6 +48,7 @@
  */
 
 const bruteForce = (() => {
+  // iterates each possible pair of the array.
   const pairs = function* (arr) {
     for (let i = 0; i < arr.length; i++) {
       for (let j = i + 1; j < arr.length; j++) {
@@ -56,6 +57,7 @@ const bruteForce = (() => {
     }
   };
 
+  // filters an iterate to only those items which match the predicate
   const filter = function* (iterator, predicate) {
     for (const item of iterator) {
       if (predicate(item)) {
@@ -64,33 +66,25 @@ const bruteForce = (() => {
     }
   };
 
+  // returns true if n is divisible by k
   const isDivisible = (n, k) => ((n % k) + k) % k === 0;
 
+  // returns an iterator of each pair of the array which is divisible by k
   const divisiblePairs = (arr, k) =>
     filter(pairs(arr), ([a, b]) => isDivisible(a + b, k));
 
-  const hasLength = (iterator, n) => {
-    for (let i = 0; i < n; i++) {
-      const next = iterator.next();
-      if (next.done) {
-        return false;
-      }
-    }
-    return true;
-  };
-
-  const frequencyCounts = (arr) =>
-    arr.reduce((acc, x) => acc.set(x, (acc.get(x) || 0) + 1), new Map());
-
-  const decrement = (counts, key) => {
-    counts.set(key, counts.get(key) - 1);
-    if (counts.get(key) === 0) {
-      counts.delete(key);
-    }
-  };
-
+  // returns a function which keeps track of pairs it has seen
+  // and returns false if a pair is not unique (it's elements have been used by other pairs)
   const uniquePairs = (arr) => {
-    const counts = frequencyCounts(arr);
+    // map each element to its frequency
+    const counts = arr.reduce((acc, x) => acc.set(x, (acc.get(x) || 0) + 1), new Map());
+    // decrement the elements count by one, and remove if no more remain
+    const decrement = (key) => {
+      counts.set(key, counts.get(key) - 1);
+      if (counts.get(key) === 0) {
+        counts.delete(key);
+      }
+    };
     return ([a, b]) => {
       if (!counts.has(a) || !counts.has(b)) {
         return false;
@@ -99,6 +93,17 @@ const bruteForce = (() => {
       decrement(counts, b);
       return true;
     };
+  };
+
+  // returns true if the iterator has a length of at least n
+  const hasLength = (iterator, n) => {
+    for (let i = 0; i < n; i++) {
+      const next = iterator.next();
+      if (next.done) {
+        return false;
+      }
+    }
+    return true;
   };
 
   return (arr, k) =>
@@ -110,4 +115,4 @@ const bruteForce = (() => {
  * @param {number} k
  * @return {boolean}
  */
-export const canArrange = bruteForce;
+export const canArrange = (arr, k) => {};
