@@ -110,9 +110,71 @@ const bruteForce = (() => {
     hasLength(filter(divisiblePairs(arr, k), uniquePairs(arr)), arr.length / 2);
 })();
 
+const bruteForceTwoSum = (() => {
+  // maps each item of the array to its count
+  const frequencyMap = (arr) =>
+    arr.reduce((acc, x) => acc.set(x, (acc.get(x) || 0) + 1), new Map());
+
+  // decrements the value of the key by one and removes if count reaches zero
+  const decrement = (map, key) => {
+    map.set(key, map.get(key) - 1);
+    if (map.get(key) === 0) {
+      map.delete(key);
+    }
+  };
+
+  // returns an generator which can create an iterator which iterates each pair who sum to target
+  // keeps track of elements which have been used and only allows an element to be used once.
+  const twoSummer = (arr) => {
+    const counts = frequencyMap(arr);
+    return function* (target) {
+      for (const num of counts.keys()) {
+        const compliment = target - num;
+        if (!counts.has(compliment) || (compliment === num && counts.get(num) === 1)) {
+          continue;
+        }
+        while (counts.has(num) && counts.has(compliment)) {
+          yield [num, compliment];
+          decrement(counts, num);
+          decrement(counts, compliment);
+          if (compliment === num && counts.get(compliment) === 1) {
+            break;
+          }
+        }
+      }
+    };
+  };
+
+  // iterates all pairs which are divisible by k
+  const divisiblePairs = function* (arr, k) {
+    const twoSum = twoSummer(arr);
+    // first yield all pairs which sum to 0 since 0 is divisible by k
+    yield* twoSum(0);
+    let multiple = k;
+    const max = Math.max(Math.abs(Math.max(...arr)) * 2, k);
+    while (multiple <= max) {
+      yield* twoSum(multiple);
+      yield* twoSum(-multiple);
+      multiple += k;
+    }
+  };
+
+  const hasLength = (iterator, n) => {
+    for (let i = 0; i < n; i++) {
+      const next = iterator.next();
+      if (next.done) {
+        return false;
+      }
+    }
+    return true;
+  };
+
+  return (arr, k) => hasLength(divisiblePairs(arr, k), arr.length / 2);
+})();
+
 /**
  * @param {number[]} arr
  * @param {number} k
  * @return {boolean}
  */
-export const canArrange = (arr, k) => {};
+export const canArrange = bruteForceTwoSum;
