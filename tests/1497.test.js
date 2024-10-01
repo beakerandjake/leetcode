@@ -9,6 +9,7 @@ describe('1497. Check If Array Pairs Are Divisible by k', () => {
     [[-1, -1, -1, -1, 2, 2, -2, -2], 3, false],
     [[-10, 10], 2, true],
     [[75, 5, -5, 75, -2, -3, 88, 10, 10, 87], 85, true],
+    [[3, 2, 1, 2, 1, 2, 1, 1], 3, true],
   ].forEach((args) => {
     const [arr, k, expected] = args;
     test(generateTestName(canArrange, ...args), () => {

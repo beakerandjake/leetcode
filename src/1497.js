@@ -173,8 +173,10 @@ const bruteForceTwoSum = (() => {
 })();
 
 const usingRemainders = (() => {
+  // returns a % b (accounting for negative numbers)
   const remainder = (a, b) => ((a % b) + b) % b;
 
+  // maps the remainder of each item and k to the number of times that remainder occurs
   const remainderMap = (arr, k) =>
     arr.reduce((acc, x) => {
       const r = remainder(x, k);
@@ -183,12 +185,12 @@ const usingRemainders = (() => {
 
   return (arr, k) => {
     const remainders = remainderMap(arr, k);
+    // nums divisible by k can only pair with themselves (ensure even pair count)
     if (remainders.has(0) && remainders.get(0) % 2 !== 0) {
       return false;
     }
     for (let i = 1; i <= Math.floor(k / 2); i++) {
-      const a = remainders.get(i) || 0;
-      const b = remainders.get(k - i) || 0;
+      // must match exactly or a num will be left out and we won't end up with k/2 pairs
       if (remainders.get(i) !== remainders.get(k - i)) {
         return false;
       }
