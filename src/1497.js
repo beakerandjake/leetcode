@@ -47,9 +47,67 @@
  * https://leetcode.com/problems/check-if-array-pairs-are-divisible-by-k
  */
 
+const bruteForce = (() => {
+  const pairs = function* (arr) {
+    for (let i = 0; i < arr.length; i++) {
+      for (let j = i + 1; j < arr.length; j++) {
+        yield [arr[i], arr[j]];
+      }
+    }
+  };
+
+  const filter = function* (iterator, predicate) {
+    for (const item of iterator) {
+      if (predicate(item)) {
+        yield item;
+      }
+    }
+  };
+
+  const isDivisible = (n, k) => ((n % k) + k) % k === 0;
+
+  const divisiblePairs = (arr, k) =>
+    filter(pairs(arr), ([a, b]) => isDivisible(a + b, k));
+
+  const hasLength = (iterator, n) => {
+    for (let i = 0; i < n; i++) {
+      const next = iterator.next();
+      if (next.done) {
+        return false;
+      }
+    }
+    return true;
+  };
+
+  const frequencyCounts = (arr) =>
+    arr.reduce((acc, x) => acc.set(x, (acc.get(x) || 0) + 1), new Map());
+
+  const decrement = (counts, key) => {
+    counts.set(key, counts.get(key) - 1);
+    if (counts.get(key) === 0) {
+      counts.delete(key);
+    }
+  };
+
+  const uniquePairs = (arr) => {
+    const counts = frequencyCounts(arr);
+    return ([a, b]) => {
+      if (!counts.has(a) || !counts.has(b)) {
+        return false;
+      }
+      decrement(counts, a);
+      decrement(counts, b);
+      return true;
+    };
+  };
+
+  return (arr, k) =>
+    hasLength(filter(divisiblePairs(arr, k), uniquePairs(arr)), arr.length / 2);
+})();
+
 /**
  * @param {number[]} arr
  * @param {number} k
  * @return {boolean}
  */
-export const canArrange = (arr, k) => {};
+export const canArrange = bruteForce;
