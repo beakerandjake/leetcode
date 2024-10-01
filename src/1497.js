@@ -189,7 +189,7 @@ const usingRemainders = (() => {
     for (let i = 1; i <= Math.floor(k / 2); i++) {
       const a = remainders.get(i) || 0;
       const b = remainders.get(k - i) || 0;
-      if (remainders.get(a) !== remainders.get(b)) {
+      if (remainders.get(i) !== remainders.get(k - i)) {
         return false;
       }
     }
