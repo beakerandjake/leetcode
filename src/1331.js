@@ -44,8 +44,21 @@
  * https://leetcode.com/problems/rank-transform-of-an-array
  */
 
+// returns all of the unique elements of the array.
+const unique = (arr) => [...new Set(arr)];
+
+// returns a copy of the array sorted ascending
+const sorted = (arr) => [...arr].sort((a, b) => a - b);
+
+// converts a sorted array to its rank mapping
+// each item is mapped to its index in the array (1 based)
+const toRankMap = (arr) => arr.reduce((acc, x, i) => acc.set(x, i + 1), new Map());
+
+// returns new array of the rank of each item
+const ranks = (arr, rankMap) => arr.map((x) => rankMap.get(x));
+
 /**
  * @param {number[]} arr
  * @return {number[]}
  */
-export const arrayRankTransform = (arr) => {};
+export const arrayRankTransform = (arr) => ranks(arr, toRankMap(sorted(unique(arr))));
