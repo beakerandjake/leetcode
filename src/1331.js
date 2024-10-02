@@ -50,15 +50,14 @@ const unique = (arr) => [...new Set(arr)];
 // returns a copy of the array sorted ascending
 const sorted = (arr) => [...arr].sort((a, b) => a - b);
 
-// converts a sorted array to its rank mapping
-// each item is mapped to its index in the array (1 based)
-const toRankMap = (arr) => arr.reduce((acc, x, i) => acc.set(x, i + 1), new Map());
-
-// returns new array of the rank of each item
-const ranks = (arr, rankMap) => arr.map((x) => rankMap.get(x));
+// maps each element of the array to the index it last appeared at
+const toIndexMap = (arr) => arr.reduce((acc, x, i) => acc.set(x, i), new Map());
 
 /**
  * @param {number[]} arr
  * @return {number[]}
  */
-export const arrayRankTransform = (arr) => ranks(arr, toRankMap(sorted(unique(arr))));
+export const arrayRankTransform = (arr) => {
+  const indexMap = toIndexMap(sorted(unique(arr)));
+  return arr.map((x) => indexMap.get(x) + 1);
+};
