@@ -47,12 +47,6 @@
  * https://leetcode.com/problems/make-sum-divisible-by-p
  */
 
-const prefixSum = (arr) =>
-  arr.reduce((acc, x, i) => {
-    acc.push(i > 0 ? x + acc[i - 1] : x);
-    return acc;
-  }, []);
-
 const bruteForce = (() => {
   const isDivisible = (n, k) => n % k === 0;
   return (nums, p) => {
@@ -87,9 +81,43 @@ const bruteForce = (() => {
   };
 })();
 
+const usingPrefixSum = (() => {
+  const prefixSum = (arr) =>
+    arr.reduce((acc, x, i) => {
+      acc.push(i > 0 ? x + acc[i - 1] : x);
+      return acc;
+    }, []);
+
+  const sum = (arr) => arr.reduce((acc, x) => acc + x, 0);
+
+  /**
+   * [3, 1, 4, 2]
+   * sum(arr) % 6 = 4 (the sub array target to remove)
+   */
+
+  return (arr, p) => {
+    const target = sum(arr) % p;
+    if (target === 0) {
+      return 0;
+    }
+    let result = arr.length;
+    let curr = 0;
+    const lookup = new Map([[0, -1]]);
+    for (let i = 0; i < arr.length; i++) {
+      curr = (curr + arr[i]) % p;
+      const needed = (curr - target + p) % p;
+      if (lookup.has(needed)) {
+        result = Math.min(result, i - lookup.get(needed));
+      }
+      lookup.set(curr, i);
+    }
+    return result < arr.length ? result : -1;
+  };
+})();
+
 /**
  * @param {number[]} nums
  * @param {number} p
  * @return {number}
  */
-export const minSubarray = bruteForce;
+export const minSubarray = usingPrefixSum;
