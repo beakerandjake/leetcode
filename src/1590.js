@@ -82,18 +82,7 @@ const bruteForce = (() => {
 })();
 
 const usingPrefixSum = (() => {
-  const prefixSum = (arr) =>
-    arr.reduce((acc, x, i) => {
-      acc.push(i > 0 ? x + acc[i - 1] : x);
-      return acc;
-    }, []);
-
   const sum = (arr) => arr.reduce((acc, x) => acc + x, 0);
-
-  /**
-   * [3, 1, 4, 2]
-   * sum(arr) % 6 = 4 (the sub array target to remove)
-   */
 
   return (arr, p) => {
     const target = sum(arr) % p;
