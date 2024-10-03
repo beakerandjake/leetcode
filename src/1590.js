@@ -47,9 +47,58 @@
  * https://leetcode.com/problems/make-sum-divisible-by-p
  */
 
+const prefixSum = (arr) =>
+  arr.reduce((acc, x, i) => {
+    acc.push(i > 0 ? x + acc[i - 1] : x);
+    return acc;
+  }, []);
+
+const usingDp = (() => {
+  const isDivisible = (n, k) => n % k === 0;
+  const fill = (m, n, value) => [...Array(m)].map(() => Array(n).fill(value));
+  return (nums, p) => {
+    const total = nums.reduce((acc, x) => acc + x, 0);
+    if (isDivisible(total, p)) {
+      return 0;
+    }
+    const memo = fill(nums.length + 1, nums.length + 1, null);
+    const recurse = (i, sStart, sSum) => {
+      if (i >= nums.length) {
+        return Number.MAX_SAFE_INTEGER;
+      }
+      if (memo[i][sStart + 1] === null) {
+        let result;
+        // if already removing a subarray, keep removing it.
+        if (sStart >= 0) {
+          const newSum = sSum + nums[i];
+          // when arr becomes divisible, end here it's the shortest subArr we can make
+          if (isDivisible(total - newSum, p)) {
+            const length = i - sStart + 1;
+            result = length !== nums.length ? length : Number.MAX_SAFE_INTEGER;
+          } else {
+            result = recurse(i + 1, sStart, newSum);
+          }
+        }
+        // check if removing single element does the trick
+        else if (isDivisible(total - nums[i], p)) {
+          result = 1;
+        }
+        // start a subarray here or don't
+        else {
+          result = Math.min(recurse(i + 1, -1, 0), recurse(i + 1, i, nums[i]));
+        }
+        memo[i][sStart + 1] = result;
+      }
+      return memo[i][sStart + 1];
+    };
+    const result = recurse(0, -1, 0);
+    return result !== Number.MAX_SAFE_INTEGER ? result : -1;
+  };
+})();
+
 /**
  * @param {number[]} nums
  * @param {number} p
  * @return {number}
  */
-export const minSubarray = (nums, p) => {};
+export const minSubarray = usingDp;
