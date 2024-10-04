@@ -54,8 +54,37 @@
  * https://leetcode.com/problems/divide-players-into-teams-of-equal-skill
  */
 
+// returns a copy of the array sorted in ascending order
+const toSorted = (arr) => [...arr].sort((a, b) => a - b);
+
+// yields pairs from either end of the array moving towards the center pair.
+const oppositePairs = function* (arr) {
+  let left = 0;
+  let right = arr.length - 1;
+  while (left < right) {
+    yield [arr[left++], arr[right--]];
+  }
+};
+
+// returns the skill of the team
+const skill = ([a, b]) => a + b;
+
+// returns the chemistry of the team
+const chemistry = ([a, b]) => a * b;
+
 /**
- * @param {number[]} skill
+ * @param {number[]} skills
  * @return {number}
  */
-export const dividePlayers = (skill) => {};
+export const dividePlayers = (skills) => {
+  let result = 0;
+  const sorted = toSorted(skills);
+  const target = sorted[0] + sorted.at(-1);
+  for (const team of oppositePairs(sorted)) {
+    if (skill(team) !== target) {
+      return -1;
+    }
+    result += chemistry(team);
+  }
+  return result;
+};
