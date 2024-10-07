@@ -43,8 +43,14 @@
  * https://leetcode.com/problems/minimum-string-length-after-removing-substrings
  */
 
+// returns a new string with all instances of 'AB' and 'CD' removed.
+const reduce = (str) => str.replace(/AB|CD/g, '');
+
+// returns true if the string can be further reduced.
+const canReduce = (str) => /AB|CD/g.test(str);
+
 /**
- * @param {string} s
+ * @param {string} str
  * @return {number}
  */
-export const minLength = (s) => {};
+export const minLength = (str) => (canReduce(str) ? minLength(reduce(str)) : str.length);
