@@ -73,7 +73,6 @@
 const words = (sentence) => sentence.split(' ');
 
 // returns the number of common elements at the start of the arrays.
-// returns the number of common elements at the start of the arrays.
 const commonPrefixLength = (a, b, index) =>
   index < a.length && index < b.length && a[index] === b[index]
     ? 1 + commonPrefixLength(a, b, index + 1)
@@ -87,29 +86,18 @@ const commonSuffixLength = (a, b, aIndex, bIndex) =>
 
 // returns true if the arrays can be made equal by a single insert operation of one or more elements.
 const areSimilar = (a, b) => {
-  // if either is empty then only one insert required to make equal
-  // if both empty then no inserts are required to make equal.
   if (!a.length || !b.length) {
     return true;
   }
-  // use "two pointers" to search the edges of the arrays for common prefix / suffix.
-  // if found that means an insert is needed somewhere in the middle of the arrays.
   const prefix = commonPrefixLength(a, b, 0);
   const suffix = commonSuffixLength(a, b, a.length - 1, b.length - 1);
-  // no common prefix and suffix means two inserts required to make equal
-  if (!prefix && !suffix) {
-    return false;
-  }
-  // try again, but pop the common prefix and suffix off of both arrays.
-  return areSimilar(
-    a.slice(prefix, -suffix || undefined),
-    b.slice(prefix, -suffix || undefined),
+  return (
+    !!(prefix + suffix) &&
+    areSimilar(
+      a.slice(prefix, -suffix || undefined),
+      b.slice(prefix, -suffix || undefined),
+    )
   );
 };
 
-/**
- * @param {string} a
- * @param {string} b
- * @return {boolean}
- */
 export const areSentencesSimilar = (a, b) => a === b || areSimilar(words(a), words(b));
