@@ -6,6 +6,11 @@ describe('1813. Sentence Similarity III', () => {
     ['My name is Haley', 'My Haley', true],
     ['of', 'A lot of words', false],
     ['Eating right now', 'Eating', true],
+    [
+      'IfYgEidlr a QG kUqlcd J',
+      'IfYgEidlr xFi a B QG kUqlcd J HVbknBM ngNyvJo efrpY',
+      false,
+    ],
   ].forEach((args) => {
     const [sentence1, sentence2, expected] = args;
     test(generateTestName(areSentencesSimilar, ...args), () => {
