@@ -73,20 +73,17 @@
 const words = (sentence) => sentence.split(' ');
 
 // returns the number of common elements at the start of the arrays.
-const commonPrefixLength = (a, b, index) => {
-  if (index > a.length || index > b.length) {
-    return 0;
-  }
-  return a[index] === b[index] ? 1 + commonPrefixLength(a, b, index + 1) : 0;
-};
+// returns the number of common elements at the start of the arrays.
+const commonPrefixLength = (a, b, index) =>
+  index < a.length && index < b.length && a[index] === b[index]
+    ? 1 + commonPrefixLength(a, b, index + 1)
+    : 0;
 
 // returns the number of common elements from the end of the arrays.
-const commonSuffixLength = (a, aI, b, bI) => {
-  if (aI < 0 || bI < 0) {
-    return 0;
-  }
-  return a[aI] === b[bI] ? 1 + commonSuffixLength(a, aI - 1, b, bI - 1) : 0;
-};
+const commonSuffixLength = (a, b, aIndex, bIndex) =>
+  aIndex >= 0 && bIndex >= 0 && a[aIndex] === b[bIndex]
+    ? 1 + commonSuffixLength(a, b, aIndex - 1, bIndex - 1)
+    : 0;
 
 // returns true if the arrays can be made equal by a single insert operation of one or more elements.
 const areSimilar = (a, b) => {
@@ -98,7 +95,7 @@ const areSimilar = (a, b) => {
   // use "two pointers" to search the edges of the arrays for common prefix / suffix.
   // if found that means an insert is needed somewhere in the middle of the arrays.
   const prefix = commonPrefixLength(a, b, 0);
-  const suffix = commonSuffixLength(a, a.length - 1, b, b.length - 1);
+  const suffix = commonSuffixLength(a, b, a.length - 1, b.length - 1);
   // no common prefix and suffix means two inserts required to make equal
   if (!prefix && !suffix) {
     return false;
