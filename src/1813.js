@@ -93,10 +93,7 @@ const areSimilar = (a, b) => {
   const suffix = commonSuffixLength(a, b, a.length - 1, b.length - 1);
   return (
     !!(prefix + suffix) &&
-    areSimilar(
-      a.slice(prefix, -suffix || undefined),
-      b.slice(prefix, -suffix || undefined),
-    )
+    areSimilar(a.slice(prefix, a.length - suffix), b.slice(prefix, b.length - suffix))
   );
 };
 
