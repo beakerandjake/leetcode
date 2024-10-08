@@ -59,7 +59,17 @@
  */
 
 /**
- * @param {string} s
+ * @param {string} str
  * @return {number}
  */
-export const minSwaps = (s) => {};
+export const minSwaps = (str) => {
+  const stack = [];
+  for (const char of str) {
+    if (char === ']' && stack.at(-1) === '[') {
+      stack.pop();
+    } else {
+      stack.push(char);
+    }
+  }
+  return Math.ceil(stack.length / 4);
+};
