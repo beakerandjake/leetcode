@@ -42,8 +42,35 @@
  * https://leetcode.com/problems/minimum-add-to-make-parentheses-valid
  */
 
+const usingStack = (str) => {
+  const stack = [];
+  for (const char of str) {
+    if (char === ')' && stack.at(-1) === '(') {
+      stack.pop();
+    } else {
+      stack.push(char);
+    }
+  }
+  return stack.length;
+};
+
+const usingCounting = (str) => {
+  let closed = 0;
+  let open = 0;
+  for (const char of str) {
+    if (char === '(') {
+      open++;
+    } else if (open > 0) {
+      open--;
+    } else {
+      closed++;
+    }
+  }
+  return closed + open;
+};
+
 /**
- * @param {string} s
+ * @param {string} str
  * @return {number}
  */
-export const minAddToMakeValid = (s) => {};
+export const minAddToMakeValid = usingCounting;
