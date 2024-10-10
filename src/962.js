@@ -35,8 +35,48 @@
  * https://leetcode.com/problems/maximum-width-ramp
  */
 
+const usingSorting = (() => {
+  // sorts an array in ascending order, using the result of valueFn as a sort key
+  const sortBy = (arr, valueFn) => [...arr].sort((a, b) => valueFn(a) - valueFn(b));
+
+  // returns an array containing the indexes from zero to n-1.
+  const indexes = (n) => [...Array(n).keys()];
+
+  return (nums) => {
+    let minIndex = nums.length;
+    return sortBy(indexes(nums.length), (i) => nums[i]).reduce((acc, index) => {
+      minIndex = Math.min(minIndex, index);
+      return Math.max(acc, index - minIndex);
+    }, 0);
+  };
+})();
+
+const usingMonotonicStack = (() => {
+  // returns an array of indexes where there is an element to the right
+  // whose value is less than or equal to the value at that index.
+  const decreasingIndexes = (arr) =>
+    arr.reduce((acc, x, i) => {
+      if (!acc.length || x < arr[acc.at(-1)]) {
+        acc.push(i);
+      }
+      return acc;
+    }, []);
+
+  return (nums) => {
+    let result = 0;
+    const dec = decreasingIndexes(nums);
+    for (let i = nums.length - 1; i >= 0; i--) {
+      while (dec.length && nums[dec.at(-1)] <= nums[i]) {
+        result = Math.max(result, i - dec.at(-1));
+        dec.pop();
+      }
+    }
+    return result;
+  };
+})();
+
 /**
  * @param {number[]} nums
  * @return {number}
  */
-export const maxWidthRamp = (nums) => {};
+export const maxWidthRamp = usingMonotonicStack;
