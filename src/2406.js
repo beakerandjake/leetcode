@@ -95,11 +95,19 @@ const usingLineSweep = (() => {
   };
 
   return (intervals) => {
-    let overlapping = 0;
-    return lineSweep(intervals).reduce((acc, count) => {
-      overlapping += count;
-      return Math.max(acc, overlapping);
-    }, 0);
+    const range = merge(intervals);
+    const overlapping = Array(end(range) - start(range) + 2).fill(0);
+    for (const i of intervals) {
+      overlapping[start(i) - start(range)]++;
+      overlapping[end(i) - start(range) + 1]--;
+    }
+    let result = 0;
+    let current = 0;
+    for (const count of overlapping) {
+      current += count;
+      result = Math.max(result, current);
+    }
+    return result;
   };
 })();
 
