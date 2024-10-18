@@ -55,8 +55,29 @@
  * https://leetcode.com/problems/count-number-of-maximum-bitwise-or-subsets
  */
 
+// returns the possible subsets of the array.
+const subsets = (arr) => {
+  const result = [];
+  const backtrack = (subset, index) => {
+    result.push([...subset]);
+    for (let i = index; i < arr.length; i++) {
+      subset.push(arr[i]);
+      backtrack(subset, i + 1);
+      subset.pop();
+    }
+  };
+  backtrack([], 0);
+  return result;
+};
+
+// returns the result of applying a binary or to all elements of the array.
+const orSum = (arr) => arr.reduce((acc, x) => acc | x, 0);
+
 /**
  * @param {number[]} nums
  * @return {number}
  */
-export const countMaxOrSubsets = (nums) => {};
+export const countMaxOrSubsets = (nums) => {
+  const target = orSum(nums);
+  return subsets(nums).filter((x) => orSum(x) === target).length;
+};
