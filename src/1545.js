@@ -49,9 +49,28 @@
  * https://leetcode.com/problems/find-kth-bit-in-nth-binary-string
  */
 
+const invert = (str) => [...str].map((x) => (x === '1' ? '0' : '1'));
+
+const reverse = (x) => [...x].reverse().join('');
+
+const nTh = (n) => {
+  const memo = Array(n + 1).fill(null);
+  const dp = (i) => {
+    if (i === 0) {
+      return '0';
+    }
+    if (memo[i] === null) {
+      const prev = dp(i - 1);
+      memo[i] = `${prev}1${reverse(invert(prev))}`;
+    }
+    return memo[i];
+  };
+  return dp(n);
+};
+
 /**
  * @param {number} n
  * @param {number} k
  * @return {character}
  */
-export const findKthBit = (n, k) => {};
+export const findKthBit = (n, k) => nTh(n)[k - 1];
