@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 /**
  * A boolean expression is an expression that evaluates to either true or false. It
  * can be in one of the following shapes:
@@ -60,8 +61,72 @@
  * https://leetcode.com/problems/parsing-a-boolean-expression
  */
 
+/**global doApply, doEval */
+
+const isLiteral = (expression) => expression === 't' || expression === 'f';
+
+const and = (...args) => (args.every((x) => x === 't') ? 't' : 'f');
+
+const or = (...args) => (args.some((x) => x === 't') ? 't' : 'f');
+
+const not = (...args) => (args[0] === 't' ? 'f' : 't');
+
+const extractFn = (symbol) => {
+  switch (symbol) {
+    case '!':
+      return not;
+    case '&':
+      return and;
+    case '|':
+      return or;
+    default:
+      throw new Error(`Unknown fn: ${symbol}`);
+  }
+};
+
+const extractSubExpression = (str, startIndex) => {
+  const stack = [];
+  let index = startIndex;
+  while (index < str.length) {
+    if (str[index] === '(') {
+      stack.push(str[index]);
+    } else if (str[index] === ')') {
+      stack.pop();
+      if (stack.length === 0) {
+        return index;
+      }
+    }
+    index++;
+  }
+  throw new Error('failed to parse sub expression');
+};
+
+const extractArguments = (expression) => {
+  const result = [];
+  const end = expression.length - 1;
+  let i = 2;
+  while (i < end) {
+    if (isLiteral(expression[i])) {
+      result.push(expression[i]);
+      i += 2;
+    } else {
+      const sub = extractSubExpression(expression, i);
+      result.push(expression.slice(i, sub + 1));
+      i = sub + 2;
+    }
+  }
+  return result;
+};
+
+const doEval = (expression) =>
+  isLiteral(expression)
+    ? expression
+    : doApply(extractFn(expression[0]), extractArguments(expression));
+
+const doApply = (fn, args) => fn(...args.map(doEval));
+
 /**
  * @param {string} expression
  * @return {boolean}
  */
-export const parseBoolExpr = (expression) => {};
+export const parseBoolExpr = (expression) => doEval(expression) === 't';
