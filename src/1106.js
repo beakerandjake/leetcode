@@ -63,14 +63,25 @@
 
 /**global doApply, doEval */
 
+// returns true if the expression represents a literal value in our language.
 const isLiteral = (expression) => expression === 't' || expression === 'f';
 
-const and = (...args) => (args.every((x) => x === 't') ? 't' : 'f');
+// converts a boolean value to a literal value.
+const toLiteral = (bool) => (bool ? 't' : 'f');
 
-const or = (...args) => (args.some((x) => x === 't') ? 't' : 'f');
+// converts the literal to a boolean value.
+const toBool = (literal) => literal === 't';
 
-const not = (...args) => (args[0] === 't' ? 'f' : 't');
+// returns a literal that is the logical and of the arguments.
+const and = (...args) => toLiteral(args.every(toBool));
 
+// returns a literal that is the logical or of the arguments.
+const or = (...args) => toLiteral(args.some(toBool));
+
+// returns a literal that is the logical not of the arguments.
+const not = (...args) => toLiteral(!toBool(args[0]));
+
+// returns a function which can apply the logic defined by the symbol.
 const extractFn = (symbol) => {
   switch (symbol) {
     case '!':
@@ -84,13 +95,16 @@ const extractFn = (symbol) => {
   }
 };
 
-const extractSubExpression = (str, startIndex) => {
+// extracts a sub expression of an expression, which starts at a given index
+const extractSubExpression = (expression, startIndex) => {
   const stack = [];
   let index = startIndex;
-  while (index < str.length) {
-    if (str[index] === '(') {
-      stack.push(str[index]);
-    } else if (str[index] === ')') {
+  // this sub expression could itself contain sub expressions
+  // need to use a stack to ensure we match the correct opening and closing parens
+  while (index < expression.length) {
+    if (expression[index] === '(') {
+      stack.push(expression[index]);
+    } else if (expression[index] === ')') {
       stack.pop();
       if (stack.length === 0) {
         return index;
@@ -98,35 +112,43 @@ const extractSubExpression = (str, startIndex) => {
     }
     index++;
   }
-  throw new Error('failed to parse sub expression');
+  throw new Error(
+    `Failed to parse sub expression starting at: ${startIndex}, in: ${expression}`,
+  );
 };
 
-const extractArguments = (expression) => {
+// evaluates a well formed expression and returns a list of arguments (expressions)
+const extractArgs = (expression) => {
   const result = [];
+  // skip ending ')'
   const end = expression.length - 1;
+  // skip starting 'X('
   let i = 2;
   while (i < end) {
     if (isLiteral(expression[i])) {
       result.push(expression[i]);
-      i += 2;
     } else {
-      const sub = extractSubExpression(expression, i);
-      result.push(expression.slice(i, sub + 1));
-      i = sub + 2;
+      const subEnd = extractSubExpression(expression, i);
+      result.push(expression.slice(i, subEnd + 1));
+      i = subEnd;
     }
+    // skip the next ',' (if exists)
+    i += 2;
   }
   return result;
 };
 
+// evaluates the expression and returns the literal result.
 const doEval = (expression) =>
   isLiteral(expression)
     ? expression
-    : doApply(extractFn(expression[0]), extractArguments(expression));
+    : doApply(extractFn(expression[0]), extractArgs(expression));
 
+// execute the function with a given list of arguments (expressions which must be evaluated)
 const doApply = (fn, args) => fn(...args.map(doEval));
 
 /**
  * @param {string} expression
  * @return {boolean}
  */
-export const parseBoolExpr = (expression) => doEval(expression) === 't';
+export const parseBoolExpr = (expression) => toBool(doEval(expression));
