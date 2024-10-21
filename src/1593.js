@@ -48,7 +48,25 @@
  */
 
 /**
- * @param {string} s
+ * @param {string} str
  * @return {number}
  */
-export const maxUniqueSplit = (s) => {};
+export const maxUniqueSplit = (str) => {
+  const seen = new Set();
+  const backtrack = (index) => {
+    if (index >= str.length) {
+      return 0;
+    }
+    let max = 0;
+    for (let end = index + 1; end <= str.length; end++) {
+      const substring = str.slice(index, end);
+      if (!seen.has(substring)) {
+        seen.add(substring);
+        max = Math.max(max, 1 + backtrack(end));
+        seen.delete(substring);
+      }
+    }
+    return max;
+  };
+  return backtrack(0);
+};
