@@ -44,51 +44,51 @@
  * https://leetcode.com/problems/restore-ip-addresses
  */
 
-/* eslint-disable prefer-template */
+// returns true if the string represents a valid ip octet.
+const isValid = (octet) => {
+  // need 1-3 digits.
+  if (octet.length < 1 || octet.length > 3) {
+    return false;
+  }
+  // any single digit is valid.
+  if (octet.length === 1) {
+    return true;
+  }
+  // cannot have leading zeros
+  if (octet[0] === '0') {
+    return false;
+  }
+  // any two digit number is valid
+  // any three digit number less than 255 is valid.
+  return octet.length < 3 || Number(octet) < 256;
+};
+
+// converts a valid octet array to an ip string.
+const toIp = (octets) => octets.join('.');
 
 /**
- * @param {string} s
+ * @param {string} str
  * @return {string[]}
  */
-export const restoreIpAddresses = (s) => {
-  if (s.length < 4 || s.length > 12) {
-    return [];
-  }
+export const restoreIpAddresses = (str) => {
   const result = [];
-  const recurse = (index, dots, ip) => {
-    if (index >= s.length) {
-      // ensure ip has exactly 3 dots appended (number of dots will be 4 in this case)
-      if (dots === 4) {
-        result.push(ip);
+  const backtrack = (digits, octets) => {
+    if (octets.length === 3) {
+      if (isValid(digits)) {
+        result.push(toIp([...octets, digits]));
       }
       return;
     }
-
-    // prune branches which will be invalid by having more than three dots
-    if (dots > 3) {
-      return;
-    }
-
-    // prevent leading zeros in segments, any time a zero is encountered start a new segment
-    if (s[index] === '0') {
-      recurse(index + 1, dots + 1, ip ? `${ip}.${s[index]}` : s[index]);
-      return;
-    }
-
-    // for current index there are three possibilities
-    // place first character only
-    // place first and second character
-    // place first, second, and third character
-    for (let i = 1; i <= 3; i++) {
-      if (index + i <= s.length) {
-        const segment = s.slice(index, index + i);
-        // ensure segment stays within expected limit.
-        if (Number(segment) <= 255) {
-          recurse(index + i, dots + 1, ip ? `${ip}.${segment}` : segment);
-        }
+    // can form octet from up to three digits from source
+    for (let i = 1; i < 4; i++) {
+      const octet = digits.slice(0, i);
+      if (isValid(octet)) {
+        octets.push(octet);
+        backtrack(digits.slice(i), octets);
+        octets.pop();
       }
     }
   };
-  recurse(0, 0, '');
+  backtrack(str, []);
   return result;
 };
