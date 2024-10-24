@@ -57,8 +57,67 @@
  * https://leetcode.com/problems/validate-ip-address
  */
 
+const isNumeric = (str) => /^\d+$/.test(str);
+
+const validOctet = (octet) => {
+  // need 1 - 4 characters.
+  if (octet.length < 1 || octet.length > 4) {
+    return false;
+  }
+  // each character must be a digit
+  if (!isNumeric(octet)) {
+    return false;
+  }
+  // cannot have leading zeros
+  if (octet.length > 1 && octet[0] === '0') {
+    return false;
+  }
+  // must be below 255
+  return Number(octet) < 256;
+};
+
+const validIpv4 = (ip) => {
+  const octets = ip.split('.');
+  return octets.length === 4 && octets.every(validOctet);
+};
+
+const isHex = (str) => /^[a-fA-F0-9]+$/.test(str);
+
+const validHextet = (hextet) => hextet.length >= 1 && hextet.length <= 4 && isHex(hextet);
+
+const validIpv6 = (ip) => {
+  const groups = ip.split(':');
+  return groups.length === 8 && groups.every(validHextet);
+};
+
+const getDelimiter = (ip) => ip.match(/[:.]/)?.at(0) || null;
+
+const parseIpType = (() => {
+  const delimiterMap = new Map([
+    ['.', [validIpv4, 4]],
+    [':', [validIpv6, 6]],
+  ]);
+  return (ip) => {
+    const delimiter = getDelimiter(ip);
+    if (!delimiterMap.has(delimiter)) {
+      return 0;
+    }
+    const [parseFn, typeKey] = delimiterMap.get(delimiter);
+    return parseFn(ip) ? typeKey : 0;
+  };
+})();
+
 /**
  * @param {string} queryIP
  * @return {string}
  */
-export const validIPAddress = (queryIP) => {};
+export const validIPAddress = (queryIP) => {
+  switch (parseIpType(queryIP)) {
+    case 4:
+      return 'IPv4';
+    case 6:
+      return 'IPv6';
+    default:
+      return 'Neither';
+  }
+};
