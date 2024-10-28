@@ -46,8 +46,63 @@
  * https://leetcode.com/problems/longest-square-streak-in-an-array
  */
 
+// returns a copy of the array sorted ascending
+const toSorted = (arr) => [...arr].sort((a, b) => a - b);
+
+// returns an iterator that yields each square of x.
+const squares = function* (x) {
+  let current = x;
+  for (;;) {
+    current **= 2;
+    yield current;
+  }
+};
+
+// returns true if the value is present in the (sorted) array
+const contains = (arr, value) => {
+  let lo = 0;
+  let hi = arr.length - 1;
+  while (lo <= hi) {
+    const m = lo + Math.floor((hi - lo) / 2);
+    if (arr[m] < value) {
+      lo = m + 1;
+    } else if (arr[m] > value) {
+      hi = m - 1;
+    } else {
+      return true;
+    }
+  }
+  return false;
+};
+
+// returns the number of squares of x which are present in nums.
+const squareStreak = (x, nums) => {
+  let result = 0;
+  for (const square of squares(x)) {
+    if (!contains(nums, square)) {
+      break;
+    }
+    result++;
+  }
+  return result;
+};
+
 /**
  * @param {number[]} nums
  * @return {number}
  */
-export const longestSquareStreak = (nums) => {};
+export const longestSquareStreak = (nums) => {
+  let result = 0;
+  const sorted = toSorted(nums);
+  const visited = new Set();
+  for (const num of nums) {
+    // if visited previous not possible to have a larger streak.
+    if (visited.has(num)) {
+      continue;
+    }
+    visited.add(num);
+    // add one to ensure 'num' is counted.
+    result = Math.max(result, squareStreak(num, sorted) + 1);
+  }
+  return result > 1 ? result : -1;
+};
