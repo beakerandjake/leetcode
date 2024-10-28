@@ -50,9 +50,46 @@
  * https://leetcode.com/problems/two-sum
  */
 
+const usingTwoPassMap = (() => {
+  const indexMap = (arr) =>
+    arr.reduce((acc, x, i) => {
+      if (!acc.has(x)) {
+        acc.set(x, [i]);
+      } else {
+        acc.get(x).push(i);
+      }
+      return acc;
+    }, new Map());
+
+  return (nums, target) => {
+    const indexes = indexMap(nums);
+    for (const [i, num] of nums.entries()) {
+      const desired = target - num;
+      const found = indexes.get(desired);
+      if (!found || (num === desired && found.length === 1)) {
+        continue;
+      }
+      return num === desired ? [i, found[1]] : [i, found[0]];
+    }
+    return [];
+  };
+})();
+
+const usingOnePassMap = (nums, target) => {
+  const indexLookup = new Map();
+  for (const [i, num] of nums.entries()) {
+    const desired = target - num;
+    if (indexLookup.has(desired)) {
+      return [indexLookup.get(desired), i];
+    }
+    indexLookup.set(num, i);
+  }
+  return [];
+};
+
 /**
  * @param {number[]} nums
  * @param {number} target
  * @return {number[]}
  */
-export const twoSum = (nums, target) => {};
+export const twoSum = usingOnePassMap;
