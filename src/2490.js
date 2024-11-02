@@ -67,16 +67,19 @@
  * https://leetcode.com/problems/circular-sentence
  */
 
-// iterates every index of the string whose character is whitespace.
-const whitespace = function* (str) {
+// yields the index of the characters for which the predicate function returned true.
+const indexesOf = function* (str, predicateFn) {
   for (let i = 0; i < str.length; i++) {
-    if (str[i] === ' ') {
+    if (predicateFn(str[i], i)) {
       yield i;
     }
   }
 };
 
-// returns true if the predicateFn returns true for every item in the iterable 
+// returns true if the string is equal to an empty space.
+const isWhitespace = (char) => char === ' ';
+
+// returns true if the predicateFn returns true for every item in the iterable
 const every = (iterable, predicateFn) => {
   for (const value of iterable) {
     if (!predicateFn(value)) {
@@ -95,4 +98,4 @@ const isConnected = (str, index) => str[index - 1] === str[index + 1];
  */
 export const isCircularSentence = (sentence) =>
   sentence[0] === sentence.at(-1) &&
-  every(whitespace(sentence), (x) => isConnected(sentence, x));
+  every(indexesOf(sentence, isWhitespace), (x) => isConnected(sentence, x));
