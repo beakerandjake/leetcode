@@ -33,22 +33,29 @@
  * https://leetcode.com/problems/permutation-in-string
  */
 
-const characterCounts = (str) =>
-  [...str].reduce((acc, x) => acc.set(x, (acc.get(x) || 0) + 1), new Map());
+//String.fromCharCode(97 + i)
 
-const includes = (str, index, characters) => {
-  const remaining = new Map(characters);
-  let i = index;
-  while (i < str.length && remaining.has(str[i])) {
-    if (remaining.has(str[i])) {
-      remaining.set(str[i], remaining.get(str[i]) - 1);
-      if (remaining.get(str[i]) === 0) {
-        remaining.delete(str[i]);
-      }
-    }
-    i++;
-  }
-  return remaining.size === 0;
+// computes the index of the character in a hashArr
+const index = (char) => char.charCodeAt(0) - 97;
+
+// returns an array which represents a permutation hash of the string
+const hashArr = (str) =>
+  [...str].reduce((acc, char) => {
+    acc[index(char)]++;
+    return acc;
+  }, Array(26).fill(0));
+
+// returns true if the two hashes represents strings that are permutations
+const overlaps = (a, b) => a.every((x, i) => b[i] === x);
+
+// mutates the hash by removing the character from it.
+const remove = (hash, char) => {
+  hash[index(char)] = Math.max(0, hash[index(char)] - 1);
+};
+
+// mutates the hash by adding the character to it.
+const add = (hash, char) => {
+  hash[index(char)]++;
 };
 
 /**
@@ -60,13 +67,18 @@ export const checkInclusion = (s1, s2) => {
   if (s1.length > s2.length) {
     return false;
   }
-
-  const s1Counts = characterCounts(s1);
-  const maxI = s2.length - s1.length;
-  for (let i = 0; i <= maxI; i++) {
-    if (s1Counts.has(s2[i]) && includes(s2, i, s1Counts)) {
+  // use a sliding window of size s1 and compute the hash the window
+  // as the window slides along s2 the hash will be updated.
+  const end = s2.length - s1.length;
+  const windowSize = s1.length;
+  const h1 = hashArr(s1);
+  const h2 = hashArr(s2.slice(0, windowSize));
+  for (let i = 0; i < end; i++) {
+    if (overlaps(h1, h2)) {
       return true;
     }
+    remove(h2, s2[i]);
+    add(h2, s2[i + windowSize]);
   }
-  return false;
+  return overlaps(h1, h2);
 };
