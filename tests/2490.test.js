@@ -6,6 +6,7 @@ describe('2490. Circular Sentence', () => {
     ['leetcode exercises sound delightful', true],
     ['eetcode', true],
     ['Leetcode is cool', false],
+    ['MuFoevIXCZzrpXeRmTssj lYSW U jM', false],
   ].forEach((args) => {
     const [sentence, expected] = args;
     test(generateTestName(isCircularSentence, ...args), () => {
